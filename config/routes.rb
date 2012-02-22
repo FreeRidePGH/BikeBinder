@@ -1,4 +1,7 @@
 BikeBinder::Application.routes.draw do
+
+  resources :bikes, :except => [:destroy]
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
