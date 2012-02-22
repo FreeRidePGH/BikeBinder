@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  color: MyString
+  value: 1.5
+  seat_tube_height: 1.5
+  top_tube_length: 1.5
+
+two:
+  color: MyString
+  value: 1.5
+  seat_tube_height: 1.5
+  top_tube_length: 1.5
