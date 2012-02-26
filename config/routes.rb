@@ -1,6 +1,11 @@
 BikeBinder::Application.routes.draw do
 
+  devise_for :users
+
   resources :bikes, :except => [:destroy]
+
+  # Ensure root is set per recommendations when installing Devise
+  root :to => 'bikes#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

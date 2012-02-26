@@ -1,13 +1,17 @@
+# See http://sujee.net/tech/articles/gitignore/
 .bundle
-db/*.sqlite3
-log/*.log
-tmp/
-.sass-cache/
+db/
+*.sqlite3
+log/*
+*.log
+tmp/*
+*.sass-cache/*
 *.swp
 *~
-.project
-.DS_Store*
+*.out
+*.project
+*.DS_Store
 *~
 .#*
 *#
-
+*.lock

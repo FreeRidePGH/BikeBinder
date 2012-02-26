@@ -4,9 +4,17 @@
   <title>BikeBinder</title>
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
+  <%= javascript_include_tag :defaults %>
   <%= csrf_meta_tags %>
 </head>
 <body>
+
+<%= render 'shared/menu' %>
+
+<!-- Flash messages recommended by the Devise installation -->
+<p class="notice"><%= notice %></p>
+<p class="alert"><%= alert%></p>
+
 
 <%= yield %>
 
