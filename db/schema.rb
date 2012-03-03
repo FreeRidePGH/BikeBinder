@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120226032019) do
+ActiveRecord::Schema.define(:version => 20120303005504) do
 
   create_table "bikes", :force => true do |t|
     t.string   "color"
@@ -21,6 +21,14 @@ ActiveRecord::Schema.define(:version => 20120226032019) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "hooks", :force => true do |t|
+    t.integer  "number"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "hooks", ["number"], :name => "index_hooks_on_number"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false

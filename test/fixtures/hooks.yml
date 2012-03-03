@@ -1,0 +1,17 @@
+# == Schema Information
+#
+# Table name: hooks
+#
+#  id         :integer         not null, primary key
+#  number     :integer
+#  created_at :datetime
+#  updated_at :datetime
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  number: 1
+
+two:
+  number: 1
