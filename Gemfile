@@ -8,7 +8,7 @@ gem 'rails', '3.1.0'
 gem 'sqlite3'
 
 gem 'devise'
-#gem 'tlsmail'
+gem 'acts_as_commentable_with_threading', :git => 'https://github.com/arjun810/acts_as_commentable_with_threading.git'
 
 # Gems used only for assets and not required
 # in production environments by default.

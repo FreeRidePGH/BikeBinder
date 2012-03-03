@@ -1,0 +1,29 @@
+<%= form_for(@bike) do |f| %>
+  <%= render 'shared/error_messages', :object => f.object %>
+
+<div id="field">
+<%= f.label :number %>
+<%= f.text_field :number %>
+</div>
+
+<div id="field">
+<%= f.label :color %>
+<%= f.text_field :color %>
+</div>
+
+<div id="field">
+<%= f.label :mfg, "Manufacturer" %>
+<%= f.text_field :mfg %>
+</div>
+
+<div id="field">
+<%= f.label :model %>
+<%= f.text_field :model %>
+</div>
+
+
+<div class="actions">
+<%= f.submit "Update" %>
+</div>
+
+<% end %>

@@ -1,0 +1,12 @@
+<% if object.errors.any? %>
+<div id="error_explanation">
+  <h2><%= pluralize(@user.errors.count, "Error") %>
+    prohibited this <%= object.class.to_s.underscore.humanize.downcase %> from being saved:</h2>
+  <p>The following fields had problems:</p>
+  <ul>
+    <% @user.errors.full_messages.each do |msg| %>
+    <li><%= msg %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>

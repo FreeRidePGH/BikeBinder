@@ -17,6 +17,8 @@
 #
 
 class Bike < ActiveRecord::Base
+  acts_as_commentable
+
   attr_accessible :color, :value, :seat_tube_height, :top_tube_length, :mfg, :model, :number
 
   has_one :hook, :inverse_of=>:bike
