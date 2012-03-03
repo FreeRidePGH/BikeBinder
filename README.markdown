@@ -11,17 +11,17 @@ In order to get a functional prototype running, we need to adhere to a limit sco
 ### Within Scope
 
 * Bike info sheet	
-** Location
-** Characteristics
-*** Size, mfg, model, color
-** Notes
-** Value
-** Departure & Arrival Dates
+ * Location
+ * Characteristics
+  * Size, mfg, model, color
+ * Notes
+ * Value
+ * Departure & Arrival Dates
 * Youth projects sheet
-** Program name
-** State (Active/inactive)
+ * Program name
+ * State (Active/inactive)
 * Bike location tracking
-** Hook associations to bikes
+ * Hook associations to bikes
 
 ### Outside of scope
 
