@@ -1,59 +1,29 @@
 <h1>Bike Information</h1>
 
-<table>
-<thead>
-<tr>
-<th>Number</th>
-<th>Color</th>
-<th>Brand</th>
-<th>Model</th>
-</tr>
-</thead>
 
-<%= render @bike %>
+<%= render :partial=>"bike_table" %>
 
-</table>
 
 <h2>Location</h2>
 <% if @bike.hook %>
 	<p>Hook: <%= @bike.hook.number %></p>
-	<%= form_for(@hook, :url => free_hook_bike_path(@bike), :method=>:delete) do |f| %>
+	<%= form_for(@hook, :url => vacate_hook_bike_path(@bike), :method=>:put) do |f| %>
 	<%= f.submit "Free hook" %>
 	<% end %>
 <% else %>
 	<p>None specified.</p>
-	<%= form_for(@hook, :url => reserve_hook_bike_path(@bike), :method=>:post) do |f| %>
+	<%= form_for(@hook, :url => reserve_hook_bike_path(@bike), :method=>:put) do |f| %>
 	<%= f.submit "Reserve hook" %>
 	<% end %>
 <% end %>
 
-<h2><%= pluralize(@notes.length, 'Note') %></h2>
 
-<% if @notes.length > 0 %>
-<table>
-<thead>
-<tr>
-  <th>Date</th>
-  <th>Commentor</th>
-  <th>Note</th>
-</tr>
-</thead>
-<% @notes.each do |note| %>
-<tr>
-<td><%= note.created_at.strftime('%d %B %y') %> </td>
-<td><%= note.user.email %> </td>
-<td><%= note.body %> </td>
-</tr>
-<% end %>
-</table>
-<% end %>
-
+<h2><%= pluralize(@bike.notes.length, 'Note') %></h2>
+<%= render :partial=>"comments/index", :locals=>{:comments => @bike.notes} %>
 <br />
-<!-- http://stackoverflow.com/questions/6393464/form-for-nested-resource -->
-<%= form_for(@comment, :url=> new_comment_bike_path(@bike)) do |f| %>
-<%= f.label :body, "Add a note:" %><br />
-<%= f.text_area :body,  :cols=>80, :rows=>10 %> 
-<div class="actions">
-<%= f.submit "Submit note" %>
-</div>
-<% end %>
+<%= render :partial=>"comments/form", :locals=>{:url => new_comment_bike_path(@bike)} %>
+
+
+
+
+

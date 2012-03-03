@@ -1,12 +1,17 @@
 class BikesController < ApplicationController
+  
+  before_filter :fetch_bike, 
+  :only => [:show, :edit,:update,
+            :new_comment,
+            :vacate_hook, 
+            :reserve_hook]
+  
   def new
-    
+    @bike = Bike.new()
   end
 
   def show
-    fetch_bike
     @hook = Hook.find_by_bike_id(nil)
-    @notes = @bike.comment_threads
     @comment = Comment.build_from(@bike, current_user, "")
   end
 
@@ -20,7 +25,6 @@ class BikesController < ApplicationController
 
   def edit
     @title = "Edit Bike"
-    fetch_bike
   end
 
   def update
@@ -34,7 +38,6 @@ class BikesController < ApplicationController
   end
 
   def new_comment
-    fetch_bike
     @comment = Comment.build_from(@bike, current_user, 
                                   params[:comment][:body])
     if @comment.save
@@ -47,29 +50,28 @@ class BikesController < ApplicationController
     redirect_to @bike
   end
 
-  def free_hook
-    fetch_bike
-    @hook = @bike.hook
+  def vacate_hook
+    if @bike.vacate_hook!
+      flash[:success] = "Hook vacated"
+    else
+      flash[:error] = "Could not vacate hook"
+    end
 
-    @hook.bike = nil
-    @hook.save
-
-    @bike.hook = nil
-    @bike.save
-
-    redirect_to @bike
+      redirect_to @bike
   end
 
   def reserve_hook
-    fetch_bike
-
-    @hook = Hook.find_by_bike_id(nil)
-    @bike.hook = @hook
-    @bike.save
+    if @bike.reserve_hook!
+      flash[:success] = "Hook #{@bike.hook.number} reserved successfully"
+    else
+      flash[:error] = "Could not reserve the hook."
+    end
     
     redirect_to @bike
   end
 
+
+  private
 
   # Helper method that assigns the bike or redirects if invalid
   def fetch_bike
@@ -79,6 +81,9 @@ class BikesController < ApplicationController
     else
       redirect_to bikes_path
     end
+    @bikes = [@bike]
   end
+
+
 
 end

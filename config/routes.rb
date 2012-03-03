@@ -5,8 +5,8 @@ BikeBinder::Application.routes.draw do
   resources :bikes, :except => [:destroy] do
     member do
       post 'new_comment'
-      delete 'free_hook'
-      post 'reserve_hook'
+      put 'vacate_hook'
+      put 'reserve_hook'
     end
   end
 

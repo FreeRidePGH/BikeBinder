@@ -1,0 +1,19 @@
+<% if comments.length > 0 %>
+<table>
+<thead>
+<tr>
+  <th>Date</th>
+  <th>Commentor</th>
+  <th>Note</th>
+</tr>
+</thead>
+<% comments.each do |c| %>
+<tr>
+<td><%= c.created_at.strftime('%d %B %y') %> </td>
+<td><%= c.user.email %> </td>
+<td><%= c.body %> </td>
+</tr>
+<% end %>
+</table>
+<% end %>
+

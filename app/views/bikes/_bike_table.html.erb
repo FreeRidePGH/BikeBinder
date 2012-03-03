@@ -1,0 +1,20 @@
+<table>
+<thead>
+<tr>
+<th>Number</th>
+<th>Color</th>
+<th>Brand</th>
+<th>Model</th>
+</tr>
+</thead>
+
+<% @bikes.each do |bike| %>
+<tr>
+  <td><%= link_to bike.number_label, bike_path(bike) %></td>
+  <td><%= bike.color %></td>
+  <td><%= bike.mfg %></td>
+  <td><%= bike.model %></td>
+</tr>
+<% end %>
+
+</table>

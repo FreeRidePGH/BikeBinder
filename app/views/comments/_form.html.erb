@@ -1,0 +1,8 @@
+<!-- http://stackoverflow.com/questions/6393464/form-for-nested-resource -->
+<%= form_for(@comment, :url=> url) do |f| %>
+<%= f.label :body, "Add a note:" %><br />
+<%= f.text_area :body,  :cols=>80, :rows=>10 %> 
+<div class="actions">
+<%= f.submit "Submit note" %>
+</div>
+<% end %>
