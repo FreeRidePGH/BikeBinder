@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120303005504) do
+ActiveRecord::Schema.define(:version => 20120303031743) do
 
   create_table "bikes", :force => true do |t|
     t.string   "color"
@@ -20,14 +20,24 @@ ActiveRecord::Schema.define(:version => 20120303005504) do
     t.float    "top_tube_length"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "mfg"
+    t.string   "model"
+    t.integer  "number"
+    t.integer  "hook_id"
+    t.integer  "hook_number"
   end
+
+  add_index "bikes", ["hook_id", "hook_number"], :name => "index_bikes_on_hook_id_and_hook_number"
 
   create_table "hooks", :force => true do |t|
     t.integer  "number"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "bike_id"
+    t.integer  "bike_number"
   end
 
+  add_index "hooks", ["bike_id", "bike_number"], :name => "index_hooks_on_bike_id_and_bike_number"
   add_index "hooks", ["number"], :name => "index_hooks_on_number"
 
   create_table "users", :force => true do |t|

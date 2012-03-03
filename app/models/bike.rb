@@ -16,16 +16,9 @@
 #  hook_number      :integer
 #
 
-# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+class Bike < ActiveRecord::Base
+  attr_accessible :color, :value, :seat_tube_height, :top_tube_length, :mfg, :model, :number
 
-one:
-  color: MyString
-  value: 1.5
-  seat_tube_height: 1.5
-  top_tube_length: 1.5
+  has_one :hook, :inverse_of=>:bike
 
-two:
-  color: MyString
-  value: 1.5
-  seat_tube_height: 1.5
-  top_tube_length: 1.5
+end

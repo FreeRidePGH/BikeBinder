@@ -3,7 +3,7 @@ BikeBinder::Application.routes.draw do
   devise_for :users
 
   resources :bikes, :except => [:destroy]
-  resources :hooks, :except =>[:destroy]
+  resources :hooks, :except =>[:destroy, :new]
 
   # Ensure root is set per recommendations when installing Devise
   root :to => 'bikes#index'
