@@ -1,8 +1,9 @@
 <h1>Bike Information</h1>
 
 
-<%= render :partial=>"bike_table" %>
+<%= render :partial=>"bike_table", :layout=>"bike_table_layout" %>
 
+<p><%= link_to "Edit information", edit_bike_path(@bike) %> </p>
 
 <h2>Location</h2>
 <% if @bike.hook %>
