@@ -33,10 +33,13 @@ gem 'jquery-rails'
 group :test do
   # Pretty printed test output
   gem 'turn', :require => false
+  gem 'rspec-rails'
+  gem 'webrat'
 end
 
 group :development do
   gem 'annotate', '~> 2.4.1.beta'
   gem 'faker'
   gem 'railroady'
+  gem 'rspec-rails'
 end
