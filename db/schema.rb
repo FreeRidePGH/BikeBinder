@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120303055945) do
+ActiveRecord::Schema.define(:version => 20120316082735) do
 
   create_table "bikes", :force => true do |t|
     t.string   "color"
@@ -56,6 +56,38 @@ ActiveRecord::Schema.define(:version => 20120303055945) do
 
   add_index "hooks", ["bike_id", "bike_number"], :name => "index_hooks_on_bike_id_and_bike_number"
   add_index "hooks", ["number"], :name => "index_hooks_on_number"
+
+  create_table "programs", :force => true do |t|
+    t.string   "title"
+    t.string   "program_category"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "project_spec_eabs", :force => true do |t|
+    t.string   "state"
+    t.integer  "specable_id"
+    t.string   "specable_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "project_spec_youths", :force => true do |t|
+    t.string   "state"
+    t.integer  "specable_id"
+    t.string   "specable_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "projects", :force => true do |t|
+    t.string   "project_category"
+    t.integer  "projectable_id"
+    t.string   "projectable_type"
+    t.integer  "bike_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false

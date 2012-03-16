@@ -24,6 +24,7 @@ class Bike < ActiveRecord::Base
   validates_uniqueness_of :hook_id, :number, :allow_nil => true
 
   has_one :hook, :inverse_of=>:bike
+  has_one :project, :inverse_of => :bike
 
   def vacate_hook!
     h = self.hook

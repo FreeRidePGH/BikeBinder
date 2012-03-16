@@ -20,7 +20,9 @@ class BikesController < ApplicationController
     @bikes = Bike.all
   end
 
-  def create
+  def create    
+    @bike = Bike.new(params[:bike])
+    render :new
   end
 
   def edit
