@@ -1,8 +1,11 @@
 BikeBinder::Application.routes.draw do
 
+  resources :projects, :except => [:destroy], :path_names => {:new=>'start'}
+  resources :programs, :except => [:destroy]
+
   devise_for :users
 
-  resources :bikes, :except => [:destroy] do
+  resources :bikes,:except => [:destroy] do
     member do
       post 'new_comment'
       put 'vacate_hook'
@@ -10,7 +13,11 @@ BikeBinder::Application.routes.draw do
     end
   end
 
-  resources :hooks, :except =>[:destroy, :new]  
+
+
+  resources :hooks,\
+  :except =>[:destroy, :new],\
+  :constraints => {:id => /\d{3}/}
 
   # Ensure root is set per recommendations when installing Devise
   root :to => 'bikes#index'

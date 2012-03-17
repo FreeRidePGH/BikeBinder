@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(:version => 20120316082735) do
     t.datetime "updated_at"
     t.string   "mfg"
     t.string   "model"
-    t.integer  "number"
+    t.string  "number"
     t.integer  "hook_id"
     t.integer  "hook_number"
   end

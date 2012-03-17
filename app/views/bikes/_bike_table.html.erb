@@ -1,6 +1,6 @@
 <% @bikes.each do |bike| %>
 <tr>
-  <td><%= link_to bike.number_label, bike_path(bike) %></td>
+  <td><%= link_to bike.number, bike_path(bike) %></td>
   <td><%= bike.color %></td>
   <td><%= bike.mfg %></td>
   <td><%= bike.model %></td>

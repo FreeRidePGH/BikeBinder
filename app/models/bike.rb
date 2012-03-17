@@ -17,14 +17,19 @@
 #
 
 class Bike < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :number
+
   acts_as_commentable
 
   attr_accessible :color, :value, :seat_tube_height, :top_tube_length, :mfg, :model, :number
 
   validates_uniqueness_of :hook_id, :number, :allow_nil => true
+  validates :number, :format => { :with => /\A\d{5}\z/, :message => "Must be 5 digits only"}
 
   has_one :hook, :inverse_of=>:bike
   has_one :project, :inverse_of => :bike
+
 
   def vacate_hook!
     h = self.hook
@@ -59,8 +64,8 @@ class Bike < ActiveRecord::Base
     return true
   end
 
-  def number_label
-    return sprintf("%05d", self.number) if self.number
+  def self.format_number(num)
+    return sprintf("%05d", num.to_i) if num
   end
   
   def notes

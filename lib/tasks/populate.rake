@@ -39,7 +39,7 @@ namespace :db do
 	      :top_tube_length=>tl,
 	      :mfg => manufacturer,
 	      :model => fake_model,
-	      :number => n+1)
+	      :number => Bike.format_number(n+1001))
 	end
     end 
 	
