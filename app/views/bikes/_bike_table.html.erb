@@ -4,6 +4,12 @@
   <td><%= bike.color %></td>
   <td><%= bike.mfg %></td>
   <td><%= bike.model %></td>
-  <td><%= bike.hook ? bike.hook.number : "n/a" %></td>
+  <td>
+  <% if bike.hook %>
+  <%= link_to bike.hook.number, hook_path(bike.hook) %>
+  <% else %>
+  n/a
+  <% end %>
+  </td>
 </tr>
 <% end %>

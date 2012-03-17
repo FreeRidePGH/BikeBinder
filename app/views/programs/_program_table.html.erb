@@ -3,7 +3,7 @@
   <td><%= link_to "View", program_path(prog) %></td>
   <td><%= prog.category %></td>
   <td><%= prog.title %></td>
-  <td><%= link_to pluralize(prog.projects.count, "project"), program_projects_path(prog) %></td>
+  <td><%= link_to pluralize(prog.projects.count, "bike"), program_projects_path(prog) %></td>
   <td><%= prog.created_at.strftime('%d %B %y') %></td>
 </tr>
 <% end %>

@@ -19,8 +19,8 @@
 <% end %>
 
 
-<h2><%= pluralize(@bike.notes.length, 'Note') %></h2>
-<%= render :partial=>"comments/index", :locals=>{:comments => @bike.notes} %>
+<h2><%= pluralize(@bike.comment_threads.length, 'Note') %></h2>
+<%= render :partial=>"comments/index", :locals=>{:comments => @bike.comment_threads} %>
 <br />
 <%= render :partial=>"comments/form", :locals=>{:url => new_comment_bike_path(@bike)} %>
 

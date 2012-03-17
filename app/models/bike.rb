@@ -66,8 +66,4 @@ class Bike < ActiveRecord::Base
     return sprintf("%05d", num.to_i) if num
   end
   
-  def notes
-    self.comment_threads
-  end
-
 end

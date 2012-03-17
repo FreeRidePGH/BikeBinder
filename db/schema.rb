@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120316082735) do
+ActiveRecord::Schema.define(:version => 20120317082740) do
 
   create_table "bikes", :force => true do |t|
     t.string   "color"
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(:version => 20120316082735) do
     t.datetime "updated_at"
     t.string   "mfg"
     t.string   "model"
-    t.string  "number"
+    t.string   "number"
   end
 
   add_index "bikes", ["number"], :name => "index_bikes_on_number"
@@ -44,8 +44,19 @@ ActiveRecord::Schema.define(:version => 20120316082735) do
   add_index "comments", ["commentable_id"], :name => "index_comments_on_commentable_id"
   add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
 
+  create_table "friendly_id_slugs", :force => true do |t|
+    t.string   "slug",                         :null => false
+    t.integer  "sluggable_id",                 :null => false
+    t.string   "sluggable_type", :limit => 40
+    t.datetime "created_at"
+  end
+
+  add_index "friendly_id_slugs", ["slug", "sluggable_type"], :name => "index_friendly_id_slugs_on_slug_and_sluggable_type", :unique => true
+  add_index "friendly_id_slugs", ["sluggable_id"], :name => "index_friendly_id_slugs_on_sluggable_id"
+  add_index "friendly_id_slugs", ["sluggable_type"], :name => "index_friendly_id_slugs_on_sluggable_type"
+
   create_table "hooks", :force => true do |t|
-    t.integer  "number"
+    t.string  "number"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "bike_id"
@@ -59,7 +70,10 @@ ActiveRecord::Schema.define(:version => 20120316082735) do
     t.string   "category"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "slug"
   end
+
+  add_index "programs", ["slug"], :name => "index_programs_on_slug"
 
   create_table "project_spec_eabs", :force => true do |t|
     t.string   "state"

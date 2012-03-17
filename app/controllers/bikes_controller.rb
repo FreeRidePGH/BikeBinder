@@ -39,19 +39,6 @@ class BikesController < ApplicationController
     end
   end
 
-  def new_comment
-    @comment = Comment.build_from(@bike, current_user, 
-                                  params[:comment][:body])
-    if @comment.save
-      # Handle a successful save
-      flash[:success] = "Thank you for your comment"
-    else
-      # Failed save
-      flash[:error] = "Could not add your comment"
-    end
-    redirect_to @bike
-  end
-
   def vacate_hook
     if @bike.vacate_hook!
       flash[:success] = "Hook vacated"

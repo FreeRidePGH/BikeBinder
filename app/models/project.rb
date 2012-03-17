@@ -29,4 +29,6 @@ class Project < ActiveRecord::Base
   # Does a child class override this?
   #has_one :spec, :as => :specable
 
+  attr_accessible :category, :label
+
 end

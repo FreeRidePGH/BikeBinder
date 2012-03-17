@@ -10,6 +10,9 @@
 #
 
 class Hook < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :number
+
   attr_accessible :number
 
   validates_presence_of :number

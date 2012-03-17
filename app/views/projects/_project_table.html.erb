@@ -1,5 +1,5 @@
 <% 
-@projects.each do |proj|
+@projects.all.each do |proj|
   prog = proj.projectable_type.classify.constantize.find(proj.projectable_id)
  %>
 <tr>
