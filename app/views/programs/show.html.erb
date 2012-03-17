@@ -1,0 +1,10 @@
+<h1>Program information</h1>
+
+<dl>
+  <dt>Program Category</dt><dd><%= @program.category %></dd>
+  <dt>Program Title</dt><dd><%= @program.title %></dd>
+</dl>
+
+<h2>Projects under this program</h2>
+
+<%= render :partial=>"projects/project_table", :layout =>"projects/project_table_layout" %>

@@ -11,9 +11,7 @@
 #  updated_at       :datetime
 #  mfg              :string(255)
 #  model            :string(255)
-#  number           :integer
-#  hook_id          :integer
-#  hook_number      :integer
+#  number           :string(255)
 #
 
 class Bike < ActiveRecord::Base

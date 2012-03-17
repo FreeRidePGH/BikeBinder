@@ -2,7 +2,8 @@ BikeBinder::Application.routes.draw do
 
   resources :programs, :except => [:destroy] do
     resources :projects,\
-    :except => [:destroy, :edit, :update], :path_names => {:new=>'start'}
+    :except => [:destroy, :edit, :update, :show],\
+    :path_names => {:new=>'start'}
   end
 
   # access to projects without nesting in programs

@@ -34,18 +34,21 @@ namespace :db do
 
     	 total.times do |n|
    	   bike = Bike.find(rand(total)+1)
-	   
+   
 	   prog = Program.find(rand(n_progs)+1)
 
 	   if bike and prog and bike.project.nil?
               @project = ("Project::"+prog.category).constantize
-	      new_proj = @project.create!(:category=>prog.category)
+	      new_proj = @project.create!(
+	      :category=>prog.category, :label=>bike.number)
 	      
 	      prog.projects << new_proj
 	      prog.save
 
 	      bike.project = new_proj
 	      bike.save
+
+	      new_proj.save
 	   end
 	    
 	 end
@@ -69,13 +72,16 @@ namespace :db do
 	    tl = sh+0.5
 	    manufacturer = Faker::Company.name
 	    fake_model = Faker::Company.bs
-	    Bike.create!(
+	    b = Bike.create!(
 	      :color=>c,
 	      :seat_tube_height=>sh, 
 	      :top_tube_length=>tl,
 	      :mfg => manufacturer,
 	      :model => fake_model,
 	      :number => Bike.format_number(n+1001))
+	   if rand(3)<1
+	     b.reserve_hook!
+	   end
 	end
     end 
 

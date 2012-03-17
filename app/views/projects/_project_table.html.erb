@@ -1,0 +1,11 @@
+<% 
+@projects.each do |proj|
+  prog = proj.projectable_type.classify.constantize.find(proj.projectable_id)
+ %>
+<tr>
+  <td><%= link_to "View", project_path(proj) %></td>
+  <td><%= link_to proj.bike.number, bike_path(proj.bike) %></td>
+  <td><%= link_to prog.title, program_path(prog) %></td>
+  <td><%= proj.created_at.strftime('%d %B %y') %></td>
+</tr>
+<% end %>

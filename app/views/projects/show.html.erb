@@ -1,2 +1,9 @@
 <h1>Projects#show</h1>
+
+<dl>
+  <dt>Bike</dt><dd><%= link_to @project.bike.number, bike_path(@project.bike) %></dd>
+  <dt>Program</dt><dd><%= link_to @project.projectable.title, program_path(@project.projectable) %></dd>
+</dl>
+
+
 <p>Find me in app/views/projects/show.html.erb</p>
