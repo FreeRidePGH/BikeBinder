@@ -23,11 +23,9 @@ ActiveRecord::Schema.define(:version => 20120316082735) do
     t.string   "mfg"
     t.string   "model"
     t.string  "number"
-    t.integer  "hook_id"
-    t.integer  "hook_number"
   end
 
-  add_index "bikes", ["hook_id", "hook_number"], :name => "index_bikes_on_hook_id_and_hook_number"
+  add_index "bikes", ["number"], :name => "index_bikes_on_number"
 
   create_table "comments", :force => true do |t|
     t.integer  "commentable_id",   :default => 0
@@ -51,15 +49,14 @@ ActiveRecord::Schema.define(:version => 20120316082735) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "bike_id"
-    t.integer  "bike_number"
   end
 
-  add_index "hooks", ["bike_id", "bike_number"], :name => "index_hooks_on_bike_id_and_bike_number"
+  add_index "hooks", ["bike_id"], :name => "index_hooks_on_bike_id"
   add_index "hooks", ["number"], :name => "index_hooks_on_number"
 
   create_table "programs", :force => true do |t|
     t.string   "title"
-    t.string   "program_category"
+    t.string   "category"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -81,13 +78,17 @@ ActiveRecord::Schema.define(:version => 20120316082735) do
   end
 
   create_table "projects", :force => true do |t|
-    t.string   "project_category"
+    t.string   "category"
     t.integer  "projectable_id"
     t.string   "projectable_type"
     t.integer  "bike_id"
+    t.string   "label"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "projects", ["bike_id"], :name => "index_projects_on_bike_id"
+  add_index "projects", ["label"], :name => "index_projects_on_label"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false

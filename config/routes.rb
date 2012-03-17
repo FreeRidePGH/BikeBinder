@@ -1,7 +1,12 @@
 BikeBinder::Application.routes.draw do
 
-  resources :projects, :except => [:destroy], :path_names => {:new=>'start'}
-  resources :programs, :except => [:destroy]
+  resources :programs, :except => [:destroy] do
+    resources :projects,\
+    :except => [:destroy, :edit, :update], :path_names => {:new=>'start'}
+  end
+
+  # access to projects without nesting in programs
+  resources :projects, :only => [:show, :index, :edit, :update]
 
   devise_for :users
 
@@ -13,8 +18,9 @@ BikeBinder::Application.routes.draw do
     end
   end
 
-
-
+  # May want to use the friendly_id gem and let hook number be a string
+  # in similar fashion to the bike routing. Would be an alternative
+  # to having the constraints on id
   resources :hooks,\
   :except =>[:destroy, :new],\
   :constraints => {:id => /\d{3}/}

@@ -13,7 +13,7 @@
 
 class Project < ActiveRecord::Base
 
-  validates_presence_of :project_category
+  validates_presence_of :category
 
   belongs_to :bike, :inverse_of => :project
   belongs_to :projectable, :polymorphic => true

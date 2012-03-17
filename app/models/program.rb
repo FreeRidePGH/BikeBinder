@@ -12,6 +12,8 @@
 class Program < ActiveRecord::Base
   
   has_many :projects, :as => :projectable
+
+  validates_presence_of :category
   
 end
 

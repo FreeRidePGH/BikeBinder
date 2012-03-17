@@ -24,7 +24,7 @@ class Bike < ActiveRecord::Base
 
   attr_accessible :color, :value, :seat_tube_height, :top_tube_length, :mfg, :model, :number
 
-  validates_uniqueness_of :hook_id, :number, :allow_nil => true
+  validates_uniqueness_of :number, :allow_nil => true
   validates :number, :format => { :with => /\A\d{5}\z/, :message => "Must be 5 digits only"}
 
   has_one :hook, :inverse_of=>:bike
