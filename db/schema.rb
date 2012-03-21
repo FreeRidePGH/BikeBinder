@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120321013324) do
+ActiveRecord::Schema.define(:version => 20120321122710) do
 
   create_table "bikes", :force => true do |t|
     t.string   "color"
@@ -75,6 +75,12 @@ ActiveRecord::Schema.define(:version => 20120321013324) do
 
   add_index "programs", ["slug"], :name => "index_programs_on_slug"
 
+  create_table "project_categories", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "project_spec_eabs", :force => true do |t|
     t.string   "state"
     t.integer  "specable_id"
@@ -99,12 +105,14 @@ ActiveRecord::Schema.define(:version => 20120321013324) do
     t.string   "label"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "project_category_id"
   end
 
   add_index "projects", ["bike_id"], :name => "index_projects_on_bike_id"
   add_index "projects", ["label"], :name => "index_projects_on_label", :unique => true
   add_index "projects", ["projectable_id"], :name => "index_projects_on_projectable_id"
   add_index "projects", ["type"], :name => "index_projects_on_type"
+  add_index "projects", ["project_category_id"], :name => "index_projects_on_project_category_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false

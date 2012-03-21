@@ -6,6 +6,9 @@ namespace :db do
         User.create!(:email=>"wwedler@riseup.net", :password=>"testtest")
 
 	Rake::Task['db:populate_hooks'].invoke
+
+        Rake::Task['db:populate_project_categories'].invoke         
+
 	Rake::Task['db:populate_programs'].invoke
 	
 	Rake::Task['db:populate_bikes'].invoke
@@ -22,9 +25,18 @@ namespace :db do
 
     desc "Fill database with programs"
     task :populate_programs => :environment do
-       Program.create!(:title=>"Positive Spin 2012", :category=>"Youth")
-       Program.create!(:title=>"Grow PGH 2012", :category=>"Youth")
-       Program.create!(:title =>"Earn-A-Bike", :category=>"Eab")
+       p = Program.create!(:title=>"Positive Spin 2012", :category=>"Youth")
+       p.create_program_constraint(:project_category=>1, :max_projects=>-1)
+       p.create_program_constraint(:project_category=>2, :max_projects=>-1)
+
+       p = Program.create!(:title=>"Grow PGH 2012", :category=>"Youth")
+       p = Program.create!(:title =>"Earn-A-Bike", :category=>"Eab")
+    end
+
+    desc "Fill databse with project categories"
+    task :populate_project_categories => :environment do
+       ProjectCategory.create!(:name=>"Eab")
+       ProjectCategory.create!(:name=>"Youth")
     end
 
     desc "Populate database with several fake projects"
@@ -46,6 +58,8 @@ namespace :db do
 
 	      bike.project = new_proj
 	      bike.save
+
+              new_proj.project_category  = ProjectCategory.find_by_name(prog.category)
 
               new_proj.save
 	   end

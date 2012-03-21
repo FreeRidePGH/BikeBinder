@@ -6,20 +6,18 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    get_project_and_bike_instances
+    get_bike_and_project_instances
     @comment = Comment.build_from(@project, current_user, "")
   end
 
   private 
 
-  def get_project_and_bike_instances
-    if params[:id] =~ Bike.number_pattern
-      @bike = Bike.find(params[:id])
-      @project = @bike.project
-    else
-      @project = @projects.find(params[:id])
-      @bike = @project.bike
-    end
+  # When the friendly_id references the bike.number
+  # there is no DB column for that, so the find must
+  # be done on the Bike model.
+  def get_bike_and_project_instances
+    @bike = Bike.find(params[:id])
+    @project = @bike.project unless @bike.nil?
   end
 
   # Determine if the controller is called from a nested route

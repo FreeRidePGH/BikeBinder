@@ -13,21 +13,20 @@
 
 class Project < ActiveRecord::Base
   extend FriendlyId
-  friendly_id :label#, :use => [:slugged, :history]
+  friendly_id :label
 
-  validates_presence_of :bike_id#, :slug, :projectable_id, :projectable_type
+  validates_presence_of :bike_id
 
   belongs_to :bike, :inverse_of => :project
   belongs_to :projectable, :polymorphic => true
-
-  #has_and_belongs_to_many :users, :inverse_of => projects
+  belongs_to :project_category
   
   acts_as_commentable
 
   # Does a child class override this?
   #has_one :spec, :as => :specable
 
-  attr_accessible :type
+  attr_accessible nil
 
   def label
     (bike.nil?) ? bike_id : bike.number
