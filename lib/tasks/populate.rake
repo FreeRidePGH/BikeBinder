@@ -24,7 +24,7 @@ namespace :db do
     task :populate_programs => :environment do
        Program.create!(:title=>"Positive Spin 2012", :category=>"Youth")
        Program.create!(:title=>"Grow PGH 2012", :category=>"Youth")
-       Program.create!(:title =>"Earn-A-Bike", :category=>"EAB")
+       Program.create!(:title =>"Earn-A-Bike", :category=>"Eab")
     end
 
     desc "Populate database with several fake projects"
@@ -39,8 +39,7 @@ namespace :db do
 
 	   if bike and prog and bike.project.nil?
               @project = ("Project::"+prog.category).constantize
-	      new_proj = @project.create!(
-	      :category=>prog.category, :label=>bike.number)
+	      new_proj = @project.new()
 	      
 	      prog.projects << new_proj
 	      prog.save
@@ -48,7 +47,7 @@ namespace :db do
 	      bike.project = new_proj
 	      bike.save
 
-	      new_proj.save
+              new_proj.save
 	   end
 	    
 	 end

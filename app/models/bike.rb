@@ -66,4 +66,8 @@ class Bike < ActiveRecord::Base
     return sprintf("%05d", num.to_i) if num
   end
   
+  def self.number_pattern
+    return /\d{5}/
+  end
+  
 end

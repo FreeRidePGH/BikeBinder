@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120317082740) do
+ActiveRecord::Schema.define(:version => 20120321013324) do
 
   create_table "bikes", :force => true do |t|
     t.string   "color"
@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(:version => 20120317082740) do
   add_index "friendly_id_slugs", ["sluggable_type"], :name => "index_friendly_id_slugs_on_sluggable_type"
 
   create_table "hooks", :force => true do |t|
-    t.string  "number"
+    t.string   "number"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "bike_id"
@@ -92,17 +92,19 @@ ActiveRecord::Schema.define(:version => 20120317082740) do
   end
 
   create_table "projects", :force => true do |t|
-    t.string   "category"
+    t.string   "type"
+    t.integer  "bike_id"
     t.integer  "projectable_id"
     t.string   "projectable_type"
-    t.integer  "bike_id"
     t.string   "label"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "projects", ["bike_id"], :name => "index_projects_on_bike_id"
-  add_index "projects", ["label"], :name => "index_projects_on_label"
+  add_index "projects", ["label"], :name => "index_projects_on_label", :unique => true
+  add_index "projects", ["projectable_id"], :name => "index_projects_on_projectable_id"
+  add_index "projects", ["type"], :name => "index_projects_on_type"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
