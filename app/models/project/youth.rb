@@ -2,14 +2,15 @@
 #
 # Table name: projects
 #
-#  id               :integer         not null, primary key
-#  category         :string(255)
-#  projectable_id   :integer
-#  projectable_type :string(255)
-#  bike_id          :integer
-#  label            :string(255)
-#  created_at       :datetime
-#  updated_at       :datetime
+#  id                  :integer         not null, primary key
+#  type                :string(255)
+#  bike_id             :integer
+#  projectable_id      :integer
+#  projectable_type    :string(255)
+#  label               :string(255)
+#  created_at          :datetime
+#  updated_at          :datetime
+#  project_category_id :integer
 #
 
 class Project::Youth < Project

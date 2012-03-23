@@ -23,21 +23,26 @@ namespace :db do
 	end
     end
 
-    desc "Fill database with programs"
-    task :populate_programs => :environment do
-       p = Program.create!(:title=>"Positive Spin 2012", :category=>"Youth")
-       p.create_program_constraint(:project_category=>1, :max_projects=>-1)
-       p.create_program_constraint(:project_category=>2, :max_projects=>-1)
-
-       p = Program.create!(:title=>"Grow PGH 2012", :category=>"Youth")
-       p = Program.create!(:title =>"Earn-A-Bike", :category=>"Eab")
-    end
 
     desc "Fill databse with project categories"
     task :populate_project_categories => :environment do
        ProjectCategory.create!(:name=>"Eab")
        ProjectCategory.create!(:name=>"Youth")
     end
+
+    desc "Fill database with programs"
+    task :populate_programs => :environment do
+       youth_cat = ProjectCategory.find_by_name("Youth")
+       p = youth_cat.programs.create!(:title=>"Positive Spin 2012") \
+       unless youth_cat.nil?
+       p = youth_cat.programs.create!(:title=>"Grow PGH 2012", :max_total=>15)\
+       unless youth_cat.nil?
+       
+       eab_cat = ProjectCategory.find_by_name("Eab")
+       p = eab_cat.programs.create!(:title =>"Earn-A-Bike", :max_open => 25)\
+       unless eab_cat.nil?
+    end
+
 
     desc "Populate database with several fake projects"
     task :populate_projects => :environment do
@@ -50,7 +55,10 @@ namespace :db do
 	   prog = Program.find(rand(n_progs)+1)
 
 	   if bike and prog and bike.project.nil?
-              @project = ("Project::"+prog.category).constantize
+	      proj_cat = prog.project_category
+	      proj_type = "Project::" + proj_cat.name
+              @project = proj_type.constantize
+
 	      new_proj = @project.new()
 	      
 	      prog.projects << new_proj
@@ -59,8 +67,7 @@ namespace :db do
 	      bike.project = new_proj
 	      bike.save
 
-              new_proj.project_category  = ProjectCategory.find_by_name(prog.category)
-
+              new_proj.project_category  = proj_cat
               new_proj.save
 	   end
 	    

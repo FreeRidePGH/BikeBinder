@@ -2,20 +2,22 @@
 #
 # Table name: projects
 #
-#  id               :integer         not null, primary key
-#  type             :string(255)
-#  projectable_id   :integer
-#  projectable_type :string(255)
-#  bike_id          :integer
-#  created_at       :datetime
-#  updated_at       :datetime
+#  id                  :integer         not null, primary key
+#  type                :string(255)
+#  bike_id             :integer
+#  projectable_id      :integer
+#  projectable_type    :string(255)
+#  label               :string(255)
+#  created_at          :datetime
+#  updated_at          :datetime
+#  project_category_id :integer
 #
 
 class Project < ActiveRecord::Base
   extend FriendlyId
   friendly_id :label
 
-  validates_presence_of :bike_id
+  validates_presence_of :bike_id, :type
 
   belongs_to :bike, :inverse_of => :project
   belongs_to :projectable, :polymorphic => true

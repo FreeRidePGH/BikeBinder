@@ -1,5 +1,7 @@
 BikeBinder::Application.routes.draw do
 
+  get "project_categories/show"
+
   resources :programs, :except => [:destroy] do
     resources :projects,\
     :except => [:destroy, :edit, :update, :show],\
@@ -13,6 +15,8 @@ BikeBinder::Application.routes.draw do
     end
   end
 
+  resources :project_categories, :except=>[:destroy, :new, :create]
+
   devise_for :users
 
   resources :bikes,:except => [:destroy] do
@@ -23,7 +27,7 @@ BikeBinder::Application.routes.draw do
     end
   end
 
-  resources :hooks,:except =>[:destroy, :new]
+  resources :hooks,:except =>[:destroy, :new, :create]
 
   # Ensure root is set per recommendations when installing Devise
   root :to => 'bikes#index'

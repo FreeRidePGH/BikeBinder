@@ -67,19 +67,25 @@ ActiveRecord::Schema.define(:version => 20120321122710) do
 
   create_table "programs", :force => true do |t|
     t.string   "title"
-    t.string   "category"
+    t.integer   "project_category_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "slug"
+    t.integer "max_open"
+    t.integer "max_total"
   end
 
   add_index "programs", ["slug"], :name => "index_programs_on_slug"
 
   create_table "project_categories", :force => true do |t|
     t.string   "name"
+    t.string   "slug"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "project_categories", ["slug"],\
+  :name => "index_project_categories_on_slug"
 
   create_table "project_spec_eabs", :force => true do |t|
     t.string   "state"
@@ -110,9 +116,9 @@ ActiveRecord::Schema.define(:version => 20120321122710) do
 
   add_index "projects", ["bike_id"], :name => "index_projects_on_bike_id"
   add_index "projects", ["label"], :name => "index_projects_on_label", :unique => true
+  add_index "projects", ["project_category_id"], :name => "index_projects_on_project_category_id"
   add_index "projects", ["projectable_id"], :name => "index_projects_on_projectable_id"
   add_index "projects", ["type"], :name => "index_projects_on_type"
-  add_index "projects", ["project_category_id"], :name => "index_projects_on_project_category_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
