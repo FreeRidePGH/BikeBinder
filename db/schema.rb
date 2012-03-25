@@ -20,12 +20,15 @@ ActiveRecord::Schema.define(:version => 20120321122710) do
     t.float    "top_tube_length"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "departed_at"
     t.string   "mfg"
     t.string   "model"
     t.string   "number"
+    t.integer "project_id"
   end
 
   add_index "bikes", ["number"], :name => "index_bikes_on_number"
+  add_index "bikes", ["project_id"], :name => "index_bikes_on_project_id"
 
   create_table "comments", :force => true do |t|
     t.integer  "commentable_id",   :default => 0
@@ -79,6 +82,8 @@ ActiveRecord::Schema.define(:version => 20120321122710) do
 
   create_table "project_categories", :force => true do |t|
     t.string   "name"
+    t.string   "project_type"
+    t.integer  "max_programs"
     t.string   "slug"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -105,16 +110,17 @@ ActiveRecord::Schema.define(:version => 20120321122710) do
 
   create_table "projects", :force => true do |t|
     t.string   "type"
-    t.integer  "bike_id"
+#    t.integer  "bike_id"
     t.integer  "projectable_id"
     t.string   "projectable_type"
     t.string   "label"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "closed_at"
     t.integer  "project_category_id"
   end
 
-  add_index "projects", ["bike_id"], :name => "index_projects_on_bike_id"
+  #add_index "projects", ["bike_id"], :name => "index_projects_on_bike_id"
   add_index "projects", ["label"], :name => "index_projects_on_label", :unique => true
   add_index "projects", ["project_category_id"], :name => "index_projects_on_project_category_id"
   add_index "projects", ["projectable_id"], :name => "index_projects_on_projectable_id"

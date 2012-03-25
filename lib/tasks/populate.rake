@@ -23,11 +23,15 @@ namespace :db do
 	end
     end
 
-
     desc "Fill databse with project categories"
     task :populate_project_categories => :environment do
-       ProjectCategory.create!(:name=>"Eab")
-       ProjectCategory.create!(:name=>"Youth")
+       ProjectCategory.create!(:name=>"EAB",
+        :project_type=>"Project::Eab", 
+	:max_programs=>1)
+	
+       ProjectCategory.create!(:name=>"Youth", 
+       :project_type=>"Project::Youth",
+       :max_programs=>-1)
     end
 
     desc "Fill database with programs"
@@ -38,7 +42,7 @@ namespace :db do
        p = youth_cat.programs.create!(:title=>"Grow PGH 2012", :max_total=>15)\
        unless youth_cat.nil?
        
-       eab_cat = ProjectCategory.find_by_name("Eab")
+       eab_cat = ProjectCategory.find_by_name("EAB")
        p = eab_cat.programs.create!(:title =>"Earn-A-Bike", :max_open => 25)\
        unless eab_cat.nil?
     end
@@ -55,19 +59,18 @@ namespace :db do
 	   prog = Program.find(rand(n_progs)+1)
 
 	   if bike and prog and bike.project.nil?
-	      proj_cat = prog.project_category
-	      proj_type = "Project::" + proj_cat.name
-              @project = proj_type.constantize
+	      category = prog.project_category
+	      @project = category.project_class
 
 	      new_proj = @project.new()
 	      
 	      prog.projects << new_proj
 	      prog.save
 
-	      bike.project = new_proj
+	      new_proj.bike = bike
 	      bike.save
 
-              new_proj.project_category  = proj_cat
+              new_proj.project_category  = category
               new_proj.save
 	   end
 	    
@@ -102,6 +105,10 @@ namespace :db do
 	   if rand(3)>0
 	     b.reserve_hook!
 	   end
+
+	   if rand(9)<1
+	      b.depart
+	   end	   
 	end
     end 
 

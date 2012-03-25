@@ -17,9 +17,9 @@ class Project < ActiveRecord::Base
   extend FriendlyId
   friendly_id :label
 
-  validates_presence_of :bike_id, :type
+  validates_presence_of :type
 
-  belongs_to :bike, :inverse_of => :project
+  has_one :bike, :inverse_of => :project
   belongs_to :projectable, :polymorphic => true
   belongs_to :project_category
   
@@ -31,7 +31,10 @@ class Project < ActiveRecord::Base
   attr_accessible nil
 
   def label
-    (bike.nil?) ? bike_id : bike.number
+    (bike.nil?) ? type+id.to_s  : bike.number
   end
 
+  def category_name
+    project_category.name
+  end
 end

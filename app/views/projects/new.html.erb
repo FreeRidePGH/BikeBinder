@@ -1,0 +1,9 @@
+<h1>New project</h1>
+<% unless @program.nil? %>
+<h2>Start a new project <%= "for the #{@program.title} program" %> </h2>
+<% end %>
+
+<%= render :partial => "form" %>
+
+
+

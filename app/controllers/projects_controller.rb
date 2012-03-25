@@ -10,6 +10,54 @@ class ProjectsController < ApplicationController
     @comment = Comment.build_from(@project, current_user, "")
   end
 
+  def new
+    # Determine the program for this project
+    @program = Program.find(params[:program_id])
+    @project = (@program.nil?) ? \
+    Project.new :  @program.projects.build
+  end
+
+  def create
+    @program = Program.find(params[:program_id])
+    @bike = Bike.find(params[:bike_id])
+    if @bike and @program
+      category = @program.project_category
+      proj_scope = category.project_class
+      
+      @project = proj_scope.new()
+      
+      @program.projects << @project
+      @program.save!
+
+      @project.bike = @bike
+      @bike.save!
+
+      @project.project_category = category
+      @project.save!
+
+      flash = {:success => "New project was started."}
+      redirect_to project_path(@project)
+    else
+      render 'new'
+    end
+  end
+
+  def update
+  end
+
+  def destroy
+    get_bike_and_project_instances
+    if @project and not @bike.departed?
+      @project.destroy
+      @bike.project_id = nil
+      @bike.save!
+      flash[:success] = "Project was canceled for bike #{@bike.number}."
+    else
+      flash[:failure] = "Project could not be found or canceled."
+    end
+    redirect_to projects_path
+  end
+
   private 
 
   # When the friendly_id references the bike.number

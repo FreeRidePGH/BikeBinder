@@ -10,6 +10,10 @@
 <br />
 <%= render :partial=>"comments/form", :locals=>{:url => new_comment_project_path(@project)} %>
 
+<h2>Cancel project</h2>
+<%= form_for(@project, :url=>project_path(@project), :method=>:delete) do |f|%>
+<%= f.submit "Cancel Project." %>
+<% end %>
 
 
 <p>Find me in app/views/projects/show.html.erb</p>

@@ -1,15 +1,13 @@
 BikeBinder::Application.routes.draw do
 
-  get "project_categories/show"
-
   resources :programs, :except => [:destroy] do
-    resources :projects,\
-    :except => [:destroy, :edit, :update, :show],\
-    :path_names => {:new=>'start'}
+    resources :projects, :only => [:index, :show]
   end
 
   # access to projects without nesting in programs
-  resources :projects, :only => [:show, :index, :edit, :update] do
+  resources :projects, \
+  :only => [:show, :index, :edit, :update, :create, :new, :delete, :destroy], \
+  :path_names => {:new=>'start', :delete=>'cancel'} do
     member do
       post 'new_comment'
     end

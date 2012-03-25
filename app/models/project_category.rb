@@ -8,9 +8,18 @@ class ProjectCategory < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: [:slugged]
 
+  validates_presence_of :name, :project_type, :max_programs
+
   has_many :projects
   has_many :programs
+
+  attr_accessible :name, :project_type, :max_programs
+
+  def project_class
+    project_type.constantize
+  end
 end
+
 # == Schema Information
 #
 # Table name: project_categories

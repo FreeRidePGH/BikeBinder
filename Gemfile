@@ -13,6 +13,8 @@ gem 'acts_as_commentable_with_threading', :git => 'https://github.com/arjun810/a
 
 gem 'friendly_id'
 
+gem 'squeel'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

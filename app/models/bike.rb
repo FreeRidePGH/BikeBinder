@@ -26,8 +26,36 @@ class Bike < ActiveRecord::Base
   validates :number, :format => { :with => /\A\d{5}\z/, :message => "Must be 5 digits only"}
 
   has_one :hook, :inverse_of=>:bike
-  has_one :project, :inverse_of => :bike
+  belongs_to :project, :inverse_of => :bike
 
+  def self.unavailable
+    self.where{(departed_at != nil) | (project_id != nil) }
+  end
+
+  def self.available
+    self.where{(departed_at == nil) & (project_id == nil)}
+  end
+
+  def unavailable?
+    not available?
+  end
+  
+  def available?
+    Bike.where(:id => self.id).unavailable
+  end
+
+  def self.departed
+    self.where{departed_at != nil}
+  end
+
+  def depart
+    self.departed_at = Time.now
+    self.save!
+  end
+
+  def departed?
+    not self.departed_at.nil?
+  end
 
   def vacate_hook!
     h = self.hook
@@ -57,9 +85,13 @@ class Bike < ActiveRecord::Base
     end
 
     self.hook = target_hook
-    self.save
+    self.save!
 
     return true
+  end
+
+  def available?
+    departed_at.nil? and project.nil?
   end
 
   def self.format_number(num)
