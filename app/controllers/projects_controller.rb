@@ -7,7 +7,6 @@ class ProjectsController < ApplicationController
 
   def show
     get_bike_and_project_instances
-    @comment = Comment.build_from(@project, current_user, "")
   end
 
   def new
@@ -24,16 +23,9 @@ class ProjectsController < ApplicationController
       category = @program.project_category
       proj_scope = category.project_class
       
-      @project = proj_scope.new()
-      
-      @program.projects << @project
-      @program.save!
-
-      @project.bike = @bike
-      @bike.save!
-
-      @project.project_category = category
-      @project.save!
+      @project = proj_scope.new(params[:project]) do |new_proj|
+        new_proj.assign(@program, @bike)
+      end
 
       flash = {:success => "New project was started."}
       redirect_to project_path(@project)
@@ -47,15 +39,13 @@ class ProjectsController < ApplicationController
 
   def destroy
     get_bike_and_project_instances
-    if @project and not @bike.departed?
-      @project.destroy
-      @bike.project_id = nil
-      @bike.save!
-      flash[:success] = "Project was canceled for bike #{@bike.number}."
-    else
-      flash[:failure] = "Project could not be found or canceled."
+    if @project and @project.cancel
+      flash = {:success=>"Project was canceled for bike #{@bike.number}."}
+      redirect_to bike_path(@bike)
     end
-    redirect_to projects_path
+    
+    flash = {:failure =>"Project could not be found or canceled."}
+    render 'show'
   end
 
   private 
@@ -66,6 +56,7 @@ class ProjectsController < ApplicationController
   def get_bike_and_project_instances
     @bike = Bike.find(params[:id])
     @project = @bike.project unless @bike.nil?
+    @comment = Comment.build_from(@project, current_user, "")
   end
 
   # Determine if the controller is called from a nested route

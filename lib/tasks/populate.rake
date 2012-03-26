@@ -63,7 +63,7 @@ namespace :db do
 	      @project = category.project_class
 
 	      new_proj = @project.new()
-	      
+	      	      
 	      prog.projects << new_proj
 	      prog.save
 
@@ -72,6 +72,11 @@ namespace :db do
 
               new_proj.project_category  = category
               new_proj.save
+
+	      if rand(4)<1
+	      	 new_proj.close
+	      	 bike.depart
+	      end
 	   end
 	    
 	 end
@@ -105,10 +110,6 @@ namespace :db do
 	   if rand(3)>0
 	     b.reserve_hook!
 	   end
-
-	   if rand(9)<1
-	      b.depart
-	   end	   
 	end
     end 
 

@@ -1,6 +1,6 @@
 <% 
 @projects.all.each do |proj|
-  prog = proj.projectable_type.classify.constantize.find(proj.projectable_id)
+  prog = proj.projectable
   category = proj.project_category
  %>
 <tr>

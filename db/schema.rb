@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(:version => 20120321122710) do
     t.integer   "project_category_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "cosed_at"
     t.string   "slug"
     t.integer "max_open"
     t.integer "max_total"
@@ -110,7 +111,6 @@ ActiveRecord::Schema.define(:version => 20120321122710) do
 
   create_table "projects", :force => true do |t|
     t.string   "type"
-#    t.integer  "bike_id"
     t.integer  "projectable_id"
     t.string   "projectable_type"
     t.string   "label"

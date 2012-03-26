@@ -25,7 +25,7 @@ class Bike < ActiveRecord::Base
   validates_uniqueness_of :number, :allow_nil => true
   validates :number, :format => { :with => /\A\d{5}\z/, :message => "Must be 5 digits only"}
 
-  has_one :hook, :inverse_of=>:bike
+  has_one :hook, :dependent => :nullify, :inverse_of=>:bike
   belongs_to :project, :inverse_of => :bike
 
   def self.unavailable
@@ -63,11 +63,7 @@ class Bike < ActiveRecord::Base
     if h 
       h.bike = nil
       h.save
-
-      self.hook = nil
-      self.save
-
-      return true
+      return self.reload
     end
   end
 
