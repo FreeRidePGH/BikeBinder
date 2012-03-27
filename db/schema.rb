@@ -117,12 +117,11 @@ ActiveRecord::Schema.define(:version => 20120321122710) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "closed_at"
-    t.integer  "project_category_id"
+  # t.integer  "project_category_id"
   end
 
-  #add_index "projects", ["bike_id"], :name => "index_projects_on_bike_id"
   add_index "projects", ["label"], :name => "index_projects_on_label", :unique => true
-  add_index "projects", ["project_category_id"], :name => "index_projects_on_project_category_id"
+ # add_index "projects", ["project_category_id"], :name => "index_projects_on_project_category_id"
   add_index "projects", ["projectable_id"], :name => "index_projects_on_projectable_id"
   add_index "projects", ["type"], :name => "index_projects_on_type"
 

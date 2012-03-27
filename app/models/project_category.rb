@@ -10,8 +10,8 @@ class ProjectCategory < ActiveRecord::Base
 
   validates_presence_of :name, :project_type, :max_programs
 
-  has_many :projects
   has_many :programs
+  has_many :projects, :through => :programs
 
   attr_accessible :name, :project_type, :max_programs
 
@@ -24,10 +24,12 @@ end
 #
 # Table name: project_categories
 #
-#  id         :integer         not null, primary key
-#  name       :string(255)
-#  slug       :string(255)
-#  created_at :datetime
-#  updated_at :datetime
+#  id           :integer         not null, primary key
+#  name         :string(255)
+#  project_type :string(255)
+#  max_programs :integer
+#  slug         :string(255)
+#  created_at   :datetime
+#  updated_at   :datetime
 #
 

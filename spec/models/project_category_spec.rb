@@ -7,10 +7,12 @@ end
 #
 # Table name: project_categories
 #
-#  id         :integer         not null, primary key
-#  name       :string(255)
-#  slug       :string(255)
-#  created_at :datetime
-#  updated_at :datetime
+#  id           :integer         not null, primary key
+#  name         :string(255)
+#  project_type :string(255)
+#  max_programs :integer
+#  slug         :string(255)
+#  created_at   :datetime
+#  updated_at   :datetime
 #
 

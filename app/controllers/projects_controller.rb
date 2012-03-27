@@ -12,26 +12,28 @@ class ProjectsController < ApplicationController
   def new
     # Determine the program for this project
     @program = Program.find(params[:program_id])
-    @project = (@program.nil?) ? \
-    Project.new :  @program.projects.build
+    @project = (@program.nil?) ? Project.new :  @program.projects.build
   end
 
   def create
-    @program = Program.find(params[:program_id])
     @bike = Bike.find(params[:bike_id])
-    if @bike and @program
-      category = @program.project_category
-      proj_scope = category.project_class
-      
-      @project = proj_scope.new(params[:project]) do |new_proj|
-        new_proj.assign(@program, @bike)
+    @category = @program.project_category unless @program.nil?
+
+    proj_class = @category.project_class unless @category.nil?
+    proj_class ||= params[:project_type].constantize
+    
+    if proj_class
+      @project = proj_class.new(params[:project]) do |new_proj|
+        new_proj.assign_to(params)
       end
 
-      flash = {:success => "New project was started."}
-      redirect_to project_path(@project)
-    else
-      render 'new'
+      if @project.save
+        flash = {:success => "New project was started."}
+        redirect_to project_path(@project) and return
+      end
     end
+
+    render 'new'
   end
 
   def update
@@ -40,11 +42,11 @@ class ProjectsController < ApplicationController
   def destroy
     get_bike_and_project_instances
     if @project and @project.cancel
-      flash = {:success=>"Project was canceled for bike #{@bike.number}."}
-      redirect_to bike_path(@bike)
+      flash[:success] = "Project was canceled for bike #{@bike.number}."
+      redirect_to bike_path(@bike) and return
     end
     
-    flash = {:failure =>"Project could not be found or canceled."}
+    flash[:failure] = "Project could not be found or canceled."
     render 'show'
   end
 

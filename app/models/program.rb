@@ -7,6 +7,7 @@
 #  project_category_id :integer
 #  created_at          :datetime
 #  updated_at          :datetime
+#  cosed_at            :datetime
 #  slug                :string(255)
 #  max_open            :integer
 #  max_total           :integer
@@ -23,6 +24,6 @@ class Program < ActiveRecord::Base
   validates_uniqueness_of :title, :allow_nil=>false
 
   attr_accessible :title, :max_total, :max_open
-  
+
 end
 

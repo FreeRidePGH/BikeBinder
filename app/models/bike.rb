@@ -1,3 +1,4 @@
+
 # == Schema Information
 #
 # Table name: bikes
@@ -9,9 +10,11 @@
 #  top_tube_length  :float
 #  created_at       :datetime
 #  updated_at       :datetime
+#  departed_at      :datetime
 #  mfg              :string(255)
 #  model            :string(255)
 #  number           :string(255)
+#  project_id       :integer
 #
 
 class Bike < ActiveRecord::Base
@@ -22,8 +25,6 @@ class Bike < ActiveRecord::Base
 
   attr_accessible :color, :value, :seat_tube_height, :top_tube_length, :mfg, :model, :number
 
-  validates_uniqueness_of :number, :allow_nil => true
-  validates :number, :format => { :with => /\A\d{5}\z/, :message => "Must be 5 digits only"}
 
   has_one :hook, :dependent => :nullify, :inverse_of=>:bike
   belongs_to :project, :inverse_of => :bike
@@ -36,12 +37,12 @@ class Bike < ActiveRecord::Base
     self.where{(departed_at == nil) & (project_id == nil)}
   end
 
-  def unavailable?
-    not available?
+  def available?
+    departed_at.nil? and project.nil?
   end
   
-  def available?
-    Bike.where(:id => self.id).unavailable
+  def unavailable?
+    not available?
   end
 
   def self.departed
@@ -50,7 +51,8 @@ class Bike < ActiveRecord::Base
 
   def depart
     self.departed_at = Time.now
-    self.save!
+    self.vacate_hook!
+    self.save
   end
 
   def departed?
@@ -86,16 +88,15 @@ class Bike < ActiveRecord::Base
     return true
   end
 
-  def available?
-    departed_at.nil? and project.nil?
-  end
-
   def self.format_number(num)
     return sprintf("%05d", num.to_i) if num
   end
-  
+    
   def self.number_pattern
     return /\d{5}/
   end
+
+  validates_uniqueness_of :number, :allow_nil => true
+  validates :number, :format => { :with => Bike.number_pattern, :message => "Must be 5 digits only"}
   
 end

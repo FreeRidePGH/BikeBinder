@@ -1,7 +1,7 @@
 <% 
 @projects.all.each do |proj|
   prog = proj.projectable
-  category = proj.project_category
+  category = prog.project_category
  %>
 <tr>
   <td><%= link_to "View", project_path(proj) %></td>

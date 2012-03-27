@@ -2,15 +2,14 @@
 #
 # Table name: projects
 #
-#  id                  :integer         not null, primary key
-#  type                :string(255)
-#  bike_id             :integer
-#  projectable_id      :integer
-#  projectable_type    :string(255)
-#  label               :string(255)
-#  created_at          :datetime
-#  updated_at          :datetime
-#  project_category_id :integer
+#  id               :integer         not null, primary key
+#  type             :string(255)
+#  projectable_id   :integer
+#  projectable_type :string(255)
+#  label            :string(255)
+#  created_at       :datetime
+#  updated_at       :datetime
+#  closed_at        :datetime
 #
 
 class Project < ActiveRecord::Base
@@ -56,15 +55,17 @@ class Project < ActiveRecord::Base
     self.closed_at.nil?
   end
 
-  def assign(program, bike)
+  def assign_to(opts={})
+    program = Program.find(opts[:program_id])
+    bike = Bike.find(opts[:bike_id])
+
+    if not (program and bike) then return false end
+    
     program.projects << self
     program.save
 
     self.bike = bike
     bike.save
-    
-    program.project_category.projects << self
-    program.project_category.save
 
     self.save
   end
@@ -74,7 +75,7 @@ class Project < ActiveRecord::Base
   end
 
   def category_name
-    project_category.name
+    projectable.project_category.name
   end
 
   def cancellable?
