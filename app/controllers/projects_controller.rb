@@ -10,17 +10,20 @@ class ProjectsController < ApplicationController
   end
 
   def new
-    # Determine the program for this project
-    @program = Program.find(params[:program_id])
-    @project = (@program.nil?) ? Project.new :  @program.projects.build
+    @bike = Bike.find(params[:bike_id]) if params[:bike_id]
+    @category = @program.project_category if @program
+    @category ||= ProjectCategory.find(params[:category_id]) if params[:category_id]
+
+    @project = @program.projects.build if @program
+    @project ||= @projects.new
   end
 
   def create
     @bike = Bike.find(params[:bike_id])
-    @category = @program.project_category unless @program.nil?
+    @category = ProjectCategory.find(params[:category_id]) if params[:category_id]
+    @category ||= @program.project_category if @program
 
-    proj_class = @category.project_class unless @category.nil?
-    proj_class ||= params[:project_type].constantize
+    proj_class = @category.project_class if @category
     
     if proj_class
       @project = proj_class.new(params[:project]) do |new_proj|
@@ -56,7 +59,7 @@ class ProjectsController < ApplicationController
   # there is no DB column for that, so the find must
   # be done on the Bike model.
   def get_bike_and_project_instances
-    @bike = Bike.find(params[:id])
+    @bike = Bike.find(params[:id]) unless params[:id].nil?
     @project = @bike.project unless @bike.nil?
     @comment = Comment.build_from(@project, current_user, "")
   end

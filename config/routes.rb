@@ -1,8 +1,6 @@
 BikeBinder::Application.routes.draw do
 
-  resources :programs, :except => [:destroy] do
-    resources :projects, :only => [:index]
-  end
+  resources :programs, :except => [:destroy]
 
   # access to projects without nesting in programs
   resources :projects, \
@@ -13,9 +11,8 @@ BikeBinder::Application.routes.draw do
     end
   end
 
-  resources :project_categories, :except=>[:destroy, :new, :create] do
-    resources :projects, :only => [:index, :show]
-  end
+  resources :project_categories, :except=>[:destroy, :new, :create]
+
 
   devise_for :users
 

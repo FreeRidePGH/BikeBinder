@@ -3,6 +3,20 @@ class ProgramsController < ApplicationController
     @programs = Program.all
   end
 
+  def new
+    @program = Program.new
+  end
+
+  def create
+    @category = ProjectCategory.find(params[:project_category_id])
+    @program = @category.programs.build(params[:program]) if @category
+    if @program and @program.save 
+      redirect_to program_path(@program) and return
+    else
+      render 'new'
+    end
+  end
+
   def show
     @program = Program.find(params[:id])
 

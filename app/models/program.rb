@@ -22,8 +22,17 @@ class Program < ActiveRecord::Base
 
   validates_presence_of :project_category_id, :title
   validates_uniqueness_of :title, :allow_nil=>false
+  validate :category_must_be_accepting_new_programs
 
   attr_accessible :title, :max_total, :max_open
+
+  def category_must_be_accepting_new_programs 
+    #cat = ProjectCategory.find(category_id)
+    if not project_category.accepting_programs?
+      errors.add(:project_category_id, "must be accepting new programs.")
+    end
+  end
+
 
 end
 
