@@ -21,7 +21,7 @@ class ProjectCategory < ActiveRecord::Base
   end
 
   def accepting_programs?
-    (max_programs<0) || (programs.count <= max_programs)
+    (max_programs<0) || (programs.count < max_programs)
   end
 
   def self.accepting_programs

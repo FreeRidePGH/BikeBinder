@@ -1,6 +1,7 @@
 <div id="shared_menu">
   <ul>
     <li><%= link_to "Bikes Index", bikes_path %></li>
+    <li><%= link_to "Enter a new bike", new_bike_path %>
     <li><%= link_to "Programs Index", programs_path %></li>
     <li><%= link_to "Projects Index", projects_path %></li>
     <% if user_signed_in? %>

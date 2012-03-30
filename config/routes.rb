@@ -8,11 +8,12 @@ BikeBinder::Application.routes.draw do
   :path_names => {:new=>'start', :delete=>'cancel'} do
     member do
       post 'new_comment'
+      get 'finish'
+      put 'close'
     end
   end
 
   resources :project_categories, :except=>[:destroy, :new, :create]
-
 
   devise_for :users
 
@@ -21,6 +22,8 @@ BikeBinder::Application.routes.draw do
       post 'new_comment'
       put 'vacate_hook'
       put 'reserve_hook'
+      get 'depart'
+      put 'send_away'
     end
   end
 

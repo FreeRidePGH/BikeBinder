@@ -29,6 +29,15 @@ class Project < ActiveRecord::Base
 
   attr_accessible nil
 
+  # Specify if a project type is automatically
+  # set to the closed state when first created
+  # (Effectively, stateless projects, like
+  # scrap or sales)
+  def self.open_on_create?; true end
+  def self.closed_on_create?
+    not self.open_on_create?
+  end
+
   def self.open
     self.where{closed_at == nil}
   end
@@ -67,6 +76,9 @@ class Project < ActiveRecord::Base
     self.bike = bike
     bike.save
 
+    program.project_category.projects << self
+    program.project_category.save
+    
     self.save
   end
 

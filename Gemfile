@@ -12,7 +12,7 @@ gem 'devise'
 gem 'acts_as_commentable_with_threading', :git => 'https://github.com/arjun810/acts_as_commentable_with_threading.git'
 
 gem 'friendly_id'
-
+gem 'decent_exposure'
 gem 'squeel'
 
 # Gems used only for assets and not required

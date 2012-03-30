@@ -1,10 +1,10 @@
 
-<%= form_for(@bike) do |f| %>
+<%= form_for(bike) do |f| %>
   <%= render 'shared/error_messages', :object => f.object %>
 
 <div id="field">
 <%= f.label :number %>
-<%= f.text_field :number, :value=>@bike.number %>
+<%= f.text_field :number, :value=>bike.number %>
 </div>
 
 <div id="field">

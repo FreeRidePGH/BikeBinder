@@ -1,8 +1,12 @@
 class ProjectCategoriesController < ApplicationController
+  
+  expose(:category) do 
+    cat_id = :project_category_id
+    @cat ||= ProjectCategory.find(params[:id]||params[cat_id])
+  end
+
   def show
-    @category = ProjectCategory.find(params[:id])
-    if @category.nil? then redirect_to root_path and return end
-    @projects = @category.projects
+    if category.nil? then redirect_to root_path and return end
   end
 
 end

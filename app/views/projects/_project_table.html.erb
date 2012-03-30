@@ -1,13 +1,13 @@
 <% 
-   @projects.all.each do |proj|
+   projects.each do |proj|
    prog = proj.projectable
-   category = prog.project_category
+   cat = prog.project_category
    status = (proj.open?) ? "Open" : "Closed"
  %>
 <tr>
   <td><%= link_to proj.bike.number, bike_path(proj.bike) %></td>
   <td><%= link_to prog.title, program_path(prog) %></td>
-  <td><%= link_to category.name, project_category_path(category) %></td>
+  <td><%= link_to cat.name, project_category_path(cat) %></td>
   <td><%= proj.created_at.strftime('%d %B %y') %></td>
   <td><%= link_to "#{status}, view details", project_path(proj) %></td>
 </tr>

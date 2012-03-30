@@ -1,17 +1,17 @@
 <h1>Projects#show</h1>
 
 <dl>
-  <dt>Bike</dt><dd><%= link_to @project.bike.number, bike_path(@project.bike) %></dd>
-  <dt>Program</dt><dd><%= link_to @project.projectable.title, program_path(@project.projectable) %></dd>
+  <dt>Bike</dt><dd><%= link_to project.bike.number, bike_path(bike) %></dd>
+  <dt>Program</dt><dd><%= link_to project.projectable.title, program_path(project.projectable) %></dd>
 </dl>
 
-<h2><%= pluralize(@project.comment_threads.length, 'Note') %></h2>
-<%= render :partial=>"comments/index", :locals=>{:comments => @project.comment_threads} %>
+<h2><%= pluralize(project.comment_threads.length, 'Note') %></h2>
+<%= render :partial=>"comments/index", :locals=>{:comments => project.comment_threads} %>
 <br />
-<%= render :partial=>"comments/form", :locals=>{:url => new_comment_project_path(@project)} %>
+<%= render :partial=>"comments/form", :locals=>{:url => new_comment_project_path(project)} %>
 
 <h2>Cancel project</h2>
-<%= form_for(@project, :url=>project_path(@project), :method=>:delete) do |f|%>
+<%= form_for(project, :url=>project_path(project), :method=>:delete) do |f|%>
 <%= f.submit "Cancel Project." %>
 <% end %>
 
