@@ -61,4 +61,4 @@ Departed on <%= bike.departed_at.strftime('%d %B %y') %>
 <h2><%= pluralize(bike.comment_threads.length, 'Note') %></h2>
 <%= render :partial=>"comments/index", :locals=>{:comments => bike.comment_threads} %>
 <br />
-<%= render :partial=>"comments/form", :locals=>{:url => new_comment_bike_path(@bike)} %>
+<%= render :partial=>"comments/form", :locals=>{:url => new_comment_bike_path(bike)} %>

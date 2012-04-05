@@ -11,6 +11,12 @@ class ProgramsController < ApplicationController
     @prog ||= Program.new(params[:program])
   end
 
+  # Scope projects by
+  # * Projects under a program when a program is fetched
+  expose(:projects) do
+    @proj_scope ||= (program.projects if program)
+  end
+
   def index
   end
 

@@ -39,15 +39,20 @@ namespace :db do
 
   desc "Fill database with programs"
   task :populate_programs => :environment do
+
     youth_cat = ProjectCategory.find_by_name("Youth")
-    p = youth_cat.programs.create!(:title=>"Positive Spin 2012") if youth_cat
-    p = youth_cat.programs.create!(:title=>"Grow PGH 2012",:max_total=>15) if youth_cat
+    if youth_cat
+      # Create the program with constraints
+      p = youth_cat.programs.create!(:title=>"Positive Spin 2012", :max_open=>5, :max_total=>10)
+      p = youth_cat.programs.create!(:title=>"Grow PGH 2012",:max_total=>15)
+    end
        
     eab_cat = ProjectCategory.find_by_name("EAB")
     p = eab_cat.programs.create!(:title =>"Earn-A-Bike",:max_open => 25) if eab_cat
-       
-    scrap_cat = ProjectCategory.find_by_name("Scrap")
-    p = scrap_cat.programs.create!(:title=>"Shop Scrap") if scrap_cat
+
+    cat = ProjectCategory.find_by_name("Scrap")
+    p = cat.programs.create!(:title=>"Shop Scrap") if cat
+
   end
 
 

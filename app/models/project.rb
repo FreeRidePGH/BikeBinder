@@ -56,7 +56,7 @@ class Project < ActiveRecord::Base
   end
 
   def open
-    self.close_at = nil
+    self.closed_at = nil
     self.save
   end
 
@@ -65,10 +65,11 @@ class Project < ActiveRecord::Base
   end
 
   def assign_to(opts={})
-    program = Program.find(opts[:program_id])
-    bike = Bike.find(opts[:bike_id])
+    program = Program.find(opts[:program_id]) unless opts[:program_id].blank?
+    bike = Bike.find(opts[:bike_id]) unless opts[:bike_id].blank?
+    category = program.project_category if program
 
-    if not (program and bike) then return false end
+    if not (program and bike and category) then return false end
     
     program.projects << self
     program.save
@@ -76,8 +77,8 @@ class Project < ActiveRecord::Base
     self.bike = bike
     bike.save
 
-    program.project_category.projects << self
-    program.project_category.save
+    category.projects << self
+    category.save
     
     self.save
   end

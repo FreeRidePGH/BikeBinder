@@ -25,7 +25,6 @@ class Bike < ActiveRecord::Base
 
   attr_accessible :color, :value, :seat_tube_height, :top_tube_length, :mfg, :model, :number
 
-
   has_one :hook, :dependent => :nullify, :inverse_of=>:bike
   belongs_to :project, :inverse_of => :bike
 

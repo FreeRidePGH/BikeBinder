@@ -5,6 +5,12 @@ class ProjectCategoriesController < ApplicationController
     @cat ||= ProjectCategory.find(params[:id]||params[cat_id])
   end
 
+  # Scope projects by
+  # * Projects under a category when a category is fetched
+  expose(:projects) do
+    @proj_scope ||= (category.projects if category)
+  end
+
   def show
     if category.nil? then redirect_to root_path and return end
   end

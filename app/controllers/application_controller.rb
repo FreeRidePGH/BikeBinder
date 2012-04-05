@@ -1,54 +1,79 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   
-  expose(:categories) {ProjectCategory.all} 
-  expose(:category) do
-    cat_id = :project_category_id
-    @cat ||= (ProjectCategory.find(params[cat_id]) if params[cat_id])
-    @cat ||= (program.project_category if program)
+  # Scope from collection of all categories
+  expose(:project_categories) {ProjectCategories.all}
+  # Fetch category by:
+  # * project_category_id
+  # Create never
+  expose(:project_category) do
+    id = :project_category_id
+    @prjcat ||= (ProjectCategory.find(params[id]) unless params[id].blank?)
   end
 
+  # Scope from collection of all programs
   expose(:programs) {Program.all}
+  # Fetch by:
+  # * program ID
   expose(:program) do
-    @prog ||= (Program.find(params[:program_id]) if params[:program_id])
+    @prog ||= (Program.find(params[:program_id]) unless params[:program_id].blank?)
   end
 
+  # Default behavior
   expose(:bikes)
-  expose(:bike){Bike.find_by_number(params[:bike_id])}
+  # Fetch bike by: 
+  # * bike_id matching bike number
+  # Create never
+  expose(:bike){Bike.find_by_number(params[:bike_id]) unless params[:bike_id].blank?}
+  
 
-
-  # Determine if the controller is called from a nested route
+  # Scope projects by
+  # * All projects
+  #
+  # See Tell if the controller is called from a nested route
   # http://stackoverflow.com/questions/4120537/tell-if-a-controller-is-being-used-in-a-nested-route-in-rails-3#4120631
   expose(:projects) do
-    @project_scope ||= (program.projects if program)
-    @project_scope ||= (category.projects if category)
     @project_scope ||= Project.all
   end
 
-  # When the friendly_id references the bike.number
-  # there is no DB column for that, so the find must
-  # be done on the Bike model.
-  # Once the bike is found, its project is found.
+  # Fetch project by:
+  # * bike when a bike is fetched & has a project
+  # Create by:
+  # * generic project
   expose(:project) do
+    # When the friendly_id references the bike.number
+    # there is no DB column for that, so the find must
+    # be done on the Bike model.
+    # Once the bike is found, its project is found.
     @proj ||= (bike.project if bike)
-    @proj ||= (program.projects.build if program)
     @proj ||= Project.new
   end
 
+  expose(:comment_body) do
+    params[:comment][:body] if params[:comment]
+  end
+
+  # Create by:
+  # * Build from commentalbe if commentable is fetched
+  # ** Assumes calling controller exposes commentable
+  expose(:comment) do
+    @cret ||= (Comment.build_from(commentable, current_user, comment_body) if commentable)
+  end
 
   def new_comment
-    @commentable = params[:controller].singularize.classify.constantize.find(params[:id])
-    
-    @comment = Comment.build_from(@commentable, current_user, 
-                                  params[:comment][:body])
-    if @comment.save
-      # Handle a successful save
-      flash[:success] = "Thank you for your comment"
-    else
-      # Failed save
-      flash[:error] = "Could not add your comment"
+    if commentable
+      if comment and comment.save
+        # Handle a successful save
+        flash[:success] = "Thank you for your comment"
+      else
+        # Failed save
+        flash[:error] = "Could not add your comment."
+        comment.errors.each do |key,val|
+          flash[("message_#{key.to_s}").to_sym]= "#{key.upcase.to_s} #{val}"
+        end
+      end
     end
-    redirect_to @commentable
+    redirect_to(:id=>commentable, :controller=>params[:controller], :action=>:show)
   end
 
   # Checks if a bike record was found

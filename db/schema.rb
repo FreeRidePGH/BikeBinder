@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120321122710) do
+ActiveRecord::Schema.define(:version => 20120403025414) do
 
   create_table "bikes", :force => true do |t|
     t.string   "color"
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(:version => 20120321122710) do
     t.string   "mfg"
     t.string   "model"
     t.string   "number"
-    t.integer "project_id"
+    t.integer  "project_id"
   end
 
   add_index "bikes", ["number"], :name => "index_bikes_on_number"
@@ -70,15 +70,16 @@ ActiveRecord::Schema.define(:version => 20120321122710) do
 
   create_table "programs", :force => true do |t|
     t.string   "title"
-    t.integer   "project_category_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "cosed_at"
     t.string   "slug"
-    t.integer "max_open"
-    t.integer "max_total"
+    t.integer  "max_open"
+    t.integer  "max_total"
+    t.integer  "project_category_id"
   end
 
+  add_index "programs", ["project_category_id"], :name => "index_programs_on_project_category_id"
   add_index "programs", ["slug"], :name => "index_programs_on_slug"
 
   create_table "project_categories", :force => true do |t|
@@ -90,8 +91,7 @@ ActiveRecord::Schema.define(:version => 20120321122710) do
     t.datetime "updated_at"
   end
 
-  add_index "project_categories", ["slug"],\
-  :name => "index_project_categories_on_slug"
+  add_index "project_categories", ["slug"], :name => "index_project_categories_on_slug"
 
   create_table "project_spec_eabs", :force => true do |t|
     t.string   "state"

@@ -9,10 +9,9 @@ class ProjectCategory < ActiveRecord::Base
   friendly_id :name, use: [:slugged]
 
   validates_presence_of :name, :project_type, :max_programs
-  
 
-  has_many :programs
   has_many :projects
+  has_many :programs
 
   attr_accessible :name, :project_type, :max_programs
 

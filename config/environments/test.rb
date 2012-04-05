@@ -1,4 +1,8 @@
 BikeBinder::Application.configure do
+  #upgrading to rails 3.2
+  # Raise exception on mass assignment protection for Active Record models
+  config.active_record.mass_assignment_sanitizer = :strict
+
   # Settings specified here will take precedence over those in config/application.rb
 
   # The test environment is used exclusively to run your application's

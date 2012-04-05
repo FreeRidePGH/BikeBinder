@@ -2,23 +2,37 @@ class BikesController < ApplicationController
   
   before_filter :fetch_bike, 
   :except => [:new, :create, :index]
-
+  
+  # Fetch by:
+  # * id or bike_id
+  # Create by:
+  # Bike.new
   expose(:bike) do
     @bike ||= Bike.find_by_number(params[:id]||params[:bike_id])
     @bike ||= Bike.new(params[:bike])
   end
+  # Fetch by:
+  # Array of single bike when bike is found & fetched
+  # All bikes
   expose(:bikes) do
     @bikes ||= ([bike] if bike_found?)
     @bikes ||= Bike.all 
   end
 
+  # Fetch by
+  # * bike's hook if bike is fetched
+  # * hook_id if specified
+  # * next available from the Hook model
   expose(:hook) do
     @hook ||= (bike.hook if bike)
     @hook ||= (Hook.find(params[:hook_id]) if params[:hook_id])
     @hook ||= Hook.next_available
   end
 
-  expose(:comment){ @comm ||= Comment.build_from(bike, current_user, "")}
+  # Exposed to speciy object to build new comments on
+  expose(:commentable) do
+    @commentable ||= bike
+  end
 
   def new
   end
