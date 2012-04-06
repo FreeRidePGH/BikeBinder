@@ -73,7 +73,7 @@ class ApplicationController < ActionController::Base
         end
       end
     end
-    redirect_to(:id=>commentable, :controller=>params[:controller], :action=>:show)
+    redirect_to(:id=>commentable, :action=>:show)
   end
 
   # Checks if a bike record was found

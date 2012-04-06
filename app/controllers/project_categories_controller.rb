@@ -1,5 +1,5 @@
 class ProjectCategoriesController < ApplicationController
-  
+
   expose(:category) do 
     cat_id = :project_category_id
     @cat ||= ProjectCategory.find(params[:id]||params[cat_id])

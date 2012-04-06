@@ -18,7 +18,7 @@ class Project < ActiveRecord::Base
 
   validates_presence_of :type
 
-  has_one :bike, :dependent => :nullify, :inverse_of => :project
+  has_one :bike, :dependent => :nullify, :inverse_of => :project, :conditions => "project_id=NULL"
   belongs_to :projectable, :polymorphic => true
   belongs_to :project_category
   
@@ -62,6 +62,11 @@ class Project < ActiveRecord::Base
 
   def open?
     self.closed_at.nil?
+  end
+
+  # Override to validate that the bike is available
+  def bike=(b)
+    super if (b.nil? or b.available?)
   end
 
   def assign_to(opts={})
