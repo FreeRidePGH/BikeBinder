@@ -62,24 +62,16 @@ namespace :db do
     total = Bike.count
 
     total.times do |n|
+
       bike = Bike.find(rand(total)+1)
-   
       prog = Program.find(rand(n_progs)+1)
       
       if bike and prog and bike.project.nil?
-        category = prog.project_category
-        @project = category.project_class
-        
-        new_proj = @project.new()
-        
-        prog.projects << new_proj
-        prog.save
-        
-        new_proj.bike = bike
-        bike.save
-        
-        new_proj.project_category  = category
-        new_proj.save
+
+        opts={:bike_id=>bike,:program_id=>prog}
+	new_proj = prog.project_category.project_class.new()
+
+	ok = new_proj.save if new_proj.assign_to(opts)
         
         if rand(4)<1
           new_proj.close

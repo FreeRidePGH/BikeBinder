@@ -52,6 +52,8 @@ class ProjectsController < ApplicationController
   end
 
   def update
+    # Save the project details and the project
+    render 'show'
   end
 
   def destroy

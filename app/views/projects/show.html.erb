@@ -2,8 +2,24 @@
 
 <dl>
   <dt>Bike</dt><dd><%= link_to project.bike.number, bike_path(bike) %></dd>
-  <dt>Program</dt><dd><%= link_to project.projectable.title, program_path(project.projectable) %></dd>
+  <dt>Program</dt><dd><%= link_to project.prog.title, program_path(project.prog) %></dd>
 </dl>
+
+
+<h2>Project activity</h2>
+<% if project.open? %>
+<h3>Update project status</h3>
+<%= render :partial=>'detail_form' %>
+
+<h3>Finish Project</h3>
+<%= form_for(project, :url=>project_path) do |f| %>
+<%= hidden_field_tag(:state_events, "close_and_depart") %>
+<%= f.submit "Close and depart" %>
+<% end %>
+
+<% else %>
+<p>Project is closed</p>
+<% end %>
 
 <h2><%= pluralize(project.comment_threads.length, 'Note') %></h2>
 <%= render :partial=>"comments/index", :locals=>{:comments => project.comment_threads} %>

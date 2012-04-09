@@ -16,26 +16,60 @@ class Project < ActiveRecord::Base
   extend FriendlyId
   friendly_id :label
 
-  validates_presence_of :type
-
-  has_one :bike, :dependent => :nullify, :inverse_of => :project, :conditions => "project_id=NULL"
-  belongs_to :projectable, :polymorphic => true
+  has_one :bike, :dependent => :nullify, :inverse_of => :project
+  belongs_to :prog, :polymorphic => true
   belongs_to :project_category
-  
-  acts_as_commentable
 
   # Does a child class override this?
-  #has_one :spec, :as => :specable
+  has_one :detail, :as => :proj
+
+  acts_as_commentable
+
+  state_machine  :initial => :open  do
+    after_transition (any - :open) => :open, :do => :open_action
+    after_transition (any - :closed) => :closed, :do => :close_action
+    
+    event :close do
+      transition :open => :closed
+    end
+
+    event :cancel do
+      transition :open => :trash
+    end
+
+    event :reopen do
+      transition :closed => :open
+    end
+
+    event :restore do
+      transition :trash => :open
+    end
+    
+    state :open
+    state :closed
+    state :trash
+  end
+
+  state_machine :completion_state, :initial => :none , :namespace => :completion do
+    event :update do
+      transition  [:partial,:none] =>:done, :if => "detail.pass_req?"
+      transition  [:none, :done] => :partial
+    end
+
+    event :reset do
+      transition [:partial, :done] => :none
+    end
+
+    state :none
+    state :partial
+    state :done
+  end
 
   attr_accessible nil
 
-  # Specify if a project type is automatically
-  # set to the closed state when first created
-  # (Effectively, stateless projects, like
-  # scrap or sales)
-  def self.open_on_create?; true end
-  def self.closed_on_create?
-    not self.open_on_create?
+  def close_and_depart
+    self.close
+    self.bike.depart if bike
   end
 
   def self.open
@@ -46,46 +80,18 @@ class Project < ActiveRecord::Base
     self.where{closed_at != nil}
   end
 
-  def close
-    self.closed_at = Time.now
-    self.save
-  end
-
-  def closed?
-    not open?
-  end
-
-  def open
-    self.closed_at = nil
-    self.save
-  end
-
-  def open?
-    self.closed_at.nil?
-  end
-
-  # Override to validate that the bike is available
-  def bike=(b)
-    super if (b.nil? or b.available?)
-  end
-
   def assign_to(opts={})
     program = Program.find(opts[:program_id]) unless opts[:program_id].blank?
     bike = Bike.find(opts[:bike_id]) unless opts[:bike_id].blank?
     category = program.project_category if program
 
-    if not (program and bike and category) then return false end
+    if not (program and bike and category and bike.available?) then return false end
     
     program.projects << self
-    program.save
-
     self.bike = bike
-    bike.save
-
     category.projects << self
-    category.save
-    
-    self.save
+
+    self.create_detail(opts[:project_detail])
   end
 
   def label
@@ -93,17 +99,21 @@ class Project < ActiveRecord::Base
   end
 
   def category_name
-    projectable.project_category.name
+    prog.project_category.name
   end
 
-  def cancellable?
-    not bike.departed? unless bike.nil?
+  validates_presence_of :type
+
+  private
+
+  def close_action
+    self.closed_at = Time.now
+    self.save
   end
 
-  def cancel
-    if self.cancellable?
-      self.bike = nil
-      self.destroy
-    end
+  def open_action
+    self.closed_at = nil
+    self.save
   end
+  
 end

@@ -14,7 +14,7 @@ class Program < ActiveRecord::Base
   extend FriendlyId
   friendly_id :title, use: [:slugged, :history]
   
-  has_many :projects, :as => :projectable
+  has_many :projects, :as => :prog
   belongs_to :project_category
 
   

@@ -9,11 +9,14 @@ gem 'sqlite3'
 gem 'therubyracer'
 
 gem 'devise'
-gem 'acts_as_commentable_with_threading'#, :git => 'https://github.com/arjun810/acts_as_commentable_with_threading.git'
+gem 'acts_as_commentable_with_threading'
 
 gem 'friendly_id'
 gem 'decent_exposure'
 gem 'squeel'
+
+gem 'state_machine'
+gem 'ruby-graphviz', :require => 'graphviz'
 
 # Gems used only for assets and not required
 # in production environments by default.

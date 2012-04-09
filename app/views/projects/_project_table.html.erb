@@ -1,6 +1,6 @@
 <% 
    projects.each do |proj|
-   prog = proj.projectable
+   prog = proj.prog
    cat = prog.project_category
    status = (proj.open?) ? "Open" : "Closed"
  %>

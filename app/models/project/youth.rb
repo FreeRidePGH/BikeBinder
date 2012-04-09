@@ -13,5 +13,5 @@
 #
 
 class Project::Youth < Project
-  has_one :spec, :as => :specable, :class_name => "Project::Spec::Youth"
+  has_one :detail, :as => :proj, :class_name => "Project::YouthDetail"
 end
