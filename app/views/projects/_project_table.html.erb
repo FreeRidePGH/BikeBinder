@@ -1,11 +1,14 @@
 <% 
-@projects.all.each do |proj|
-  prog = proj.projectable_type.classify.constantize.find(proj.projectable_id)
+   projects.each do |proj|
+   prog = proj.prog
+   cat = prog.project_category
+   status = (proj.open?) ? "Open" : "Closed"
  %>
 <tr>
-  <td><%= link_to "View", project_path(proj) %></td>
   <td><%= link_to proj.bike.number, bike_path(proj.bike) %></td>
   <td><%= link_to prog.title, program_path(prog) %></td>
+  <td><%= link_to cat.name, project_category_path(cat) %></td>
   <td><%= proj.created_at.strftime('%d %B %y') %></td>
+  <td><%= link_to "#{status}, view details", project_path(proj) %></td>
 </tr>
 <% end %>

@@ -1,17 +1,19 @@
 BikeBinder::Application.routes.draw do
 
-  resources :programs, :except => [:destroy] do
-    resources :projects,\
-    :except => [:destroy, :edit, :update, :show],\
-    :path_names => {:new=>'start'}
-  end
+  resources :programs, :except => [:destroy]
 
   # access to projects without nesting in programs
-  resources :projects, :only => [:show, :index, :edit, :update] do
+  resources :projects, \
+  :only => [:show, :index, :edit, :update, :create, :new, :delete, :destroy], \
+  :path_names => {:new=>'start', :delete=>'cancel'} do
     member do
       post 'new_comment'
+      get 'finish'
+      put 'close'
     end
   end
+
+  resources :project_categories, :except=>[:destroy, :new, :create]
 
   devise_for :users
 
@@ -20,10 +22,12 @@ BikeBinder::Application.routes.draw do
       post 'new_comment'
       put 'vacate_hook'
       put 'reserve_hook'
+      get 'depart'
+      put 'send_away'
     end
   end
 
-  resources :hooks,:except =>[:destroy, :new]
+  resources :hooks,:except =>[:destroy, :new, :create]
 
   # Ensure root is set per recommendations when installing Devise
   root :to => 'bikes#index'

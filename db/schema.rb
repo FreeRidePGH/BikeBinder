@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120317082740) do
+ActiveRecord::Schema.define(:version => 20120408043657) do
 
   create_table "bikes", :force => true do |t|
     t.string   "color"
@@ -20,12 +20,16 @@ ActiveRecord::Schema.define(:version => 20120317082740) do
     t.float    "top_tube_length"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "departed_at"
     t.string   "mfg"
     t.string   "model"
     t.string   "number"
+    t.integer  "project_id"
+    t.string   "location_state"
   end
 
   add_index "bikes", ["number"], :name => "index_bikes_on_number"
+  add_index "bikes", ["project_id"], :name => "index_bikes_on_project_id"
 
   create_table "comments", :force => true do |t|
     t.integer  "commentable_id",   :default => 0
@@ -56,7 +60,7 @@ ActiveRecord::Schema.define(:version => 20120317082740) do
   add_index "friendly_id_slugs", ["sluggable_type"], :name => "index_friendly_id_slugs_on_sluggable_type"
 
   create_table "hooks", :force => true do |t|
-    t.string  "number"
+    t.string   "number"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "bike_id"
@@ -67,42 +71,72 @@ ActiveRecord::Schema.define(:version => 20120317082740) do
 
   create_table "programs", :force => true do |t|
     t.string   "title"
-    t.string   "category"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "cosed_at"
     t.string   "slug"
+    t.integer  "max_open"
+    t.integer  "max_total"
+    t.integer  "project_category_id"
   end
 
+  add_index "programs", ["project_category_id"], :name => "index_programs_on_project_category_id"
   add_index "programs", ["slug"], :name => "index_programs_on_slug"
 
-  create_table "project_spec_eabs", :force => true do |t|
-    t.string   "state"
-    t.integer  "specable_id"
-    t.string   "specable_type"
+  create_table "project_categories", :force => true do |t|
+    t.string   "name"
+    t.string   "project_type"
+    t.integer  "max_programs"
+    t.string   "slug"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "project_spec_youths", :force => true do |t|
+  add_index "project_categories", ["slug"], :name => "index_project_categories_on_slug"
+
+  create_table "project_eab_details", :force => true do |t|
+    t.integer  "proj_id"
+    t.string   "proj_type"
     t.string   "state"
-    t.integer  "specable_id"
-    t.string   "specable_type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string   "status_state"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "project_youth_details", :force => true do |t|
+    t.integer  "proj_id"
+    t.string   "proj_type"
+    t.string   "state"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "project_scrap_details", :force => true do |t|
+    t.integer  "proj_id"
+    t.string   "proj_type"
+    t.string   "state"
+    t.string   "description"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "projects", :force => true do |t|
-    t.string   "category"
-    t.integer  "projectable_id"
-    t.string   "projectable_type"
-    t.integer  "bike_id"
+    t.string   "type"
+    t.integer  "prog_id"
+    t.string   "prog_type"
     t.string   "label"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "closed_at"
+    t.integer  "project_category_id"
+    t.string   "state"
+    t.string   "completion_state"
   end
 
-  add_index "projects", ["bike_id"], :name => "index_projects_on_bike_id"
-  add_index "projects", ["label"], :name => "index_projects_on_label"
+  add_index "projects", ["label"], :name => "index_projects_on_label", :unique => true
+  add_index "projects", ["project_category_id"], :name => "index_projects_on_project_category_id"
+  add_index "projects", ["prog_id"], :name => "index_projects_on_prog_id"
+  add_index "projects", ["type"], :name => "index_projects_on_type"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false

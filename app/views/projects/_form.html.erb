@@ -1,0 +1,16 @@
+<%= form_for(project, :url=>project_path) do |f| %>
+<%= render 'shared/error_messages', :object => f.object %>
+
+<div id="field">
+<%= f.label :bike_id, "Bike number" %>
+<%= text_field_tag :bike_id %>
+</div>
+
+<%= f.label :program_id %>
+<%= select_tag(:program_id, options_from_collection_for_select(Program.all, :id, :title)) %>
+
+<div class="actions">
+<%= f.submit "Submit" %>
+</div>
+
+<% end %>

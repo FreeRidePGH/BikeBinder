@@ -1,0 +1,26 @@
+<%= form_for(program) do |f| %>
+
+<%= render 'shared/error_messages', :object=>f.object %>
+
+<div id="field">
+<%= f.label :title, "Program Title" %>
+<%= f.text_field :title %>
+</div>
+
+<div id="field">
+<%= f.label :project_category_id, "Project Category" %>
+<%= select_tag(:project_category_id, options_from_collection_for_select(ProjectCategory.accepting_programs, :id, :name)) %>
+</div>
+
+<div id="field">
+<%= f.label :max_open, "Max number of open projects" %>
+<%= f.text_field :max_open %>
+</div>
+
+<div id="field">
+<%= f.label :max_total, "Max number of total projects" %>
+<%= f.text_field :max_total %>
+</div>
+
+<%= f.submit "Submit" %>
+<% end %>

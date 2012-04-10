@@ -1,15 +1,25 @@
-<% @bikes.each do |bike| %>
+<% bikes.each do |b| %>
 <tr>
-  <td><%= link_to bike.number, bike_path(bike) %></td>
-  <td><%= bike.color %></td>
-  <td><%= bike.mfg %></td>
-  <td><%= bike.model %></td>
+  <td><%= link_to b.number, bike_path(b) %></td>
+  <td><%= b.color %></td>
+  <td><%= b.mfg %></td>
+  <td><%= b.model %></td>
   <td>
-  <% if bike.hook %>
-  <%= link_to bike.hook.number, hook_path(bike.hook) %>
+  <% if b.hook %>
+  <%= link_to b.hook.number, hook_path(b.hook) %>
   <% else %>
   n/a
   <% end %>
+  </td>
+  <td> 
+    <% if b.available? %>
+    Available
+    <% elsif b.departed? %>
+    Departed
+    <% elsif b.project %>
+    <%= link_to "#{b.project.project_category.name} Project",
+	project_path(b.project) %>
+    <% end %>
   </td>
 </tr>
 <% end %>

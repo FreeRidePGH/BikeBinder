@@ -1,0 +1,20 @@
+<h1>Send Bike Away</h1>
+
+<%= render :partial=>"bike_table", :layout=>"bike_table_layout" %>
+
+<%  if bike.project and bike.project.open?  %>
+  <h2>Finish project</h2>
+  <%= link_to "Complete project first", finish_project_path(bike.project) %>
+  allow uncompleted project?
+
+<% end %>
+
+<% if bike.project.nil? %>
+  <h2>Project Association</h2>
+  <%= link_to "Start a new project for this bike", new_project_path %>
+
+  select a project that allows for being closed upon being created
+
+  allow for no project association?
+
+<% end %>

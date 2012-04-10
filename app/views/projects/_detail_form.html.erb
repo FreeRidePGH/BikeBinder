@@ -1,0 +1,13 @@
+<%= form_for(project.detail, :url=>project_path) do |f| %>
+<%= render 'shared/error_messages', :object => f.object %>
+
+<div id="field">
+<%= f.label :action, "Select an action" %>
+<%= f.select(:state_events, project.detail.state_events.map{ |s| [s.to_s.humanize, s]}) %>
+</div>
+
+<div class="actions">
+<%= f.submit "Submit" %>
+</div>
+
+<% end %>

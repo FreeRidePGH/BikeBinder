@@ -1,9 +1,10 @@
-<%= form_for(@bike) do |f| %>
+
+<%= form_for(bike) do |f| %>
   <%= render 'shared/error_messages', :object => f.object %>
 
 <fieldset>
 <%= f.label :number %>
-<%= f.text_field :number, :value=>@bike.number , :required => true %>
+<%= f.text_field :number, :value=>bike.number , :required => true %>
 
 
 
@@ -19,7 +20,6 @@
 
 <%= f.label :model %>
 <%= f.text_field :model %>
-
 
 <%= button_tag "Update" ,  :class => "btn btn-primary" %>
 
