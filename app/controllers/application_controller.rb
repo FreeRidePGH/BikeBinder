@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-
   def new_comment
     @commentable = params[:controller].singularize.classify.constantize.find(params[:id])
     

@@ -1,29 +1,28 @@
 <%= form_for(@bike) do |f| %>
   <%= render 'shared/error_messages', :object => f.object %>
 
-<div id="field">
+<fieldset>
 <%= f.label :number %>
-<%= f.text_field :number, :value=>@bike.number %>
-</div>
+<%= f.text_field :number, :value=>@bike.number , :required => true %>
 
-<div id="field">
+
+
 <%= f.label :color %>
-<%= f.text_field :color %>
-</div>
+<%= f.text_field :color , :required => true  %>
 
-<div id="field">
+
+
 <%= f.label :mfg, "Manufacturer" %>
 <%= f.text_field :mfg %>
-</div>
 
-<div id="field">
+
+
 <%= f.label :model %>
 <%= f.text_field :model %>
-</div>
 
 
-<div class="actions">
-<%= f.submit "Update" %>
-</div>
+<%= button_tag "Update" ,  :class => "btn btn-primary" %>
+
+</fieldset>
 
 <% end %>

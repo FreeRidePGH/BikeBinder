@@ -1,3 +1,8 @@
-// Place all the styles related to the Bikes controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+table.bikes th{
+    border-bottom: solid 2px #a8a8a8;
+    background: #fff;
+    /* border-right: solid 3px #a8a8a8; */
+}
+table.bikes th:first-child {
+    width: 70px;
+}
