@@ -1,15 +1,19 @@
 # BikeBinder for Free Ride
 
+## Objective
+
+Reproduce all functionality that exists with the current paper binder system.
+
+
 ## Getting up and running
 
 Take the following actions to get a cloned/pulled version to run locally
 
 * rename "config/database.yml.sample" do "config/database.yml"
+* run "bundle install"
 * run "rake db:populate"
 
-## Objective
-
-Reproduce all functionality that exists with the current paper binder system.
+--------------------------------------------
 
 ## Scope
 
