@@ -1,7 +1,6 @@
 class Project::YouthDetail < ProjectDetail
-  
   state_machine :initial => :under_repair do
-    
+
     event :mark_for_inspection do
       transition :under_repair => :ready_for_inspection
     end

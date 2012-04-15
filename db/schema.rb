@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120408043657) do
+ActiveRecord::Schema.define(:version => 20120415044639) do
 
   create_table "bikes", :force => true do |t|
     t.string   "color"
@@ -94,21 +94,25 @@ ActiveRecord::Schema.define(:version => 20120408043657) do
 
   add_index "project_categories", ["slug"], :name => "index_project_categories_on_slug"
 
+  create_table "project_detail_versions", :force => true do |t|
+    t.string   "item_type",  :null => false
+    t.integer  "item_id",    :null => false
+    t.string   "event",      :null => false
+    t.string   "whodunnit"
+    t.text     "object"
+    t.datetime "created_at"
+    t.string   "state"
+  end
+
+  add_index "project_detail_versions", ["item_type", "item_id", "state"], :name => "index_project_detail_versions_on_item_type_and_item_id_and_state"
+
   create_table "project_eab_details", :force => true do |t|
     t.integer  "proj_id"
     t.string   "proj_type"
     t.string   "state"
     t.string   "status_state"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "project_youth_details", :force => true do |t|
-    t.integer  "proj_id"
-    t.string   "proj_type"
-    t.string   "state"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   create_table "project_scrap_details", :force => true do |t|
@@ -116,6 +120,14 @@ ActiveRecord::Schema.define(:version => 20120408043657) do
     t.string   "proj_type"
     t.string   "state"
     t.string   "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "project_youth_details", :force => true do |t|
+    t.integer  "proj_id"
+    t.string   "proj_type"
+    t.string   "state"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -134,8 +146,8 @@ ActiveRecord::Schema.define(:version => 20120408043657) do
   end
 
   add_index "projects", ["label"], :name => "index_projects_on_label", :unique => true
-  add_index "projects", ["project_category_id"], :name => "index_projects_on_project_category_id"
   add_index "projects", ["prog_id"], :name => "index_projects_on_prog_id"
+  add_index "projects", ["project_category_id"], :name => "index_projects_on_project_category_id"
   add_index "projects", ["type"], :name => "index_projects_on_type"
 
   create_table "users", :force => true do |t|
@@ -155,5 +167,16 @@ ActiveRecord::Schema.define(:version => 20120408043657) do
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+
+  create_table "versions", :force => true do |t|
+    t.string   "item_type",  :null => false
+    t.integer  "item_id",    :null => false
+    t.string   "event",      :null => false
+    t.string   "whodunnit"
+    t.text     "object"
+    t.datetime "created_at"
+  end
+
+  add_index "versions", ["item_type", "item_id"], :name => "index_versions_on_item_type_and_item_id"
 
 end
