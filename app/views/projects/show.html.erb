@@ -7,10 +7,12 @@
 </dl>
 
 
-<h2>Project status: <%= project.detail.state.to_s.humanize.downcase %></h2>
+<% steps = project.detail.completion_steps %>
+<% if steps  %>
 
+<h2>Project status: <%= project.detail.state.to_s.humanize.downcase %></h2>
 <ul class="nav nav-tabs">
-  <% project.detail.completion_steps.each do |step| %>
+  <% steps.each do |step| %>
     <% if (project.detail.state_name == step) %>
     <li class="active">
     <% else %>
@@ -22,12 +24,12 @@
 </ul>
 
 <div class="tab-content">
-
-  <% project.detail.completion_steps.each do |step| %>
+  <% transitions = project.detail.transitions %>
+  <% steps.each do |step| %>
     <% on_active = (project.detail.state_name == step) %>
     <div class="tab-pane<%= ' active' if on_active %>" id="<%= step.to_s %>">
        <% if on_active %>
-       <%= render :partial=>'detail_form' %>
+         <%= render :partial=>'detail_form' %>
        <% elsif step == :done %>
          <% if project.open? %>
             <h3>Finish Project</h3>
@@ -44,13 +46,21 @@
 	     <% end %>
 	  <% end %>
        <% else %>
-	 <% ver = project.detail.state_versions(step).last %>
-	 <% if ver %>
-	   <p>Was <strong><%= step.to_s.humanize %></strong> on <%= ver.created_at %></p>
-	   <% if ver.previous %>
+         <% context = transitions[step.to_sym] %>
+	 <% if context[:origin] %>
+	   <p>
+	     Was <strong><%= context[:origin].state.to_s.humanize %></strong>
+	     on <%= context[:origin].created_at %>
+	   </p>
+
+	   <% if context[:from] %>
 	   <%  end %>
-	   <% if ver.next %>
-	   <p>Tranisitioned to <strong><%= ver.next.state.to_s.humanize %></strong> on <%= ver.next.created_at %></p>
+
+	   <% if context[:to] %>
+             <p>
+	       Tranisitioned to <strong><%= context[:to].state.to_s.humanize %></strong> 
+	       on <%= context[:to].created_at %>
+	     </p>
 	   <% end %>
 	 <% else %>
 	   <p>Project has not been <strong><%= step.to_s.humanize %></strong> yet.</p>
@@ -66,6 +76,7 @@
    
   </div>
 </div>
+<% end # if steps %>
 
 
 <hr />

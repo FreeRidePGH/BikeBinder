@@ -33,7 +33,7 @@ class ProjectDetail < ActiveRecord::Base
   end
 
   def completion_steps
-    if @steps.nil?
+    if @steps.nil? && !self.proj.terminal?
       # states = state_paths(:from => initial_state).to_states
       # states.insert(0, initial_state)
       states = self.class.state_machine.states.by_priority
@@ -51,9 +51,20 @@ class ProjectDetail < ActiveRecord::Base
     self.((e.to_s).constantize) if e
   end
 
-  def state_versions(state_sym)
-    str = (state_sym.is_a? String) ? state_sym : state_sym.to_s
-    self.versions.where{state == str}
+  # For every step, fetch the version that
+  # the previous and next steps were
+  # transitioned from and to, respectively.
+  def transitions()
+    steps = completion_steps
+
+    retval = {}
+    vref = self.versions.last
+
+    steps.each do |sname|
+      retval[sname.to_sym] = vref.transition_context(sname)
+    end
+
+    retval
   end
 
   # Make sure that only one detail record is made for a given project
