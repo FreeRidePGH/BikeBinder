@@ -31,7 +31,8 @@ class Bike < ActiveRecord::Base
   state_machine :location_state, :initial => :shop do
     after_transition (any - :departed) => :departed , :do => :depart_action
     after_transition :departed => (any-:departed), :do => :return_action
-    before_transition :hook => (any - :hook), :do => :vacate_hook_action
+    before_transition :hook => any, :do => :vacate_hook_action
+    before_transition any => :hook, :do => :get_hook_action
 
     event :depart do
       transition [:shop, :hook] => :departed
@@ -42,12 +43,12 @@ class Bike < ActiveRecord::Base
       transition [:departed,:offsite] => :shop 
     end
 
-    event :get_hook do
-      transition :shop => :hook, :if => :hook
+    event :reserve_hook do
+      transition :shop => :hook, :unless => :hook
     end
 
     event :vacate_hook do
-      transition :hook => :shop, :unless => :hook
+      transition :hook => :shop, :if => :hook
     end
 
     event :travel_offsite do
@@ -79,26 +80,6 @@ class Bike < ActiveRecord::Base
   
   def self.departed
     self.where{departed_at != nil}
-  end
-
-
-  def reserve_hook!(target_hook=nil)
-    if self.hook
-      return false
-    end
-
-    target_hook = Hook.next_available unless target_hook
-    
-    # Make sure there is a target hook
-    # There may not be ay available
-    unless target_hook
-      return false
-    end
-
-    self.hook = target_hook
-    self.save!
-
-    return true
   end
 
   def self.format_number(num)
@@ -140,11 +121,18 @@ class Bike < ActiveRecord::Base
 
   def vacate_hook_action
     h = self.hook
-    
+
     if h 
       h.bike = nil
       h.save
       return self.reload
     end
+  end
+
+  def get_hook_action(transition)
+    h = transition.args[0] if transition.args
+    hook = h if h.is_a? Hook
+    hook ||= Hook.next_available
+    self.hook = hook
   end
 end

@@ -1,8 +1,5 @@
 class BikesController < ApplicationController
   
-  before_filter :fetch_bike, 
-  :except => [:new, :create, :index]
-  
   # Fetch by:
   # * id or bike_id
   # Create by:
@@ -34,10 +31,17 @@ class BikesController < ApplicationController
     @commentable ||= bike
   end
 
+  before_filter :verify_bike, :except => [:new, :create, :index]
+
   def new
+    @title = "Add a new bike"
   end
 
   def create    
+    if bike.save
+      flash[:success] = "New bike was added."
+      redirect_to bike_path(bike) and return
+    end
     render :new
   end
 
@@ -77,14 +81,13 @@ class BikesController < ApplicationController
       redirect_to bike and return
     end
     
-    flash[:fail] = bike.errors.messages[0] if bike.errors
-    flash[:fail] = "Project is open" if (project and project.open?)
-    flash[:fail] = "No project designated" if project.nil?
+    flash[:error] = bike.errors.messages[0] if bike.errors
+    flash[:error] = "Project is open" if (project and project.open?)
+    flash[:error] = "No project designated" if project.nil?
 
     # render gives the chance to:
     #   close the project
     #   create a project
-    
     render 'depart'
   end
 
@@ -111,7 +114,7 @@ class BikesController < ApplicationController
   private
 
   # Helper method that redirects if a bike record is not found
-  def fetch_bike
+  def verify_bike
     if not bike_found?
       redirect_to bikes_path and return
     end

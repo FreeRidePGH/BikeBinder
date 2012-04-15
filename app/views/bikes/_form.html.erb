@@ -7,21 +7,18 @@
 <%= f.text_field :number, :value=>bike.number , :required => true %>
 
 
-
 <%= f.label :color %>
 <%= f.text_field :color , :required => true  %>
-
 
 
 <%= f.label :mfg, "Manufacturer" %>
 <%= f.text_field :mfg %>
 
 
-
 <%= f.label :model %>
 <%= f.text_field :model %>
 
-<%= button_tag "Update" ,  :class => "btn btn-primary" %>
+<%= f.submit "Update", :class => "btn btn-primary" %>
 
 </fieldset>
 

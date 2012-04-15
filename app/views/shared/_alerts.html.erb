@@ -1,0 +1,21 @@
+<% flash.each do |key, value| %>
+  <div class="alert alert-<%= key %>">
+  <% if value.is_a? Hash %>
+    <p><%= value.delete :description %></p>
+    <ul>
+    <% value.each do |k, val| %>
+       <%= content_tag(:li, val) %>
+    <% end %>
+    </ul>
+  <% elsif value.is_a? Array %>
+     <p><%= value.delete_at(0)  %></p>
+     <ol>
+     <% value.each do |val| %>
+       <%= content_tag(:li, val) %>
+     <% end %>
+     </ol>
+  <% else %>
+    <%= value %>
+  <% end %>
+  </div>
+<% end %>

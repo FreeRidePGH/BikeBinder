@@ -14,7 +14,7 @@ class ProjectsController < ApplicationController
   expose(:bike) do
     id ||= params[:id] unless params[:id].blank?
     id ||= params[:bike_id] unless params[:bike_id].blank?
-    @b ||= Bike.find_by_number(id) if id
+    @b ||= (Bike.find_by_number(id) if id)
   end
 
   # Fetch by:
@@ -43,8 +43,13 @@ class ProjectsController < ApplicationController
   def create
     if project and project.assign_to(params)
       if project.save
-        flash = {:success => "New project was started."}
-        redirect_to project_path(project) and return
+        flash[:success] = "Bike was assigned to #{project.prog.title}"
+        
+        if project.terminal?
+          redirect_to project.bike and return
+        else
+          redirect_to project_path(project) and return
+        end
       end
     end
 
@@ -56,13 +61,38 @@ class ProjectsController < ApplicationController
     render 'show'
   end
 
+  def transition
+    prefix = project.type.downcase.gsub("::", "_")
+    proj_key = prefix.to_sym
+    details_key = "#{prefix}_detail".to_sym
+
+    # Call the detail event
+    if params[details_key]
+      detail_event = params[details_key][:state_events]
+      if detail_event
+        project.detail.fire_state_event(detail_event)
+      end
+    end
+
+    # Call the project event with parameters
+    if params[proj_key]
+      proj_event = params[proj_key][:state_events]
+      if proj_event
+        opts = params[proj_key][:event_args]
+        project.send(proj_event, opts)
+      end
+    end
+
+    redirect_to project_path(project) and return
+  end
+
   def destroy
     if project and project.cancel
       flash[:success] = "Project was canceled for bike #{bike.number}."
       redirect_to bike_path(bike) and return
     end
     
-    flash[:failure] = "Project could not be found or canceled."
+    flash[:error] = "Project could not be found or canceled."
     render 'show'
   end
 

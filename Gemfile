@@ -17,6 +17,7 @@ gem 'squeel'
 
 gem 'state_machine'
 gem 'ruby-graphviz', :require => 'graphviz'
+gem 'state_machine-audit_trail'
 
 # Gems used only for assets and not required
 # in production environments by default.

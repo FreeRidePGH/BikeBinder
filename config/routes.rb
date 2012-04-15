@@ -10,6 +10,7 @@ BikeBinder::Application.routes.draw do
       post 'new_comment'
       get 'finish'
       put 'close'
+      put 'transition'
     end
   end
 

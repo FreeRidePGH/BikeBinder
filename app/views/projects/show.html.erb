@@ -1,5 +1,5 @@
 <section class="row span8">
-<h1>Projects#show</h1>
+<h1>Project info</h1>
 
 <dl>
   <dt>Bike</dt><dd><%= link_to project.bike.number, bike_path(bike) %></dd>
@@ -7,20 +7,58 @@
 </dl>
 
 
-<h2>Project activity</h2>
-<% if project.open? %>
-<h3>Update project status</h3>
-<%= render :partial=>'detail_form' %>
+<h2>Project status</h2>
 
-<h3>Finish Project</h3>
-<%= form_for(project, :url=>project_path) do |f| %>
-<%= hidden_field_tag(:state_events, "close_and_depart") %>
-<%= f.submit "Close and depart" %>
+<ul class="nav nav-tabs">
+  <% project.detail.completion_steps.each do |step| %>
+    <% if (project.detail.state_name == step) %>
+    <li class="active">
+    <% else %>
+    <li>
+    <% end %>
+      <a data-toggle="tab" href="#<%= step.to_s %>"><%= step.to_s.humanize %></a>
+    </li>
+  <% end %>
+</ul>
+
+<div class="tab-content">
+
+  <% project.detail.completion_steps.each do |step| %>
+    <% on_active = (project.detail.state_name == step) %>
+    <div class="tab-pane<%= ' active' if on_active %>" id="<%= step.to_s %>">
+       <% if on_active %>
+       <%= render :partial=>'detail_form' %>
+       <% elsif step == :done %>
+          <h3>Finish Project</h3>
+	  <%= form_for(project, :url=>transition_project_path) do |f| %>
+            <%= f.hidden_field(:state_events, :value => "close") %>
+	    <%= f.submit "Close project" %>
+	  <% end %>
+       <% else %>
+         <%= step.to_s.humanize %>
+       <% end %>
+
+       
+    </div>
+
+  <% end %>
+
+  <div class="tab-pane" id="done">
+   
+  </div>
+</div>
+
+
+<% if project.closed? %>
+  <p>Project is closed</p>
+  <%= form_for(project, :url=>transition_project_path) do |f| %>
+    <%= f.hidden_field :state_events, :value=>project.state_events.first.to_s %>
+    <%= f.submit "Reopen" %>
+  <% end %>
 <% end %>
 
-<% else %>
-<p>Project is closed</p>
-<% end %>
+<hr />
+
 
 <h2><%= pluralize(project.comment_threads.length, 'Note') %></h2>
 <%= render :partial=>"comments/index", :locals=>{:comments => project.comment_threads} %>

@@ -6,5 +6,11 @@ module ApplicationHelper
 
 
   end
+
+  def render_flash_messages
+    flash.each do |key, value|
+      content_tag(:div, value, :class=>"alert alert-#{key}")
+    end
+  end
   
 end

@@ -74,8 +74,7 @@ namespace :db do
 	ok = new_proj.save if new_proj.assign_to(opts)
         
         if rand(4)<1
-          new_proj.close
-          bike.depart
+          new_proj.close(:depart=>true)
         end
       end
       

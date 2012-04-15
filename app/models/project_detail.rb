@@ -15,6 +15,35 @@ class ProjectDetail < ActiveRecord::Base
     nil
   end
 
+  def initial_state
+    if @init_state
+      return @init_state
+    end
+
+    states = self.class.state_machine.states
+    states.each do |s|
+      if s.initial?
+        @init_state = s.name
+        return @init_state
+      end
+    end
+  end
+
+  def completion_steps
+    if @steps.nil?
+      # states = state_paths(:from => initial_state).to_states
+      # states.insert(0, initial_state)
+      states = self.class.state_machine.states.by_priority
+      
+      @steps = []
+
+      states.each do |s|
+        @steps.push s.name
+      end
+    end
+    return @steps
+  end
+
   def send_event(e=nil)
     self.((e.to_s).constantize) if e
   end

@@ -67,9 +67,9 @@ class ApplicationController < ActionController::Base
         flash[:success] = "Thank you for your comment"
       else
         # Failed save
-        flash[:error] = "Could not add your comment."
+        flash[:error] = {:description => "Could not add your comment."}
         comment.errors.each do |key,val|
-          flash[("message_#{key.to_s}").to_sym]= "#{key.upcase.to_s} #{val}"
+          flash[:error][("message_#{key.to_s}").to_sym]= "#{key.upcase.to_s} #{val}"
         end
       end
     end

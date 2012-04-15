@@ -13,6 +13,7 @@
 #
 
 class Project < ActiveRecord::Base
+
   extend FriendlyId
   friendly_id :label
 
@@ -32,7 +33,7 @@ class Project < ActiveRecord::Base
     event :close do
       transition :open => :closed
     end
-
+    
     event :cancel do
       transition :open => :trash
     end
@@ -67,11 +68,6 @@ class Project < ActiveRecord::Base
 
   attr_accessible nil
 
-  def close_and_depart
-    self.close
-    self.bike.depart if bike
-  end
-
   def self.open
     self.where{closed_at == nil}
   end
@@ -104,16 +100,51 @@ class Project < ActiveRecord::Base
 
   validates_presence_of :type
 
+  def close_and_depart
+    self.close
+    self.bike.depart if self.bike    
+  end
+
+  # Indicate if the project always
+  # goes to the closed state
+  # 
+  def self.terminal?
+    false
+  end
+
+  def terminal?
+    self.class.terminal?
+  end
+
+  # Specify if a project type is automatically
+  # set to the closed state when first created
+  # (Effectively, stateless projects, like
+  # scrap or sales)
+  after_initialize :close_and_depart, :if => :terminal?
+
   private
 
-  def close_action
-    self.closed_at = Time.now
-    self.save
+  def close_action(transition)
+    h = transition.args[0] if transition.args
+    proj = transition.object
+
+    remain = proj.bike.nil?
+    if h 
+      without_depart ||= ActiveRecord::ConnectionAdapters::Column.value_to_boolean(h[:remain])
+    end
+    depart = !remain
+
+    if depart
+      proj.bike.depart
+    end
+    
+    proj.closed_at = Time.now
+    proj.save
   end
 
   def open_action
     self.closed_at = nil
     self.save
   end
-  
+
 end
