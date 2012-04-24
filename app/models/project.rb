@@ -130,7 +130,7 @@ class Project < ActiveRecord::Base
 
     remain = proj.bike.nil?
     if h 
-      without_depart ||= ActiveRecord::ConnectionAdapters::Column.value_to_boolean(h[:remain])
+      remain ||= ActiveRecord::ConnectionAdapters::Column.value_to_boolean(h[:remain])
     end
     depart = !remain
 

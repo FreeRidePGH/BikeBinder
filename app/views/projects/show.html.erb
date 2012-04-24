@@ -28,9 +28,7 @@
   <% steps.each do |step| %>
     <% on_active = (project.detail.state_name == step) %>
     <div class="tab-pane<%= ' active' if on_active %>" id="<%= step.to_s %>">
-       <% if on_active %>
-         <%= render :partial=>'detail_form' %>
-       <% elsif step == :done %>
+       <% if step == :done %>
          <% if project.open? %>
             <h3>Finish Project</h3>
   	    <%= form_for(project, :url=>transition_project_path) do |f| %>
@@ -45,6 +43,8 @@
 	       <%= f.submit "Reopen" %>
 	     <% end %>
 	  <% end %>
+       <% elsif on_active %>
+         <%= render :partial=>'detail_form' %>
        <% else %>
          <% context = transitions[step.to_sym] %>
 	 <% if context[:origin] %>

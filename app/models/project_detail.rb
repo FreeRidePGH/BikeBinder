@@ -47,10 +47,6 @@ class ProjectDetail < ActiveRecord::Base
     return @steps
   end
 
-  def send_event(e=nil)
-    self.((e.to_s).constantize) if e
-  end
-
   # For every step, fetch the version that
   # the previous and next steps were
   # transitioned from and to, respectively.
@@ -69,11 +65,4 @@ class ProjectDetail < ActiveRecord::Base
 
   # Make sure that only one detail record is made for a given project
   validates_uniqueness_of :proj_id, :allow_nil => :false
-end
-
-
-class ProjectDetailVersion < Version
-  self.table_name = :project_detail_versions
-  
-  attr_accessible :state
 end

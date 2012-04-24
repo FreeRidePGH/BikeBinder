@@ -6,7 +6,7 @@ class BikesController < ApplicationController
   # Bike.new
   expose(:bike) do
     @bike ||= Bike.find_by_number(params[:id]||params[:bike_id])
-    @bike ||= Bike.new(params[:bike])
+    @bike ||= Bike.new(bike_params)
   end
   # Fetch by:
   # Array of single bike when bike is found & fetched
@@ -118,6 +118,13 @@ class BikesController < ApplicationController
     if not bike_found?
       redirect_to bikes_path and return
     end
+  end
+
+  # Project from mass assignment
+  # See https://gist.github.com/1975644
+  # http://rubysource.com/rails-mass-assignment-issue-a-php-perspective/
+  def bike_params
+    params[:bike].slice(:color, :value, :seat_tube_height, :top_tube_length, :mfg, :model, :number) if params[:bike]
   end
 
 end

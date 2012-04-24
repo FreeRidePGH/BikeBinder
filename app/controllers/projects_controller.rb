@@ -23,7 +23,7 @@ class ProjectsController < ApplicationController
   # category association when category is fetched
   expose(:project) do
     @proj ||= (bike.project if bike)
-    @proj ||= (category.project_class.new(params[:project]) if category)
+    @proj ||= (category.project_class.new(project_params) if category)
   end
 
   # Exposed to speciy object to build new comments on
@@ -94,6 +94,12 @@ class ProjectsController < ApplicationController
     
     flash[:error] = "Project could not be found or canceled."
     render 'show'
+  end
+
+  private
+
+  def project_params
+    params[:project].slice() if params[:project]
   end
 
 end
