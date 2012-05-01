@@ -1,3 +1,10 @@
-// Place all the styles related to the Projects controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+table.project th{
+	      text-align: left;
+    border-bottom: solid 2px #a8a8a8;
+    background: #fff;
+    /* border-right: solid 3px #a8a8a8; */
+}
+table.project tr td {
+padding: 5px;
+	 margin: 5px;
+}

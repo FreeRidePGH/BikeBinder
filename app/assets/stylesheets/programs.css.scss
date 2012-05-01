@@ -1,3 +1,17 @@
-// Place all the styles related to the Programs controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+
+table.programs th{
+    border-bottom: solid 2px #a8a8a8;
+    background: #fff;
+    text-align: left;
+}
+table.programs th:first-child {
+
+}
+section.programs p {
+    clear: left;
+    display: block;
+}
+
+#newProgram {
+    margin: 1em;
+}

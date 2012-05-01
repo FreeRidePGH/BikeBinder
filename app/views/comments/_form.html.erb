@@ -1,8 +1,9 @@
 <!-- http://stackoverflow.com/questions/6393464/form-for-nested-resource -->
+
 <%= form_for(comment, :url=> url) do |f| %>
-<%= f.label :body, "Add a note:" %><br />
-<%= f.text_area :body,  :cols=>80, :rows=>10 , :required => true %> 
-<div class="actions">
+<%= f.label :body, "Add a note:" %>
+<!-- adding a max length for now to prevent overflow -->
+<%= f.text_area :body,  :cols=>80, :rows=>10 , :required => true, :maxlength => 200 %>
 <%= button_tag "Submit note", :class=> "btn btn-primary" %>
-</div>
 <% end %>
+
