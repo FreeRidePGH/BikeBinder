@@ -84,6 +84,11 @@ namespace :db do
   
   desc "Fill database with fake Bikes"
   task :populate_bikes => :environment do
+
+    require File.dirname(__FILE__)+'/bike_data'
+   
+    n_options = mfgr.length
+
     color = ['Red',
              'Yellow',
              'Blue',
@@ -97,8 +102,15 @@ namespace :db do
       val = rand(120-50)+50
       sh = rand(25-14)+14
       tl = sh+0.5
-      manufacturer = Faker::Company.name
-      fake_model = Faker::Company.bs
+
+      n_bike_info = rand(n_options)
+
+      #manufacturer = Faker::Company.name
+      #fake_model = Faker::Company.bs
+
+      manufacturer = mfgr[n_bike_info]
+      fake_model = model[n_bike_info]
+
       b = Bike.create!(
                        :color=>c,
                        :seat_tube_height=>sh, 
