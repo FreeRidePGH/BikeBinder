@@ -94,6 +94,12 @@ class Project < ActiveRecord::Base
     (bike.nil?) ? type+id.to_s  : bike.number
   end
 
+  # When the project is in the middle of a process
+  # this hash provides paramaters to resume that process
+  def process_hash
+    h |= detail.process_hash if detalrespond_to? :process_hash
+  end
+
   def category_name
     prog.project_category.name
   end

@@ -83,7 +83,11 @@ class ProjectsController < ApplicationController
       end
     end
 
-    redirect_to project_path(project) and return
+    if project.process_hash
+      redirect_to project.process_hash and return
+    else
+      redirect_to project_path(project) and return
+    end
   end
 
   def destroy

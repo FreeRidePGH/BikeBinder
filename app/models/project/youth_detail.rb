@@ -2,17 +2,30 @@ class Project::YouthDetail < ProjectDetail
   state_machine :initial => :under_repair do
 
     after_transition (any-:done) => :done, :do => "proj.close"
+    after_transition (any-:inspected) => :inspected, :do => :start_inspection_action
 
     event :mark_for_inspection do
-      transition :under_repair => :ready_for_inspection
+      transition :under_repair => :ready_to_inspect
+    end
+
+    event :start_inspection do
+      transition :ready_to_inspect => :inspected
+    end
+
+    event :resume_inspection do
+      transition :inspected => :inspected
     end
 
     event :pass_inspection do
-      transition :ready_for_inspection => :ready_for_program, :if => :pass_inspection?
+      transition :inspected => :ready_for_program, :if => :pass_inspection?
     end
 
     event :fail_inspection do
-      transition [:ready_for_inspection, :ready_for_program] => :under_repair
+      transition [:inspected, :ready_for_program] => :under_repair, :if => :fail_inspection?
+    end
+
+    event :reinspect do
+      transition [:ready_for_program, :class_material] => :inspected
     end
 
     event :select_for_class do
@@ -28,7 +41,15 @@ class Project::YouthDetail < ProjectDetail
     end
 
     state :under_repair
-    state :ready_for_inspection
+    state :ready_to_inspect
+    state :inspected do
+      def process_hash
+        
+        h = {:controller => :surveyor, :action => :edit} 
+          #:survey_code => self.class.inspection_survey_code,
+          #:response_set_code => self.inspection_access_code}
+      end
+    end
     state :ready_for_program
     state :class_material
     state :done
@@ -40,7 +61,31 @@ class Project::YouthDetail < ProjectDetail
   end
 
   def pass_inspection?
+    # Inspection is complete and all checks pass
     true
   end
+
+  def fail_inspection?
+    # Inspection is complete but not all checks pass
+    true
+  end
+
+  def inspection
+    # Return the response set code for the current inspection?
+    # Or just return the response set object
+    ResponseSet.find_by_access_code(self.inspection_access_code)
+  end
+
+  private
+  
+  def self.inspection_survey_code
+    Survey.first.access_code
+  end
+
+  def start_inspection_action
+    # Create an inspection questionaire and assign to this project
+    
+  end
+
 
 end
