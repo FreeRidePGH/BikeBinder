@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120503052836) do
+ActiveRecord::Schema.define(:version => 20120506063455) do
 
   create_table "answers", :force => true do |t|
     t.integer  "question_id"
@@ -176,8 +176,9 @@ ActiveRecord::Schema.define(:version => 20120503052836) do
     t.integer  "proj_id"
     t.string   "proj_type"
     t.string   "state"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
+    t.string   "inspection_access_code"
   end
 
   create_table "projects", :force => true do |t|

@@ -63,6 +63,12 @@ class ProjectDetail < ActiveRecord::Base
     retval
   end
 
+  # method definition to allow superclass call
+  # as needed by state machine
+  def process_hash
+    nil
+  end
+
   # Make sure that only one detail record is made for a given project
   validates_uniqueness_of :proj_id, :allow_nil => :false
 end

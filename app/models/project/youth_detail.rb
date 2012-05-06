@@ -1,4 +1,6 @@
 class Project::YouthDetail < ProjectDetail
+  INSPECTION_TITLE = "Bike Overhaul Inspection"
+
   state_machine :initial => :under_repair do
 
     after_transition (any-:done) => :done, :do => "proj.close"
@@ -44,10 +46,9 @@ class Project::YouthDetail < ProjectDetail
     state :ready_to_inspect
     state :inspected do
       def process_hash
-        
-        h = {:controller => :surveyor, :action => :edit} 
-          #:survey_code => self.class.inspection_survey_code,
-          #:response_set_code => self.inspection_access_code}
+        h = {:controller => :surveyor, :action => :edit,
+          :survey_code => self.class.inspection_survey_code,
+          :response_set_code => self.inspection_access_code}
       end
     end
     state :ready_for_program
@@ -79,13 +80,27 @@ class Project::YouthDetail < ProjectDetail
   private
   
   def self.inspection_survey_code
-    Survey.first.access_code
+    survey = SurveyorHelper.find(INSPECTION_TITLE)
+    survey.access_code if survey
   end
 
   def start_inspection_action
-    # Create an inspection questionaire and assign to this project
+    # Find the right survey to use
+    @survey = SurveyorHelper.find(INSPECTION_TITLE)
+    
+    if @survey
+      # Build the response set
+      @response_set = ResponseSet.create(:survey => @survey, 
+                                       :user_id => (@current_user.nil? ? @current_user : @current_user.id))
+      if @response_set
+        # Assign to this project
+        self.inspection_access_code = @response_set.access_code
+        self.save
+      end
+    end
+
+    # Error and stop transition if the inspection can not be made?
     
   end
-
 
 end

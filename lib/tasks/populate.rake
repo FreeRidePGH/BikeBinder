@@ -12,7 +12,11 @@ namespace :db do
     Rake::Task['db:populate_programs'].invoke
 	
     Rake::Task['db:populate_bikes'].invoke
-    Rake::Task['db:populate_projects'].invoke	
+    Rake::Task['db:populate_projects'].invoke
+
+    # Pass rake argument using ENV hash
+    ENV['FILE'] = 'surveys/bike_overhaul_inspection.rb'
+    Rake::Task['surveyor'].invoke
   end
 	  
   desc "Fill database with initial Hooks"
@@ -97,7 +101,7 @@ namespace :db do
              'Orange', 
              'White', 
              'Silver']
-    20.times do |n|
+    30.times do |n|
       c = color[rand(color.size)]
       val = rand(120-50)+50
       sh = rand(25-14)+14

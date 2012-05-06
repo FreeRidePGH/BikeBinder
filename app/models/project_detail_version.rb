@@ -16,15 +16,6 @@ class ProjectDetailVersion < Version
     latest = nil
 
     if v
-      # Find the first version that was in this state
-      if false
-        v.each do |ver|
-          if(origin.nil? || origin.created_at.to_f>ver.created_at.to_f)
-            origin = ver
-          end
-        end
-      end
-
       # Find the latest version that was in this state
       v.reverse.each do |ver|
         if (latest.nil? || latest.created_at.to_f<ver.created_at.to_f)
@@ -50,8 +41,6 @@ class ProjectDetailVersion < Version
       end # if latest
     end # if v
 
-
-
     retval[:origin] = origin
     retval[:from] = origin.previous if origin
 
@@ -59,6 +48,7 @@ class ProjectDetailVersion < Version
     retval[:to] = latest.next if latest
 
     retval
+
   end
 
   def transition_context(state=self.state)
@@ -69,7 +59,7 @@ class ProjectDetailVersion < Version
   def state_versions(state_sym)
     obj = self.reify
     if obj
-      obj.versions.where{state == state_sym.to_s}
+      obj.versions.where(:state => state_sym.to_s)
     end
   end
 end
