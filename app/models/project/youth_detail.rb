@@ -80,13 +80,13 @@ class Project::YouthDetail < ProjectDetail
   private
   
   def self.inspection_survey_code
-    survey = SurveyorHelper.find(INSPECTION_TITLE)
+    survey = SurveyorUtil.find(INSPECTION_TITLE)
     survey.access_code if survey
   end
 
   def start_inspection_action
     # Find the right survey to use
-    @survey = SurveyorHelper.find(INSPECTION_TITLE)
+    @survey = SurveyorUtil.find(INSPECTION_TITLE)
     
     if @survey
       # Build the response set
