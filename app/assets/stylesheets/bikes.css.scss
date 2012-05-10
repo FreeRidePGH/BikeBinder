@@ -1,8 +1,12 @@
 table.bikes th{
-    border-bottom: solid 2px #a8a8a8;
+    border-bottom: solid 2px #999;
     background: #fff;
-    /* border-right: solid 3px #a8a8a8; */
 }
 table.bikes th:first-child {
     width: 70px;
+}
+
+.bikesMeta {
+    margin-top: 40px;
+    
 }

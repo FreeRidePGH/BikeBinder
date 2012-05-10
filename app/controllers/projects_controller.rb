@@ -32,12 +32,19 @@ class ProjectsController < ApplicationController
   end
 
   def index
+    @title = "Projects#index"
   end
 
   def show
+    if project.closed? 
+      @title = "Project details (Closed)"
+    else 
+      @title =  "Project details"
+    end
   end
 
   def new
+    @title = "Create new project"
   end
 
   def create

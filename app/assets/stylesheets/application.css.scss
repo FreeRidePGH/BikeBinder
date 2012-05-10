@@ -1,0 +1,75 @@
+/*
+ * This is a manifest file that'll automatically include all the stylesheets available in this directory
+ * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
+ * the top of the compiled file, but it's generally better to create a new file per style scope.
+ *= require_self
+ *= require_tree . 
+*/
+/* header provides a common label to rest above each part of the site */
+
+header {
+
+     border-bottom-width:2px;
+     border-bottom-style:solid;
+     border-color: #333;
+     margin: 1.5em 0 1em 0;
+     h1 {
+	 color: #333;
+	 margin-bottom: .25em;
+     }
+
+}
+section#alerts {
+    padding: .25em;
+    clear: both;
+    height: 50px;
+}
+#shared_menu {
+    float: right;
+    border-color: gray;
+    border-width: 1px;
+    border-style: solid;
+    ul {
+	list-style-type: none; 
+	margin: .25em;
+    }
+}
+#shared_menu li {
+    padding: .25em;
+
+} 
+#shared_menu p {
+    text-align: center;
+
+
+}
+
+/* sitewide table legibility style */ 
+table tr:nth-child(2n+1) {
+    background: #f1f1f1;
+
+}
+input[type="submit"],
+button[type="submit"] {
+    display: block;
+}
+div.comments {
+    margin-bottom: 5px;
+    /* contains the user and date information associated with the comment */
+    span {
+	border-bottom-color: #333;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	margin: 2px;
+	padding: 2px;
+    }
+
+    p {
+	padding: 5px;
+	word-wrap: break-word;
+    }
+
+}
+footer {
+    margin-top: 40px;
+}

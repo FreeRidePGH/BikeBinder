@@ -50,7 +50,7 @@ class BikesController < ApplicationController
   end
 
   def index
-    @title = "Bikes Index"
+    @title = "Bikes#Index"
   end
 
   def edit

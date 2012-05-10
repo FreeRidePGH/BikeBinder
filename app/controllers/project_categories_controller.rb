@@ -12,6 +12,7 @@ class ProjectCategoriesController < ApplicationController
   end
 
   def show
+    @title = category.name + " Project Category"
     if category.nil? then redirect_to root_path and return end
   end
 

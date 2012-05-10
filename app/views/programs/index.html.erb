@@ -1,10 +1,12 @@
-<section class="row span8">
+<section class="row span8 programs">
 
-<h1>Programs#index</h1>
 
 <%= render :partial=>"program_table", :layout =>"program_table_layout" %>
 
-<p><%= link_to "Start a new program", new_program_path %></p>
+<!-- this should be a button and probably should go in the menu action area -->
+<%= link_to "Start a new program", new_program_path, :class => "btn btn-primary", :id=> "newProgram" %>
+
+
 
 <p>Find me in app/views/programs/index.html.erb</p>
 
