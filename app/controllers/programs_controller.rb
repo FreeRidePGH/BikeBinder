@@ -7,8 +7,8 @@ class ProgramsController < ApplicationController
 
   expose(:program) do
     @prog ||= (Program.find(params[:id]) if params[:id])
-    @prog ||= (category.programs.build(params[:program]) if category)
-    @prog ||= Program.new(params[:program])
+    @prog ||= (category.programs.build(program_params) if category)
+    @prog ||= Program.new(program_params)
   end
 
   # Scope projects by
@@ -46,6 +46,12 @@ class ProgramsController < ApplicationController
   end
 
   def update
+  end
+
+  private
+
+  def program_params
+    params[:program].slice(:title, :max_total, :max_open) if params[:program]
   end
 
 end

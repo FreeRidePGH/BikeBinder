@@ -9,7 +9,7 @@ Reproduce all functionality that exists with the current paper binder system.
 
 Take the following actions to get a cloned/pulled version to run locally
 
-* rename "config/database.yml.sample" do "config/database.yml"
+* rename "config/database.yml.sample" to "config/database.yml"
 * run "bundle install"
 * run "rake db:populate"
 
