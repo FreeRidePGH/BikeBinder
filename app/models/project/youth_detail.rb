@@ -1,4 +1,5 @@
 class Project::YouthDetail < ProjectDetail
+  
   INSPECTION_TITLE = "Bike Overhaul Inspection"
 
   state_machine :initial => :under_repair do
@@ -70,11 +71,12 @@ class Project::YouthDetail < ProjectDetail
     # Inspection is complete but not all checks pass
     true
   end
-
+  
   def inspection
     # Return the response set code for the current inspection?
     # Or just return the response set object
-    ResponseSet.find_by_access_code(self.inspection_access_code)
+    #ResponseSet.find_by_access_code(self.inspection_access_code)
+    proj.bike.inspection
   end
 
   private
@@ -95,6 +97,7 @@ class Project::YouthDetail < ProjectDetail
       if @response_set
         # Assign to this project
         self.inspection_access_code = @response_set.access_code
+        self.proj.bike.inspection = @respoinse_set
         self.save
       end
     end
