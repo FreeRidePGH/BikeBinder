@@ -2,7 +2,7 @@ class ResponseSet < ActiveRecord::Base
   include Surveyor::Models::ResponseSetMethods
 
   # Polymorphic association with bike/project/generic object
-  has_one :subject, :as => :survey_response
+  belongs_to :surveyable, :polymorphic => true
 
   def title
     # Call surveyable.to_param to get friendly ID/Slug
