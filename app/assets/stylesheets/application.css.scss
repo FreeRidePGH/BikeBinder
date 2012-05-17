@@ -3,7 +3,7 @@
  * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
  * the top of the compiled file, but it's generally better to create a new file per style scope.
  *= require_self
- *= require_tree . 
+ * removeded require_tree based on solving problem http://stackoverflow.com/questions/7462661/sprocketscirculardependencyerror-in-storeindex
 */
 /* header provides a common label to rest above each part of the site */
 
