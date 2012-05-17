@@ -5,22 +5,22 @@ gem 'rails', '3.2.0'
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
-gem 'therubyracer'
+gem 'sqlite3', '~>1.3.6'
+gem 'therubyracer', '~>0.10.1'
 
-gem 'devise'
-gem 'acts_as_commentable_with_threading'
+gem 'devise', '~>2.1.0'
+gem 'acts_as_commentable_with_threading', '1.1.2'
 
-gem 'friendly_id'
-gem 'decent_exposure'
-gem 'squeel'
+gem 'friendly_id', '~>4.0.5'
+gem 'decent_exposure', '~>1.0.2'
+gem 'squeel', '~>1.0.1'
 
-gem 'state_machine'
-gem 'ruby-graphviz', :require => 'graphviz'
+gem 'state_machine', '1.1.2'
+gem 'ruby-graphviz','~>1.0.5', :require => 'graphviz'
 
 gem 'paper_trail', '~>2'
 
-gem 'surveyor'
+gem 'surveyor', '~>0.22.0'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -30,7 +30,7 @@ group :assets do
   gem 'uglifier', ">= 1.0.3"
 end
 
-gem 'jquery-rails'
+gem 'jquery-rails', '~>2'
 
 # Use unicorn as the web server
 # gem 'unicorn'
@@ -44,13 +44,13 @@ gem 'jquery-rails'
 group :test do
   # Pretty printed test output
   gem 'turn', :require => false
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~>2'
   gem 'webrat'
 end
 
 group :development do
   gem 'annotate', '~> 2.4.1.beta'
-  gem 'faker'
-  gem 'railroady'
-  gem 'rspec-rails'
+  gem 'faker', '~>1'
+  gem 'railroady', '~>1'
+  gem 'rspec-rails', '~>2'
 end
