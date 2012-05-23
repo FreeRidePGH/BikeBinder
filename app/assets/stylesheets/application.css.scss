@@ -6,7 +6,10 @@
  *= require_tree . 
 */
 /* header provides a common label to rest above each part of the site */
-
+a.editLink {
+    font-size: 14px;
+    font-family: Helvetica Neue, sans-serif;
+}
 header {
 
      border-bottom-width:2px;
@@ -16,6 +19,7 @@ header {
      h1 {
 	 color: #333;
 	 margin-bottom: .25em;
+	 float: left;
      }
 
 }
@@ -23,8 +27,13 @@ section#alerts {
     padding: .25em;
     clear: both;
     height: 50px;
+    p {
+	margin: .15em;
+    }
 }
 #shared_menu {
+    border-radius: 5px;
+    box-shadow: -1px 1px 1px #999;
     float: right;
     border-color: gray;
     border-width: 1px;
@@ -55,6 +64,7 @@ button[type="submit"] {
 }
 div.comments {
     margin-bottom: 5px;
+    float: left;
     /* contains the user and date information associated with the comment */
     span {
 	border-bottom-color: #333;

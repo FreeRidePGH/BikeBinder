@@ -5,12 +5,18 @@
   <%= stylesheet_link_tag    "application" %>
   <!-- lets get Bootstrapping -->
   <%= stylesheet_link_tag    "bootstrap" %>
-
+  <!-- for color picker, eventually reduce the need for only bike pages -->
+  <%= stylesheet_link_tag    "jquery.miniColors.css" %>
 
 
   <%= javascript_include_tag "application" %>
   <%= javascript_include_tag :defaults %>
+  <%= javascript_include_tag "jquery.miniColors.js" %>
   <%= csrf_meta_tags %>
+  <%= favicon_link_tag '/assets/images/bikewheel.ico' %>
+  <%= favicon_link_tag %>
+
+
 </head>
 <body>
   <div class="container">

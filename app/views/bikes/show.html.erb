@@ -1,76 +1,107 @@
-<section class="row span8">
-
-<h3 class="span8"><%= link_to "Bike Information", edit_bike_path(bike),   :title => "Edit this bike's information" %> <i class="icon-edit"></i></h3>
-
-<%= render :partial=>"bike_table", :layout=>"bike_table_layout" %>
-
-<section class="bikesMeta span8">
-<div class="span2">
-<h3>Location</h3>
-
-<% if bike.departed? %>
-<p>Bike has departed.</p>
-<% else %>
-  <% if bike.hook %>
-	<p>Bike <%= bike.number %> is on hook: <%= bike.hook.number %>.</p>
-	<%= form_for(hook, :url => vacate_hook_bike_path(bike), :method=>:put) do |f| %>
-	<%= f.submit "Free hook" ,  :class => "btn btn-primary", :title=>"Choose Free Hook to remove this bike from its hook" %>
-	<% end %>
-  <% else %>
-	<p>No location is assigned to bike <%= bike.number %>.</p>
-	<% if hook %>
-	<%= form_for(hook, :url => reserve_hook_bike_path(bike), :method=>:put) do |f| %>
-	<%= label_tag(:hook_id, "Select an available hook:") %>
-	<%= select_tag(:hook_id, options_from_collection_for_select(Hook.available, :id, :number)) %>
-	<%= f.submit "Reserve hook", :class=>"btn btn-primary" %>
-
-	<% end %>
-	<% else %>
-	<p>No hooks are available.</p>
-	<% end %>
-  <% end %>
-<% end %>
-</div> <!-- end of location wrapper -->
-<div class="span3">
-<h3>Project Info</h3>
-<% if bike.project %>
-<p>This bike is currently a <%= bike.project.category_name %> project</p>
-<p><%= link_to "View project details", project_path(bike.project) %>
-<% elsif bike.available? %>
-  <p>This bike is available</p>
-  <%= form_for(project, :url => projects_path, :method => :post) do |f| %>
-  <%= hidden_field_tag(:bike_id, bike.id) %>
-  <%= select_tag(:program_id, options_from_collection_for_select(Program.all, :id, :title)) %>
-  <%= f.submit "Start project" %>
-  <% end %>
-
-<% else %>
-<p>Bike is unavailable.</p>
-
-<% end %>
-</div> <!-- end of proj info wrapper -->
-
-<div class="span2">
-  <h3>Departure Info</h3>
-  <% if bike.departed? %>
-  Departed on <%= bike.departed_at.strftime('%d %B %y') %>
-  <% else %>
-
-  <% strBtnText=(bike.project)?"Close project and send away" : "Send away" %>
-  <%= form_for(bike, :url=>send_away_bike_path(bike), :method => :put) do |f| %>
-  <%= f.submit strBtnText, :class=>"btn btn-primary" %>
-  <% end %>
+<section class="row span9">
 
 
-  <% end %>
-</div> <!-- end of depart info wrapper -->
 
-</section> <!-- end of bikes meta -->
-<section class="row span8">
-  <h3><%= pluralize(bike.comment_threads.length, 'Note') %></h3>
-  <%= render :partial=>"comments/index", :locals=>{:comments => bike.comment_threads} %>
-  <%= render :partial=>"comments/form", :locals=>{:url => new_comment_bike_path(bike)} %>
-</section> <!-- end of notes wrapper -->
+  <section id="bikeInfo" class="span4">
+    <div class="block1">
+      <h2>Bike <%=bike.number %> </h2>
+      
+    </div>
+    <div>
+      <dl class="staticAttributes">
+	<dd class="key">Color: </dd><dd data-bike-color=<%=bike.color %> class="" ></dd>
+	<dd class="key" >Model:</dd><dd class="value"><%= bike.model%></dd>
+	<dd class="key">Manufacturer:</dd><dd class="value" ><%= bike.mfg %></dd>
+      </dl>
+      <dl class="dynamicAttributes">
+	<dd class="key ">Status: </dd> <dd class="value">
+	  <% if bike.available? %>
+	  Available
+	  <% elsif bike.departed? %>
+	  Departed
+	  <% elsif bike.project %>
+	  <%= link_to "#{bike.project.project_category.name} Project",
+	      project_path(bike.project) %>
+	  <% end %>
+	</dd>
+
+      </dl>
+    </div>
+    <%= link_to "Edit Bike", edit_bike_path(bike), :class=> "editLink",   :title => "Edit this bike's information" %> 
+  </section>
+  <section id="notesWrapper" class="row span4">
+
+    <h3><%= pluralize(bike.comment_threads.length, 'Note') %></h3>
+
+    <%= render :partial=>"comments/index", :locals=>{:comments => bike.comment_threads} %> 
+    <button class="btn main" id="toggleNotes" >Add Note</button>
+    <div id="newCommentWrap" class="span3"><%= render :partial=>"comments/form", :locals=>{:url => new_comment_bike_path(bike)} %></div>
+
+  </section> <!-- end of notes wrapper -->
+
+  <section class="bikesMeta span9">
+    <div class="span2">
+      <h3>Location</h3>
+
+      <% if bike.departed? %>
+      <p>Bike has departed.</p>
+      <% else %>
+      <% if bike.hook %>
+      <p>Bike <%= bike.number %> is on hook: <%= bike.hook.number %>.</p>
+      <%= form_for(hook, :url => vacate_hook_bike_path(bike), :method=>:put) do |f| %>
+      <%= f.submit "Free hook" ,  :class => "btn btn-primary", :title=>"Choose Free Hook to remove this bike from its hook" %>
+      <% end %>
+      <% else %>
+      <p>No location is assigned to bike <%= bike.number %>.</p>
+      <% if hook %>
+      <%= form_for(hook, :url => reserve_hook_bike_path(bike), :method=>:put) do |f| %>
+      <%= label_tag(:hook_id, "Select an available hook:") %>
+      <%= select_tag(:hook_id, options_from_collection_for_select(Hook.available, :id, :number)) %>
+      <%= f.submit "Reserve hook", :class=>"btn btn-primary" %>
+
+      <% end %>
+      <% else %>
+      <p>No hooks are available.</p>
+      <% end %>
+      <% end %>
+      <% end %>
+    </div> <!-- end of location wrapper -->
+    <div class="span3">
+      <h3>Project Info</h3>
+      <% if bike.project %>
+      <p>This bike is currently a <%= bike.project.category_name %> project</p>
+      <p><%= link_to "View project details", project_path(bike.project) %>
+	<% elsif bike.available? %>
+      <p>This bike is available</p>
+      <%= form_for(project, :url => projects_path, :method => :post) do |f| %>
+      <%= hidden_field_tag(:bike_id, bike.id) %>
+      <%= select_tag(:program_id, options_from_collection_for_select(Program.all, :id, :title)) %>
+      <%= f.submit "Start project", :class => "btn btn-primary" %>
+      <% end %>
+
+      <% else %>
+      <p>Bike is unavailable.</p>
+
+      <% end %>
+    </div> <!-- end of proj info wrapper -->
+
+    <div class="span2">
+      <h3>Departure Info</h3>
+      <% if bike.departed? %>
+      Departed on <%= bike.departed_at.strftime('%d %B %y') %>
+      <% else %>
+
+      <% strBtnText=(bike.project)?"Close project and send away" : "Send away" %>
+      <%= form_for(bike, :url=>send_away_bike_path(bike), :method => :put) do |f| %>
+      <%= f.submit strBtnText, :class=>"btn btn-primary" %>
+      <% end %>
+
+
+      <% end %>
+    </div> <!-- end of depart info wrapper -->
+
+  </section> <!-- end of bikes meta -->
+
 
 </section> <!-- end of main wrapper -->
 
