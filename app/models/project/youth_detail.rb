@@ -93,11 +93,12 @@ class Project::YouthDetail < ProjectDetail
     if @survey
       # Build the response set
       @response_set = ResponseSet.create(:survey => @survey, 
-                                       :user_id => (@current_user.nil? ? @current_user : @current_user.id))
+                                       :user_id => (@current_user.nil? ? @current_user : @current_user.id),
+                                       :surveyable_type => self.proj.bike.class.to_s,
+                                       :surveyable_id => self.proj.bike.id)
       if @response_set
         # Assign to this project
         self.inspection_access_code = @response_set.access_code
-        self.proj.bike.inspection = @respoinse_set
         self.save
       end
     end
