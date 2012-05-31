@@ -2,6 +2,9 @@ class Project::YouthDetail < ProjectDetail
   
   INSPECTION_TITLE = "Bike Overhaul Inspection"
 
+  has_one :inspection, :class_name=>'ResponseSet', :as => :biz_process
+  #has_one :inspection, :through => :bike, :source_type => :surveyable
+
   state_machine :initial => :under_repair do
 
     after_transition (any-:done) => :done, :do => "proj.close"
@@ -95,7 +98,9 @@ class Project::YouthDetail < ProjectDetail
       @response_set = ResponseSet.create(:survey => @survey, 
                                        :user_id => (@current_user.nil? ? @current_user : @current_user.id),
                                        :surveyable_type => self.proj.bike.class.to_s,
-                                       :surveyable_id => self.proj.bike.id)
+                                       :surveyable_id => self.proj.bike.id,
+                                       :biz_process_type => self.proj.class.parent.to_s,
+                                       :biz_process_id => self.proj.id)
       if @response_set
         # Assign to this project
         self.inspection_access_code = @response_set.access_code
@@ -108,3 +113,16 @@ class Project::YouthDetail < ProjectDetail
   end
 
 end
+# == Schema Information
+#
+# Table name: project_youth_details
+#
+#  id                     :integer         not null, primary key
+#  proj_id                :integer
+#  proj_type              :string(255)
+#  state                  :string(255)
+#  created_at             :datetime        not null
+#  updated_at             :datetime        not null
+#  inspection_access_code :string(255)
+#
+

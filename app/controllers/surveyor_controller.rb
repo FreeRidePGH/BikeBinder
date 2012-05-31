@@ -42,7 +42,14 @@ module SurveyorControllerCustomMethods
   end
 
   def surveyable_path
-    if @response_set.surveyable
+    if @response_set.biz_process
+      idstr = @response_set.biz_process.friendly_id
+      idstr ||= @response_set.biz_process_id
+      h = {:action => :show,
+           :id => idstr,
+           :controller => @response_set.biz_process_type.downcase.pluralize}
+      url_for(h)
+    elsif @response_set.surveyable
       url_for(@response_set.surveyable)
     else
       root_path
