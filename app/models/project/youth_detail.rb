@@ -2,8 +2,7 @@ class Project::YouthDetail < ProjectDetail
   
   INSPECTION_TITLE = "Bike Overhaul Inspection"
 
-  has_one :inspection, :class_name=>'ResponseSet', :as => :biz_process
-  #has_one :inspection, :through => :bike, :source_type => :surveyable
+  #has_one :inspection, :class_name=>'ResponseSet', :as => :biz_process
 
   state_machine :initial => :under_repair do
 
@@ -67,22 +66,27 @@ class Project::YouthDetail < ProjectDetail
 
   def pass_inspection?
     # Inspection is complete and all checks pass
-    true
+    inspection_complete? && inspection.correct?
   end
 
   def fail_inspection?
     # Inspection is complete but not all checks pass
-    true
+    # FIXME OLD INSPECTION Messes this up
+    inspection_complete? && ! inspection.correct? 
   end
-  
+
+  def inspection_complete?
+    self.inspection && self.inspection.mandatory_questions_complete?
+  end
+
   def inspection
-    # Return the response set code for the current inspection?
-    # Or just return the response set object
-    #ResponseSet.find_by_access_code(self.inspection_access_code)
-    proj.bike.inspection
+    # FIXME WHEN A NEW INSPECTION IS STARTED, WHAT HAPPENS TO THE OLD ONE?
+    proj.inspection
   end
 
   private
+
+  # TODO Modularize inspection logic in a mixin
   
   def self.inspection_survey_code
     survey = SurveyorUtil.find(INSPECTION_TITLE)
@@ -90,6 +94,10 @@ class Project::YouthDetail < ProjectDetail
   end
 
   def start_inspection_action
+    # FIXME If an inspection already exists, remove it
+    proj.inspection = nil
+    proj.save
+
     # Find the right survey to use
     @survey = SurveyorUtil.find(INSPECTION_TITLE)
     

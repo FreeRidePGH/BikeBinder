@@ -18,11 +18,19 @@
 class Project < ActiveRecord::Base
 
   extend FriendlyId
+  extend ActiveModel::Naming
+
   friendly_id :label
 
   has_one :bike, :dependent => :nullify, :inverse_of => :project
   belongs_to :prog, :polymorphic => true
   belongs_to :project_category
+
+  # Override the model_name method so that url_for will work
+  # See http://api.rubyonrails.org/classes/ActiveModel/Naming.html
+  def self.model_name
+    ActiveModel::Name.new(self, nil, 'Project')
+  end
 
   # Does a child class override this?
   has_one :detail, :as => :proj
