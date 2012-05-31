@@ -46,3 +46,16 @@ class Project::EabDetail < ProjectDetail
   end
 
 end
+# == Schema Information
+#
+# Table name: project_eab_details
+#
+#  id           :integer         not null, primary key
+#  proj_id      :integer
+#  proj_type    :string(255)
+#  state        :string(255)
+#  status_state :string(255)
+#  created_at   :datetime        not null
+#  updated_at   :datetime        not null
+#
+

@@ -8,6 +8,9 @@
 #  updated_at          :datetime
 #  cosed_at            :datetime
 #  slug                :string(255)
+#  max_open            :integer
+#  max_total           :integer
+#  project_category_id :integer
 #
 
 class Program < ActiveRecord::Base
