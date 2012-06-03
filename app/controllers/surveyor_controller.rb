@@ -42,8 +42,8 @@ module SurveyorControllerCustomMethods
   end
 
   def surveyable_path
-    if @response_set.biz_process
-      url_for(@response_set.biz_process)
+    if @response_set.surveyable_process
+      url_for(@response_set.surveyable_process.surveyable_context)
     elsif @response_set.surveyable
       url_for(@response_set.surveyable)
     else

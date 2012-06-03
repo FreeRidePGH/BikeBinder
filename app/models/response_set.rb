@@ -6,7 +6,7 @@ class ResponseSet < ActiveRecord::Base
 
   # Polymorphic association with a model that uses the survey
   # as part of business process or task
-  belongs_to :biz_process, :polymorphic => true
+  belongs_to :surveyable_process, :polymorphic => true
 
   def title
     # Call surveyable.to_param to get friendly ID/Slug

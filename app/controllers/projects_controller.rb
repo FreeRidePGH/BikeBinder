@@ -64,6 +64,7 @@ class ProjectsController < ApplicationController
   end
 
   def update
+    # TODO updating and saving project details
     # Save the project details and the project
     render 'show'
   end
@@ -90,14 +91,26 @@ class ProjectsController < ApplicationController
       end
     end
 
+    # TODO success message when transition occurs
+    
+    # TODO helper function that parses errors and adds to the flash
+    # check for errors
+    project.errors.messages.each do |key, val|
+      flash[:error][("message_#{key.to_s}").to_sym]= "#{key.upcase.to_s} #{val}"
+    end
+    project.detail.errors.messages.each do |key, val|
+      flash[:error][("message_#{key.to_s}").to_sym]= "#{key.upcase.to_s} #{val}"
+    end
+    
     if project.process_hash
       redirect_to project.process_hash and return
     else
-      redirect_to project_path(project) and return
+      redirect_to project and return
     end
   end
 
   def destroy
+    # TODO project cancel process
     if project and project.cancel
       flash[:success] = "Project was canceled for bike #{bike.number}."
       redirect_to bike_path(bike) and return

@@ -2,7 +2,7 @@ class Project::YouthDetail < ProjectDetail
   
   INSPECTION_TITLE = "Bike Overhaul Inspection"
 
-  #has_one :inspection, :class_name=>'ResponseSet', :as => :biz_process
+  has_one :inspection, :class_name=>'ResponseSet', :as => :surveyable_process
 
   state_machine :initial => :under_repair do
 
@@ -43,6 +43,7 @@ class Project::YouthDetail < ProjectDetail
     
     event :finish do
       transition :class_material => :done, :if => :pass_req?
+      #transition :class_material => :done, :if => current_user.admin?
     end
 
     state :under_repair
@@ -79,14 +80,13 @@ class Project::YouthDetail < ProjectDetail
     self.inspection && self.inspection.mandatory_questions_complete?
   end
 
-  def inspection
-    # FIXME WHEN A NEW INSPECTION IS STARTED, WHAT HAPPENS TO THE OLD ONE?
-    proj.inspection
+  # TODO Modularize inspection logic in a mixin
+
+  def surveyable_context
+    proj
   end
 
   private
-
-  # TODO Modularize inspection logic in a mixin
   
   def self.inspection_survey_code
     survey = SurveyorUtil.find(INSPECTION_TITLE)
@@ -94,9 +94,9 @@ class Project::YouthDetail < ProjectDetail
   end
 
   def start_inspection_action
-    # FIXME If an inspection already exists, remove it
-    proj.inspection = nil
-    proj.save
+    # If an inspection already exists, remove it
+    self.inspection = nil
+    self.save
 
     # Find the right survey to use
     @survey = SurveyorUtil.find(INSPECTION_TITLE)
@@ -107,8 +107,8 @@ class Project::YouthDetail < ProjectDetail
                                        :user_id => (@current_user.nil? ? @current_user : @current_user.id),
                                        :surveyable_type => self.proj.bike.class.to_s,
                                        :surveyable_id => self.proj.bike.id,
-                                       :biz_process_type => self.proj.class.parent.to_s,
-                                       :biz_process_id => self.proj.id)
+                                       :surveyable_process_type => self.class.to_s,
+                                       :surveyable_process_id => self.id)
       if @response_set
         # Assign to this project
         self.inspection_access_code = @response_set.access_code
