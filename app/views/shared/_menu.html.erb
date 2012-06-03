@@ -1,22 +1,26 @@
-<div class="span2" id="shared_menu">
-  <ul class="nav nav-list">
-    <li class="nav-header">Listings</li>
-    <li><%= link_to "Bikes Index", bikes_path %></li>
-    <li><%= link_to "Enter a new bike", new_bike_path %>
-    <li><%= link_to "Programs Index", programs_path %></li>
-    <li><%= link_to "Projects Index", projects_path %></li>
-    <% if user_signed_in? %>
-    <li class="nav-header">Create</li>
-    <li><%= link_to "Add a bike", new_bike_path %></li>
-    <% end %>
-  </ul>
+
   <% if user_signed_in? %>
+  <section id="user_login_status" class="span5">
   <p>Signed in as <%= current_user.email %>. Not you?
     <%= link_to "Sign out", destroy_user_session_path , :method=>:delete%></p>
   <% else %>
-  <p>
+  <section id="user_login_status" class="span3 no-user">
+    <p>
     <%= link_to "Sign up", new_user_registration_path %> or
     <%= link_to "Sign in", new_user_session_path %>
-  </p>
+    </p>
   <% end %>
+  </section>
+
+<div class="span12  sub-nav grad-blue-extra-gray" id="shared_menu">
+
+  <ul class="nav nav-pills">
+    <li><%= link_to "Bikes Index", bikes_path %></li>
+    <li><%= link_to "Programs Index", programs_path %></li>
+    <li><%= link_to "Projects Index", projects_path %></li>
+    <% if user_signed_in? %>
+    <!-- have a visual divider here like | -->
+    <li class="signed-in-action-1"><%= link_to "Add a bike", new_bike_path %></li>
+    <% end %>
+  </ul>
 </div>

@@ -1,10 +1,17 @@
 table.project th{
-	      text-align: left;
+    text-align: left;
     border-bottom: solid 2px #a8a8a8;
     background: #fff;
-    /* border-right: solid 3px #a8a8a8; */
 }
 table.project tr td {
-padding: 5px;
-	 margin: 5px;
+    padding: 5px;
+    margin: 5px;
+}
+div.projectMeta {
+    dl {
+	float: left;
+    }
+}
+section.show-project {
+    padding-top: .75em;
 }

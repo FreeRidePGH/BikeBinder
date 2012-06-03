@@ -22,13 +22,13 @@
   <div class="container">
     <header class="row span12">
       <%= content_tag(:h1, header_title) %>
-
+      <%= render 'shared/menu' %>
     </header>
 
     <%= render 'shared/alerts' %>
 
     <%= yield %>
-    <%= render 'shared/menu' %>
+
 
     <footer class="row span8">
       <%= debug(params) if Rails.env.development? %>

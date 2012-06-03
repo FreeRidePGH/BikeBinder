@@ -1,11 +1,11 @@
-<section class="row span9">
+<section class="show-bike span12">
 
 
 
   <section id="bikeInfo" class="span4">
-    <div class="block1">
+    <div class="block1 span4">
       <h2>Bike <%=bike.number %> </h2>
-      
+          <%= link_to "Edit Bike", edit_bike_path(bike), :class=> "editLink",   :title => "Edit this bike's information" %> 
     </div>
     <div>
       <dl class="staticAttributes">
@@ -27,20 +27,21 @@
 
       </dl>
     </div>
-    <%= link_to "Edit Bike", edit_bike_path(bike), :class=> "editLink",   :title => "Edit this bike's information" %> 
+
   </section>
-  <section id="notesWrapper" class="row span4">
+  <section id="notesWrapper" class=" span4">
 
     <h3><%= pluralize(bike.comment_threads.length, 'Note') %></h3>
 
     <%= render :partial=>"comments/index", :locals=>{:comments => bike.comment_threads} %> 
-    <button class="btn main" id="toggleNotes" >Add Note</button>
-    <div id="newCommentWrap" class="span3"><%= render :partial=>"comments/form", :locals=>{:url => new_comment_bike_path(bike)} %></div>
 
   </section> <!-- end of notes wrapper -->
+  <section id="newNoteWrapper" class="span4">
 
-  <section class="bikesMeta span9">
-    <div class="span2">
+   <%= render :partial=>"comments/form", :locals=>{:url => new_comment_bike_path(bike)} %>
+</section>
+  <section class="bikesMeta span12">
+    <div id="locationWrapper" class="span4">
       <h3>Location</h3>
 
       <% if bike.departed? %>
@@ -66,7 +67,7 @@
       <% end %>
       <% end %>
     </div> <!-- end of location wrapper -->
-    <div class="span3">
+    <div class="span4">
       <h3>Project Info</h3>
       <% if bike.project %>
       <p>This bike is currently a <%= bike.project.category_name %> project</p>
@@ -85,7 +86,7 @@
       <% end %>
     </div> <!-- end of proj info wrapper -->
 
-    <div class="span2">
+    <div class="span4">
       <h3>Departure Info</h3>
       <% if bike.departed? %>
       Departed on <%= bike.departed_at.strftime('%d %B %y') %>
