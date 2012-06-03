@@ -111,6 +111,11 @@ class BikesController < ApplicationController
     
     redirect_to bike
   end
+
+  def change_hook
+    
+  end
+
   private
 
   # Helper method that redirects if a bike record is not found

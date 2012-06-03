@@ -43,29 +43,26 @@
   <section class="bikesMeta span12">
     <div id="locationWrapper" class="span4">
       <h3>Location</h3>
-
       <% if bike.departed? %>
-      <p>Bike has departed.</p>
+        <p>Bike has departed.</p>
       <% else %>
-      <% if bike.hook %>
-      <p>Bike <%= bike.number %> is on hook: <%= bike.hook.number %>.</p>
-      <%= form_for(hook, :url => vacate_hook_bike_path(bike), :method=>:put) do |f| %>
-      <%= f.submit "Free hook" ,  :class => "btn btn-primary", :title=>"Choose Free Hook to remove this bike from its hook" %>
-      <% end %>
-      <% else %>
-      <p>No location is assigned to bike <%= bike.number %>.</p>
-      <% if hook %>
-      <%= form_for(hook, :url => reserve_hook_bike_path(bike), :method=>:put) do |f| %>
-      <%= label_tag(:hook_id, "Select an available hook:") %>
-      <%= select_tag(:hook_id, options_from_collection_for_select(Hook.available, :id, :number)) %>
-      <%= f.submit "Reserve hook", :class=>"btn btn-primary" %>
-
-      <% end %>
-      <% else %>
-      <p>No hooks are available.</p>
-      <% end %>
-      <% end %>
-      <% end %>
+        <% if bike.hook %>
+          <p>Bike <%= bike.number %> is on hook: <%= bike.hook.number %>.</p>
+          <%= form_for(hook, :url => vacate_hook_bike_path(bike), :method=>:put) do |f| %>
+            <%= f.submit "Free hook" ,  :class => "btn btn-primary", :title=>"Choose Free Hook to remove this bike from its hook" %>
+	  <% end %>
+	<% else #not bike.hook %>
+          <% if hook %>
+	    <%= form_for(hook, :url => reserve_hook_bike_path(bike), :method=>:put) do |f| %>
+	      <%= label_tag(:hook_id, "Select an available hook:") %>
+	      <%= select_tag(:hook_id, options_from_collection_for_select(Hook.available, :id, :number)) %>
+	      <%= f.submit "Reserve hook", :class=>"btn btn-primary" %>
+            <% end %>
+          <% else #no hook %>
+           <p>No hooks are available.</p>
+	  <% end #hook %>
+        <% end #bike.hook %>
+      <% end #bike.departed? %>
     </div> <!-- end of location wrapper -->
     <div class="span4">
       <h3>Project Info</h3>

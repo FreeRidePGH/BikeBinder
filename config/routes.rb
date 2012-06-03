@@ -25,6 +25,7 @@ BikeBinder::Application.routes.draw do
       put 'reserve_hook'
       get 'depart'
       put 'send_away'
+      put 'change_hook'
     end
   end
 
