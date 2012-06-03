@@ -1,14 +1,21 @@
-<section class="row span8">
+<section class="span12 show-project">
+  <div class="projectMeta span4">
+    <dl>
+      <dt>Bike</dt><dd><%= link_to project.bike.number, bike_path(bike) %></dd>
+      <dt>Program</dt><dd><%= link_to project.prog.title, program_path(project.prog) %></dd>
+    </dl>
+  </div>
+<section class="row span4">
+  <h3><%= pluralize(project.comment_threads.length, 'Note') %></h3>
+  <%= render :partial=>"comments/index", :locals=>{:comments => project.comment_threads} %>
 
-<dl>
-  <dt>Bike</dt><dd><%= link_to project.bike.number, bike_path(bike) %></dd>
-  <dt>Program</dt><dd><%= link_to project.prog.title, program_path(project.prog) %></dd>
-</dl>
-
-
+</section> <!-- end of notes wrapper -->
+  <section id="newNoteWrapper" class="span4">
+  <%= render :partial=>"comments/form", :locals=>{:url => new_comment_project_path(project)} %>
+</section> <!-- end of new note wrapper -->
 <% steps = project.detail.completion_steps %>
 <% if steps  %>
-
+<section class="span8">
 <h2>Project status: <%= project.detail.state.to_s.humanize.downcase %></h2>
 <ul class="nav nav-tabs">
   <% steps.each do |step| %>
@@ -75,19 +82,14 @@
   </div>
 
 <% end # if steps %>
+</section> <!-- end of project status -->
 
-<section class="row span8">
-
-  <h2><%= pluralize(project.comment_threads.length, 'Note') %></h2>
-  <%= render :partial=>"comments/index", :locals=>{:comments => project.comment_threads} %>
-  <br />
-  <%= render :partial=>"comments/form", :locals=>{:url => new_comment_project_path(project)} %>
-</section> <!-- end of notes wrapper -->
+<div class="span8 ">
 <h2>Cancel project</h2>
 <%= form_for(project, :url=>project_path(project), :method=>:delete) do |f|%>
 <%= f.submit "Cancel Project.", :class => "btn btn-danger" %>
 <% end %>
+</div>
 
 
-<p>Find me in app/views/projects/show.html.erb</p>
 </section> <!-- show project wrapper -->

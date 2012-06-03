@@ -35,6 +35,7 @@ class BikesController < ApplicationController
 
   def new
     @title = "Add a new bike"
+    @form_text = "Create new bike"
   end
 
   def create    
@@ -54,12 +55,12 @@ class BikesController < ApplicationController
   end
 
   def edit
-    @title = "Edit Bike"
+    @title = "Edit information for bike " + @bike.number
   end
 
   def update
     if bike.update_attributes(params[:bike])
-      flash[:success] = "Bike info updated"
+      flash[:success] = "Bike information updated."
       redirect_to bike
     else
       @title = "Edit Bike"
@@ -110,7 +111,6 @@ class BikesController < ApplicationController
     
     redirect_to bike
   end
-
   private
 
   # Helper method that redirects if a bike record is not found
