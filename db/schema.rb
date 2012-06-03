@@ -246,6 +246,10 @@ ActiveRecord::Schema.define(:version => 20120506063455) do
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
     t.string   "api_id"
+    t.integer  "surveyable_id"
+    t.string   "surveyable_type"
+    t.integer  "biz_process_id"
+    t.string   "biz_process_type"
   end
 
   add_index "response_sets", ["access_code"], :name => "response_sets_ac_idx", :unique => true

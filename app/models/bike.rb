@@ -15,6 +15,7 @@
 #  model            :string(255)
 #  number           :string(255)
 #  project_id       :integer
+#  location_state   :string(255)
 #
 
 class Bike < ActiveRecord::Base
@@ -26,6 +27,7 @@ class Bike < ActiveRecord::Base
   attr_accessible :color, :value, :seat_tube_height, :top_tube_length, :mfg, :model, :number
   
   has_one :hook, :dependent => :nullify, :inverse_of=>:bike
+  has_one :inspection, :class_name=>'ResponseSet', :as => :surveyable
   belongs_to :project, :inverse_of => :bike
 
   state_machine :location_state, :initial => :shop do
