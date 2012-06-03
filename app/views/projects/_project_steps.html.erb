@@ -1,0 +1,69 @@
+
+<% steps = project.detail.completion_steps %>
+<% if steps  %>
+<section class="span8">
+<h2>Project status: <%= project.detail.state.to_s.humanize.downcase %></h2>
+<ul class="nav nav-tabs">
+  <% steps.each do |step| %>
+    <% if (project.detail.state_name == step) %>
+    <li class="active">
+    <% else %>
+    <li>
+    <% end %>
+      <a data-toggle="tab" href="#<%= step.to_s %>"><%= step.to_s.humanize %></a>
+    </li>
+  <% end %>
+</ul>
+
+<div class="tab-content">
+  <% transitions = project.detail.transitions %>
+  <% steps.each do |step| %>
+    <% on_active = (project.detail.state_name == step) %>
+    <div class="tab-pane<%= ' active' if on_active %>" id="<%= step.to_s %>">
+       <% if step == :done %>
+         <% if project.open? %>
+	   <% if project.detail.pass_req? %>
+	     <h3>Depart bike</h3>
+	     
+	   <% else %>
+             <h3>Project Requirements</h3>
+	     <p>Project requirements must be met before project is complete.</p>
+	   <% end %>
+	 <% end %>
+	 <% if project.closed? %>
+           <h3>Project is closed</h3>
+	   <%= render :partial =>"bikes/departure" %>
+	 <% end %>
+       <% elsif on_active %>
+         <%= render :partial=>'detail_form' %>
+       <% else %>
+         <% context = transitions[step.to_sym] %>
+	 <% if context[:origin] %>
+	   <p>
+	     Was <strong><%= context[:origin].state.to_s.humanize %></strong>
+	     on <%= context[:origin].created_at %>
+	   </p>
+
+	   <% if context[:from] %>
+	   <%  end %>
+
+	   <% if context[:to] %>
+             <p>
+	       Tranisitioned to <strong><%= context[:to].state.to_s.humanize %></strong> 
+	       on <%= context[:to].created_at %>
+	     </p>
+	   <% end %>
+	 <% else %>
+	   <p>Project has not been <strong><%= step.to_s.humanize %></strong> yet.</p>
+	 <% end %>
+       <% end %>
+
+       
+    </div>
+
+  <% end # steps.each do%>
+
+  <div class="tab-pane" id="done">
+  </div>
+
+<% end # if steps %>

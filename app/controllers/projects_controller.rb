@@ -96,10 +96,12 @@ class ProjectsController < ApplicationController
     # TODO helper function that parses errors and adds to the flash
     # check for errors
     project.errors.messages.each do |key, val|
+      flash[:error] ||= {}
       flash[:error][("message_#{key.to_s}").to_sym]= "#{key.upcase.to_s} #{val}"
     end
     project.detail.errors.messages.each do |key, val|
-      flash[:error][("message_#{key.to_s}").to_sym]= "#{key.upcase.to_s} #{val}"
+      flash[:error] ||= {}
+      flash[:error][("message_#{key.to_s}").to_sym]= "#{key.to_s.humanize.upcase}: #{val[0]}"
     end
     
     if project.process_hash

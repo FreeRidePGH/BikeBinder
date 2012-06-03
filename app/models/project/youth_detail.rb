@@ -6,6 +6,16 @@ class Project::YouthDetail < ProjectDetail
 
   state_machine :initial => :under_repair do
 
+    before_transition do |proj_detail|
+      if proj_detail.proj.open?
+        true
+      else
+        proj_detail.errors.add(:action_unallowed, "Project is closed")
+        throw :halt
+        false
+      end
+    end
+
     after_transition (any-:done) => :done, :do => "proj.close"
     after_transition (any-:inspected) => :inspected, :do => :start_inspection_action
 
@@ -26,7 +36,7 @@ class Project::YouthDetail < ProjectDetail
     end
 
     event :fail_inspection do
-      transition [:inspected, :ready_for_program] => :under_repair, :if => :fail_inspection?
+      transition :inspected => :under_repair, :if => :fail_inspection?
     end
 
     event :reinspect do
@@ -67,17 +77,19 @@ class Project::YouthDetail < ProjectDetail
 
   def pass_inspection?
     # Inspection is complete and all checks pass
+    inspection.reload
     inspection_complete? && inspection.correct?
   end
 
   def fail_inspection?
     # Inspection is complete but not all checks pass
     # FIXME OLD INSPECTION Messes this up
+    inspection.reload
     inspection_complete? && ! inspection.correct? 
   end
 
   def inspection_complete?
-    self.inspection && self.inspection.mandatory_questions_complete?
+    inspection && inspection.mandatory_questions_complete?
   end
 
   # TODO Modularize inspection logic in a mixin
@@ -87,7 +99,7 @@ class Project::YouthDetail < ProjectDetail
   end
 
   private
-  
+
   def self.inspection_survey_code
     survey = SurveyorUtil.find(INSPECTION_TITLE)
     survey.access_code if survey
@@ -96,15 +108,19 @@ class Project::YouthDetail < ProjectDetail
   def start_inspection_action
     # If an inspection already exists, remove it
     self.inspection = nil
+    self.inspection_access_code = nil
     self.save
+    proj.bike.inspection = nil
+    proj.bike.save
 
     # Find the right survey to use
     @survey = SurveyorUtil.find(INSPECTION_TITLE)
     
     if @survey
       # Build the response set
+      uid ||= @current_user.id if @current_user
       @response_set = ResponseSet.create(:survey => @survey, 
-                                       :user_id => (@current_user.nil? ? @current_user : @current_user.id),
+                                       :user_id => uid,
                                        :surveyable_type => self.proj.bike.class.to_s,
                                        :surveyable_id => self.proj.bike.id,
                                        :surveyable_process_type => self.class.to_s,
@@ -117,7 +133,6 @@ class Project::YouthDetail < ProjectDetail
     end
 
     # Error and stop transition if the inspection can not be made?
-    
   end
 
 end

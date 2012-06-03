@@ -1,0 +1,8 @@
+<% if bike.departed? %>
+  Departed on <%= bike.departed_at.strftime('%d %B %y') %>
+<% else %>
+  <% strBtnText=(bike.project)?"Close project and send away" : "Send away" %>
+  <%= form_for(bike, :url=>send_away_bike_path(bike), :method => :put) do |f| %>
+  <%= f.submit strBtnText, :class=>"btn btn-primary" %>
+  <% end %>
+<% end %>

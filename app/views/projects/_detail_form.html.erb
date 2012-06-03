@@ -1,16 +1,19 @@
 <% events = project.detail.state_events %>
-<%= form_for(project.detail, :url=>transition_project_path, :method => :put) do |f| %>
-<%= render 'shared/error_messages', :object => f.object %>
-
-  <% if events.count == 1 %>
-    <%= f.hidden_field :state_events, :value=> events.first.to_s %>
-    <%= f.submit events.first.to_s.humanize, :class => "btn btn-primary" %>
+  <% if events.count <=0 %>
+     <p>No current actions can be performed.</p>
   <% else %>
-    <div id="field">
-    <%= f.label :action, "Select an action" %>
-    <%= f.select(:state_events, events.map{ |s| [s.to_s.humanize, s]}) %>
-    </div>
-    <%= f.submit "Submit" , :class=>"btn btn-primary" %>
-  <% end %>
+    <%= form_for(project.detail, :url=>transition_project_path, :method => :put) do |f| %>
+    <%= render 'shared/error_messages', :object => f.object %>
 
+      <% if events.count == 1 %>
+        <%= f.hidden_field :state_events, :value=> events.first.to_s %>
+	<%= f.submit events.first.to_s.humanize, :class => "btn btn-primary" %>
+      <% else %>
+        <div id="field">
+	  <%= f.label :action, "Select an action" %>
+	  <%= f.select(:state_events, events.map{ |s| [s.to_s.humanize, s]}) %>
+	</div>
+	<%= f.submit "Submit" , :class=>"btn btn-primary" %>
+      <% end %>
+  <% end %>
 <% end %>

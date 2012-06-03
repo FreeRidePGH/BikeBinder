@@ -5,84 +5,19 @@
       <dt>Program</dt><dd><%= link_to project.prog.title, program_path(project.prog) %></dd>
     </dl>
   </div>
+
 <section class="row span4">
   <h3><%= pluralize(project.comment_threads.length, 'Note') %></h3>
   <%= render :partial=>"comments/index", :locals=>{:comments => project.comment_threads} %>
 
-</section> <!-- end of notes wrapper -->
-  <section id="newNoteWrapper" class="span4">
-  <%= render :partial=>"comments/form", :locals=>{:url => new_comment_project_path(project)} %>
-</section> <!-- end of new note wrapper -->
-<% steps = project.detail.completion_steps %>
-<% if steps  %>
-<section class="span8">
-<h2>Project status: <%= project.detail.state.to_s.humanize.downcase %></h2>
-<ul class="nav nav-tabs">
-  <% steps.each do |step| %>
-    <% if (project.detail.state_name == step) %>
-    <li class="active">
-    <% else %>
-    <li>
-    <% end %>
-      <a data-toggle="tab" href="#<%= step.to_s %>"><%= step.to_s.humanize %></a>
-    </li>
-  <% end %>
-</ul>
+  </section> <!-- end of notes wrapper -->
+    <section id="newNoteWrapper" class="span4">
+    <%= render :partial=>"comments/form", :locals=>{:url => new_comment_project_path(project)} %>
+  </section> <!-- end of new note wrapper -->
 
-<div class="tab-content">
-  <% transitions = project.detail.transitions %>
-  <% steps.each do |step| %>
-    <% on_active = (project.detail.state_name == step) %>
-    <div class="tab-pane<%= ' active' if on_active %>" id="<%= step.to_s %>">
-       <% if step == :done %>
-         <% if project.open? %>
-            <h3>Finish Project</h3>
-  	    <%= form_for(project, :url=>transition_project_path) do |f| %>
-              <%= f.hidden_field(:state_events, :value => "close") %>
-	      <%= f.submit "Close project" %>
-	    <% end %>
-	  <% end %>
-	  <% if project.closed? %>
-           <p>Project is closed</p>
-	     <%= form_for(project, :url=>transition_project_path) do |f| %>
-	       <%= f.hidden_field :state_events, :value=>project.state_events.first.to_s %>
-	       <%= f.submit "Reopen" %>
-	     <% end %>
-	  <% end %>
-       <% elsif on_active %>
-         <%= render :partial=>'detail_form' %>
-       <% else %>
-         <% context = transitions[step.to_sym] %>
-	 <% if context[:origin] %>
-	   <p>
-	     Was <strong><%= context[:origin].state.to_s.humanize %></strong>
-	     on <%= context[:origin].created_at %>
-	   </p>
-
-	   <% if context[:from] %>
-	   <%  end %>
-
-	   <% if context[:to] %>
-             <p>
-	       Tranisitioned to <strong><%= context[:to].state.to_s.humanize %></strong> 
-	       on <%= context[:to].created_at %>
-	     </p>
-	   <% end %>
-	 <% else %>
-	   <p>Project has not been <strong><%= step.to_s.humanize %></strong> yet.</p>
-	 <% end %>
-       <% end %>
-
-       
-    </div>
-
-  <% end %>
-
-  <div class="tab-pane" id="done">
-  </div>
-
-<% end # if steps %>
+  <%= render :partial => "project_steps" %>
 </section> <!-- end of project status -->
+
 
 <div class="span8 ">
 <h2>Cancel project</h2>
