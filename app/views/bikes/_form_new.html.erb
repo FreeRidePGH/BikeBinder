@@ -1,5 +1,4 @@
 
-<!-- This is the main form generated for editing a bike. Another form template is rendered for creating a new bike. -->
 <%= form_for(bike) do |f| %>
   <%= render 'shared/error_messages', :object => f.object %>
 
@@ -19,7 +18,7 @@
 <%= f.label :model %>
 <%= f.text_field :model %>
 <!-- how do I make render this tag differently for edit or add bike? -->
-<%= button_tag "Save Changes", :class => "btn btn-primary" %>
+<%= button_tag "Create New Bike", :class => "btn btn-primary" %>
 
 </fieldset>
 

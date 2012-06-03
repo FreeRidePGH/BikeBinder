@@ -1,3 +1,9 @@
+section.show-bike {
+    padding-top: .75em;
+}
+#new_bike a.miniColors-trigger {
+    margin-top: -5px;
+}
 table.bikes th{
     border-bottom: solid 2px #999;
     background: #fff;
@@ -5,8 +11,131 @@ table.bikes th{
 table.bikes th:first-child {
     width: 70px;
 }
-
-.bikesMeta {
+/* Location, project info, departure info */
+section.bikesMeta {
     margin-top: 40px;
+    margin-left: 0;
+    border-top: 1px solid gray;
+    padding-top: 0.5em;
+    div#locationWrapper {
+	margin-left: 0;
+    }
     
 }
+
+section#notesWrapper {
+    float: left;
+}
+dd.key {
+    font-size: 14px;
+    float: left;
+    margin-left: .5em;
+    font-weight: bold;
+}
+dd.value {
+    font-weight: normal;
+    font-size: 14px;
+    font-weight: normal;
+    float: left;
+    margin-left: .5em;
+}
+/* Notecard like description of bike */
+#bikeInfo  {
+    border: solid 1px #888;
+    border-radius: 5px;
+    margin-left: 0;
+    padding: .5em;
+    box-shadow: -1px 1px 1px #999;
+    a.editLink {
+	float: right;
+	margin: .25em .5em;
+	font-weight: bold;
+    }
+    
+    div.block1 {
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: #888;
+	margin: .25em;
+	h2 {
+	float: left;
+	}
+	dl {
+	    margin: .5em .25em 0 .25em;
+	    height: 25px;
+	}
+    }
+    div.colorWrapper {
+	float:right;
+	width: 45%;
+	p {
+	    font-weight: bold;
+	    font-size: 14px;
+	    float: left;
+	}
+    }
+
+    div.block1 + div {
+	height: 120px;
+	dd[data-bike-color] {
+	    width: 25px;
+	    height: 25px;
+	    border-radius: 5px;
+	    border: solid #888 1px;
+	    margin: .5em .25em .25em 1.75em;
+	    float: left;
+	    padding: 0;
+	}
+
+	dl.staticAttributes {
+	    margin-top: 0;
+	}
+	dd {
+	    padding: 5px;
+	    display: block;
+	}
+	dd.key {
+	    clear: left;
+	}
+	dl.dynamicAttributes {
+	    margin-top: 1em;
+	    float: left; 
+	    width: 75%;
+	}
+    }
+    
+}
+/* Style comments/notes about bike here */
+#notesWrapper {
+
+    h3 {
+	margin: 0 .25em .5em .25em;
+	clear: both;
+    }
+    label {
+	font-size: 14px;
+	float: left;
+	font-weight: bold;
+	margin: .25em .25em 0 .25em;
+    }
+    button#toggleNotes {
+	float: right;
+	margin: .25em;
+    }
+}
+#newNoteWrapper {
+    float: left;
+    margin-left: 0;
+}
+form#new_comment #comment_body {
+    margin-top: 15px;
+    width: 261px;
+}
+.show-project form#new_comment {
+    position: absolute;
+}
+/* label[for="comment_body"] { */
+/*     float: left; */
+/*     display: inline; */
+/*     margin-top: -5px; */
+/* } */

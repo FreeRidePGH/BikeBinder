@@ -7,3 +7,16 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
+$(document).ready(function(){
+    // hack to see if we are adding a new bike
+    $("input#colorInput").miniColors();
+
+    if ($("[data-bike-color]").length != 0) {
+	var colorSwatchDiv = $("[data-bike-color]");
+	colorSwatchDiv.css("backgroundColor", colorSwatchDiv.data("bike-color"));
+    }
+    $("#newCommentWrap").hide();
+    $("button#toggleNotes").click(function(){
+	$("#newCommentWrap").toggle();
+    });
+});
