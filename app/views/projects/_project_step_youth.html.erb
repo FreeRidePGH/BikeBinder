@@ -1,0 +1,22 @@
+<% if project.detail.state?(:inspected)  %>
+
+  <h3>Inspection history</h3>
+  <table>  
+    <thead>
+      <td>User</td>
+      <td>Date started</td>
+      <td>Status</td>
+    </thead>
+    <% project.detail.inspections.each do |inspection| %>
+      <tr>
+	<td><%= inspection.user_id %></td>
+	<td><%= inspection.started_at %></td>
+	<td>
+	  <%= "incomplete" unless inspection.complete?  %>
+	  <%= link_to "Resume inspection", project.detail.inspection_hash %>
+	</td>
+      </tr>
+    <% end %>
+  </table>
+<hr />
+<% end # state?(:inspected) %>

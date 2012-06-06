@@ -27,7 +27,7 @@ class Bike < ActiveRecord::Base
   attr_accessible :color, :value, :seat_tube_height, :top_tube_length, :mfg, :model, :number
   
   has_one :hook, :dependent => :nullify, :inverse_of=>:bike
-  has_one :inspection, :class_name=>'ResponseSet', :as => :surveyable
+  has_many :inspections, :class_name=>'ResponseSet', :as => :surveyable
   belongs_to :project, :inverse_of => :bike
 
   state_machine :location_state, :initial => :shop do
@@ -108,6 +108,7 @@ class Bike < ActiveRecord::Base
   
   # Enforce the 1:1 association with the project
   validates_uniqueness_of :project_id, :allow_nil => true
+
   
   private
   

@@ -71,4 +71,19 @@ class ProjectDetail < ActiveRecord::Base
 
   # Make sure that only one detail record is made for a given project
   validates_uniqueness_of :proj_id, :allow_nil => :false
+
+  private
+  
+  def proj_must_be_open(transition)
+    proj_detail = transition.object
+
+    if proj_detail.proj.open?
+      true
+    else
+      proj_detail.errors.add(:action_unallowed, "Project is closed")
+      throw :halt
+      false
+    end
+  end
+
 end

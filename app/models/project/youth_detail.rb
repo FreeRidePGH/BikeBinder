@@ -2,21 +2,10 @@ class Project::YouthDetail < ProjectDetail
   
   INSPECTION_TITLE = "Bike Overhaul Inspection"
 
-  has_one :inspection, :class_name=>'ResponseSet', :as => :surveyable_process
+  has_many :inspections, :class_name=>'ResponseSet', :as => :surveyable_process
 
   state_machine :initial => :under_repair do
 
-    before_transition do |proj_detail|
-      if proj_detail.proj.open?
-        true
-      else
-        proj_detail.errors.add(:action_unallowed, "Project is closed")
-        throw :halt
-        false
-      end
-    end
-
-    after_transition (any-:done) => :done, :do => "proj.close"
     after_transition (any-:inspected) => :inspected, :do => :start_inspection_action
 
     event :mark_for_inspection do
@@ -50,38 +39,61 @@ class Project::YouthDetail < ProjectDetail
     event :remove_from_class do
       transition :class_material => :ready_for_program
     end
-    
-    event :finish do
-      transition :class_material => :done, :if => :pass_req?
-      #transition :class_material => :done, :if => current_user.admin?
-    end
 
     state :under_repair
     state :ready_to_inspect
     state :inspected do
       def process_hash
-        h = {:controller => :surveyor, :action => :edit,
-          :survey_code => self.class.inspection_survey_code,
-          :response_set_code => self.inspection_access_code}
+        self.inspection_hash
       end
     end
     state :ready_for_program
     state :class_material
-    state :done
 
+    ########################################################
+    ## Implementation for the project detail interface
+    ##
+    
+    # Check projects to ensure they are open
+    before_transition :do => :proj_must_be_open
+    # Force projects to close on finish action
+    after_transition (any-:done) => :done, :do => "proj.close"
+
+    # Required transition to done state
+    # Must be the last transition in order for done to be
+    # lowest priority in states list
+    event :finish do
+      transition :class_material => :done, :if => :pass_req?
+      #transition :class_material => :done, :if => current_user.admin?
+    end
+
+    # Required implementation of done state
+    state :done
+    ##
+    #######################################################
   end
 
   def pass_req?
+    true
     self.class_material?
   end
 
+  # TODO inspection on a per-user basis
+  # TODO history of inspections
+
   def pass_inspection?
     # Inspection is complete and all checks pass
+    return false
+
+    # FIXME pass inspection needs to search over collection
     inspection.reload
     inspection_complete? && inspection.correct?
   end
 
   def fail_inspection?
+    return false
+    # FIXME pass inspection needs to search over collection
+
     # Inspection is complete but not all checks pass
     # FIXME OLD INSPECTION Messes this up
     inspection.reload
@@ -90,6 +102,21 @@ class Project::YouthDetail < ProjectDetail
 
   def inspection_complete?
     inspection && inspection.mandatory_questions_complete?
+  end
+
+  def inspection_hash(user=nil)
+    inspection_access = (user.nil?)?
+      self.inspection_access_code :
+      user_inspection(user).access_code
+
+    h = {:controller => :surveyor, :action => :edit,
+          :survey_code => self.class.inspection_survey_code,
+          :response_set_code => inspection_access}
+  end
+
+  def user_inspection(uid)
+    uid = uid.id if uid.respond_to?(:id)
+    inspections.where{user_id == uid}
   end
 
   # TODO Modularize inspection logic in a mixin
@@ -118,7 +145,7 @@ class Project::YouthDetail < ProjectDetail
     
     if @survey
       # Build the response set
-      uid ||= @current_user.id if @current_user
+      uid ||= @current_user.id if current_user
       @response_set = ResponseSet.create(:survey => @survey, 
                                        :user_id => uid,
                                        :surveyable_type => self.proj.bike.class.to_s,

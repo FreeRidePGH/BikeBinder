@@ -1,0 +1,26 @@
+<% events = project.detail.state_events %>
+<% detail_type = project.category_name.downcase %>
+
+<% if events.count <=0 %>
+   <p>No current actions can be performed.</p>
+<% else %>
+  <h3>Project action</h3>
+   <%= form_for(project.detail, :url=>transition_project_path, :method => :put) do |f| %>
+     <%= render 'shared/error_messages', :object => f.object %>
+
+     <% if events.count == 1 %>
+       <%= f.hidden_field :state_events, :value=> events.first.to_s %>
+       <%= f.submit events.first.to_s.humanize, :class => "btn btn-primary" %>
+       <% else %>
+        <div id="field">
+	  <%= f.label :action, "Select an action" %>
+	  <%= f.select(:state_events, events.map{ |s| [s.to_s.humanize, s]}) %>
+	</div>
+	<%= f.submit "Submit" , :class=>"btn btn-primary" %>
+     <% end #events.count==1  %>
+
+  <% end # form_for %>
+
+<% end # events.count<=0 %>
+
+<%= render :partial=> "project_step_#{detail_type}" %>
