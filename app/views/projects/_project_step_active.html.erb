@@ -1,6 +1,5 @@
 <% events = project.detail.state_events %>
 <% events = available_actions(project, current_user) %>
-<% detail_type = project.category_name.downcase %>
 
 <% if events.count <=0 %>
    <p>No current actions can be performed.</p>
@@ -24,4 +23,4 @@
 
 <% end # events.count<=0 %>
 
-<%= render :partial=> "project_step_#{detail_type}" %>
+

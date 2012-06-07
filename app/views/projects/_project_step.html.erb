@@ -55,9 +55,11 @@
 	   <% end %>
 	 <% else %>
 	   <p>Project has not been <strong><%= step.to_s.humanize %></strong> yet.</p>
-	 <% end %>
-       <% end %>
+	 <% end #context[:origin] %>
+       <% end #on_active %>
 
+       <% detail_type = project.category_name.downcase %>
+       <%= render :partial=> "project_step_#{detail_type}", :locals =>{:step => step} %>
        
     </div>
 

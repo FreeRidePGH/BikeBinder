@@ -18,8 +18,8 @@ module ProjectsHelper
   def print_inspection_status(project, inspection, user=nil)
     status = inspection_status(project, inspection, user)
     p = ""
-    p << "Pass" if status[:can_pass]
-    p << "Fail" if status[:can_fail]
+    p << "Passing" if status[:can_pass]
+    p << "Failing" if status[:can_fail]
     p << "Incomplete" if !(status[:can_pass] || status[:can_fail])
     #p << "|" unless p.empty?
     p << " | " << link_to("Resume", project.detail.inspection_hash(inspection, user)) if status[:can_edit]
