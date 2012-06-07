@@ -1,5 +1,4 @@
 <% if project.detail.state?(:inspected)  %>
-
   <h3>Inspection history</h3>
   <table>  
     <thead>
@@ -8,12 +7,12 @@
       <td>Status</td>
     </thead>
     <% project.detail.inspections.each do |inspection| %>
+      <% user = User.find(inspection.user_id) if inspection.user_id %>
       <tr>
-	<td><%= inspection.user_id %></td>
+	<td><%= (user.nil?) ? "Anonymous" : user.email %></td>
 	<td><%= inspection.started_at %></td>
 	<td>
-	  <%= "incomplete" unless inspection.complete?  %>
-	  <%= link_to "Resume inspection", project.detail.inspection_hash %>
+	  <%= print_inspection_status(project, inspection, current_user) %>
 	</td>
       </tr>
     <% end %>

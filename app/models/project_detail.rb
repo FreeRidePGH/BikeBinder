@@ -63,6 +63,11 @@ class ProjectDetail < ActiveRecord::Base
     retval
   end
 
+  # validate if a user can perform a given action
+  def user_can?(user, action)
+    true
+  end
+
   # method definition to allow superclass call
   # as needed by state machine
   def process_hash

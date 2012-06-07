@@ -74,24 +74,13 @@ class ProjectsController < ApplicationController
     proj_key = prefix.to_sym
     details_key = "#{prefix}_detail".to_sym
 
-    # Call the detail event
-    if params[details_key]
-      detail_event = params[details_key][:state_events]
-      if detail_event
-        project.detail.fire_state_event(detail_event)
-      end
-    end
+    # Call the detail event with parameters
+    call_event(project.detail, details_key)
 
     # Call the project event with parameters
-    if params[proj_key]
-      proj_event = params[proj_key][:state_events]
-      if proj_event
-        opts = params[proj_key][:event_args]
-        project.send(proj_event, opts)
-      end
-    end
+    call_event(project, proj_key)
 
-    # TODO success message when transition occurs
+    # TODO sucess message when transition occurs
     
     # TODO helper function that parses errors and adds to the flash
     # check for errors
@@ -126,6 +115,18 @@ class ProjectsController < ApplicationController
 
   def project_params
     params[:project].slice() if params[:project]
+  end
+
+  def call_event(obj, key)
+    if params[key]
+      event = params[key][:state_events]
+      if event
+        opts = {:user => current_user}
+        args = params[key][:event_args]
+        opts.merge(args) if args
+        obj.send(event, opts)
+      end
+    end
   end
 
 end

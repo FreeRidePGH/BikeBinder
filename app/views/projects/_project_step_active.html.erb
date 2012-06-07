@@ -1,4 +1,5 @@
 <% events = project.detail.state_events %>
+<% events = available_actions(project, current_user) %>
 <% detail_type = project.category_name.downcase %>
 
 <% if events.count <=0 %>
