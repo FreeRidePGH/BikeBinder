@@ -8,21 +8,38 @@ module ProjectsHelper
     can_fail = Inspection.fail?(inspection)
 
     # The inspection can be resumed by user?
-    user_inspection = project.detail.user_inspection(user)
-
+    # Check the following:
+    #   user_inspection is found
+    #     found inspection is valid
+    #     found inspection matches specified inspection
+    user_inspection = project.detail.user_inspection(user, :valid_only => true)
     can_edit = (inspection && user_inspection) && (inspection.id == user_inspection.id)
 
-    return {:can_pass => can_pass, :can_fail => can_fail, :can_edit => can_edit}
+    # Specify if the inspection is old
+    old = project.detail.old_inspection?(inspection)
+
+    return {:can_pass => can_pass, :can_fail => can_fail, :can_edit => can_edit, :is_old => old}
   end
 
   def print_inspection_status(project, inspection, user=nil)
     status = inspection_status(project, inspection, user)
     p = ""
-    p << "Passing" if status[:can_pass]
-    p << "Failing" if status[:can_fail]
-    p << "Incomplete" if !(status[:can_pass] || status[:can_fail])
-    #p << "|" unless p.empty?
-    p << " | " << link_to("Resume", project.detail.inspection_hash(inspection, user)) if status[:can_edit]
+    view_args = project.detail.inspection_hash(inspection, user)
+    view_args[:action] = :show
+    if status[:is_old]
+      p << link_to("Old inspection", view_args)
+    else
+      status_text = "Passing" if status[:can_pass]
+      status_text = "Failing" if status[:can_fail]
+      status_text = "Incomplete" if !(status[:can_pass] || status[:can_fail])
+      p << link_to(status_text, view_args)
+
+      if status[:can_edit]
+        p << " | " 
+        p << link_to("Resume", project.detail.inspection_hash(inspection, user))
+      end
+    end
+
     return p.html_safe
   end
 

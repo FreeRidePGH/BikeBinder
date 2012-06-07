@@ -59,9 +59,9 @@ class Project::YouthDetail < ProjectDetail
       def user_can?(user, action)
         case action
         when :start_inspection
-          return user_inspection(user).nil?
+          return user_inspection(user, :valid_only => true).nil?
         when :resume_inspection
-          return user_inspection(user)
+          return user_inspection(user, :valid_only => true)
         else
           return true
         end

@@ -18,6 +18,27 @@ module Inspection
   def Inspection.fail?(insp)
     Inspection.complete?(insp) && ! insp.correct?
   end
+  
+  def valid_inspection?(insp)
+    old = old_inspection?(insp)
+    return !old
+  end
+
+  # When the transition to :inspected state occured
+  def inspected_at?
+    transitions = self.transitions
+    context = transitions[:inspected]
+
+    return context[:origin].created_at unless context[:origin].nil?
+    return nil
+  end
+
+  # An inspection is old if it was started before the most recent
+  # transition to the :inspected state
+  def old_inspection?(insp)
+    inspected_at = self.inspected_at? if self.inspected?
+    return (inspected_at.nil?) ? true : insp.started_at < inspected_at
+  end
 
   def pass_inspection?(insp=nil)
     if insp
@@ -57,9 +78,19 @@ module Inspection
           :response_set_code => inspection_access}
   end
   
-  def user_inspection(uid=nil)
+  # Get the inspection associated with the given user
+  # Specify :valid_only=>true to only return an inspection
+  # if it is valid
+  def user_inspection(uid=nil, opts={})
     uid ||= uid.id if (uid && uid.respond_to?('id'))
-    inspections.where{user_id == uid}.first
+    insp = inspections.where{user_id == uid}.first
+
+    if(opts[:valid_only])
+      return insp if self.valid_inspection?(insp)
+    else
+      return insp
+    end
+
   end
 
   private
