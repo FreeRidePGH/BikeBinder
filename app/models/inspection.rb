@@ -1,5 +1,42 @@
 module Inspection
-  
+
+  # NOTE: Include the module AFTER the state_machine
+  # definition in the class
+  def self.included(base)
+    machine = base.state_machine
+    s = machine.state(:testing)
+
+    machine.state :ready_to_inspect
+    machine.state :inspected do
+      def process_hash
+        self.inspection_hash
+      end
+      def user_can?(user, action)
+        case action
+        when :start_inspection
+          return user_inspection(user, :valid_only => true).nil?
+        when :resume_inspection
+          return user_inspection(user, :valid_only => true)
+        else
+          return true
+        end
+      end
+    end
+
+    machine.on(:do_something) do
+      transition :under_repair => :testing
+    end
+
+    machine.on :start_inspection do
+      transition :ready_to_inspect => :inspected
+      transition :inspected => :inspected
+    end
+
+    machine.event :resume_inspection do
+      transition :inspected => :inspected
+    end
+  end
+
   def Inspection.complete?(insp)
     insp && insp.mandatory_questions_complete?    
   end
@@ -94,6 +131,7 @@ module Inspection
   end
 
   private
+
 
   #extract the user object from the args
   def action_user(transition)

@@ -1,11 +1,5 @@
 class Project::YouthDetail < ProjectDetail
 
-  include Inspection
-  
-  INSPECTION_TITLE = "Bike Overhaul Inspection"
-
-  has_many :inspections, :class_name=>'ResponseSet', :as => :surveyable_process
-
   state_machine :initial => :under_repair do
 
     after_transition (any-:inspected) => :inspected, :do => :start_inspection_action
@@ -18,21 +12,12 @@ class Project::YouthDetail < ProjectDetail
       transition :under_repair => :ready_to_inspect
     end
 
-    event :start_inspection do
-      transition :ready_to_inspect => :inspected
-      transition :inspected => :inspected
-    end
-
-    event :resume_inspection do
-      transition :inspected => :inspected
+    event :fail_inspection do
+      transition :inspected => :under_repair, :if => :fail_inspection?
     end
 
     event :pass_inspection do
       transition :inspected => :ready_for_program, :if => :pass_inspection?
-    end
-
-    event :fail_inspection do
-      transition :inspected => :under_repair, :if => :fail_inspection?
     end
 
     event :reinspect do
@@ -51,22 +36,6 @@ class Project::YouthDetail < ProjectDetail
     end
 
     state :under_repair
-    state :ready_to_inspect
-    state :inspected do
-      def process_hash
-        self.inspection_hash
-      end
-      def user_can?(user, action)
-        case action
-        when :start_inspection
-          return user_inspection(user, :valid_only => true).nil?
-        when :resume_inspection
-          return user_inspection(user, :valid_only => true)
-        else
-          return true
-        end
-      end
-    end
     state :ready_for_program
     state :class_material
 
@@ -91,20 +60,18 @@ class Project::YouthDetail < ProjectDetail
     state :done
     ##
     #######################################################
-  end
+  end # state_machine
+
+  # TODO Modularize inspection logic in a mixin
+  INSPECTION_TITLE = "Bike Overhaul Inspection"
+  has_many :inspections, :class_name=>'ResponseSet', :as => :surveyable_process 
+  def surveyable_context; proj end
+  include Inspection
+
+  # TODO Modularize project detail state machine logic
 
   def pass_req?
     self.class_material?
-  end
-
-  # TODO inspection on a per-user basis
-  # TODO history of inspections
-
-
-  # TODO Modularize inspection logic in a mixin
-
-  def surveyable_context
-    proj
   end
 
   private
@@ -113,7 +80,6 @@ class Project::YouthDetail < ProjectDetail
     survey = SurveyorUtil.find(INSPECTION_TITLE)
     survey.access_code if survey
   end
-
 
 end
 # == Schema Information
