@@ -2,9 +2,6 @@ class Project::YouthDetail < ProjectDetail
 
   state_machine :initial => :under_repair do
 
-    after_transition (any-:inspected) => :inspected, :do => :start_inspection_action
-    after_transition :inspected => :inspected, :do => :resume_inspection_action
-
     ###################
     ## Inspection logic
 
@@ -72,13 +69,6 @@ class Project::YouthDetail < ProjectDetail
 
   def pass_req?
     self.class_material?
-  end
-
-  private
-
-  def self.inspection_survey_code
-    survey = SurveyorUtil.find(INSPECTION_TITLE)
-    survey.access_code if survey
   end
 
 end

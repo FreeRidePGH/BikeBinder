@@ -1,8 +1,18 @@
+# -*- coding: utf-8 -*-
 module Inspection
+
+  include ActiveRecord
+  include ActiveRecord::Associations
+  
 
   # NOTE: Include the module AFTER the state_machine
   # definition in the class
   def self.included(base)
+    base.extend(InspectionClassMethods)
+
+    # http://teachmetocode.com/articles/ruby-on-rails-polymorphic-associations-with-mixin-modules/
+    base.instance_eval("has_many :inspections, :class_name=>'ResponseSet', :as => :surveyable_process")
+
     machine = base.state_machine
     s = machine.state(:testing)
 
@@ -22,6 +32,10 @@ module Inspection
         end
       end
     end
+
+
+    machine.after_transition (machine.any-:inspected) => :inspected, :do => :start_inspection_action
+    machine.after_transition :inspected => :inspected, :do => :resume_inspection_action
 
     machine.on(:do_something) do
       transition :under_repair => :testing
@@ -192,6 +206,25 @@ module Inspection
     end
 
     # Error and stop transition if the inspection can not be made?
+  end
+
+
+  #To include class methods in your models, you’ll want to 
+  # follow the convention of creating a nested module and 
+  # extend base in the included method.
+  #http://alexanderwong.me/post/15697487692/rails-model-mixins-via-included-modules
+  # =================
+  # = Class Methods =
+  # =================
+  module InspectionClassMethods
+
+    private
+    
+    def self.inspection_survey_code
+      survey = SurveyorUtil.find(INSPECTION_TITLE)
+      survey.access_code if survey
+    end
+    
   end
 
 end
