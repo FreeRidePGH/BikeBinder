@@ -12,11 +12,13 @@ module Inspection
 
     base.instance_eval("@@ok = '#{base.inspection_args[:title]}'")
 
-    class << base
-      puts self::OK
-      puts ok
-      include InspectionClassMethods
-    end
+    base.extend(InspectionClassMethods)
+
+#    class << base
+#      puts self::OK
+#      puts ok
+#      include InspectionClassMethods
+#    end
 
     #base.extend(InspectionClassMethods)
    
