@@ -2,28 +2,6 @@ class Project::YouthDetail < ProjectDetail
 
   state_machine :initial => :under_repair do
 
-    ###################
-    ## Inspection logic
-
-    event :mark_for_inspection do
-      transition :under_repair => :ready_to_inspect
-    end
-
-    event :fail_inspection do
-      transition :inspected => :under_repair, :if => :fail_inspection?
-    end
-
-    event :pass_inspection do
-      transition :inspected => :ready_for_program, :if => :pass_inspection?
-    end
-
-    event :reinspect do
-      transition [:ready_for_program, :class_material] => :inspected
-    end
-    
-    ## End inspection logic
-    #######################
-
     event :select_for_class do
       transition :ready_for_program => :class_material
     end
@@ -35,37 +13,22 @@ class Project::YouthDetail < ProjectDetail
     state :under_repair
     state :ready_for_program
     state :class_material
-
-    ########################################################
-    ## Implementation for the project detail interface
-    ##
-    
-    # Check projects to ensure they are open
-    before_transition :do => :proj_must_be_open
-    # Force projects to close on finish action
-    after_transition (any-:done) => :done, :do => "proj.close"
-
-    # Required transition to done state
-    # Must be the last transition in order for done to be
-    # lowest priority in states list
-    event :finish do
-      transition :class_material => :done, :if => :pass_req?
-      #transition :class_material => :done, :if => current_user.admin?
-    end
-
-    # Required implementation of done state
-    state :done
-    ##
-    #######################################################
   end # state_machine
 
-  # TODO Modularize inspection logic in a mixin
+  # TODO Modularize inspection logic in an acts_as_inspectable gem
   INSPECTION_TITLE = "Bike Overhaul Inspection"
-  has_many :inspections, :class_name=>'ResponseSet', :as => :surveyable_process 
-  def surveyable_context; proj end
+  def self.inspection_args
+    h = {}
+    h[:title] = INSPECTION_TITLE
+    h[:context_scope] = :proj
+    h[:start_point] = :under_repair
+    h[:end_point] = :ready_for_program
+    h[:reinspectable] = [:ready_for_program, :class_material]
+    return h
+  end
   include Inspection
 
-  # TODO Modularize project detail state machine logic
+  include ProjectDetailMixin
 
   def pass_req?
     self.class_material?

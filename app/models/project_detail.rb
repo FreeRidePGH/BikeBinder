@@ -1,4 +1,33 @@
+module ProjectDetailMixin
+
+  def self.included(base)
+    base.extend(ProjectDetailMixinClassMethods)
+
+    machine = base.state_machine
+
+    # Check projects to ensure they are open
+    machine.before_transition :do => :proj_must_be_open
+    # Force projects to close on finish action
+    machine.after_transition (machine.any-:done) => :done, :do => "proj.close"
+
+    # Required transition to done state
+    # Must be the last transition in order for done to be
+    # lowest priority in states list
+    machine.event :finish do
+      last_step = machine.states.by_priority.last
+      transition last_step.name => :done, :if => :pass_req?
+    end
+
+  end
+
+  module ProjectDetailMixinClassMethods
+    private 
+  end
+
+end
+
 class ProjectDetail < ActiveRecord::Base
+
 
   # For table name prefixing see:
   # http://stackoverflow.com/questions/8911046/rails-table-name-prefix-missing
@@ -13,6 +42,10 @@ class ProjectDetail < ActiveRecord::Base
   after_save "proj.update_completion", :if => :proj
 
   attr_accessible nil
+
+  state_machine :initial=>:done do
+    state :done
+  end
 
   def pass_req?
     nil
@@ -34,15 +67,14 @@ class ProjectDetail < ActiveRecord::Base
 
   def completion_steps
     if @steps.nil? && !self.proj.terminal?
-      # states = state_paths(:from => initial_state).to_states
-      # states.insert(0, initial_state)
-      states = self.class.state_machine.states.by_priority
-      
-      @steps = []
 
-      states.each do |s|
-        @steps.push s.name
-      end
+      obj = self.class.new
+      states = obj.state_paths(:guard=>false).from_states
+      
+      @steps = states
+      @steps << :done
+
+      return @steps
     end
     return @steps
   end
@@ -90,5 +122,7 @@ class ProjectDetail < ActiveRecord::Base
       false
     end
   end
+
+
 
 end
