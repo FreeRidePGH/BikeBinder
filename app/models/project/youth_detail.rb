@@ -15,20 +15,16 @@ class Project::YouthDetail < ProjectDetail
     state :class_material
   end # state_machine
 
-  # TODO Modularize inspection logic in an acts_as_inspectable gem
-  INSPECTION_TITLE = "Bike Overhaul Inspection"
-  def self.inspection_args
-    h = {}
-    h[:title] = INSPECTION_TITLE
-    h[:context_scope] = :proj
-    h[:start_point] = :under_repair
-    h[:end_point] = :ready_for_program
-    h[:reinspectable] = [:ready_for_program, :class_material]
-    return h
-  end
-  include Inspection
+  has_inspection(
+                 :title => "Bike Overhaul Inspection",
+                 :context_scope => :proj,
+                 :start_point => :under_repair,
+                 :end_point => :ready_for_program,
+                 :reinspectable => [:ready_for_program, :class_material]
+                 )
 
-  include ProjectDetailMixin
+  
+  include ProjectDetailStates
 
   def pass_req?
     self.class_material?

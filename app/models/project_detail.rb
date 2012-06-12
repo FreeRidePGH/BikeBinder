@@ -1,8 +1,7 @@
-module ProjectDetailMixin
-
+# Include this module in each project detail that
+# defines a state machine
+module ProjectDetailStates
   def self.included(base)
-    base.extend(ProjectDetailMixinClassMethods)
-
     machine = base.state_machine
 
     # Check projects to ensure they are open
@@ -19,15 +18,11 @@ module ProjectDetailMixin
     end
 
   end
-
-  module ProjectDetailMixinClassMethods
-    private 
-  end
-
 end
 
-class ProjectDetail < ActiveRecord::Base
 
+
+class ProjectDetail < ActiveRecord::Base
 
   # For table name prefixing see:
   # http://stackoverflow.com/questions/8911046/rails-table-name-prefix-missing
@@ -50,6 +45,8 @@ class ProjectDetail < ActiveRecord::Base
   def pass_req?
     nil
   end
+
+  include Inspection
 
   def initial_state
     if @init_state
