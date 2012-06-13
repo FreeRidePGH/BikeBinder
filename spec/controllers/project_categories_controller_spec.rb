@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe ProjectCategoriesController do
 
-  describe "GET 'show'" do
+  describe "GET 'index'" do
     it "should be successful" do
-      get 'show'
+      get 'index'
       response.should be_success
     end
   end

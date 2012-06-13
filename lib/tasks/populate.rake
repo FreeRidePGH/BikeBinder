@@ -1,6 +1,10 @@
 namespace :db do
   desc "Fill database with test data"
   task :populate => :environment do
+    # Preparte test db
+    # http://stackoverflow.com/questions/5264355/rspec-failure-could-not-find-table-after-migration
+    #Rake::Task['db:test:prepare'].invoke
+
     Rake::Task['db:reset'].invoke
     
     User.create!(:email=>"wwedler@riseup.net", :password=>"testtest")

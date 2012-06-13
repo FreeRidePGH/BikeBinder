@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe ProjectsController do
 
+  
+
   describe "GET 'index'" do
     it "should be successful" do
       get 'index'
