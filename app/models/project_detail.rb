@@ -1,3 +1,25 @@
+# Include this module in each project detail that
+# defines a state machine
+module ProjectDetailStates
+  def self.included(base)
+    machine = base.state_machine
+
+    # Check projects to ensure they are open
+    machine.before_transition :do => :proj_must_be_open
+    # Force projects to close on finish action
+    machine.after_transition (machine.any-:done) => :done, :do => "proj.close"
+
+    # Required transition to done state
+    # Must be the last transition in order for done to be
+    # lowest priority in states list
+    machine.event :finish do
+      last_step = machine.states.by_priority.last
+      transition last_step.name => :done, :if => :pass_req?
+    end
+
+  end
+end
+
 class ProjectDetail < ActiveRecord::Base
 
   # For table name prefixing see:
@@ -10,13 +32,17 @@ class ProjectDetail < ActiveRecord::Base
   has_paper_trail :class_name => 'ProjectDetailVersion',
                   :meta => {:state => Proc.new{|detail| detail.state}}
 
-  after_save "proj.update_completion", :if => :proj
-
   attr_accessible nil
+
+  state_machine :initial=>:done do
+    state :done
+  end
 
   def pass_req?
     nil
   end
+
+  include Inspection
 
   def initial_state
     if @init_state
@@ -34,15 +60,14 @@ class ProjectDetail < ActiveRecord::Base
 
   def completion_steps
     if @steps.nil? && !self.proj.terminal?
-      # states = state_paths(:from => initial_state).to_states
-      # states.insert(0, initial_state)
-      states = self.class.state_machine.states.by_priority
-      
-      @steps = []
 
-      states.each do |s|
-        @steps.push s.name
-      end
+      obj = self.class.new
+      states = obj.state_paths(:guard=>false).from_states
+      
+      @steps = states
+      @steps << :done
+
+      return @steps
     end
     return @steps
   end
@@ -90,5 +115,7 @@ class ProjectDetail < ActiveRecord::Base
       false
     end
   end
+
+
 
 end

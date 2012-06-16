@@ -7,11 +7,24 @@ Reproduce all functionality that exists with the current paper binder system.
 
 ## Getting up and running
 
+### Afther the first clone
 Take the following actions to get a cloned/pulled version to run locally
 
 * rename "config/database.yml.sample" to "config/database.yml"
 * run "bundle install"
 * run "rake db:populate"
+
+### After each time you pull updates
+
+* Run "bundle install"
+* run "rake db:populate"
+
+## Running tests
+
+* db:test:load
+* "bundle exec guard"
+
+(See http://guides.rubyonrails.org/testing.html#preparing-your-application-for-testing)
 
 --------------------------------------------
 

@@ -45,7 +45,17 @@ group :test do
   # Pretty printed test output
   gem 'turn', :require => false
   gem 'rspec-rails', '~>2'
-  gem 'webrat'
+  gem 'capybara'
+
+  gem 'factory_girl_rails', '3.0'
+  
+  # Speed up testing with spork
+  gem 'guard-spork', '0.3.2'
+  gem 'spork', '0.9.0'
+  
+  # System specific for automatic tests on linux
+  gem 'rb-inotify', '0.8.8'
+  gem 'libnotify', '0.5.9'
 end
 
 group :development do
@@ -53,4 +63,5 @@ group :development do
   gem 'faker', '~>1'
   gem 'railroady', '~>1'
   gem 'rspec-rails', '~>2'
+  gem 'guard-rspec', '0.5.5'
 end

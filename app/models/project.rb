@@ -62,21 +62,6 @@ class Project < ActiveRecord::Base
     state :trash
   end
 
-  state_machine :completion_state, :initial => :none , :namespace => :completion do
-    event :update do
-      transition  [:partial,:none] =>:done, :if => "detail.pass_req?"
-      transition  [:none, :done] => :partial
-    end
-
-    event :reset do
-      transition [:partial, :done] => :none
-    end
-
-    state :none
-    state :partial
-    state :done
-  end
-
   attr_accessible nil
 
   def self.open

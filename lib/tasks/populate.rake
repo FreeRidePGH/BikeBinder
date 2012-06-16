@@ -1,6 +1,10 @@
 namespace :db do
   desc "Fill database with test data"
   task :populate => :environment do
+    # Preparte test db
+    # http://stackoverflow.com/questions/5264355/rspec-failure-could-not-find-table-after-migration
+    #Rake::Task['db:test:prepare'].invoke
+
     Rake::Task['db:reset'].invoke
     
     User.create!(:email=>"wwedler@riseup.net", :password=>"testtest")
@@ -30,6 +34,7 @@ namespace :db do
   desc "Fill databse with project categories"
   task :populate_project_categories => :environment do
     ProjectCategory.create!(:name=>"EAB", :project_type=>"Project::Eab", 
+
                             :max_programs=>1)
 	
     ProjectCategory.create!(:name=>"Youth", 
