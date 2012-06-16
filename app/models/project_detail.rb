@@ -20,8 +20,6 @@ module ProjectDetailStates
   end
 end
 
-
-
 class ProjectDetail < ActiveRecord::Base
 
   # For table name prefixing see:
@@ -33,8 +31,6 @@ class ProjectDetail < ActiveRecord::Base
 
   has_paper_trail :class_name => 'ProjectDetailVersion',
                   :meta => {:state => Proc.new{|detail| detail.state}}
-
-  after_save "proj.update_completion", :if => :proj
 
   attr_accessible nil
 

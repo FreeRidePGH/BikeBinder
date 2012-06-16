@@ -1,18 +1,19 @@
 require 'spec_helper'
 
 describe Project::Youth do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  before(:each) do
+    unless @p
+      d = FactoryGirl.build(:youth_detail)
+      @p = d.proj
+      @p.detail = d
+    end
+  end
 
   describe "Steps" do
     
-    it "should have a final state 'done'" do
-      
-      p = Project::Youth.new()
-      final = p.detail.completion_steps.last
-
-      final.should_be :done
-      p.detail.done?.sould_be true
-      
+    it "should be 'open' first started" do
+      @p.should be_open
     end
 
   end

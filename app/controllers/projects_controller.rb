@@ -36,6 +36,8 @@ class ProjectsController < ApplicationController
   end
 
   def show
+    redirect_to root_path and return unless project
+
     if project.closed? 
       @title = "Project details (Closed)"
     else 
