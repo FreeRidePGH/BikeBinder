@@ -3,8 +3,9 @@
  * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
  * the top of the compiled file, but it's generally better to create a new file per style scope.
  *= require_self
+ *= require_tree
  * removeded require_tree based on solving problem http://stackoverflow.com/questions/7462661/sprocketscirculardependencyerror-in-storeindex
-*/
+ */
 /* header provides a common label to rest above each part of the site */
 a.editLink {
     font-size: 14px;
@@ -12,14 +13,14 @@ a.editLink {
 }
 header {
 
-     margin: 1.5em 0 5px 0;
-     h1 {
-	 color: #333;
-	 /* override these hear but think about recompiling bootstrap for consistency */
-	 line-height: 30px;
-	 font-size: 25px;
+    margin: 1.5em 0 5px 0;
+    h1 {
+	color: #333;
+	/* override these here but think about recompiling bootstrap for consistency */
+	line-height: 30px;
+	font-size: 25px;
 
-     }
+    }
 
 }
 section#alerts {
@@ -44,23 +45,23 @@ section#user_login_status.no-user {
 }
 .grad-blue-extra-gray {
     background: rgb(143,149,163);
-background: -moz-linear-gradient(top, rgba(143,149,163,1) 0%, rgba(81,104,137,1) 100%);
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(143,149,163,1)), color-stop(100%,rgba(81,104,137,1)));
-background: -webkit-linear-gradient(top, rgba(143,149,163,1) 0%,rgba(81,104,137,1) 100%);
-background: -o-linear-gradient(top, rgba(143,149,163,1) 0%,rgba(81,104,137,1) 100%);
-background: -ms-linear-gradient(top, rgba(143,149,163,1) 0%,rgba(81,104,137,1) 100%);
-background: linear-gradient(top, rgba(143,149,163,1) 0%,rgba(81,104,137,1) 100%);
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8f95a3', endColorstr='#516889',GradientType=0 );
+    background: -moz-linear-gradient(top, rgba(143,149,163,1) 0%, rgba(81,104,137,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(143,149,163,1)), color-stop(100%,rgba(81,104,137,1)));
+    background: -webkit-linear-gradient(top, rgba(143,149,163,1) 0%,rgba(81,104,137,1) 100%);
+    background: -o-linear-gradient(top, rgba(143,149,163,1) 0%,rgba(81,104,137,1) 100%);
+    background: -ms-linear-gradient(top, rgba(143,149,163,1) 0%,rgba(81,104,137,1) 100%);
+    background: linear-gradient(top, rgba(143,149,163,1) 0%,rgba(81,104,137,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8f95a3', endColorstr='#516889',GradientType=0 );
 }
 .grad-blue-gray {
     background: rgb(96,108,136);
-background: -moz-linear-gradient(top, rgba(96,108,136,1) 0%, rgba(63,76,107,1) 100%);
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(96,108,136,1)), color-stop(100%,rgba(63,76,107,1)));
-background: -webkit-linear-gradient(top, rgba(96,108,136,1) 0%,rgba(63,76,107,1) 100%);
-background: -o-linear-gradient(top, rgba(96,108,136,1) 0%,rgba(63,76,107,1) 100%);
-background: -ms-linear-gradient(top, rgba(96,108,136,1) 0%,rgba(63,76,107,1) 100%);
-background: linear-gradient(top, rgba(96,108,136,1) 0%,rgba(63,76,107,1) 100%);
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#606c88', endColorstr='#3f4c6b',GradientType=0 );
+    background: -moz-linear-gradient(top, rgba(96,108,136,1) 0%, rgba(63,76,107,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(96,108,136,1)), color-stop(100%,rgba(63,76,107,1)));
+    background: -webkit-linear-gradient(top, rgba(96,108,136,1) 0%,rgba(63,76,107,1) 100%);
+    background: -o-linear-gradient(top, rgba(96,108,136,1) 0%,rgba(63,76,107,1) 100%);
+    background: -ms-linear-gradient(top, rgba(96,108,136,1) 0%,rgba(63,76,107,1) 100%);
+    background: linear-gradient(top, rgba(96,108,136,1) 0%,rgba(63,76,107,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#606c88', endColorstr='#3f4c6b',GradientType=0 );
 }
 .grad-light-gray-2 {
     background: rgb(211,211,211);
@@ -120,7 +121,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#606c88', end
 
 /* sitewide table legibility style */ 
 table tr:nth-child(2n+1) {
-   background: #f1f1f1;
+    background: #f1f1f1;
 
 }
 input[type="submit"],
@@ -145,6 +146,11 @@ div.comments {
 	padding: 5px;
 	word-wrap: break-word;
     }
+
+}
+.noteCard {
+    border: solid 1px #888;
+    box-shadow: -1px 1px 1px #999;
 
 }
 footer {

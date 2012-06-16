@@ -7,11 +7,23 @@ table.project tr td {
     padding: 5px;
     margin: 5px;
 }
-div.projectMeta {
+div#projectInfo {
+    p {
+	margin: 1em auto;
+	width: 75%;
+    }
     dl {
 	float: left;
     }
 }
 section.show-project {
     padding-top: .75em;
+}
+
+#project-steps-wrapper {
+    margin-top: 1em;
+}
+
+#cancel-project-wrapper input[type="submit"] {
+    float: right;
 }

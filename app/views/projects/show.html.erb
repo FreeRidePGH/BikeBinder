@@ -1,17 +1,15 @@
 <section class="span12 show-project">
-  <div class="projectMeta span4">
-    <dl>
-      <dt>Bike</dt><dd><%= link_to project.bike.number, bike_path(bike) %></dd>
-      <dt>Program</dt><dd><%= link_to project.prog.title, program_path(project.prog) %></dd>
-    </dl>
+  <div id="projectInfo" class="span4 noteCard">
+    <p>Program: <%= link_to project.prog.title, program_path(project.prog) %></p>
+    <p>Bike: <%= link_to project.bike.number, bike_path(bike) %></p>
   </div>
 
-<section class="row span4">
-  <h3><%= pluralize(project.comment_threads.length, 'Note') %></h3>
-  <%= render :partial=>"comments/index", :locals=>{:comments => project.comment_threads} %>
+  <section class="row span4">
+    <h3><%= pluralize(project.comment_threads.length, 'Note') %></h3>
+    <%= render :partial=>"comments/index", :locals=>{:comments => project.comment_threads} %>
 
   </section> <!-- end of notes wrapper -->
-    <section id="newNoteWrapper" class="span4">
+  <section id="newNoteWrapper" class="span3">
     <%= render :partial=>"comments/form", :locals=>{:url => new_comment_project_path(project)} %>
   </section> <!-- end of new note wrapper -->
 
@@ -19,11 +17,11 @@
 </section> <!-- end of project status -->
 
 
-<div class="span8 ">
-<h2>Cancel project</h2>
-<%= form_for(project, :url=>project_path(project), :method=>:delete) do |f|%>
-<%= f.submit "Cancel Project.", :class => "btn btn-danger" %>
-<% end %>
+<div id="cancel-project-wrapper" class="span11  ">
+
+  <%= form_for(project, :url=>project_path(project), :method=>:delete) do |f|%>
+  <%= f.submit "Cancel Project.", :class => "btn btn-danger" %>
+  <% end %>
 </div>
 
 

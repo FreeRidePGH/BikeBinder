@@ -40,12 +40,10 @@ dd.value {
     margin-left: .5em;
 }
 /* Notecard like description of bike */
-#bikeInfo  {
-    border: solid 1px #888;
-    border-radius: 5px;
+#bikeInfo.noteCard  {
     margin-left: 0;
     padding: .5em;
-    box-shadow: -1px 1px 1px #999;
+
     a.editLink {
 	float: right;
 	margin: .25em .5em;

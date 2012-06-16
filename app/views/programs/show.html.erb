@@ -1,11 +1,7 @@
 <section class="row span8">
 
-<dl>
-  <dt>Program Title</dt><dd><%= program.title %></dd>
-  <dt>Projects Category</dt><dd><%= program.project_category.name %></dd>
-</dl>
 
-<h2>Projects under this program</h2>
+<h2>Projects in <%= program.title %></h2>
 
 <%= render :partial=>"projects/project_table", :layout =>"projects/project_table_layout" %>
 

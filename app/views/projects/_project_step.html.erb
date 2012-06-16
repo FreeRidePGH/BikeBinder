@@ -1,7 +1,7 @@
 
 <% steps = project.detail.completion_steps %>
 <% if steps  %>
-<section class="span8">
+<section id="project-steps-wrapper" class="span11">
 <h2>Project status: <%= project.detail.state.to_s.humanize.downcase %></h2>
 <ul class="nav nav-tabs">
   <% steps.each do |step| %>
