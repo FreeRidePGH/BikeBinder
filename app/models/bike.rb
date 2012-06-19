@@ -20,7 +20,7 @@
 
 class Bike < ActiveRecord::Base
   extend FriendlyId
-  friendly_id :number
+  friendly_id :label
 
   acts_as_commentable
 
@@ -62,6 +62,10 @@ class Bike < ActiveRecord::Base
     state :shop 
     state :hook
     state :offsite
+  end
+
+  def label
+    "sn-#{self.number}"
   end
 
   def self.unavailable

@@ -5,7 +5,11 @@ class BikesController < ApplicationController
   # Create by:
   # Bike.new
   expose(:bike) do
-    @bike ||= Bike.find_by_number(params[:id]||params[:bike_id])
+    id_param = params[:id]||params[:bike_id]
+    unless id_param.blank?
+      bike_id = id_from_label(id_param)
+      @bike ||= Bike.find_by_number(bike_id) unless bike_id.nil?
+    end
     @bike ||= Bike.new(bike_params)
   end
   # Fetch by:

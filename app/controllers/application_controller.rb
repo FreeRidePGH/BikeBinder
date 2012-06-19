@@ -1,5 +1,10 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
+
+  def id_from_label(label, delimiter='-')
+    arr = label.split(delimiter)
+    arr[-1]
+  end
   
   # Scope from collection of all categories
   expose(:project_categories) {ProjectCategories.all}
@@ -24,7 +29,12 @@ class ApplicationController < ActionController::Base
   # Fetch bike by: 
   # * bike_id matching bike number
   # Create never
-  expose(:bike){Bike.find_by_number(params[:bike_id]) unless params[:bike_id].blank?}
+  expose(:bike) do
+    unless params[:bike_id].blank?
+      bike_id = id_from_label(params[:bike_id])
+      @bike ||= Bike.find_by_number(bike_id) unless bike_id.nil?
+    end
+  end
   
 
   # Scope projects by

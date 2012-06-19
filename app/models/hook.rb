@@ -11,7 +11,7 @@
 
 class Hook < ActiveRecord::Base
   extend FriendlyId
-  friendly_id :number
+  friendly_id :label
 
   attr_accessible :number
 
@@ -22,11 +22,19 @@ class Hook < ActiveRecord::Base
 
   scope :available, :conditions => {:bike_id => nil}
 
+  def self.number_pattern
+    return /\d{3}/
+  end
+
   # May want to select available condinionally on the bike
   # or bike relations, like projects
   # For example, FFS projects may have a certain set of 
   # hooks reserved only for FFS.
   def self.next_available(bike=nil)
     return Hook.find_by_bike_id(nil)
+  end
+
+  def label
+    "location-#{self.number}"
   end
 end

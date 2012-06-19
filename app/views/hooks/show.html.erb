@@ -1,5 +1,10 @@
 <section class="row span8">
-<h1>Hook <%= @hook.number %></h1>
+<h1>Hook <%= hook.number %></h1>
 
+<% if hook.bike %>
+  <p><%= link_to "Bike #{hook.bike.number}", bike_path(hook.bike) %> is assigned to this hook.</p>
+<% else %>
+  <p>No bike is assigned.</p>
+<% end %>
 
 </section>
