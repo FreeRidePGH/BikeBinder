@@ -21,7 +21,7 @@ Take the following actions to get a cloned/pulled version to run locally
 
 ## Running tests
 
-* db:test:load
+* run "rake db:test_setup"
 * "bundle exec guard"
 
 (See http://guides.rubyonrails.org/testing.html#preparing-your-application-for-testing)

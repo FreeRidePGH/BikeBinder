@@ -17,7 +17,8 @@ class Project::YouthDetail < ProjectDetail
 
   has_inspection(
                  :title => "Bike Overhaul Inspection",
-                 :context_scope => :proj,
+                 :inspectable => "proj.bike",
+                 :context_scope => :proj, #ommit from options to let self be scope
                  :start_point => :under_repair,
                  :end_point => :ready_for_program,
                  :reinspectable => [:ready_for_program, :class_material]
