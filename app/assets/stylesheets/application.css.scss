@@ -4,9 +4,59 @@
  * the top of the compiled file, but it's generally better to create a new file per style scope.
  *= require_self
  *= require_tree
- * removeded require_tree based on solving problem http://stackoverflow.com/questions/7462661/sprocketscirculardependencyerror-in-storeindex
  */
 /* header provides a common label to rest above each part of the site */
+
+
+header {
+     padding: .25em .25em .25em ;
+     border-bottom-width:2px;
+     border-bottom-style:solid;
+     border-color: #999;
+     margin: 0 0 1em 0;
+}
+header h1 {
+    margin-bottom: .25em;
+}
+
+#shared_menu {
+    border-color: #ddd;
+    border-width: 1px;
+    border-style: solid;
+}
+#shared_menu ul {
+    list-style-type: none; 
+    margin: .25em;
+}
+#shared_menu li {
+    padding: .25em;
+
+} 
+#shared_menu p {
+    text-align: center;
+
+
+}
+
+/* sitewide table legibility style */ 
+table tr:nth-child(2n+1) {
+/*    background: #ccc;
+    background-color: #ccc;*/
+    background: #f1f1f1;
+
+}
+input[type="submit"],
+button[type="submit"] {
+    display: block;
+}
+
+footer {
+    margin-top: 3em;
+}
+
+
+
+
 a.editLink {
     font-size: 14px;
     font-family: Helvetica Neue, sans-serif;
