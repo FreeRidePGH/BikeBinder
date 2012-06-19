@@ -87,7 +87,7 @@ class Project < ActiveRecord::Base
   end
 
   def label
-    (bike.nil?) ? type+id.to_s  : bike.number
+    (bike.nil?) ? type+id.to_s  : "sn-#{bike.number}"
   end
 
   # When the project is in the middle of a process

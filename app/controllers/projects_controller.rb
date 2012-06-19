@@ -12,8 +12,8 @@ class ProjectsController < ApplicationController
   # Fetch by: 
   # id or bike_id
   expose(:bike) do
-    id ||= params[:id] unless params[:id].blank?
-    id ||= params[:bike_id] unless params[:bike_id].blank?
+    id ||= id_from_label(params[:id]) unless params[:id].blank?
+    id ||= id_from_label(params[:bike_id]) unless params[:bike_id].blank?
     @b ||= (Bike.find_by_number(id) if id)
   end
 
