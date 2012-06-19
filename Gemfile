@@ -5,7 +5,7 @@ gem 'rails', '3.2.0'
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3', '~>1.3.6'
+
 gem 'therubyracer', '~>0.10.1'
 
 gem 'devise', '~>2.1.0'
@@ -42,6 +42,8 @@ gem 'jquery-rails', '~>2'
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
 group :test do
+  gem 'sqlite3', '~>1.3.6'
+
   # Pretty printed test output
   gem 'turn', :require => false
   gem 'rspec-rails', '~>2'
@@ -59,6 +61,7 @@ group :test do
 end
 
 group :development do
+  gem 'sqlite3', '~>1.3.6'
   gem 'annotate', '~> 2.4.1.beta'
   gem 'faker', '~>1'
   gem 'railroady', '~>1'

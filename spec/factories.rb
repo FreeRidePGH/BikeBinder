@@ -26,14 +26,12 @@ FactoryGirl.define do
   factory :youth_project, :class => "Project::Youth" do
     prog
     bike
-
     #factory :youth_project_with_detail do
     #  after(:build) do |proj_instance|
     #    detail FactoryGirl.build(:youth_detail)
     #  end
     #end
     #association :detail, :factory => :youth_detail
-    
   end
 
 end

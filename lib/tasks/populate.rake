@@ -1,4 +1,18 @@
 namespace :db do
+  
+  desc "Prepare test database structure"
+  task :test_setup => :environment do
+    #ENV['RAILS_ENV'] = 'test'
+    #Rake::Task['db:reset'].invoke
+
+    ENV['RAILS_ENV'] = 'test'
+    Rake::Task['db:test:load'].invoke
+
+    ENV['FILE'] = 'surveys/bike_overhaul_inspection.rb'    
+    ENV['RAILS_ENV'] = 'test'
+    Rake::Task['surveyor'].invoke
+  end
+
   desc "Fill database with test data"
   task :populate => :environment do
     # Preparte test db

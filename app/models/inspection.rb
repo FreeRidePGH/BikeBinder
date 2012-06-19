@@ -109,17 +109,33 @@ module Inspection
 
     end
 
-    private
+    def inspectable
+      scope = self.surveyable_scope
+      return (scope.nil?) ? self : self.rsend(scope.split('.'))
+    end
 
+    # http://csummers.com/2007/01/18/ruby-recursive-send/
+    def rsend(*args, &block)
+      obj = self
+      args.each do |a|
+        b = (a.is_a?(Array) && a.last.is_a?(Proc) ? a.pop : block)
+        obj = obj.__send__(*a, &b)
+      end
+      obj
+    end
+    alias_method :__rsend__, :rsend
+
+    private
 
     #extract the user object from the args
     def action_user(transition)
       args = transition.args
-      if args
-        return args[0][:user]
-      else
+      
+      if args || args[0].nil?
         return nil
       end
+      
+      return args[0][:user]
     end
 
     # Case user has an inspection:
@@ -158,8 +174,8 @@ module Inspection
         uid ||= user.id if user
         @response_set = ResponseSet.create(:survey => @survey, 
                                            :user_id => uid,
-                                           :surveyable_type => self.proj.bike.class.to_s,
-                                           :surveyable_id => self.proj.bike.id,
+                                           :surveyable_type => self.inspectable.class.to_s,
+                                           :surveyable_id => self.inspectable.id,
                                            :surveyable_process_type => self.class.to_s,
                                            :surveyable_process_id => self.id)
         if @response_set
@@ -192,6 +208,9 @@ module Inspection
       
       # http://teachmetocode.com/articles/ruby-on-rails-polymorphic-associations-with-mixin-modules/
       base.instance_eval("has_many :inspections, :class_name=>'ResponseSet', :as => :surveyable_process")
+
+      base.send(:class_attribute, :surveyable_scope)
+      base.surveyable_scope = options[:inspectable]
       
       base.send(:class_attribute, :inspection_context)
       base.inspection_context = options[:context_scope]
@@ -230,7 +249,6 @@ module Inspection
       end_state = options[:end_point]
 
       machine.event :mark_for_inspection do
-        #transition :under_repair => :ready_to_inspect
         transition start_state => :ready_to_inspect
       end
 
@@ -243,11 +261,8 @@ module Inspection
       end
 
       machine.event :reinspect do
-        transition options[:reinspectable] => start_state #:inspected
+        transition options[:reinspectable] => start_state
       end
-    
-      ## End inspection logic
-      #######################
 
       machine.on :start_inspection do
         transition :ready_to_inspect => :inspected
@@ -257,6 +272,8 @@ module Inspection
       machine.event :resume_inspection do
         transition :inspected => :inspected
       end
+      ## End inspection logic
+      #######################
     end # has_inspection
 
     def inspection_survey_code
