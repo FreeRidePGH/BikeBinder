@@ -26,7 +26,7 @@ class BikesController < ApplicationController
   # * next available from the Hook model
   expose(:hook) do
     @hook ||= (bike.hook if bike)
-    @hook ||= (Hook.find(params[:hook_id]) if params[:hook_id])
+    @hook ||= (Hook.find_by_id(id_from_label(params[:hook_id])) if params[:hook_id])
     @hook ||= Hook.next_available
   end
 
