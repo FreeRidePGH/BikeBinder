@@ -14,5 +14,5 @@ tmp/*
 *~
 .#*
 *#
-*.lock
+#*.lock
 config/database.yml
