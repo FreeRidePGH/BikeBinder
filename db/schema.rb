@@ -152,7 +152,9 @@ ActiveRecord::Schema.define(:version => 20120506063455) do
     t.string   "state"
   end
 
-  add_index "project_detail_versions", ["item_type", "item_id", "state"], :name => "index_project_detail_versions_on_item_type_and_item_id_and_state"
+  add_index "project_detail_versions", ["item_type"], :name => "index_project_detail_versions_on_item_type"
+  add_index "project_detail_versions", [ "item_id"], :name => "index_project_detail_versions_on_item_id"
+add_index "project_detail_versions", ["state"], :name => "index_project_detail_versions_on_state"
 
   create_table "project_eab_details", :force => true do |t|
     t.integer  "proj_id"
