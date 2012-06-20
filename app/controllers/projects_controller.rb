@@ -125,7 +125,7 @@ class ProjectsController < ApplicationController
       if event
         opts = {:user => current_user}
         args = params[key][:event_args]
-        opts.merge(args) if args
+        opts = opts.merge(args) if args
         obj.send(event, opts)
       end
     end

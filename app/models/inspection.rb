@@ -131,7 +131,7 @@ module Inspection
     def action_user(transition)
       args = transition.args
       
-      if args || args[0].nil?
+      if args.nil? || args[0].nil?
         return nil
       end
       
@@ -261,7 +261,7 @@ module Inspection
       end
 
       machine.event :reinspect do
-        transition options[:reinspectable] => start_state
+        transition options[:reinspectable] => :inspected
       end
 
       machine.on :start_inspection do
