@@ -41,6 +41,11 @@ gem 'jquery-rails', '~>2'
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
+group :production do
+  # Use PostgreSQL for Heroku deployment
+  gem 'pg'
+end
+
 group :test do
   gem 'sqlite3', '~>1.3.6'
 
