@@ -22,6 +22,7 @@ namespace :db do
     Rake::Task['db:reset'].invoke
     
     User.create!(:email=>"wwedler@riseup.net", :password=>"testtest")
+    User.create!(:email=>"demo@freeridepgh.org", :password=>"testdemo")
     
     Rake::Task['db:populate_hooks'].invoke
     

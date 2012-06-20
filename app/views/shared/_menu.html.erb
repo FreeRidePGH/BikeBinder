@@ -3,14 +3,16 @@
   <section id="user_login_status" class="span5">
   <p>Signed in as <%= current_user.email %>. Not you?
     <%= link_to "Sign out", destroy_user_session_path , :method=>:delete%></p>
+  </section>
   <% else %>
   <section id="user_login_status" class="span3 no-user">
     <p>
     <%= link_to "Sign up", new_user_registration_path %> or
     <%= link_to "Sign in", new_user_session_path %>
     </p>
-  <% end %>
   </section>
+  <p>You can sign in with username "demo@freeridepgh.org" and password "testdemo"</p>
+  <% end %>
 
 <div class="span12  sub-nav grad-blue-extra-gray" id="shared_menu">
 
