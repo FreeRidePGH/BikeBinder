@@ -74,7 +74,7 @@ class Project < ActiveRecord::Base
 
   def assign_to(opts={})
     program = Program.find(opts[:program_id]) unless opts[:program_id].blank?
-    bike = Bike.find(opts[:bike_id]) unless opts[:bike_id].blank?
+    bike = Bike.find_by_id(opts[:bike_id]) unless opts[:bike_id].blank?
     category = program.project_category if program
 
     if not (program and bike and category and bike.available?) then return false end
