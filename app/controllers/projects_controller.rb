@@ -59,10 +59,18 @@ class ProjectsController < ApplicationController
         else
           redirect_to project_path(project) and return
         end
+      else
+        flash[:error] = {:issue => "Error saving project"}
+        project.errors.messages.each do |k, val|
+          flash[:error][k] = "#{k} #{val[0]}".humanize
+        end
       end
+    else
+      flash[:error] = "Bike could not be assigned to a new project"
     end
 
-    render 'new'
+    #render 'new'
+    redirect_to root_path
   end
 
   def update

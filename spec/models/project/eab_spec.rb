@@ -1,5 +1,9 @@
 require 'spec_helper'
 
 describe Project::Eab do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe "A new EAB project" do
+    it "should be valid" do
+      p = FactoryGirl.build(:eab_project)
+    end
+  end
 end

@@ -100,9 +100,8 @@ class Project < ActiveRecord::Base
     prog.project_category.name
   end
 
-  validates_presence_of :type, :bike, :project_category
-  validates_associated :bike, :prog, :project_category
-
+  validates_presence_of :type, :bike, :project_category, :prog_id, :prog_type
+  validates_associated :bike, :project_category
 
   # Indicate if the project always
   # goes to the closed state

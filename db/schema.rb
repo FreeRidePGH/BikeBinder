@@ -163,6 +163,7 @@ add_index "project_detail_versions", ["state"], :name => "index_project_detail_v
     t.string   "status_state"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
+    t.string   "inspection_access_code"
   end
 
   create_table "project_scrap_details", :force => true do |t|

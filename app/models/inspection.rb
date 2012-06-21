@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 module Inspection
 
-  # NOTE: Include the module AFTER the state_machine
-  # definition in the class
+  # NOTES for implementation: 
+  # 1. Include the module AFTER the state_machine definition in the class
+  # 2. Add column to project detail to hold the inspection access code
+  #
   def self.included(base)
     base.extend(ClassMethods)
   end
