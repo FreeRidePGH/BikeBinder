@@ -1,20 +1,20 @@
 class Project::EabDetail < ProjectDetail
 
   state_machine :initial => :under_repair do
-    
-    event :repairs_complete do
-      transition :under_repair => :ready_for_inspection
-    end
-
-    event :inspect do
-      transition :ready_for_inspection => :ready_to_go, :if => :inspection_passed?
-      transition :ready_for_inspection => :under_repair
-    end
-    
     state :under_repair
-    state :ready_for_inspection
     state :ready_to_go
   end
+
+  has_inspection(
+                 :title => "Bike Overhaul Inspection",
+                 :inspectable => "proj.bike",
+                 :context_scope => :proj, #ommit from options to let self be scope
+                 :start_point => :under_repair,
+                 :end_point => :ready_to_go,
+                 :reinspectable => [:ready_to_go]
+                 )
+
+  include ProjectDetailStates
 
   state_machine :status_state,  :initial => :active, :namespace => :status do
 

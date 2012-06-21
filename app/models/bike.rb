@@ -87,17 +87,6 @@ class Bike < ActiveRecord::Base
   def self.departed
     self.where{departed_at != nil}
   end
-
-  def self.format_number(num)
-    return sprintf("%05d", num.to_i) if num
-  end
-    
-  def self.number_pattern
-    return /\d{5}/
-  end
-
-  validates_uniqueness_of :number, :allow_nil => true
-  validates :number, :format => { :with => Bike.number_pattern, :message => "Must be 5 digits only"}
   
   def self.format_number(num)
     return sprintf("%05d", num.to_i) if num
@@ -112,7 +101,6 @@ class Bike < ActiveRecord::Base
   
   # Enforce the 1:1 association with the project
   validates_uniqueness_of :project_id, :allow_nil => true
-
   
   private
   

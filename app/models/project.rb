@@ -100,12 +100,9 @@ class Project < ActiveRecord::Base
     prog.project_category.name
   end
 
-  validates_presence_of :type
+  validates_presence_of :type, :bike, :project_category
+  validates_associated :bike, :prog, :project_category
 
-  def close_and_depart
-    self.close
-    self.bike.depart if self.bike    
-  end
 
   # Indicate if the project always
   # goes to the closed state
@@ -122,26 +119,43 @@ class Project < ActiveRecord::Base
   # set to the closed state when first created
   # (Effectively, stateless projects, like
   # scrap or sales)
-  after_initialize :close_and_depart, :if => :terminal?
+  after_initialize :close, :if => :terminal?
 
   private
 
+  # The close action will depart the bike
+  # unless explicitly specified via args
+  # 
+  # If a bike can not depart, then the close
+  # action fails.
   def close_action(transition)
     h = transition.args[0] if transition.args
     proj = transition.object
+    proj ||= self
 
-    remain = proj.bike.nil?
+    return false if proj.bike.nil? 
+
+    remain = false #defaults to bike departing
     if h 
       remain ||= ActiveRecord::ConnectionAdapters::Column.value_to_boolean(h[:remain])
     end
     depart = !remain
 
+    # Flag to specify if the close action should
+    # be carried out
+    should_close = true
+
     if depart
       proj.bike.depart
+      
+      # make sure the depart action worked
+      should_close = proj.bike.departed?
     end
     
-    proj.closed_at = Time.now
-    proj.save
+    if should_close
+      proj.closed_at = Time.now
+      proj.save
+    end
   end
 
   def open_action

@@ -23,7 +23,6 @@ class Project::YouthDetail < ProjectDetail
                  :end_point => :ready_for_program,
                  :reinspectable => [:ready_for_program, :class_material]
                  )
-
   
   include ProjectDetailStates
 
