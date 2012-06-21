@@ -1,10 +1,13 @@
-<% events = project.detail.state_events %>
 <% events = available_actions(project, current_user) %>
 
 <% if events.count <=0 %>
    <p>No current actions can be performed.</p>
 <% else %>
-  <h3>Project action</h3>
+  <% str_header =  pluralize(events.count, "Next action") %>
+  <% n_digits = Math::log10(events.count).floor+1 %>
+  <% offset = n_digits + 1 %>
+  <% str_header = str_header[offset..-1] %>
+  <h3><%= str_header %></h3>
    <%= form_for(project.detail, :url=>transition_project_path, :method => :put) do |f| %>
      <%= render 'shared/error_messages', :object => f.object %>
 
@@ -13,7 +16,7 @@
        <%= f.submit events.first.to_s.humanize, :class => "btn btn-primary" %>
        <% else %>
         <div id="field">
-	  <%= f.label :action, "Select an action" %>
+	  <%= f.label :action, "Select one of the available actions" %>
 	  <%= f.select(:state_events, events.map{ |s| [s.to_s.humanize, s]}) %>
 	</div>
 	<%= f.submit "Submit" , :class=>"btn btn-primary" %>
