@@ -1,0 +1,33 @@
+div[data-picker="swatch"],
+.selected-swatch {
+    border-radius: 15px;
+    height: 30px;
+    width: 30px;
+    border: solid 1px gray;
+    margin: 0 5px 0 5px;
+    position: absolute;
+}
+table[data-picker]#color-grid {
+    background-color: white;
+    border-collapse: separate;
+    border-spacing: 1;
+    border: solid 1px gray;
+    cursor: crosshair;
+    padding: 5px;
+    position: absolute;
+}
+table[data-picker]#color-grid  th {width: 25px;}
+table[data-picker]#color-grid tr {
+    background: none;
+    width: 220px;
+    padding: 5px;
+}
+table[data-picker]#color-grid td {
+    border-radius: 15px;
+    margin: 2px;
+    width: 30px;
+    height: 30px;
+    text-overflow: ellipsis;
+    box-shadow: 0px 3px 1px #444444;
+
+}

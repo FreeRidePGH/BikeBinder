@@ -9,9 +9,12 @@
 //= require_tree .
 $(document).ready(function(){
     // hack to see if we are adding a new bike
-    $("input#colorInput").miniColors();
+		      if ($('#colorInput').length) {
+			  $("input#colorInput").fewPicker();			  
+		      }
 
-    if ($("[data-bike-color]").length != 0) {
+
+    if ($("[data-bike-color]").length) {
 	var colorSwatchDiv = $("[data-bike-color]");
 	colorSwatchDiv.css("backgroundColor", colorSwatchDiv.data("bike-color"));
     }
