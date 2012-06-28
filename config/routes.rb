@@ -1,5 +1,7 @@
 BikeBinder::Application.routes.draw do
 
+  # Note:  See all routes with "rake routes"
+
   resources :programs, :except => [:destroy]
 
   # access to projects without nesting in programs
@@ -12,6 +14,8 @@ BikeBinder::Application.routes.draw do
       put 'close'
       put 'transition'
     end
+
+    resources :work_log, :path_names => {:new => 'enter'}
   end
 
   resources :project_categories, :except=>[:destroy, :new, :create]
@@ -37,6 +41,4 @@ BikeBinder::Application.routes.draw do
   # Map top level domain seach to bikes and hooks
   match '/:id' => 'bikes#show', :id => Bike.number_pattern, :via => [:get]
   match '/:id' => 'hooks#show', :id => Hook.number_pattern, :via => [:get]
-
-  # See all routes with "rake routes"
 end
