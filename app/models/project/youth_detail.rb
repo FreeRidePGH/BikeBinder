@@ -30,6 +30,8 @@ class Project::YouthDetail < ProjectDetail
     self.class_material?
   end
 
+  has_time_sheet
+
 end
 # == Schema Information
 #

@@ -1,6 +1,6 @@
 def resources_work_log
   resources :work_log, :path_names => {:new => 'enter'},
-  :controller=>'time_entries', :as => 'hours_entry'
+  :controller=>'time_entries'
 end
 
 BikeBinder::Application.routes.draw do

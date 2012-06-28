@@ -14,8 +14,13 @@
   </section> <!-- end of new note wrapper -->
 
   <%= render :partial => "project_step" %>
-</section> <!-- end of project status -->
 
+
+  <h3>Work log</h3>
+  <%= link_to "Log work on this project", new_project_work_log_path(project) %>
+
+
+</section> <!-- end of project status -->
 
 <div id="cancel-project-wrapper" class="span11  ">
 
