@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120506063455) do
+ActiveRecord::Schema.define(:version => 20120628030935) do
 
   create_table "answers", :force => true do |t|
     t.integer  "question_id"
@@ -152,17 +152,17 @@ ActiveRecord::Schema.define(:version => 20120506063455) do
     t.string   "state"
   end
 
+  add_index "project_detail_versions", ["item_id"], :name => "index_project_detail_versions_on_item_id"
   add_index "project_detail_versions", ["item_type"], :name => "index_project_detail_versions_on_item_type"
-  add_index "project_detail_versions", [ "item_id"], :name => "index_project_detail_versions_on_item_id"
-add_index "project_detail_versions", ["state"], :name => "index_project_detail_versions_on_state"
+  add_index "project_detail_versions", ["state"], :name => "index_project_detail_versions_on_state"
 
   create_table "project_eab_details", :force => true do |t|
     t.integer  "proj_id"
     t.string   "proj_type"
     t.string   "state"
     t.string   "status_state"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
     t.string   "inspection_access_code"
   end
 
@@ -246,8 +246,8 @@ add_index "project_detail_versions", ["state"], :name => "index_project_detail_v
     t.string   "access_code"
     t.datetime "started_at"
     t.datetime "completed_at"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
     t.string   "api_id"
     t.integer  "surveyable_id"
     t.string   "surveyable_type"
@@ -310,6 +310,33 @@ add_index "project_detail_versions", ["state"], :name => "index_project_detail_v
   end
 
   add_index "surveys", ["access_code"], :name => "surveys_ac_idx", :unique => true
+
+  create_table "time_entries", :force => true do |t|
+    t.integer  "time_trackable_id",   :default => 0
+    t.string   "time_trackable_type", :default => ""
+    t.string   "title",               :default => ""
+    t.text     "description",         :default => ""
+    t.string   "context_type",        :default => ""
+    t.integer  "context_id",          :default => 0
+    t.integer  "user_id",             :default => 0,  :null => false
+    t.integer  "parent_id"
+    t.integer  "lft"
+    t.integer  "rgt"
+    t.datetime "started_on"
+    t.datetime "ended_on"
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
+  end
+
+  add_index "time_entries", ["context_id"], :name => "index_time_entries_on_context_id"
+  add_index "time_entries", ["time_trackable_id"], :name => "index_time_entries_on_time_trackable_id"
+  add_index "time_entries", ["user_id"], :name => "index_time_entries_on_user_id"
+
+  create_table "time_entry_categories", :force => true do |t|
+    t.string   "title",      :default => ""
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false

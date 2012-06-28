@@ -10,6 +10,7 @@ gem 'therubyracer', '~>0.10.1'
 
 gem 'devise', '~>2.1.0'
 gem 'acts_as_commentable_with_threading', '1.1.2'
+gem 'time_sheet', :git => 'git://github.com/zflat/time_sheet.git'
 
 gem 'friendly_id', '~>4.0.5'
 gem 'decent_exposure', '~>1.0.2'
