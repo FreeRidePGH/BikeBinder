@@ -1,3 +1,8 @@
+def resources_work_log
+  resources :work_log, :path_names => {:new => 'enter'},
+  :controller=>'time_entries', :as => 'hours_entry'
+end
+
 BikeBinder::Application.routes.draw do
 
   # Note:  See all routes with "rake routes"
@@ -15,7 +20,7 @@ BikeBinder::Application.routes.draw do
       put 'transition'
     end
 
-    resources :work_log, :path_names => {:new => 'enter'}
+    resources_work_log
   end
 
   resources :project_categories, :except=>[:destroy, :new, :create]

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe WorkLogController do
+describe TimeEntriesController do
 
   before(:each) do
     @proj||=Project.all.first
