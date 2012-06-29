@@ -79,6 +79,12 @@ eg, a blue underline link represents a Navigational action such as going to the 
 - bike/freeride branding elements? bike with wings logo faded in background of header on certain pages?
 
 
+# Copywrite
+
+(c) 2012 Free Ride Bicycle Project, See license for details
+
+
+
 
 
 
