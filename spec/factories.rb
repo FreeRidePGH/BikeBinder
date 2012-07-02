@@ -4,6 +4,12 @@ FactoryGirl.define do
     sequence(:number){|n| (100+n).to_s}
   end
 
+  factory :user do
+    email "test@freeridepgh.org"
+    password "testtest"
+    password_confirmation "testtest"
+  end
+
   factory :bike do
     sequence(:number){|n| (10000+n).to_s}
   end

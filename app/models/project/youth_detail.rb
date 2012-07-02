@@ -32,6 +32,31 @@ class Project::YouthDetail < ProjectDetail
 
   has_time_sheet
 
+  def work_log
+    self.time_entries
+  end
+
+  def build_work_entry(opts={})
+    t_start = opts[:time_start]
+    t_end = opts[:time_end]
+    obj = self
+    user_id = opts[:user].id if opts[:user]
+    desc = opts[:description]
+    category = "Repair"
+
+    TimeEntry.build_from(:obj=>obj,
+                             :user_id=>user_id,
+                             :description => desc,
+                             :context => category,
+                             :start => t_start,
+                             :end => t_end)
+  end
+
+  def create_work_entry(opts={})
+    entry = build_work_entry(opts)
+    entry.save if entry
+  end
+
 end
 # == Schema Information
 #

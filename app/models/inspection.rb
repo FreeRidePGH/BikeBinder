@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+
+require "surveyor_util"
+
 module Inspection
 
   # NOTES for implementation: 

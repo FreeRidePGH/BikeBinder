@@ -15,5 +15,5 @@ describe Project::Youth do
       @proj.should be_open
     end
   end
-  
+
 end

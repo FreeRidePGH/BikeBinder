@@ -1,3 +1,20 @@
+require 'spec_helper'
+
+describe User do
+
+  before(:each) do
+    @user = FactoryGirl.build(:user)
+  end
+
+  it "Should have an id" do
+    @user.should_not be_nil
+    @user.save
+    puts @user.errors.messages if @user.id.nil?
+    @user.id.should_not be_nil
+  end
+
+end
+
 # == Schema Information
 #
 # Table name: users
