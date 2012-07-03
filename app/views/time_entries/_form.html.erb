@@ -1,0 +1,9 @@
+<div>
+  <%= form_for(time_trackable, :url=> url, :method => :post) do |f| %>
+    <%= f.label "Start" %>
+    <%= f.label "End" %>
+    <%= f.label "Description" %>
+    
+    <%= button_tag "Submit", :class=> "btn btn-primary" %>
+  <% end %>
+</div>

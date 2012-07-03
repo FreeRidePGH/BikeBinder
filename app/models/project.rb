@@ -90,6 +90,11 @@ class Project < ActiveRecord::Base
     (bike.nil?) ? type+id.to_s  : "sn-#{bike.number}"
   end
 
+  def self.find_by_label(label, delimiter='-')
+    bike = Bike.find_by_label(label, delimiter)
+    return bike.project if bike
+  end
+
   # When the project is in the middle of a process
   # this hash provides paramaters to resume that process
   def process_hash

@@ -1,7 +1,8 @@
 
 Render partial form for:
-<%= @obj_class %>
+<%= time_trackable %>
 
+<%= render :partial=>"time_entries/form", :locals => {:url => url_for(:action=>:create) } %>
 
 
 (time_entries/new)

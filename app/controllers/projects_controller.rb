@@ -1,35 +1,6 @@
 class ProjectsController < ApplicationController
 
-  # Fetch by:
-  # * Already fetched project_category
-  # * program project category if program is fetched
-  # ** Assumes 1:1 mapping from program to project category
-  expose(:category) do
-    @cat ||= project_category
-    @cat ||= (program.project_category if program)
-  end
-
-  # Fetch by: 
-  # id or bike_id
-  expose(:bike) do
-    id ||= id_from_label(params[:id]) unless params[:id].blank?
-    id ||= id_from_label(params[:bike_id]) unless params[:bike_id].blank?
-    @b ||= (Bike.find_by_number(id) if id)
-  end
-
-  # Fetch by:
-  # * bike's project when bike is fetched
-  # Create by:
-  # category association when category is fetched
-  expose(:project) do
-    @proj ||= (bike.project if bike)
-    @proj ||= (category.project_class.new(project_params) if category)
-  end
-
-  # Exposed to speciy object to build new comments on
-  expose(:commentable) do
-    @commentable ||= project
-  end
+  include ProjectsExposure
 
   def index
     @title = "Projects#index"

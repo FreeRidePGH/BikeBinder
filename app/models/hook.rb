@@ -37,4 +37,14 @@ class Hook < ActiveRecord::Base
   def label
     "location-#{self.number}"
   end
+
+  def self.id_from_label(label, delimiter='-')
+    arr = label.split(delimiter) if label
+    arr[-1] if arr
+  end
+
+  def self.find_by_label(label, delimiter='-')
+    id = Hook.id_from_label(label, delimiter)
+    Hook.find_by_number(id)
+  end
 end

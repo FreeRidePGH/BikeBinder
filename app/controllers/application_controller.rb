@@ -1,10 +1,9 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  def id_from_label(label, delimiter='-')
-    arr = label.split(delimiter)
-    arr[-1]
-  end
+  #def id_from_label(label, delimiter='-')
+  #  Bike.id_from_label(labe, delimiter)
+  #end
   
   # Scope from collection of all categories
   expose(:project_categories) {ProjectCategories.all}

@@ -7,8 +7,8 @@ class BikesController < ApplicationController
   expose(:bike) do
     id_param = params[:id]||params[:bike_id]
     unless id_param.blank?
-      bike_id = id_from_label(id_param)
-      @bike ||= Bike.find_by_number(bike_id) unless bike_id.nil?
+      label = id_param
+      @bike ||= Bike.find_by_label(label) unless label.nil?
     end
     @bike ||= Bike.new(bike_params)
   end
@@ -26,7 +26,7 @@ class BikesController < ApplicationController
   # * next available from the Hook model
   expose(:hook) do
     @hook ||= (bike.hook if bike)
-    @hook ||= (Hook.find_by_id(id_from_label(params[:hook_id])) if params[:hook_id])
+    @hook ||= (Hook.find_by_label(params[:hook_id]) if params[:hook_id])
     @hook ||= Hook.next_available
   end
 

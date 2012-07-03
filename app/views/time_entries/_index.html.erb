@@ -1,0 +1,13 @@
+<% if comments.length > 0 %>
+<div class="comments span4">
+  <% comments.each do |c| %>
+  <span>Created by:
+    <strong> <%= c.user.email %> </strong> 
+    on <%= c.created_at.strftime(' %B %d %y') %> 
+  </span>
+  <p> <%= c.body %></p>
+  <% end %>
+</div>
+<% end %>
+
+

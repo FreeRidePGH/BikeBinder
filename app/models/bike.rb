@@ -67,6 +67,16 @@ class Bike < ActiveRecord::Base
   def label
     "sn-#{self.number}"
   end
+  
+  def self.id_from_label(label, delimiter='-')
+    arr = label.split(delimiter) if label
+    arr[-1] if arr
+  end
+
+  def self.find_by_label(label, delimiter='-')
+    id = Bike.id_from_label(label, delimiter)
+    Bike.find_by_number(id)
+  end
 
   def self.unavailable
     self.where{(departed_at != nil) | (project_id != nil) }
