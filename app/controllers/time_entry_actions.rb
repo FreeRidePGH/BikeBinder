@@ -4,15 +4,20 @@ module TimeEntryActions
 
     # Build a new time entry
     base.expose(:time_entry) do
+      args = params[:time_entry]
+
       if @t_ret.nil?
         entry_opts = {}
         entry_opts[:obj] = time_trackable
         entry_opts[:user_id] = current_user.id if current_user
-        entry_opts[:time_start] = DateTime.now
-        entry_opts[:time_end] = DateTime.now
-        entry_opts[:description] = params[:time_entry][:description] if params[:time_entry]
+        entry_opts[:start] = args[:start_datetime] if args
+        entry_opts[:end] =  args[:end_datetime] if args
+        entry_opts[:end] ||= DateTime.now
+        entry_opts[:start] ||= entry_opts[:end]
+        entry_opts[:description] = args[:description] if args
         @t_ret = (TimeEntry.build_from(entry_opts) if time_trackable)
       end
+
       @t_ret
     end 
 
@@ -24,8 +29,8 @@ module TimeEntryActions
     url_for(time_trackable)
   end
 
-
-  def show
+  def time_trackable_title
+    "#{time_trackable.class.to_s.humanize} #{time_trackable.friendly_id}"
   end
 
   def new

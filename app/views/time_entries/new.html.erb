@@ -1,7 +1,9 @@
-Render partial form for:
-<%= time_trackable %>
+<div class="row">
+  <div class="span8 offset1">
+    <h3>Log hours worked on the <%= time_trackable_title %></h3>
+    <p>Please log your hours by providing a start time, end time and description of the work you completed.</p>
+    <%= render :partial=>"time_entries/form", :locals => {:url => url_for(:action=>:create) } %>
+    <%= link_to "Back to the #{time_trackable_title}", time_trackable_url %>
+  </div>
+</div>
 
-<%= render :partial=>"time_entries/form", :locals => {:url => url_for(:action=>:create) } %>
-
-
-(time_entries/new)

@@ -1,5 +1,5 @@
 def resources_project_work_log
-  resources :work_log, :path_names => {:new => 'enter'},
+  resources :work_log, :path_names => {:new => 'enter'}, :only => [:new, :create],
   :controller=>'project_time_entries'
 end
 
