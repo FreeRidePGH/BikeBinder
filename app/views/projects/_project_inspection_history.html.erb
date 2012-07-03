@@ -2,7 +2,9 @@
     <thead>
       <td>User</td>
       <td>Date started</td>
-      <td>Status</td>
+      <td>Completion</td>
+      <td>Grade</td>
+      <td>Inspection</td>
     </thead>
     <% project.detail.inspections.each do |inspection| %>
       <% user = User.find(inspection.user_id) if inspection.user_id %>
@@ -10,7 +12,13 @@
 	<td><%= (user.nil?) ? "Anonymous" : user.email %></td>
 	<td><%= inspection.started_at %></td>
 	<td>
-	  <%= print_inspection_status(project, inspection, current_user) %>
+	  <%= inspection_completion(project, inspection, current_user) %>
+	</td>
+	<td>
+	  <%= inspection_grade(inspection) %>
+	</td>
+	<td>
+	  <%= print_inspection_response_status(project, inspection, current_user) %>	  	  
 	</td>
       </tr>
     <% end %>
