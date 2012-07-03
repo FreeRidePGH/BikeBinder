@@ -66,12 +66,12 @@ class ApplicationController < ActionController::Base
   # * Build from commentable if commentable is fetched
   # ** Assumes calling controller exposes commentable
   expose(:comment) do
-    @cret ||= (Comment.build_from(commentable, current_user, comment_body) if commentable)
+    @c_ret ||= (Comment.build_from(commentable, current_user, comment_body) if commentable)
   end
 
   def new_comment
     if commentable
-      if comment and comment.save
+      if comment && comment.save
         # Handle a successful save
         flash[:success] = "Thank you for your comment"
       else

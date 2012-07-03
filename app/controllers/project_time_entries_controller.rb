@@ -6,12 +6,11 @@ class ProjectTimeEntriesController < ApplicationController
     @ttrack ||= project.detail if project
   end
 
+  include TimeEntryActions
+
   def time_trackable_url
     url_for(project)
   end
-  
-  include TimeEntryActions
-  
-  
+    
 
 end

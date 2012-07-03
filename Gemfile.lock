@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/zflat/time_sheet.git
-  revision: 7d705aa4da5ce5e6465778fb323beeb1e816b641
+  revision: 1b11f796349e6659787527a8e52f00594b9502d8
   specs:
-    time_sheet (0.0.3)
+    time_sheet (0.0.4)
       activerecord (>= 3.0)
       activesupport (~> 3.0)
       awesome_nested_set (>= 2.0)

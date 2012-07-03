@@ -1,1 +1,0 @@
-youth_detail_spec (copy).rb

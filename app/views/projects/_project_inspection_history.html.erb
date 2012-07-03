@@ -1,11 +1,14 @@
-  <table class="table">  
+<% if project.detail.inspections.count > 0 %>
+  <h3>Inspection history</h3>
+  <table class="table table-striped table-condensed">  
     <thead>
-      <td>User</td>
-      <td>Date started</td>
-      <td>Completion</td>
-      <td>Grade</td>
-      <td>Inspection</td>
+      <th>User</th>
+      <th>Date started</th>
+      <th>Completion</th>
+      <th>Grade</th>
+      <th>Inspection</th>
     </thead>
+    <tbody>
     <% project.detail.inspections.each do |inspection| %>
       <% user = User.find(inspection.user_id) if inspection.user_id %>
       <tr>
@@ -22,4 +25,6 @@
 	</td>
       </tr>
     <% end %>
+    </tbody>
   </table>
+<% end %>

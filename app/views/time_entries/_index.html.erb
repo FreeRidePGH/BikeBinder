@@ -1,13 +1,22 @@
-<% if comments.length > 0 %>
-<div class="comments span4">
-  <% comments.each do |c| %>
-  <span>Created by:
-    <strong> <%= c.user.email %> </strong> 
-    on <%= c.created_at.strftime(' %B %d %y') %> 
-  </span>
-  <p> <%= c.body %></p>
+<% if time_entries.length > 0 %>
+<table class="table table-striped table-condensed">
+  <thead>
+    <th>Date</th>
+    <th>Person</th>
+    <th>Description of work</th>
+    <th>Hours worked</th>
+  </thead>
+  <tbody>
+  <% time_entries.each do |c| %>
+  <tr>
+    <td><%= c.date_start %></td>
+    <td><%= c.user.email if c.user %></td>
+    <td><%= c.description %></td>
+    <td><%= c.hours %></td>
+  </tr>
   <% end %>
-</div>
+  </tbody>
+</table>
 <% end %>
 
 
