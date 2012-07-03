@@ -9,10 +9,12 @@
   <hr />
   
   <div class="span5">
-  <h3>Work log</h3>
-  <%= link_to "Log work on this project", new_project_work_log_path(project) %>
-  <%= render :partial=>"time_entries/index", 
-  :locals=>{:time_entries => project.detail.time_entry_threads} %> 
+    <% if project.detail.work_log %>
+    <h3>Work log</h3>
+    <%= link_to "Log work on this project", new_project_work_log_path(project) %>
+    <%= render :partial=>"time_entries/index", 
+    :locals=>{:time_entries => project.detail.time_entry_threads} %> 
+    <% end %>
   </div>
 
   <section class="row span3 offset1">
