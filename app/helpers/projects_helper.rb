@@ -1,12 +1,22 @@
 module ProjectsHelper
+  
+  def inspection_grade(inspection)
+    str = "Pass" if Inspection.pass?(inspection)
+    str ||= "Fail" if Inspection.fail?(inspection)
+    str ||= "N/A"
+    return str
+  end #def grade
 
-  def inspection_status(project, inspection, user=nil)
-    # The inspection can pass?
-    can_pass = Inspection.pass?(inspection)
+  def inspection_completion(project, inspection, user=nil)
+    done = project.detail.inspection_complete?(inspection)
 
-    # The inspection can fail?
-    can_fail = Inspection.fail?(inspection)
+    str = "Finished" if done
+    str ||= "Incomplete"
+      
+    return str
+  end
 
+  def inspection_response_status(project, inspection, user=nil)
     # The inspection can be resumed by user?
     # Check the following:
     #   user_inspection is found
@@ -14,34 +24,28 @@ module ProjectsHelper
     #     found inspection matches specified inspection
     user_inspection = project.detail.user_inspection(user, :valid_only => true)
     can_edit = (inspection && user_inspection) && (inspection.id == user_inspection.id)
-
+    
     # Specify if the inspection is old
     old = project.detail.old_inspection?(inspection)
 
-    return {:can_pass => can_pass, :can_fail => can_fail, :can_edit => can_edit, :is_old => old}
-  end
+    return {:can_edit => can_edit, :is_old => old}
+  end #inspection_response_satus
 
-  def print_inspection_status(project, inspection, user=nil)
-    status = inspection_status(project, inspection, user)
-    p = ""
+  def print_inspection_response_status(project, inspection, user=nil)
+    status = inspection_response_status(project, inspection, user)
+    str = ""
     view_args = project.detail.inspection_hash(inspection, user)
     view_args[:action] = :show
-    if status[:is_old]
-      p << link_to("Old inspection", view_args)
+
+    if status[:can_edit] && !status[:is_old]
+      str << link_to("Resume inspection", 
+                     project.detail.inspection_hash(inspection, user))        
     else
-      status_text = "Passing" if status[:can_pass]
-      status_text = "Failing" if status[:can_fail]
-      status_text = "Incomplete" if !(status[:can_pass] || status[:can_fail])
-      p << link_to(status_text, view_args)
-
-      if status[:can_edit]
-        p << " | " 
-        p << link_to("Resume", project.detail.inspection_hash(inspection, user))
-      end
+      str << link_to("View inspection", view_args)
     end
-
-    return p.html_safe
+    return str.html_safe
   end
+
 
   def available_actions(project, user)
     # Get the list of events for the given project
