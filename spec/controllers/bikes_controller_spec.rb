@@ -39,23 +39,34 @@ describe BikesController do
 
     it "should reserve the requested aviailable hook" do 
         
-      @hook = FactoryGirl.create(:hook)
-      @bike = FactoryGirl.create(:bike)
+      hook = FactoryGirl.create(:hook)
+      bike = FactoryGirl.create(:bike)
+      bike.should be_shop
+      bike.hook.should be_nil
 
-      @bike.should be_shop
-      @bike.hook.should be_nil
-        
-      put :reserve_hook, {:id => @bike, :hook_id => @hook.id}
-
-      flash[:success].should == "Hook #{@hook.number} reserved successfully"
+      put :reserve_hook, {:id => bike, :hook_id => hook.id}
+      flash[:success].should == "Hook #{hook.number} reserved successfully"
       flash[:error].should_not == "Could not reserve the hook."
 
-      @bike.hook.should_not be_nil
-      @bike.hook.should == @hook
+      bike.reload
+      bike.hook.should_not be_nil
+      bike.hook.should == hook
 
-      response.should be_success
-        
-      end
+    end
+
+    it "Should not have a bike after vacating" do
+      hook = FactoryGirl.create(:hook)
+      bike = FactoryGirl.create(:bike)
+      bike.should be_shop
+      bike.hook.should be_nil
+      put :reserve_hook, {:id => bike, :hook_id => hook.id}
+      bike.reload
+      bike.hook.should_not be_nil
+
+      put :vacate_hook, {:id => bike}
+      bike.reload
+      bike.hook.should be_nil
+    end
     
   end
   
