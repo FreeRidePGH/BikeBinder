@@ -29,6 +29,7 @@ class Bike < ActiveRecord::Base
   has_one :hook, :dependent => :nullify, :inverse_of=>:bike
   has_many :inspections, :class_name=>'ResponseSet', :as => :surveyable
   belongs_to :project, :inverse_of => :bike
+  #has_one :number, :as => :serializable
 
   state_machine :location_state, :initial => :shop do
     after_transition (any - :departed) => :departed , :do => :depart_action

@@ -36,6 +36,15 @@ describe Project do
     end
   end
 
+  describe "A project that gets canceled" do
+    it "should be marked as trash"
+
+    it "should null the bike association"
+
+  end
+
+  
+  
 end
 # == Schema Information
 #
