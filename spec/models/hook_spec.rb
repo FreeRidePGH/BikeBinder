@@ -13,6 +13,38 @@ describe Hook do
     end
   end
 
+  describe "Hooks with an assigned bike" do
+
+    before(:each) do
+      @hook = FactoryGirl.create(:hook)
+      @bike = FactoryGirl.create(:bike)
+      @bike.reserve_hook!(@hook)      
+    end
+
+    it "should not be available" do
+      @hook.bike.should_not be_nil
+    end
+
+    it "should reference the correct bike" do
+      @hook.reload
+      @hook.bike.should == @bike
+    end
+
+  end
+
+
+  describe "Hooks without an assigned bike" do
+
+    before(:each) do
+      @hook = FactoryGirl.create(:hook)
+    end
+
+    it "should not reference a bike" do
+      @hook.bike.should be_nil
+    end
+
+  end
+
 end
 
 

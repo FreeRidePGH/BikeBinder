@@ -2,24 +2,14 @@ require 'spec_helper'
 
 describe HooksController do
 
-  render_views
+  #render_views
 
-  describe "Hooks with an assigned bike" do
-
-    it "should not be available"
-
-    it "should reference the correct bike"
-
-  end
-
-
-  describe "Hooks without an assigned bike" do
-
-    it "should be available"
-
-
-    it "should not reference a bike"
-
+  describe "Get 'show'" do
+    it "should be successful" do
+      @hook = FactoryGirl.create(:hook)
+      put 'show', :id => @hook
+      response.should be_success
+    end
   end
 
 end
