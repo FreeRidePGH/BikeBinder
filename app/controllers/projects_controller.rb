@@ -2,10 +2,12 @@ class ProjectsController < ApplicationController
 
   include ProjectsExposure
 
+  # GET
   def index
     @title = "Projects#index"
   end
 
+  # GET
   def show
     redirect_to root_path and return unless project
 
@@ -16,10 +18,12 @@ class ProjectsController < ApplicationController
     end
   end
 
+  # GET
   def new
     @title = "Create new project"
   end
 
+  # POST
   def create
     if project and project.assign_to(params)
       if project.save
@@ -44,12 +48,14 @@ class ProjectsController < ApplicationController
     redirect_to root_path
   end
 
+  # PUT
   def update
     # TODO updating and saving project details
     # Save the project details and the project
     render 'show'
   end
 
+  # PUT
   def transition
     prefix = project.type.downcase.gsub("::", "_")
     proj_key = prefix.to_sym
@@ -81,6 +87,65 @@ class ProjectsController < ApplicationController
     end
   end
 
+  
+  # Case the project is done:
+  #   Confirmation (render close_out_form)
+  #
+  # Case the project is not done:
+  #   Option to close anyway (render close_out_form)
+  #
+  # via GET
+  def finish
+    
+    
+  end
+
+  # Case the project is done
+  #  do close action
+  #
+  # Case the project is not done
+  #  When option to override is given:
+  #    do close action
+  #  When no override given:
+  #    Notify error (SHOW project)
+  #
+  # Case close action works
+  #  Notify success (SHOW project)
+  #
+  # Case close fails
+  #  Notify error (SHOW Project)
+  #
+  # via PUT
+  def close
+
+    if project.nil?
+      if bike
+        flash[:error] = "Close action failed because bike #{bike.number} has no project assigned"
+        redirect_to bike and return
+      else
+        flash[:error] = "Close action falied because no project was specified"
+        redirect_to root and return
+      end
+    end
+
+    force = params[:force]
+
+    allow_close = (force == "all")
+    allow_close ||= project.pass_req?
+    
+    if allow_close && project.close
+      flash[:success] = "Project was closed successfully."
+      redirect_to bike and return
+    end
+
+    flash[:error] = bike.errors.messages[0] if bike.errors
+    flash[:error] = project.errors.messages[0] if project.errors
+    flash[:error] = "Project does not pass requirements" if (!project.pass_req?)
+
+    redirect_to project and return
+  end
+
+  # DELETE
   def destroy
     # TODO project cancel process
     if project and project.cancel

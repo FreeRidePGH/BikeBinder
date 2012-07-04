@@ -72,27 +72,48 @@ class BikesController < ApplicationController
     end
   end
 
+
+  # Case the project is done, but not closed:
+  #   Confirmation to close the project (FINISH project)
+  #   Note: a project is done but not closed if it meets all
+  #   project requirements, but it has just not been closed yet
+  #
+  # Case the project is not done, render page with options:
+  #   Go to project to finish it (SHOW project) 
+  #   - or -
+  #   Close anyway (FINISH project)
+  #
+  # Case there is no project:
+  #   Options & form to start a new project (render page with depart form)
+  #
+  # Case the bike is already departed:
+  #   Notify error (SHOW bike)
+  #
+  # via GET
   def depart
-  end
 
-  def send_away
-    force = params[:force]
+    if bike.nil?
+      redirect_to root and return
+    end
 
-    allow_to_depart = (force == "all")
-    allow_to_depart ||= (project and project.closed?)
-
-    if allow_to_depart and bike.depart
-      flash[:success] = "Bike has departed"     
+    if bike.departed?
+      flash[:error] = "Bike has already departed"
       redirect_to bike and return
     end
-    
-    flash[:error] = bike.errors.messages[0] if bike.errors
-    flash[:error] = "Project is open" if (project and project.open?)
-    flash[:error] = "No project designated" if project.nil?
 
-    # render gives the chance to:
-    #   close the project
-    #   create a project
+    project = bike.project
+
+    if project.nil?
+      is_done_project = false
+    else
+      is_done_project = project.terminal?
+      is_done_project ||= project.detail.done?
+    end
+
+    if is_done_project
+      redirect_to finish_project_path(project) and return
+    end
+
     render 'depart'
   end
 
