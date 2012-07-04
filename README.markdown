@@ -2,7 +2,7 @@
 
 ## Objective
 
-Reproduce all functionality that exists with the current paper binder system.
+Reproduce all functionality that exists with the current paper bike binder and departed bikes binder system.
 
 
 ## Getting up and running
@@ -32,7 +32,7 @@ Take the following actions to get a cloned/pulled version to run locally
 
 In order to get a functional prototype running, we need to adhere to a limit scope. We can add features later. If a feature is desired, but not in scope, it can be added to the outside scope list.
 
-### Original Scope
+### Scope for Milestone 1
 
 * Bike info sheet: Location, Characteristic (Size, mfg, model, color), Notes, Value, Departure & Arrival Dates
 * Youth projects sheet: Program name, State (Active/inactive)
@@ -46,15 +46,16 @@ In order to get a functional prototype running, we need to adhere to a limit sco
 * Bike state
 * Safety inspection
 * Project progress
-
-### Remaining scope
-
-* Bike info sheet: Characteristic (Size, mfg, model, color), Value, Arrival Date
+* Youth Project: repair log
 * Hook: hook lookup
 
-### Additional work
+### Remaining features
 
-* Youth Project: repair log
+* Bike info sheet: Characteristic (Size, mfg, model, color), Value, Arrival Date
+
+
+### Features for future milestones
+
 * User permissions
 * Searching & filtering: bikes, hooks, projects
 * Bike demographics (replacing hand-typed characteristics with suggestions or other databased backed data entry)
@@ -77,6 +78,38 @@ eg, a blue underline link represents a Navigational action such as going to the 
 -visual diagrams/photos demonstrating bike measurement jargon?
 -display the bike color when rendering a bike view
 - bike/freeride branding elements? bike with wings logo faded in background of header on certain pages?
+
+--------------------------------------------
+
+# Project Milestones
+
+## Mileston 1: Youth project implementation to be fully functional
+
+* All of the necessary features and interations to be able to successfully user the application for youth  projects.
+
+## Milestone 2: Searching/Sorting and User roles and authorization
+
+* UI elements to search the site
+* Ability to sort filter and get basic reports for bikes and projects
+** Bike demographic data implemented to assist with searching/sorting/filtering
+* Mechanism implemented to provide user roles
+* Locks in place to require different role based authorization
+** Roles and authorization to allow application to go live without risk to data being corrupt
+
+# Milestone 3: All project types implemented and fully functional
+
+* Youth, Earn-a-bike, Fix-for-sale, Scrap, As-is purchases
+* Inspections customized for each project
+* Role based authorization for each project type as needed
+
+# Milestone 4: Deployment and support infrastructure
+
+* Site is live and in-use
+* Infrastructure support for
+** Back-ups and restore
+** Monitoring & notifying system status
+** Admin functionality to fix problems/take care of unexpected issues
+
 
 
 # Copywrite
