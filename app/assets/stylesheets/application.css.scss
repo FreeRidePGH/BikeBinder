@@ -9,14 +9,12 @@
 
 
 header {
-     padding: .25em .25em .25em ;
+}
+header h1 {
      border-bottom-width:2px;
      border-bottom-style:solid;
      border-color: #999;
-     margin: 0 0 1em 0;
-}
-header h1 {
-    margin-bottom: .25em;
+     margin-bottom: .6em;
 }
 
 #shared_menu {
@@ -36,6 +34,18 @@ header h1 {
     text-align: center;
 
 
+}
+p.demoHelp {
+   font-weight: bold;
+    font-size: 12px;
+}
+header p.demoHelp {
+    top: 3%;
+    width: 40%;
+    position: absolute;
+    right: 20%;
+    z-index: -5;
+    
 }
 
 /* sitewide table legibility style */ 
@@ -86,8 +96,22 @@ section#user_login_status {
     top: 3%;
     right: 15%;
 }
+/* occurs primarily on the user login or registration page */
+.noTitle section#user_login_status.no-user {
+    border-radius: 5px;
+    top: 4%;
+    background: #fff;
+    p {
+	margin: 6px auto 8px auto;
+	width: 85%;
+    }
+
+}
+
 section#user_login_status.no-user {
+    top: 3%;
     right: 20%;
+    width: 9%;
     p {
 	float: right;
 	margin-right: 10px;
@@ -149,7 +173,7 @@ section#user_login_status.no-user {
     border-radius: 5px;
     clear: both;
     float: left;
-    height: 35px;
+    height: 45px;
     ul {
 	list-style-type: none; 
 	li.signed-in-action-1 {
@@ -178,10 +202,21 @@ input[type="submit"],
 button[type="submit"] {
     display: block;
 }
+/* Generic comments styling */
+#newCommentWrap,  form#new_comment {
+    margin-top: 25px;
+    position: absolute;
+}
+form#new_comment #comment_body {
+    
+    width: 261px;
+}
+
 div.comments {
     margin-bottom: 5px;
     margin-left: 0;
     float: left;
+    clear: left;
     
     /* contains the user and date information associated with the comment */
     span {
@@ -207,6 +242,17 @@ footer {
     margin-top: 40px;
 }
 
+button.toggler {
+    float: left;
+    margin: .25em .25em 0 3em;
+}
+.notesWrapper {
+    h3 {
+	margin: 0 .25em .5em .25em;
+	float: left;
+    }
+
+}
 
 /* Styling to customize for look and feel */
 .inline-label {

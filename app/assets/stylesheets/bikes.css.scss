@@ -13,17 +13,20 @@ table.bikes th:first-child {
 }
 /* Location, project info, departure info */
 section.bikesMeta {
-    margin-top: 40px;
-    margin-left: 0;
-    border-top: 1px solid gray;
-    padding-top: 0.5em;
-    div#locationWrapper {
-	margin-left: 0;
+    div.locationWrap {
+	clear: both;
+    }
+    div {
+	float: left;
+	clear: left;
+    }
+    div.projInfo {
+
     }
     
 }
 
-section#notesWrapper {
+#existingNotes {
     float: left;
 }
 dd.key {
@@ -75,12 +78,12 @@ dd.value {
 
     div.block1 + div {
 	height: 120px;
-	dd[data-bike-color] {
+	[data-bike-color] {
 	    width: 25px;
 	    height: 25px;
 	    border-radius: 5px;
 	    border: solid #888 1px;
-	    margin: .5em .25em .25em 1.75em;
+	    margin: 0 .25em 0 .5em;
 	    float: left;
 	    padding: 0;
 	}
@@ -104,34 +107,28 @@ dd.value {
     
 }
 /* Style comments/notes about bike here */
-#notesWrapper {
-
-    h3 {
-	margin: 0 .25em .5em .25em;
-	clear: both;
+.show-bike section.notesWrapper {
+    border-top: solid 1px gray;
+    margin-top: 1em;
+    margin-left: 0;
+    div {
+	margin-top: .5em;
     }
+}
+#existingNotes {
+    
     label {
 	font-size: 14px;
 	float: left;
 	font-weight: bold;
 	margin: .25em .25em 0 .25em;
     }
-    button#toggleNotes {
-	float: right;
-	margin: .25em;
-    }
 }
-#newNoteWrapper {
+#newNote {
     float: left;
     margin-left: 0;
 }
-form#new_comment #comment_body {
-    margin-top: 15px;
-    width: 261px;
-}
-.show-project form#new_comment {
-    position: absolute;
-}
+
 /* label[for="comment_body"] { */
 /*     float: left; */
 /*     display: inline; */

@@ -1,3 +1,15 @@
 // Place all the styles related to the users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+label[for=user_remember_me], 
+#user_remember_me {
+    float: left;
+    display: block;
+}
+#user_password {
+    display: block;
+}
+.userLogin input[type="submit"] {
+    clear: both;
+}

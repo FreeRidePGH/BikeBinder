@@ -5,23 +5,29 @@
   <%= stylesheet_link_tag    "application" %>
   <!-- lets get Bootstrapping -->
   <%= stylesheet_link_tag    "bootstrap" %>
-  <!-- for color picker, eventually reduce the need for only bike pages -->
-  <%= stylesheet_link_tag    "jquery.miniColors.css" %>
 
 
   <%= javascript_include_tag "application" %>
-  <%= javascript_include_tag :defaults %>
-  <%= javascript_include_tag "jquery.miniColors.js" %>
+
+
   <%= csrf_meta_tags %>
-  <%= favicon_link_tag '/assets/images/bikewheel.ico' %>
-  <%= favicon_link_tag %>
+  <%= favicon_link_tag '/favicon.png' %>
+ <!-- need to establish the proper route to serve up the favicon -->
+  <!-- <link rel="shortcut icon" type="image/png" href="./favicon.png" /> -->
 
 
 </head>
+<!-- duplicating logic should not be relied upon, just here for a quick fix  -->
+<% if header_title.nil? %>
+<body class="noTitle">
+<% else %>
 <body>
+<% end %>
   <div class="container">
-    <header class="row span12">
+    <header class="span12" >
+      <% if !header_title.nil? %>
       <%= content_tag(:h1, header_title) %>
+      <% end %>
       <%= render 'shared/menu' %>
     </header>
 
@@ -30,7 +36,7 @@
     <%= yield %>
 
 
-    <footer class="row span8">
+    <footer class="span8">
       <%= debug(params) if Rails.env.development? %>
     </footer>
   </div>

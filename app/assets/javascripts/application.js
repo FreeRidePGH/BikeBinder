@@ -19,7 +19,7 @@ $(document).ready(function(){
 	colorSwatchDiv.css("backgroundColor", colorSwatchDiv.data("bike-color"));
     }
     $("#newCommentWrap").hide();
-    $("button#toggleNotes").click(function(){
+    $("button[data-role=toggle]").click(function(){
 	$("#newCommentWrap").toggle();
     });
 });
