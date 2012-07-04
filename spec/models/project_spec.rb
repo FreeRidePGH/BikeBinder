@@ -36,6 +36,24 @@ describe Project do
     end
   end
 
+  describe "A project that gets canceled" do
+    before(:each) do
+      @proj = FactoryGirl.create(:youth_project)
+      @b_id = @proj.bike.id
+      @proj.cancel
+    end
+    it "should be marked as trash" do
+      @proj.should be_trash
+    end
+
+    it "should null the bike association" do
+      Bike.find_by_id(@b_id).project.should be_nil
+    end
+
+    it "should not delete the bike record" do
+      Bike.find_by_id(@b_id).should_not be_nil
+    end
+  end
 end
 # == Schema Information
 #

@@ -65,11 +65,15 @@ class Project < ActiveRecord::Base
   attr_accessible nil
 
   def self.open
-    self.where{closed_at == nil}
+    self.where{state == 'open'}
   end
 
   def self.closed
-    self.where{closed_at != nil}
+    self.where{state == 'closed'}
+  end
+
+  def self.trash
+    self.where{state == 'trash'}
   end
 
   def assign_to(opts={})
