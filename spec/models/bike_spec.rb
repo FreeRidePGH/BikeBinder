@@ -1,3 +1,39 @@
+require 'spec_helper'
+
+
+describe Bike do
+
+  describe "A new bike" do
+
+    it "Should be valid" do
+      @bike = FactoryGirl.create(:bike)
+      @bike.save
+      @bike.errors.count.should == 0
+    end
+
+    describe "Assigning a hook" do
+
+      it "should be assigned to an available hook" do
+        @bike = FactoryGirl.create(:bike)
+        @bike.should be_can_reserve_hook
+
+        @hook = FactoryGirl.create(:hook)
+        @hook.should_not be_nil
+
+        @bike.reserve_hook!(@hook)
+
+        @bike.should_not be_can_reserve_hook
+        @bike.hook.should_not be_nil
+      end
+
+    end
+
+  end
+
+
+end
+
+
 # == Schema Information
 #
 # Table name: bikes

@@ -11,7 +11,23 @@ FactoryGirl.define do
   end
 
   factory :bike do
-    sequence(:number){|n| (10000+n).to_s}
+
+    sequence(:number){|n| Bike.format_number(10000+n)}
+
+    c = 'Red'
+
+    val = 100
+    sh = 21
+    tl = 19
+
+    n_bike_info = 1
+
+    color c
+    seat_tube_height sh
+    top_tube_length  tl
+    mfg "Scwinn"
+    model  "Traveller"
+
   end
 
   factory :project_category do
