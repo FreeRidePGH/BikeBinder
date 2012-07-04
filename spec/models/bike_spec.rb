@@ -40,7 +40,7 @@ describe Bike do
       @bike.destroy
     end
 
-    it "Should not be found" do
+    it "it should not be found" do
       Bike.find_by_id(@b_id).should be_nil
     end
 
