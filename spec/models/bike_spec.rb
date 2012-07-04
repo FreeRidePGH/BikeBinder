@@ -31,13 +31,30 @@ describe Bike do
   end
 
   describe "When a bike is deleted" do
+    before(:each) do
+      @proj = FactoryGirl.create(:youth_project)
+      @p_id = @proj.id
+      @pdet_id = @proj.detail.id
+      @bike = @proj.bike
+      @b_id = @bike.id
+      @bike.destroy
+    end
+
+    it "Should not be found" do
+      Bike.find_by_id(@b_id).should be_nil
+    end
+
     describe "and it has a project" do
-      describe "the proejct" do
-        it "should be deleted"
+      describe "the project" do
+        it "should be deleted" do
+          Project.find_by_id(@p_id).should be_nil
+        end
       end
 
       describe "the project details" do
-        it "should be deleted"
+        it "should be deleted" do
+          ProjectDetail.find_by_id(@pdet_id).should be_nil
+        end
       end
     end
 
@@ -47,44 +64,107 @@ describe Bike do
   end
 
   describe "A bike without a project" do
-
-    describe "a bike in the shop" do
-      it "can not depart"
-      
-      it "can be assigned to a project"
+    before(:each) do
+        @bike = FactoryGirl.create(:bike)
     end
-
+    describe "that is in the shop" do
+      it "can not depart" do
+        @bike.should_not be_can_depart
+      end
+      it "can be assigned to a project" do
+        @bike.should be_available
+      end
+    end
+    it "should be available" do
+      @bike.should be_available
+    end
   end
 
   describe "When the bike number is changed" do
-    it "is allowed" 
+    before(:each) do
+      @bike = FactoryGirl.create(:bike)
+    end
+    it "is allowed" do
+      @bike.number = (@bike.number.to_i+2000).to_s
+      @bike.save
+      @bike.errors.count.should == 0
+    end
 
     it "should not delete S/N record"
-
     it "should remove association with prev. S/N record"
     
   end
 
 
   describe "A bike with a project" do
-    it "can not be assigned a new project"
-    describe "that is in the shop" do    
-      it "must depart when the project closes"
+    before(:each) do
+      @proj = FactoryGirl.create(:youth_project)
+      @bike = @proj.bike
+    end
 
-      it "must not depart if the project does not close"
+    it "is not available" do
+      @bike.should_not be_available
+    end
 
-      it "must have an open project"
-
-      it "can have its project canceled"
+    it "can not be assigned a new project" do
+      cat = @proj.project_category
+      prog = @proj.prog
       
-      it "can be deleted"
+      opts={:bike_id=>@bike,:program_id=>prog}
+      new_proj = prog.project_category.project_class.new()
+      assigned = new_proj.save if new_proj.assign_to(opts)
+      assigned.should == (false || nil)
+    end
+
+    describe "that is in the shop" do    
+
+      it "must have an open project" do
+        @bike.project.should be_open
+      end
+
+      it "must depart when the project closes" do
+        @bike.project.close #close on finished project
+        @bike.reload
+        @bike.should be_departed
+      end
+
+      it "must not depart if the project does not close" do
+        @bike.project.close #attemp but fail close on unfinished project
+        closed = @bike.project.closed?
+        @bike.reload
+        if closed
+          @bike.should be_departed
+        else
+          @bike.should_not be_departed
+        end
+      end
+
+      it "can have its project canceled" do
+        @proj.should be_can_cancel
+      end
+      
+      it "can have successful delete" do
+        expect {@bike.destroy.to change(Bike, :count).by(-1)}
+      end
     end
     describe "that is not in the shop" do
-      it "can't have its project cancelled"
+      before(:each) do
+        @proj = FactoryGirl.create(:youth_project)
+        @bike = @proj.bike
+        @bike.depart
+      end
+      it "can't have its project cancelled" do
+        @proj.should_not be_can_cancel
+      end
 
-      it "must have a closed project"
+      it "must have a closed project" do
+        @proj.reload
+        @proj.should be_closed
+      end
 
-      it "can not be deleted"
+      it "can not be deleted" do
+        expect {@bike.destroy.to change(Bike, :count).by(0)}
+      end
     end
   end
 
