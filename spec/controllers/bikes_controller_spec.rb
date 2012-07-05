@@ -69,6 +69,70 @@ describe BikesController do
     end
     
   end
-  
+
+
+  describe "DELETE" do
+    before(:each) do
+      @proj = FactoryGirl.create(:youth_project)
+      @p_id = @proj.id
+      @pdet_id = @proj.detail.id
+      @bike = @proj.bike
+      @b_id = @bike.id
+      @bike.destroy
+      @bike.reload
+    end
+    
+    it "should be successful"
+
+    describe "A bike without a project" do
+      before(:each) do
+        @bike = FactoryGirl.create(:bike)
+      end
+      it "should be succssful"
+    end
+
+    describe "A bike without a project" do
+      before(:each) do
+      @bike = FactoryGirl.create(:bike)
+      end
+      it "should be succssful"
+    end
+  end
+
+  describe "DEPART" do
+
+    describe "that is not in the shop" do
+      it "should redirect to SHOW bike"
+      it "should FLASH message that bike has already departed"
+    end
+
+    describe "A bike without a project" do
+      before(:each) do
+        @bike = FactoryGirl.create(:bike)
+      end
+
+      it "should render depart page"
+    end
+
+    describe "with a done project" do
+      before(:each) do
+        @proj = FactoryGirl.create(:done_youth_project)
+        @bike = @proj.bike
+      end
+      
+      it "should redirect to to FINISH project"
+    end
+
+    describe "with an incomplete project" do
+      before(:each) do
+        @proj = FactoryGirl.create(:youth_project)
+        @bike = @proj.bike
+      end
+
+      it "should render depart page"
+      
+    end
+    
+  end # describe "DEPART"
 
 end

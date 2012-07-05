@@ -15,9 +15,9 @@ BikeBinder::Application.routes.draw do
   :path_names => {:new=>'start', :delete=>'cancel'} do
     member do
       post 'new_comment'
+      put 'transition'
       get 'finish'
       put 'close'
-      put 'transition'
     end
 
     resources_project_work_log
@@ -32,9 +32,8 @@ BikeBinder::Application.routes.draw do
       post 'new_comment'
       put 'vacate_hook'
       put 'reserve_hook'
-      get 'depart'
-      put 'send_away'
       put 'change_hook'
+      get 'depart'
     end
   end
 

@@ -25,4 +25,39 @@ describe ProjectsController do
     end
   end
 
+
+  describe "GET 'finish'" do
+    it "should be successful"
+  end
+
+
+  describe "PUT close" do
+    
+    describe "with a done projecet" do
+      it "should be successful"
+      it "should redirect to SHOW bike"
+    end
+
+    describe "with an incomplete project" do
+      describe "when the option to override is specified" do
+        it "should be successful"
+        it "should redirect to SHOW bike"
+      end
+      
+      describe "when no option to overrirde is given" do
+        it "should FLASH an error"
+        it "should redirect to SHOW project"
+      end
+    end
+
+    describe "and is successful" do
+      it "should FLASH success"
+    end
+
+    describe "and fails" do
+      it "should FLASH the error"
+    end
+
+  end
+
 end

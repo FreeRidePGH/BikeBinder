@@ -96,8 +96,6 @@ class ProjectsController < ApplicationController
   #
   # via GET
   def finish
-    
-    
   end
 
   # Case the project is done
