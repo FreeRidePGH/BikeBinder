@@ -51,7 +51,7 @@ class BikesController < ApplicationController
   end
 
   def show
-    @title = "Information for bike #{bike.number}"
+    @title = "Bike #{bike.number} Overview"
   end
 
   def index
@@ -59,7 +59,7 @@ class BikesController < ApplicationController
   end
 
   def edit
-    @title = "Edit information for bike " + @bike.number
+    @title = "Edit details for bike " + @bike.number
   end
 
   def update

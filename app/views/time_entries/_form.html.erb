@@ -1,23 +1,19 @@
 <div>
   <%= form_for(time_entry, :url=> url, :method => :post) do |f| %>
-    <% current_time = DateTime.now %>
-    <% starting_time = current_time - 1.hour %>
-
     <div class="row">
       <span class="span2 inline-label">
 	<%= f.label :start_datetime, "Starting time:" %>
       </span>
       <span class="span1">
-	<%= text_field :time_entry, :start_datetime, :value =>starting_time.strftime("%m/%d/%Y %l:%M %p"), :class=> "datetimepicker" %>
+	<%= f.text_field :started_on, :class=> "datetimepicker" %>
       </span>
     </div>
-
     <div class="row">
       <span class="span2 inline-label">
 	<%= f.label :end_datetime, "Ending time:"%>
       </span>
       <span class="span1">
-	<%= text_field :time_entry, :end_datetime, :value=>current_time.strftime("%m/%d/%Y %l:%M %p"), :class=> "datetimepicker" %>
+	<%= f.text_field :ended_on, :class=> "datetimepicker" %>
       </span>
     </div>
 

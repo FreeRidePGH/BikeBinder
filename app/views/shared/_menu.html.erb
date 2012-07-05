@@ -11,7 +11,10 @@
     <%= link_to "Sign in", new_user_session_path %>
     </p>
   </section>
-  <p>You can sign in with username "demo@freeridepgh.org" and password "testdemo"</p>
+  <%- if (controller_name != 'sessions' && controller_name != 'registrations' ) %>
+<p class="demoHelp" >You can sign in with username "demo@freeridepgh.org" and password "testdemo"</p>
+  <% end -%>
+  
   <% end %>
 
 <div class="span12  sub-nav grad-blue-extra-gray" id="shared_menu">

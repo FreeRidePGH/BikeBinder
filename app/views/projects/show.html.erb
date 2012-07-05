@@ -17,24 +17,20 @@
     <% end %>
   </div>
 
-  <section class="row span3 offset1">
+  <section class="notesWrapper span3 offset1">
     <h3><%= pluralize(project.comment_threads.length, 'Note') %></h3>
+    <%= render :partial=>"comments/form", :locals=>{:url => new_comment_project_path(project)} %>
     <%= render :partial=>"comments/index", :locals=>{:comments => project.comment_threads} %>
   </section> <!-- end of notes wrapper -->
-  <section id="newNoteWrapper" class="span2">
-    <%= render :partial=>"comments/form", :locals=>{:url => new_comment_project_path(project)} %>
-  </section> <!-- end of new note wrapper -->
+  
 
 
-</section> <!-- end of project status -->
 
-
-<div id="cancel-project-wrapper" class="span1 offset11">
-  <%= form_for(project, :url=>project_path(project), :method=>:delete) do |f|%>
-  <%= f.submit "Cancel Project.", :class => "btn btn-danger" %>
-  <% end %>
-</div>
-</div>
+  <div id="cancel-project-wrapper" class="span1 offset11">
+    <%= form_for(project, :url=>project_path(project), :method=>:delete) do |f|%>
+    <%= f.submit "Cancel Project.", :class => "btn btn-danger" %>
+    <% end %>
+  </div>
 
 
 </section> <!-- show project wrapper -->
