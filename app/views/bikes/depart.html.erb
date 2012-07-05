@@ -1,20 +1,29 @@
-<h1>Send Bike Away</h1>
+<h1>Depart Bike <%= link_to bike.number, bike %> </h1>
 
-<%= render :partial=>"bike_table", :layout=>"bike_table_layout" %>
+<!-- <%= render :partial=>"bike_table", :layout=>"bike_table_layout" %> -->
 
-<%  if bike.project and bike.project.open?  %>
-  <h2>Finish project</h2>
-  <%= link_to "Complete project first", finish_project_path(bike.project) %>
-  allow uncompleted project?
+<% if !bike.departed? %>
+  <% if bike.project.nil? %>
 
-<% end %>
+    <h3>Action required</h3>
+    <p>Bike <%= bike.number %> does not have a project assigned. A project assignment is required for all departing bikes.</p>
 
-<% if bike.project.nil? %>
-  <h2>Project Association</h2>
-  <%= link_to "Start a new project for this bike", new_project_path %>
+    <%= form_for(project, :url => projects_path, :method => :post) do |f| %>
+    <%= hidden_field_tag(:bike_id, bike.id) %>
+    <%= label_tag(:program_id, "Depart bike as:") %>
+    <%= select_tag(:program_id, options_from_collection_for_select(Program.terminal, :id, :title)) %>
+    <%= f.submit "Assign to program", :class => "btn btn-primary" %>
+    <% end %>
 
-  select a project that allows for being closed upon being created
+    </p>To assign this bike to a different program, go <%= link_to "to the bike information page", bike %>.</p>
 
-  allow for no project association?
+  <% else # if bike.project.nil? %>
+  
+    <h3>Action required</h3>
+    <p>The project must be finished to depart this bike.</p>
+    <p><%= link_to "Go to the project page to finish and close out the project", bike.project %></p>
 
-<% end %>
+  <% end # bike.project.nil? %>
+
+<% end #bike.departed? %>
+

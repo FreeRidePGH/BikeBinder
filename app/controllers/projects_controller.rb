@@ -129,7 +129,7 @@ class ProjectsController < ApplicationController
     force = params[:force]
 
     allow_close = (force == "all")
-    allow_close ||= project.pass_req?
+    allow_close ||= project.detail.pass_req?
     
     if allow_close && project.close
       flash[:success] = "Project was closed successfully."
@@ -138,7 +138,7 @@ class ProjectsController < ApplicationController
 
     flash[:error] = bike.errors.messages[0] if bike.errors
     flash[:error] = project.errors.messages[0] if project.errors
-    flash[:error] = "Project does not pass requirements" if (!project.pass_req?)
+    flash[:error] = "Project could not be closed because it does not pass requirements." if (!project.detail.pass_req?)
 
     redirect_to project and return
   end

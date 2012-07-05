@@ -19,13 +19,26 @@ class Program < ActiveRecord::Base
   
   has_many :projects, :as => :prog
   belongs_to :project_category
-
   
   validates_presence_of :title
   validates_uniqueness_of :title, :allow_nil=>false
   validate :category_must_be_accepting_new_programs
 
   attr_accessible :title, :max_total, :max_open
+
+  def self.terminal 
+    if @term.nil?
+      @term = []
+      Program.all.each do |p|
+        p_class = p.project_category.project_type.constantize
+        if p_class.terminal?
+          @term << p
+        end
+      end
+    end
+    @term
+  end
+
 
   def category_must_be_accepting_new_programs 
     if project_category and not project_category.accepting_programs?
