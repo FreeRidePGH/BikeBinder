@@ -15,6 +15,8 @@ class Project::YouthDetail < ProjectDetail
     state :class_material
   end # state_machine
 
+  include ProjectDetailStates
+
   has_inspection(
                  :title => "Bike Overhaul Inspection",
                  :inspectable => "proj.bike",
@@ -23,11 +25,11 @@ class Project::YouthDetail < ProjectDetail
                  :end_point => :ready_for_program,
                  :reinspectable => [:ready_for_program, :class_material]
                  )
-  
-  include ProjectDetailStates
+
+
 
   def pass_req?
-    self.class_material?
+    self.class_material? || self.done?
   end
 
   has_time_sheet

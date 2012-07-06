@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-
 require "surveyor_util"
 
 module Inspection
 
   # NOTES for implementation: 
   # 1. Include the module AFTER the state_machine definition in the class
+  #    (Also, after the detail states module is included)
   # 2. Add column to project detail to hold the inspection access code
   #
   def self.included(base)
@@ -228,6 +228,7 @@ module Inspection
       machine.state :ready_to_inspect
       machine.state :inspected do
         def process_hash
+          # transition to the inspection page
           self.inspection_hash
         end
         def user_can?(user, action)

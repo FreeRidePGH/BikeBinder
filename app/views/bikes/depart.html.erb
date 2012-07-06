@@ -1,5 +1,6 @@
+<div class="row offset2">
 <h1>Depart Bike <%= link_to bike.number, bike %> </h1>
-
+<br />
 <!-- <%= render :partial=>"bike_table", :layout=>"bike_table_layout" %> -->
 
 <% if !bike.departed? %>
@@ -26,4 +27,5 @@
   <% end # bike.project.nil? %>
 
 <% end #bike.departed? %>
+</div>
 

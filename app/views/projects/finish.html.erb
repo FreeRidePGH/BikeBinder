@@ -1,5 +1,7 @@
+<div class="row offset2">
 <% if project.detail.pass_req? %>
-<h1>Confirm project close-out</h1>
+<h1>Confirm project close-out and depart</h1>
+  <br />
   <p>Would you like to close the <%= project.prog.title %> bike <%= project.bike.number %>?</p>
    <%= form_for(project, :url=>close_project_path(project), :method => :put) do |f| %>
       <%= f.submit "Yes, close project and depart", :class=>"btn btn-primary" %>
@@ -15,3 +17,4 @@
     <%= f.submit "Close UNFINISHED project and depart", :class=>"btn btn-primary" %>
   <% end %>
 <% end %>
+</div>

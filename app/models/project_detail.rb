@@ -4,17 +4,26 @@ module ProjectDetailStates
   def self.included(base)
     machine = base.state_machine
 
-    # Check projects to ensure they are open
-    machine.before_transition :do => :proj_must_be_open
-    # Force projects to close on finish action
-    machine.after_transition (machine.any-:done) => :done, :do => "proj.close"
-
     # Required transition to done state
     # Must be the last transition in order for done to be
     # lowest priority in states list
-    machine.event :finish do
-      last_step = machine.states.by_priority.last
+    machine.event :finish_project do
+      last_step = machine.states.by_priority[-2]
       transition last_step.name => :done, :if => :pass_req?
+    end
+
+    # Check projects to ensure they are open
+    machine.before_transition :do => :proj_must_be_open
+    # Force projects to close on finish action
+    # machine.after_transition (machine.any-:done) => :done, :do => "proj.close"
+
+    machine.state :done do
+      def process_hash
+        # transition to the finish page
+        h = {:controller => :projects,
+          :id => self.proj,
+          :action => :finish}
+      end
     end
 
   end

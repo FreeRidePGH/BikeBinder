@@ -4,7 +4,7 @@ class ProjectsController < ApplicationController
 
   # GET
   def index
-    @title = "Projects#index"
+    @title = "Projects List"
   end
 
   # GET
@@ -83,6 +83,7 @@ class ProjectsController < ApplicationController
     if project.process_hash
       redirect_to project.process_hash and return
     else
+      @title = "Project details"
       redirect_to project and return
     end
   end
@@ -99,6 +100,8 @@ class ProjectsController < ApplicationController
     if project.nil?
       redirect_to root and return
     end
+
+    @title = "Close and Depart"
   end
 
   # Case the project is done

@@ -55,7 +55,7 @@ class BikesController < ApplicationController
   end
 
   def index
-    @title = "Bikes#Index"
+    @title = "Bike Listing"
   end
 
   def edit
@@ -91,7 +91,6 @@ class BikesController < ApplicationController
   #
   # via GET
   def depart
-
     if bike.nil?
       redirect_to root and return
     end
@@ -114,6 +113,7 @@ class BikesController < ApplicationController
       redirect_to finish_project_path(project) and return
     end
 
+    @title = "Depart Bike"
     render 'depart'
   end
 
