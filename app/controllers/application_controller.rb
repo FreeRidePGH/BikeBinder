@@ -66,7 +66,7 @@ class ApplicationController < ActionController::Base
   # * Build from commentable if commentable is fetched
   # ** Assumes calling controller exposes commentable
   expose(:comment) do
-    @c_ret ||= (Comment.build_from(commentable, current_user, comment_body) if commentable)
+    @c_ret ||= (Comment.build_from(commentable, current_user.id, comment_body) if commentable)
   end
 
   def new_comment
