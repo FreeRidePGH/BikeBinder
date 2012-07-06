@@ -23,8 +23,10 @@
        <% if step == :done %>
          <% if project.open? %>
 	   <% if project.detail.pass_req? %>
-	     <h3>Depart bike</h3>
-	     
+	     <h3>Finish project</h3>
+	     <%= form_for(project, :url=>close_project_path(project), :method => :put) do |f| %>
+	       <%= f.submit "Close project and depart", :class=>"btn btn-primary" %>
+             <% end %>
 	   <% else %>
              <h3>Project Requirements</h3>
 	     <p>Project requirements must be met before project is complete.</p>

@@ -96,6 +96,9 @@ class ProjectsController < ApplicationController
   #
   # via GET
   def finish
+    if project.nil?
+      redirect_to root and return
+    end
   end
 
   # Case the project is done
