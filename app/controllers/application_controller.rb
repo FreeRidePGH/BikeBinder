@@ -65,8 +65,9 @@ class ApplicationController < ActionController::Base
   # Create by:
   # * Build from commentable if commentable is fetched
   # ** Assumes calling controller exposes commentable
+  # we should only expose comments if a user is logged in. Otherwise current.user.id throws an exception because it is nil
   expose(:comment) do
-    @c_ret ||= (Comment.build_from(commentable, current_user.id, comment_body) if commentable)
+      @c_ret ||= (Comment.build_from(commentable, current_user.id, comment_body) if commentable)
   end
 
   def new_comment

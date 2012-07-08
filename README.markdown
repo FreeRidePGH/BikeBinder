@@ -7,7 +7,7 @@ Reproduce all functionality that exists with the current paper bike binder and d
 
 ## Getting up and running
 
-### Afther the first clone
+### After the first clone
 Take the following actions to get a cloned/pulled version to run locally
 
 * rename "config/database.yml.sample" to "config/database.yml"
@@ -83,9 +83,9 @@ eg, a blue underline link represents a Navigational action such as going to the 
 
 # Project Milestones
 
-## Mileston 1: Youth project implementation to be fully functional
+## Milestone 1: Youth project implementation to be fully functional
 
-* All of the necessary features and interations to be able to successfully user the application for youth  projects.
+* All of the necessary features and interactions to be able to successfully user the application for youth  projects.
 
 ## Milestone 2: Searching/Sorting and User roles and authorization
 
@@ -112,7 +112,7 @@ eg, a blue underline link represents a Navigational action such as going to the 
 
 
 
-# Copywrite
+# Copyright
 
 (c) 2012 Free Ride Bicycle Project, See license for details
 

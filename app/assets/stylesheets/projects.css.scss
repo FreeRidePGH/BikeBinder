@@ -27,7 +27,8 @@ section.show-project {
 #cancel-project-wrapper input[type="submit"] {
     float: right;
 }
-button.toggler {
-    float: left;
-    display: inline;
+/* kill the annoying spacer margin */
+div[class*="noLeftMarg"], 
+section[class*="noLeftMarg"] {
+    margin-left: 0;
 }

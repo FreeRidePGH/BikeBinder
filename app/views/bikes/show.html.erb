@@ -1,17 +1,22 @@
 <section class="show-bike span12">
 
-  <section id="bikeInfo" class="span8 noteCard">
+  <section id="bikeInfo" class="span8 noteCard noLeftMarg">
     <div class="block1 span8">
       <h2>Bike <%=bike.number %> </h2>
           <%= link_to "Edit Bike", edit_bike_path(bike), :class=> "editLink",   :title => "Edit this bike's information" %> 
     </div>
     <div>
       <dl class="staticAttributes">
+	<dd class="key">Manufacturer:</dd><dd class="value" ><%= bike.mfg %></dd>
+	<dd class="key" >Model:</dd><dd class="value"><%= bike.model%></dd>
 	<dd class="key">Color: </dd>
 	<dd class="value" ><%= bike.color %></dd>
 	<span data-bike-color=<%=bike.color %> ></span>
-	<dd class="key" >Model:</dd><dd class="value"><%= bike.model%></dd>
-	<dd class="key">Manufacturer:</dd><dd class="value" ><%= bike.mfg %></dd>
+	<dd class="key">Seat tube height:</dd><dd class="value" ><%= bike.seat_tube_height %></dd>
+	<dd class="key">Top tube length:</dd><dd class="value" ><%= bike.top_tube_length %></dd>
+
+	<dd class="key">Value:</dd><dd class="value" ><%= bike.value %></dd>
+
       </dl>
       <dl class="dynamicAttributes">
 	<dd class="key ">Status: </dd> <dd class="value">
@@ -79,7 +84,7 @@
     </div> <!-- end of depart info wrapper -->
 
   </section> <!-- end of bikes meta -->
-  <section class="notesWrapper span12" >
+  <section class="notesWrapper span12 noLeftMarg" >
   <div id="existingNotes" class=" span5">
 
     <h3><%= pluralize(bike.comment_threads.length, 'Note') %></h3>
@@ -90,7 +95,7 @@
     <%= render :partial=>"comments/index", :locals=>{:comments => bike.comment_threads} %> 
 
   </div> <!-- end of notes wrapper -->
-  <div id="newNote" class="span5">
+  <div id="newNote" class="span5 noLeftMarg">
 
   </div>
 </section> <!-- end notesWrap -->

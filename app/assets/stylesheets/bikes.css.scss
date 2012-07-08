@@ -44,7 +44,6 @@ dd.value {
 }
 /* Notecard like description of bike */
 #bikeInfo.noteCard  {
-    margin-left: 0;
     padding: .5em;
 
     a.editLink {
@@ -99,8 +98,9 @@ dd.value {
 	    clear: left;
 	}
 	dl.dynamicAttributes {
-	    margin-top: 1em;
+	    clear:left;
 	    float: left; 
+	    margin-top: 1em;
 	    width: 75%;
 	}
     }
@@ -110,7 +110,6 @@ dd.value {
 .show-bike section.notesWrapper {
     border-top: solid 1px gray;
     margin-top: 1em;
-    margin-left: 0;
     div {
 	margin-top: .5em;
     }
@@ -126,7 +125,6 @@ dd.value {
 }
 #newNote {
     float: left;
-    margin-left: 0;
 }
 
 /* label[for="comment_body"] { */

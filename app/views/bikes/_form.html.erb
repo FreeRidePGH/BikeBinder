@@ -15,9 +15,18 @@
 <%= f.label :mfg, "Manufacturer" %>
 <%= f.text_field :mfg %>
 
+<%= f.label :seat_tube_height, "Seat tube height" %>
+<%= f.text_field :seat_tube_height, :maxlength => 7 %>
+
+<%= f.label :top_tube_length, "Top tube length" %>
+<%= f.text_field :top_tube_length, :maxlength => 7 %>
 
 <%= f.label :model %>
 <%= f.text_field :model %>
+
+<%= f.label :value, "Value" %>
+<%= f.text_field :value, :maxlength => 10 %>
+
 <!-- how do I make render this tag differently for edit or add bike? -->
 <%= button_tag "Save Changes", :class => "btn btn-primary" %>
 

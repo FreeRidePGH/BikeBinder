@@ -96,17 +96,6 @@ section#user_login_status {
     top: 3%;
     right: 15%;
 }
-/* occurs primarily on the user login or registration page */
-.noTitle section#user_login_status.no-user {
-    border-radius: 5px;
-    top: 4%;
-    background: #fff;
-    p {
-	margin: 6px auto 8px auto;
-	width: 85%;
-    }
-
-}
 
 section#user_login_status.no-user {
     top: 3%;
@@ -214,7 +203,6 @@ form#new_comment #comment_body {
 
 div.comments {
     margin-bottom: 5px;
-    margin-left: 0;
     float: left;
     clear: left;
     
@@ -245,6 +233,7 @@ footer {
 button.toggler {
     float: left;
     margin: .25em .25em 0 3em;
+    display: inline;
 }
 .notesWrapper {
     h3 {

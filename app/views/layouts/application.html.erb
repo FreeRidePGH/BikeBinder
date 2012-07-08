@@ -17,17 +17,13 @@
 
 
 </head>
-<!-- duplicating logic should not be relied upon, just here for a quick fix  -->
-<% if header_title.nil? %>
-<body class="noTitle">
-<% else %>
+
+
 <body>
-<% end %>
   <div class="container">
     <header class="span12" >
-      <% if !header_title.nil? %>
+
       <%= content_tag(:h1, header_title) %>
-      <% end %>
       <%= render 'shared/menu' %>
     </header>
 
@@ -38,6 +34,7 @@
 
     <footer class="span8">
       <%= debug(params) if Rails.env.development? %>
+      &copy; 2012 Free Ride Bicycle Project
     </footer>
   </div>
 </body>
