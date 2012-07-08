@@ -9,7 +9,7 @@
 <% else %>
   <h1>Project not done yet</h2>
   <p>The project does not meet all requirements for finishing.</p>
-  <p><%= link_to "Go to the project page and to complete the project requirements", project_path(project) %></p>
+  <p>You must <%= link_to "go to the project page to complete the project.", project_path(project) %></p>
   <h2>Override requirements to finish</h2>
   <p>If you must override project requirements, you can finish the project</p>
   <%= form_for(project, :url=>close_project_path(project), :method => :put) do |f| %>
