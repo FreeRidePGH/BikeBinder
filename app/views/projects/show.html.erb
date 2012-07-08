@@ -2,7 +2,9 @@
   <div id="projectInfo" class="span4 noteCard">
     <p>Program: <%= link_to project.prog.title, program_path(project.prog) %></p>
     <p>Bike: <%= link_to project.bike.number, bike_path(bike) %></p>
+    <% if !project.closed? %>
     <p><%= link_to "Close project and depart bike", finish_project_path(project) %></p>
+    <% end %>
   </div>
 
   <%= render :partial => "project_step" %>
@@ -24,14 +26,16 @@
     <%= render :partial=>"comments/index", :locals=>{:comments => project.comment_threads} %>
   </section> <!-- end of notes wrapper -->
 
+  <% if !project.closed? %>
   <div class="row">
     <div id="cancel-project-wrapper" class="span11">
-    <%= form_for(project, :url=>close_project_path(project), :method=>:get) do |f|%>
+    <%= form_for(project, :url=>finish_project_path(project), :method=>:get) do |f|%>
     <%= f.submit "Close and depart bike", :class => "btn btn-primary" %>
     <% end %>
     </div>
   </div>
   <br />
+  <% end %>
   <div class="row">
     <div id="cancel-project-wrapper" class="span11">
     <%= form_for(project, :url=>project_path(project), :method=>:delete) do |f|%>

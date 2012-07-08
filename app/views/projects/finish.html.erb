@@ -14,7 +14,7 @@
   <p>If you must override project requirements, you can finish the project</p>
   <%= form_for(project, :url=>close_project_path(project), :method => :put) do |f| %>
     <%= hidden_field_tag(:force, "all") %>
-    <%= f.submit "Close UNFINISHED project and depart", :class=>"btn btn-primary" %>
+    <%= f.submit "Close UNFINISHED project and depart", :class=>"btn btn-danger" %>
   <% end %>
 <% end %>
 </div>
