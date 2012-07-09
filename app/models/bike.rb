@@ -28,7 +28,18 @@ class Bike < ActiveRecord::Base
   
   has_one :hook, :dependent => :nullify, :inverse_of=>:bike
   has_many :inspections, :class_name=>'ResponseSet', :as => :surveyable
-  belongs_to :project, :inverse_of => :bike
+  belongs_to :project, :inverse_of => :bike, :dependent => :destroy
+
+  # Clean up all associations
+  # See http://www.mrchucho.net/2008/09/30/the-correct-way-to-override-activerecordbasedestroy
+  def destroy_without_callbacks
+    unless new_record?
+      # make sure old projects are destroyed
+      project.destroy
+      # (May need to iterate through bike.versions)
+    end
+    super
+  end
 
   state_machine :location_state, :initial => :shop do
     after_transition (any - :departed) => :departed , :do => :depart_action
@@ -37,7 +48,7 @@ class Bike < ActiveRecord::Base
     before_transition any => :hook, :do => :get_hook_action
 
     event :depart do
-      transition [:shop, :hook] => :departed
+      transition [:shop, :hook] => :departed, :unless => 'project.nil?'
     end
 
     event :return do

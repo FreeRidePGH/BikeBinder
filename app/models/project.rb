@@ -22,24 +22,30 @@ class Project < ActiveRecord::Base
 
   friendly_id :label
 
-  has_one :bike, :dependent => :nullify, :inverse_of => :project
+  has_one :bike, :dependent => :destroy, :inverse_of => :project
   belongs_to :prog, :polymorphic => true
   belongs_to :project_category
 
   # Override the model_name method so that url_for will work
   # See http://api.rubyonrails.org/classes/ActiveModel/Naming.html
   def self.model_name
-    ActiveModel::Name.new(self, nil, 'Project')
+    ActiveModel::Name.new(self, nil, self.base_class.to_s)
   end
 
+  # See http://api.rubyonrails.org/classes/ActiveRecord/Associations/ClassMethods.html
+  def attachable_type(sType)
+    super(sType.to_s.classify.constantize.base_class.to_s)
+  end
+ 
   # Does a child class override this?
-  has_one :detail, :as => :proj
+  has_one :detail, :as => :proj, :dependent => :destroy
 
   acts_as_commentable
 
   state_machine  :initial => :open  do
     after_transition (any - :open) => :open, :do => :open_action
     after_transition (any - :closed) => :closed, :do => :close_action
+    after_transition (any-:trash) => :trash, :do => :cancel_action
     
     event :close do
       transition :open => :closed
@@ -169,6 +175,11 @@ class Project < ActiveRecord::Base
   def open_action
     self.closed_at = nil
     self.save
+  end
+
+  def cancel_action
+    bike.project = nil
+    bike.save
   end
 
 end

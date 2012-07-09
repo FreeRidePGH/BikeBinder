@@ -30,30 +30,31 @@ describe Bike do
 
   end
 
-  describe "When a bike is deleted" do
+  describe "that is deleted" do
     before(:each) do
-      @proj = FactoryGirl.create(:youth_project)
+      @proj_detail = FactoryGirl.create(:youth_detail)
+      @proj = @proj_detail.proj
       @p_id = @proj.id
       @pdet_id = @proj.detail.id
       @bike = @proj.bike
       @b_id = @bike.id
       @bike.destroy
     end
-
-    it "it should not be found" do
+    
+    it "should not be found" do
       Bike.find_by_id(@b_id).should be_nil
     end
 
-    describe "and it has a project" do
-      describe "the project" do
+    describe "with a project" do
+      describe ", the project" do
         it "should be deleted" do
           Project.find_by_id(@p_id).should be_nil
         end
       end
 
-      describe "the project details" do
+      describe ", the project details" do
         it "should be deleted" do
-          ProjectDetail.find_by_id(@pdet_id).should be_nil
+          Project::YouthDetail.find_by_id(@pdet_id).should be_nil
         end
       end
     end
@@ -63,20 +64,19 @@ describe Bike do
     end
   end
 
-  describe "A bike without a project" do
+  describe "without a project" do
     before(:each) do
-        @bike = FactoryGirl.create(:bike)
+      @bike2 = FactoryGirl.create(:bike)
+      @bike2.project = nil
     end
     describe "that is in the shop" do
       it "can not depart" do
-        @bike.should_not be_can_depart
+        @bike2.should be_shop
+        expect{@bike2.depart}.to be{false}
       end
       it "can be assigned to a project" do
-        @bike.should be_available
+        @bike2.should be_available
       end
-    end
-    it "should be available" do
-      @bike.should be_available
     end
   end
 
@@ -147,11 +147,11 @@ describe Bike do
         expect {@bike.destroy.to change(Bike, :count).by(-1)}
       end
     end
-    describe "that is not in the shop" do
+    describe "with a closed project" do
       before(:each) do
         @proj = FactoryGirl.create(:youth_project)
         @bike = @proj.bike
-        @bike.depart
+        @proj.close
       end
       it "can't have its project cancelled" do
         @proj.should_not be_can_cancel
@@ -160,6 +160,11 @@ describe Bike do
       it "must have a closed project" do
         @proj.reload
         @proj.should be_closed
+      end
+
+      it "must be departed" do
+        @bike.reload
+        @bike.should be_departed
       end
 
       it "can not be deleted" do

@@ -5,8 +5,8 @@ describe Project::EabDetail do
   #subject {@detail = 
 
   describe "Steps" do
-    it "should have an event 'finish'" do
-      Project::EabDetail.state_machine.events.keys.include?(:finish).should == true
+    it "should have an event 'finish_project'" do
+      Project::EabDetail.state_machine.events.keys.include?(:finish_project).should == true
     end
     
     it "should not have a final state 'done' when first built" do
