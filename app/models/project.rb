@@ -33,12 +33,9 @@ class Project < ActiveRecord::Base
   end
 
   # See http://api.rubyonrails.org/classes/ActiveRecord/Associations/ClassMethods.html
-  def attachable_type(sType)
-    super(sType.to_s.classify.constantize.base_class.to_s)
-  end
- 
-  # Does a child class override this?
-  has_one :detail, :as => :proj, :dependent => :destroy
+  #  def attachable_type(sType)
+  #    super(sType.to_s.classify.constantize.base_class.to_s)
+  #  end
 
   acts_as_commentable
 
@@ -135,6 +132,7 @@ class Project < ActiveRecord::Base
   # scrap or sales)
   after_initialize :close, :if => :terminal?
 
+
   private
 
   # The close action will depart the bike
@@ -180,6 +178,17 @@ class Project < ActiveRecord::Base
   def cancel_action
     bike.project = nil
     bike.save
+  end
+
+  # Allows for each project type to associate to 
+  # details specific to that type
+  def self.has_detail
+    has_one :detail, :as => :proj, :class_name => "#{self.to_s}Detail", :dependent => :destroy
+  end
+
+  def self.inherited(base)
+    base.has_detail
+    super
   end
 
 end
