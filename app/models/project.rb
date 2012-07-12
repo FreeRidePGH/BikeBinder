@@ -132,6 +132,35 @@ class Project < ActiveRecord::Base
   # scrap or sales)
   after_initialize :close, :if => :terminal?
 
+  # Close-out the project when applicable:
+  #
+  # Never close a project without a bike.
+  #
+  # Finish the project when it can finish,
+  # then close the project.
+  # 
+  # Otherwise close the project when forced.
+  def request_close(opts={})
+ 
+    if bike.nil?
+      errors.add(:bike, "was not found for project")
+      return false
+    end
+
+    force_close = opts[:force]
+
+    if detail.can_finish_project?
+      detail.finish_project
+    end
+
+    if detail.done? || force_close
+      close
+    else
+      errors.add(:project, "was not closed because it is not finished.")
+    end
+
+    return closed?
+  end
 
   private
 

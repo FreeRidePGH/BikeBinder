@@ -121,32 +121,21 @@ class ProjectsController < ApplicationController
   #
   # via PUT
   def close
+    force_close = params[:force]
 
-    if project.nil?
-      if bike
-        flash[:error] = "Close action failed because bike #{bike.number} has no project assigned"
-        redirect_to bike and return
-      else
+    if project && project.request_close(:force => force_close)
+      flash[:success] = "Project was closed successfully."
+      redirect_to project.bike and return
+    else
+      if project.nil?
         flash[:error] = "Close action falied because no project was specified"
         redirect_to root and return
       end
+
+      flash[:error] = project.errors.messages[0] if project.errors
+      flash[:error] ||= "Could not close the project."
+      redirect_to project and return
     end
-
-    force = params[:force]
-
-    allow_close = (force == "all")
-    allow_close ||= project.detail.pass_req?
-    
-    if allow_close && project.close
-      flash[:success] = "Project was closed successfully."
-      redirect_to bike and return
-    end
-
-    flash[:error] = bike.errors.messages[0] if bike.errors
-    flash[:error] = project.errors.messages[0] if project.errors
-    flash[:error] = "Project could not be closed because it does not pass requirements." if (!project.detail.pass_req?)
-
-    redirect_to project and return
   end
 
   # DELETE
