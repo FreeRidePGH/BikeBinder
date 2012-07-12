@@ -16,5 +16,5 @@
 #
 
 class Project::Youth < Project
-  has_one :detail, :as => :proj, :class_name => "Project::YouthDetail"
+  has_one :detail, :as => :proj, :class_name => "Project::YouthDetail", :dependent => :destroy
 end

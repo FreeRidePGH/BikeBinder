@@ -1,6 +1,5 @@
 require 'spec_helper'
 
-
 describe Bike do
 
   describe "A new bike" do
@@ -39,6 +38,10 @@ describe Bike do
       @bike = @proj.bike
       @b_id = @bike.id
       @bike.destroy
+    end
+    
+    it "should not have any errors" do
+      @bike.errors.count.should == 0
     end
     
     it "should not be found" do

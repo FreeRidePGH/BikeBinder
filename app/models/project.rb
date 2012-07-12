@@ -22,7 +22,7 @@ class Project < ActiveRecord::Base
 
   friendly_id :label
 
-  has_one :bike, :dependent => :destroy, :inverse_of => :project
+  has_one :bike, :inverse_of => :project
   belongs_to :prog, :polymorphic => true
   belongs_to :project_category
 
