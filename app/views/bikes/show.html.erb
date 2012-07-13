@@ -3,7 +3,9 @@
   <section id="bikeInfo" class="span8 noteCard noLeftMarg">
     <div class="block1 span8">
       <h2>Bike <%=bike.number %> </h2>
-          <%= link_to "Edit Bike", edit_bike_path(bike), :class=> "editLink",   :title => "Edit this bike's information" %> 
+        <%= link_to(edit_bike_path(bike), :class=> "editLink",   :title => "Edit this bike's information") do %>
+	<i class="icon-pencil"></i>Edit Bike
+	<% end %>
     </div>
     <div>
       <dl class="staticAttributes">
