@@ -1,9 +1,15 @@
 <% bikes.each do |b| %>
 <tr>
   <td><%= link_to b.number, bike_path(b) %></td>
-  <td><%= b.color %></td>
-  <td><%= b.mfg %></td>
-  <td><%= b.model %></td>
+  <td> 
+    <% if b.available? %>
+      <i class="icon-ok"></i> Available
+    <% elsif b.departed? %>
+      <i class="icon-ban-circle"></i> Departed
+    <% elsif b.project %>
+      <%= link_to project_path(b.project) do %><i class="icon-ban-circle"></i> <%= "#{b.project.project_category.name} Project" %><% end %>
+    <% end # elsif %>
+  </td>
   <td>
   <% if b.hook %>
   <%= link_to b.hook.number, hook_path(b.hook) %>
@@ -11,15 +17,8 @@
   n/a
   <% end %>
   </td>
-  <td> 
-    <% if b.available? %>
-    Available
-    <% elsif b.departed? %>
-    Departed
-    <% elsif b.project %>
-    <%= link_to "#{b.project.project_category.name} Project",
-	project_path(b.project) %>
-    <% end %>
-  </td>
+  <td><%= b.color %></td>
+  <td><%= b.mfg %></td>
+  <td><%= b.model %></td>
 </tr>
 <% end %>
