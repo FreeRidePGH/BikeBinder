@@ -18,9 +18,16 @@
 
 </head>
 
-
 <body>
-  <div class="container">
+  <% if user_signed_in? %>
+      <div class="container">
+      <% else %>
+    <div class="container no-user">
+  <div class="navbar-fixed-top navbar overlay">
+    <p class="demoHelp" >You can sign in with username "demo@freeridepgh.org" and password "testdemo"</p>
+  </div>
+
+	<% end %>
     <header class="span12" >
 
       <%= content_tag(:h1, header_title) %>
