@@ -7,7 +7,6 @@
 <%= f.label :number %>
 <%= f.text_field :number, :value=>bike.number , :required => true %>
 
-
 <%= f.label :color %>
 <%= f.text_field :color , :required => true, :id => "colorInput"  %>
 
@@ -28,7 +27,8 @@
 <%= f.text_field :value, :maxlength => 10 %>
 
 <!-- how do I make render this tag differently for edit or add bike? -->
-<%= button_tag "Save Changes", :class => "btn btn-primary" %>
+<% submit_text = (bike.id.nil?) ? "Create new bike" : "Save changes" %>
+<%= f.submit submit_text, :class => "btn btn-primary" %>
 
 </fieldset>
 

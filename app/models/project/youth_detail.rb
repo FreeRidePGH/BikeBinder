@@ -29,7 +29,7 @@ class Project::YouthDetail < ProjectDetail
 
 
   def pass_req?
-    self.class_material? || self.done?
+    self.class_material?
   end
 
   has_time_sheet

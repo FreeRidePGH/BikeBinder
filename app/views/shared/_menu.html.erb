@@ -17,9 +17,9 @@
 <div class="span12  sub-nav grad-blue-extra-gray" id="shared_menu">
 
   <ul class="nav nav-pills">
-    <li><%= link_to "Bikes Index", bikes_path %></li>
-    <li><%= link_to "Programs Index", programs_path %></li>
-    <li><%= link_to "Projects Index", projects_path %></li>
+    <li><%= link_to bikes_path do %><i class=""></i>Bikes Index<% end %></li>
+    <li><%= link_to programs_path do %><i class=""></i>Programs Index<% end %></li>
+    <li><%= link_to projects_path do %><i class=""></i>Projects Index<% end %></li>
     <% if user_signed_in? %>
     <!-- have a visual divider here like | -->
     <li class="signed-in-action-1"><%= link_to "Add a bike", new_bike_path %></li>

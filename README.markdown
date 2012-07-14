@@ -87,14 +87,12 @@ eg, a blue underline link represents a Navigational action such as going to the 
 
 * All of the necessary features and interactions to be able to successfully user the application for youth  projects.
 
-## Milestone 2: Searching/Sorting and User roles and authorization
+## Milestone 2: Searching/Sorting and bike entry UI
 
-* UI elements to search the site
-* Ability to sort filter and get basic reports for bikes and projects
-** Bike demographic data implemented to assist with searching/sorting/filtering
-* Mechanism implemented to provide user roles
-* Locks in place to require different role based authorization
-** Roles and authorization to allow application to go live without risk to data being corrupt
+* UI elements to search the site; lookup of bikes & hooks; browse for bikes based on parameters
+* Ability to sort filter and get basic reports for bikes and projects;
+* Bike demographic data implemented to assist with searching/sorting/filtering
+* Intuitive (and instructional) interface for entering new bikes
 
 # Milestone 3: All project types implemented and fully functional
 
@@ -102,13 +100,13 @@ eg, a blue underline link represents a Navigational action such as going to the 
 * Inspections customized for each project
 * Role based authorization for each project type as needed
 
-# Milestone 4: Deployment and support infrastructure
+# Milestone 4: User roles and authorization, deployment and support infrastructure
 
+* Mechanism implemented to provide user roles
+* Locks in place to require different role based authorization
+** Roles and authorization to allow application to go live without risk to data being corrupt
 * Site is live and in-use
-* Infrastructure support for
-** Back-ups and restore
-** Monitoring & notifying system status
-** Admin functionality to fix problems/take care of unexpected issues
+* Infrastructure support for: Back-ups and restore; Monitoring & notifying system status; Admin functionality to fix problems/take care of unexpected issues
 
 
 

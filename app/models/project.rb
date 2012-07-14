@@ -22,24 +22,27 @@ class Project < ActiveRecord::Base
 
   friendly_id :label
 
-  has_one :bike, :dependent => :nullify, :inverse_of => :project
+  has_one :bike, :inverse_of => :project
   belongs_to :prog, :polymorphic => true
   belongs_to :project_category
 
   # Override the model_name method so that url_for will work
   # See http://api.rubyonrails.org/classes/ActiveModel/Naming.html
   def self.model_name
-    ActiveModel::Name.new(self, nil, 'Project')
+    ActiveModel::Name.new(self, nil, self.base_class.to_s)
   end
 
-  # Does a child class override this?
-  has_one :detail, :as => :proj
+  # See http://api.rubyonrails.org/classes/ActiveRecord/Associations/ClassMethods.html
+  #  def attachable_type(sType)
+  #    super(sType.to_s.classify.constantize.base_class.to_s)
+  #  end
 
   acts_as_commentable
 
   state_machine  :initial => :open  do
     after_transition (any - :open) => :open, :do => :open_action
     after_transition (any - :closed) => :closed, :do => :close_action
+    after_transition (any-:trash) => :trash, :do => :cancel_action
     
     event :close do
       transition :open => :closed
@@ -129,6 +132,36 @@ class Project < ActiveRecord::Base
   # scrap or sales)
   after_initialize :close, :if => :terminal?
 
+  # Close-out the project when applicable:
+  #
+  # Never close a project without a bike.
+  #
+  # Finish the project when it can finish,
+  # then close the project.
+  # 
+  # Otherwise close the project when forced.
+  def request_close(opts={})
+ 
+    if bike.nil?
+      errors.add(:bike, "was not found for project")
+      return false
+    end
+
+    force_close = opts[:force]
+
+    if detail.can_finish_project?
+      detail.finish_project
+    end
+
+    if detail.done? || force_close
+      close
+    else
+      errors.add(:project, "was not closed because it is not finished.")
+    end
+
+    return closed?
+  end
+
   private
 
   # The close action will depart the bike
@@ -169,6 +202,22 @@ class Project < ActiveRecord::Base
   def open_action
     self.closed_at = nil
     self.save
+  end
+
+  def cancel_action
+    bike.project = nil
+    bike.save
+  end
+
+  # Allows for each project type to associate to 
+  # details specific to that type
+  def self.has_detail
+    has_one :detail, :as => :proj, :class_name => "#{self.to_s}Detail", :dependent => :destroy
+  end
+
+  def self.inherited(base)
+    base.has_detail
+    super
   end
 
 end

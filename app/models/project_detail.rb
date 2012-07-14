@@ -36,7 +36,7 @@ class ProjectDetail < ActiveRecord::Base
   self.abstract_class = true
   self.table_name_prefix = "project_"
 
-  belongs_to :proj, :polymorphic => :true
+  belongs_to :proj, :polymorphic => :true, :dependent => :destroy
 
   has_paper_trail :class_name => 'ProjectDetailVersion',
                   :meta => {:state => Proc.new{|detail| detail.state}}
