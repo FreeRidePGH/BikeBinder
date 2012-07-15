@@ -22,7 +22,7 @@ class Project < ActiveRecord::Base
 
   friendly_id :label
 
-  has_one :bike, :inverse_of => :project
+  belongs_to :bike, :inverse_of => :project
   belongs_to :prog, :polymorphic => true
   belongs_to :project_category
 
@@ -81,14 +81,16 @@ class Project < ActiveRecord::Base
 
   def assign_to(opts={})
     program = Program.find(opts[:program_id]) unless opts[:program_id].blank?
-    bike = Bike.find_by_id(opts[:bike_id]) unless opts[:bike_id].blank?
+    bike = Bike.find(opts[:bike_id]) unless opts[:bike_id].blank?
     category = program.project_category if program
 
     if not (program and bike and category and bike.available?) then return false end
     
     program.projects << self
-    self.bike = bike
     category.projects << self
+    
+    # self.bike = bike # when project has_one bike
+    bike.project = self # when project belongs_to bike
 
     self.create_detail(opts[:project_detail])
   end
@@ -114,6 +116,9 @@ class Project < ActiveRecord::Base
 
   validates_presence_of :type, :bike, :project_category, :prog_id, :prog_type
   validates_associated :bike, :project_category
+
+  # Enforce 1:1 between bike and project that is not trash
+  validate :bike_has_at_most_one_active_project
 
   # Indicate if the project always
   # goes to the closed state
@@ -163,6 +168,17 @@ class Project < ActiveRecord::Base
   end
 
   private
+
+  # Enforce a 1 bike to 1 active project association
+  def bike_has_at_most_one_active_project
+    unless self.bike_id.nil?
+      active_projects = Project.where{bike_id == "#{bike_id}"}.where{state != 'trash'}
+      puts active_projects
+      if active_projects.count > 1
+        errors.add(:bike, "can only have one active project at a time")
+      end
+    end
+  end
 
   # The close action will depart the bike
   # unless explicitly specified via args

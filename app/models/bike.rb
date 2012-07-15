@@ -18,8 +18,13 @@
 #  location_state   :string(255)
 #
 
+require "has_one_soft_delete"
+
+
 class Bike < ActiveRecord::Base
+  include HasOneSoftDelete
   extend FriendlyId
+
   friendly_id :label
 
   acts_as_commentable
@@ -28,7 +33,8 @@ class Bike < ActiveRecord::Base
   
   has_one :hook, :dependent => :nullify, :inverse_of=>:bike
   has_many :inspections, :class_name=>'ResponseSet', :as => :surveyable
-  belongs_to :project, :inverse_of => :bike, :dependent => :destroy
+
+  has_one :project, :inverse_of => :bike, :dependent => :destroy
 
   # Clean up all associations
   # See http://www.mrchucho.net/2008/09/30/the-correct-way-to-override-activerecordbasedestroy
@@ -119,9 +125,6 @@ class Bike < ActiveRecord::Base
 
   validates_uniqueness_of :number, :allow_nil => true
   validates :number, :format => { :with => Bike.number_pattern, :message => "Must be 5 digits only"}
-  
-  # Enforce the 1:1 association with the project
-  validates_uniqueness_of :project_id, :allow_nil => true
   
   private
   

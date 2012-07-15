@@ -47,12 +47,12 @@ ActiveRecord::Schema.define(:version => 20120628030935) do
     t.string   "mfg"
     t.string   "model"
     t.string   "number"
-    t.integer  "project_id"
+    #t.integer  "project_id"
     t.string   "location_state"
   end
 
   add_index "bikes", ["number"], :name => "index_bikes_on_number"
-  add_index "bikes", ["project_id"], :name => "index_bikes_on_project_id"
+  #add_index "bikes", ["project_id"], :name => "index_bikes_on_project_id"
 
   create_table "comments", :force => true do |t|
     t.integer  "commentable_id",   :default => 0
@@ -193,6 +193,7 @@ ActiveRecord::Schema.define(:version => 20120628030935) do
     t.datetime "updated_at"
     t.datetime "closed_at"
     t.integer  "project_category_id"
+    t.integer  "bike_id"
     t.string   "state"
     t.string   "completion_state"
   end
@@ -201,6 +202,7 @@ ActiveRecord::Schema.define(:version => 20120628030935) do
   add_index "projects", ["prog_id"], :name => "index_projects_on_prog_id"
   add_index "projects", ["project_category_id"], :name => "index_projects_on_project_category_id"
   add_index "projects", ["type"], :name => "index_projects_on_type"
+  add_index "projects", ["bike_id"], :name => "index_projects_on_bike_id"
 
   create_table "question_groups", :force => true do |t|
     t.text     "text"
