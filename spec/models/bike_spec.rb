@@ -119,6 +119,46 @@ describe Bike do
       assigned.should == (false || nil)
     end
 
+    describe "that is canceled" do
+      it "should be available" do
+        @bike.should_not be_available
+        p=@bike.project
+        p.should_not be_nil
+        p.cancel
+        @bike.reload
+        @bike.should be_available
+      end
+
+      it "should have a record of the canceled project" do
+        ok = @bike.project.cancel
+        ok.should == true
+        @bike.reload
+        @bike.canceled_projects.count.should == 1
+      end
+
+      it "should have an association with the canceled project" do
+        @bike.project.cancel
+        @bike.reload
+        @proj.reload
+        @bike.projects.count.should == 1
+      end
+
+      it "should not have the project assigned" do
+        @bike.project.cancel
+        @bike.reload
+        @proj.reload
+        @bike.project.should be_nil
+      end
+
+      it "should not have an active project" do
+        @bike.project.cancel
+        @bike.reload
+        @proj.reload
+        @bike.active_projects.count.should == 0
+      end
+      
+    end
+    
     describe "that is in the shop" do    
 
       it "must have an open project" do
