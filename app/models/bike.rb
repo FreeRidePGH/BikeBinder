@@ -34,7 +34,7 @@ class Bike < ActiveRecord::Base
   has_one :hook, :dependent => :nullify, :inverse_of=>:bike
   has_many :inspections, :class_name=>'ResponseSet', :as => :surveyable
 
-  has_one :project, :inverse_of => :bike, :dependent => :destroy
+  has_one_and_soft_delete :project, :dependent => :destroy #, :inverse_of => :bike
 
   # Clean up all associations
   # See http://www.mrchucho.net/2008/09/30/the-correct-way-to-override-activerecordbasedestroy

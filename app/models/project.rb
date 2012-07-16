@@ -22,7 +22,7 @@ class Project < ActiveRecord::Base
 
   friendly_id :label
 
-  belongs_to :bike, :inverse_of => :project
+  belongs_to :bike #, :inverse_of => :project
   belongs_to :prog, :polymorphic => true
   belongs_to :project_category
 
@@ -81,7 +81,7 @@ class Project < ActiveRecord::Base
 
   def assign_to(opts={})
     program = Program.find(opts[:program_id]) unless opts[:program_id].blank?
-    bike = Bike.find(opts[:bike_id]) unless opts[:bike_id].blank?
+    bike = Bike.find_by_id(opts[:bike_id]) unless opts[:bike_id].blank?
     category = program.project_category if program
 
     if not (program and bike and category and bike.available?) then return false end
@@ -172,8 +172,8 @@ class Project < ActiveRecord::Base
   # Enforce a 1 bike to 1 active project association
   def bike_has_at_most_one_active_project
     unless self.bike_id.nil?
-      active_projects = Project.where{bike_id == "#{bike_id}"}.where{state != 'trash'}
-      puts active_projects
+      active_projects = self.bike.active_projects
+      # Project.where{bike_id == "#{bike_id}"}.where{state != 'trash'}
       if active_projects.count > 1
         errors.add(:bike, "can only have one active project at a time")
       end
