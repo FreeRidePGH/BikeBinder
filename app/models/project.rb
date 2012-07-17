@@ -96,12 +96,22 @@ class Project < ActiveRecord::Base
   end
 
   def label
-    (bike.nil?) ? type+id.to_s  : "sn-#{bike.number}"
+    if bike.nil?
+      @label ||= type+id.to_s
+    else
+      # created_at.strftime("%F-%H%M")+"-"
+      @label ||= "#{id.to_s+"-" if self.trash?}sn-#{bike.number}"
+    end
   end
 
   def self.find_by_label(label, delimiter='-')
-    bike = Bike.find_by_label(label, delimiter)
-    return bike.project if bike
+    if @fl.nil?
+      bike = Bike.find_by_label(label, delimiter)
+      @fl ||= bike.project if bike
+      @fl ||= Project.find(label)
+    end
+
+    return @fl
   end
 
   # When the project is in the middle of a process

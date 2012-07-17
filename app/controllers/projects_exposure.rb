@@ -29,6 +29,7 @@ module ProjectsExposure
     base.expose(:project) do
       @proj ||= (bike.project if bike)
       @proj ||= Project.find_by_label(params[:project_id]) unless params[:project_id].blank?
+      @proj ||= Project.find_by_label(params[:id]) unless params[:id].blank?
       @proj ||= (category.project_class.new(project_params) if category)
     end
 
