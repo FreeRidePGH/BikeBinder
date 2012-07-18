@@ -6,14 +6,19 @@ module TimeEntryActions
     base.expose(:time_entry) do
       args = params[:time_entry]
 
-      if @t_ret.nil?
+      if time_trackable # @t_ret.nil?
         default_end = DateTime.now
         default_start = default_end - 1.hour
         entry_opts = {}
         entry_opts[:obj] = time_trackable
         entry_opts[:user_id] = current_user.id if current_user
+        # Apply default values
+        entry_opts[:end] = default_end.strftime("%m/%d/%Y %l:%M %p")
+        entry_opts[:start] = default_start.strftime("%m/%d/%Y %l:%M %p")
+        entry_opts[:description] = ""
 
         if args
+          # Override default values
           arg_end = args[:ended_on] 
           arg_start =  args[:started_on]
           entry_opts[:start] = arg_start unless arg_start.blank?
@@ -21,11 +26,7 @@ module TimeEntryActions
           entry_opts[:description] = args[:description] 
         end
 
-        # Apply default values conditionally
-        entry_opts[:end] ||= default_end.strftime("%m/%d/%Y %l:%M %p")
-        entry_opts[:start] ||= default_start.strftime("%m/%d/%Y %l:%M %p")
-
-        @t_ret = (TimeEntry.build_from(entry_opts) if time_trackable)
+        @t_ret = TimeEntry.build_from(entry_opts)
       end
 
       @t_ret
@@ -45,7 +46,6 @@ module TimeEntryActions
 
   def new
     @title = "Enter work hours"
-    puts @title
     puts time_trackable.nil?
     render 'time_entries/new'
   end

@@ -324,8 +324,8 @@ ActiveRecord::Schema.define(:version => 20120628030935) do
     t.integer  "parent_id"
     t.integer  "lft"
     t.integer  "rgt"
-    t.datetime "started_on"
-    t.datetime "ended_on"
+    t.datetime "started_on",                          :null => false
+    t.datetime "ended_on",                            :null => false
     t.datetime "created_at",                          :null => false
     t.datetime "updated_at",                          :null => false
   end

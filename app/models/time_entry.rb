@@ -14,8 +14,8 @@ class TimeEntry < ActiveRecord::Base
 
   validates_presence_of :description
   validates_presence_of :user
-  #validates_presence_of :started_on
-  #validates :ended_on, :presence => true
+  validates_presence_of :started_on
+  validates :ended_on, :presence => true
 
   # NOTE: install the acts_as_votable plugin if you
   # want user to vote on the quality of comments.
@@ -58,8 +58,8 @@ class TimeEntry < ActiveRecord::Base
     started_on = opts[:start]
     ended_on = opts[:end]
     built_on = Time.now
-    started_on ||= built_on
-    ended_on ||= built_on
+    started_on = built_on if started_on.blank?
+    ended_on = built_on if ended_on.blank?
 
     obj = opts[:obj]
     user_id = opts[:user_id]
@@ -116,7 +116,7 @@ class TimeEntry < ActiveRecord::Base
   end
 
   def f_date(datetime)
-     return datetime.localtime.strftime("%A %-m/%-e/%Y")
+     return datetime.localtime.strftime("%A %-m/%-e/%Y") if datetime
   end
   def date_start
     return f_date(started_on)
@@ -127,10 +127,16 @@ class TimeEntry < ActiveRecord::Base
 
   #returns the duration in hours
   def hours    
+    if ended_on.nil? || started_on.nil?
+      return 0
+    end
     return (ended_on - started_on)/60.0/60.0
   end
   
   def duration_text
+    if end_time.nil? || start_time.nil?
+      return "n/a"
+    end
     duration_min = ((end_time - start_time)/60.0).round
     if duration_min < 60
       return "#{duration_min} minutes"
@@ -142,7 +148,7 @@ class TimeEntry < ActiveRecord::Base
   end
   
   def f_time(datetime)
-    return datetime.localtime.strftime("%I:%M %p")
+    return datetime.localtime.strftime("%I:%M %p") if datetime
   end
   def time_start
     return f_time(started_on)
