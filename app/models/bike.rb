@@ -87,7 +87,8 @@ class Bike < ActiveRecord::Base
   
   def self.id_from_label(label, delimiter='-')
     arr = label.split(delimiter) if label
-    arr[-1] if arr
+    id = arr[-1] if arr.count > 1
+    return id
   end
 
   def self.find_by_label(label, delimiter='-')

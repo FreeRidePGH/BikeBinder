@@ -17,8 +17,9 @@ module ProjectsExposure
     # Fetch by: 
     # id or bike_id
     base.expose(:bike) do
-      label ||= params[:id] unless params[:id].blank?
+      # cascade label from specific to general
       label ||= params[:bike_id] unless params[:bike_id].blank?
+      label ||= params[:id] unless params[:id].blank?
       @b ||= (Bike.find_by_label(label) if label)
     end
 
@@ -27,9 +28,10 @@ module ProjectsExposure
     # Create by:
     # category association when category is fetched
     base.expose(:project) do
+      id ||= params[:project_id] unless params[:project_id].blank?
+      id ||= params[:id] unless params[:id].blank?
+      @proj ||= Project.find_by_label(id) unless id.blank?
       @proj ||= (bike.project if bike)
-      @proj ||= Project.find_by_label(params[:project_id]) unless params[:project_id].blank?
-      @proj ||= Project.find_by_label(params[:id]) unless params[:id].blank?
       @proj ||= (category.project_class.new(project_params) if category)
     end
 

@@ -62,35 +62,36 @@
       <% end #bike.departed? %>
     </div> <!-- end of location wrapper -->
     <div class="projInfo">
-      <h3>Project Info</h3>
+      <h3>Assignment</h3>
       <% if bike.project %>
-      <p>This bike is currently assigned to<%= bike.prog.title %></p>
-      <p><%= link_to "View project details", project_path(bike.project) %>
-	<% elsif bike.available? %>
-      <p>This bike is available</p>
-      <%= form_for(project, :url => projects_path, :method => :post) do |f| %>
-      <%= hidden_field_tag(:bike_id, bike.id) %>
-      <%= select_tag(:program_id, options_from_collection_for_select(Program.all, :id, :title)) %>
-      <%= f.submit "Start project", :class => "btn btn-primary" %>
-      <% end # bike.available? %>
-      
-      <% if bike.canceled_projects.count > 0 %>
-      <p>Canceled projects:</p>
-      <ul>
-	<% bike.canceled_projects.each do |p| %>
-	  <li><%= link_to p.label, p %></li>
-	<% end %>
-      </ul>
-      <% end %>
+        <p>Assigned to: <%= link_to bike.project.prog.title, bike.project.prog %></p>
+        <p><%= link_to "View project details", project_path(bike.project) %>
+      <% elsif bike.available? %>
+        <p>This bike is available</p>
+	<%= form_for(project, :url => projects_path, :method => :post) do |f| %>
+	  <%= hidden_field_tag(:bike_id, bike.id) %>
+	  <%= select_tag(:program_id, options_from_collection_for_select(Program.all, :id, :title)) %>
+	  <%= f.submit "Start project", :class => "btn btn-primary" %>
+	<% end # bike.available? %>
 
       <% else %>
-      <p>Bike is unavailable.</p>
-
+        <p>Bike is unavailable.</p>
       <% end %>
+
+      <% if bike.canceled_projects.count > 0 %>
+        <h4>Canceled projects:</h4>
+	<ul>
+	  <% bike.canceled_projects.each do |p| %>
+	  <li><%= link_to p.label, p %></li>
+	  <% end %>
+	</ul>
+      <% end %>
+
     </div> <!-- end of proj info wrapper -->
 
     <div class="departInfo">
-      <h3>Departure Info</h3>
+      <h3>Arrival & Departure</h3>
+      <p>Arrived: <%= bike.created_at.strftime('%Y-%m-%d') %></p>
       <%= render :partial =>"departure"  %>
     </div> <!-- end of depart info wrapper -->
 

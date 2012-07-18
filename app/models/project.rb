@@ -95,23 +95,31 @@ class Project < ActiveRecord::Base
     self.create_detail(opts[:project_detail])
   end
 
+
   def label
+    return nil if id.nil?
+
     if bike.nil?
-      @label ||= type+id.to_s
+      return "#{id.to_s}-#{self.type.split("::")[-1]}"
+    elsif trash?
+      return "#{id.to_s+"-" if self.trash?}"+bike.label
     else
-      # created_at.strftime("%F-%H%M")+"-"
-      @label ||= "#{id.to_s+"-" if self.trash?}sn-#{bike.number}"
+      return bike.label
     end
   end
 
-  def self.find_by_label(label, delimiter='-')
-    if @fl.nil?
-      bike = Bike.find_by_label(label, delimiter)
-      @fl ||= bike.project if bike
-      @fl ||= Project.find(label)
-    end
+  def self.id_from_label(label, delimiter='-')
+    arr = label.split(delimiter) if label
+    id = arr[0] if arr.count > 1
+    return (id.to_i !=0) ? id : nil
+  end
 
-    return @fl
+  def self.find_by_label(label, delimiter='-')
+    id = id_from_label(label)
+    return Project.find(id) unless id.nil?
+
+    bike = Bike.find_by_label(label, delimiter)
+    return bike.project unless bike.nil?
   end
 
   # When the project is in the middle of a process

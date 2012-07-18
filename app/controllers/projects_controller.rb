@@ -9,7 +9,7 @@ class ProjectsController < ApplicationController
 
   # GET
   def show
-    redirect_to root_path and return unless project
+    # redirect_to root_path and return unless project
 
     if project.closed? 
       @title = "Project details (Closed)"
@@ -30,7 +30,7 @@ class ProjectsController < ApplicationController
         flash[:success] = "Bike was assigned to #{project.prog.title}"
         
         if project.terminal?
-          redirect_to project.bike and return
+          redirect_to project.bike.reload and return
         else
           redirect_to project_path(project) and return
         end

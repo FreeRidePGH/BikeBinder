@@ -50,6 +50,7 @@ class ApplicationController < ActionController::Base
   # Create by:
   # * generic project
   expose(:project) do
+    @proj ||= Project.find(params[:project_id]) unless params[:project_id].blank?
     # When the friendly_id references the bike.number
     # there is no DB column for that, so the find must
     # be done on the Bike model.
