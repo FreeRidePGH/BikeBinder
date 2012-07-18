@@ -9,7 +9,7 @@ class ProjectsController < ApplicationController
 
   # GET
   def show
-    # redirect_to root_path and return unless project
+    redirect_to root_path and return unless project
 
     if project.closed? 
       @title = "Project details (Closed)"

@@ -20,11 +20,15 @@ describe ProjectsController do
 
   describe "GET 'show'" do
     it "should be successful" do
-      get :show, {:bike_id => @proj.bike.number}
+      get :show, {:id => @proj.bike.label}
+      response.should be_success
+    end
+
+    it "should be successful" do
+      get :show, {:id => @proj.label}
       response.should be_success
     end
   end
-
 
   describe "GET 'finish'" do
     it "should be successful"
