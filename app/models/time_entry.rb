@@ -3,7 +3,7 @@ class TimeEntry < ActiveRecord::Base
   class Category < ActiveRecord::Base
     self.table_name = "time_entry_categories"
     has_many :time_entries, :as => :context
-    attr_accessible :title
+    attr_accessible :title, :started_on, :ended_on, :description
 
     def to_s
       self.title

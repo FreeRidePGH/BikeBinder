@@ -9,24 +9,24 @@ module TimeEntryActions
       if time_trackable # @t_ret.nil?
         default_end = DateTime.now
         default_start = default_end - 1.hour
-        entry_opts = {}
-        entry_opts[:obj] = time_trackable
-        entry_opts[:user_id] = current_user.id if current_user
+        opts = {}
+        opts[:obj] = time_trackable
+        opts[:user_id] = current_user.id if current_user
         # Apply default values
-        entry_opts[:end] = default_end.strftime("%m/%d/%Y %l:%M %p")
-        entry_opts[:start] = default_start.strftime("%m/%d/%Y %l:%M %p")
-        entry_opts[:description] = ""
+        opts[:end] = default_end # .strftime("%m/%d/%Y %l:%M %p")
+        opts[:start] = default_start # .strftime("%m/%d/%Y %l:%M %p")
+        opts[:description] = ""
 
         if args
           # Override default values
-          arg_end = args[:ended_on] 
-          arg_start =  args[:started_on]
-          entry_opts[:start] = arg_start unless arg_start.blank?
-          entry_opts[:end] =  arg_end unless arg_end.blank?
-          entry_opts[:description] = args[:description] 
+          arg_end = DateTime.strptime(args[:ended_on], "%m/%d/%Y %l:%M %p").to_time
+          arg_start =  DateTime.strptime(args[:started_on], "%m/%d/%Y %l:%M %p").to_time
+          opts[:start] = arg_start unless arg_start.blank?
+          opts[:end] =  arg_end unless arg_end.blank?
+          opts[:description] = args[:description] 
         end
 
-        @t_ret = TimeEntry.build_from(entry_opts)
+        @t_ret = TimeEntry.build_from(opts)
       end
 
       @t_ret

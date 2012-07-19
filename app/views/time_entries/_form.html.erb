@@ -1,11 +1,13 @@
 <div>
   <%= form_for(time_entry, :url=> url, :method => :post) do |f| %>
+    <% time_start = time_entry.started_on.strftime("%m/%d/%Y %l:%M %p") %>
+    <% time_end = time_entry.ended_on.strftime("%m/%d/%Y %l:%M %p") %>
     <div class="row">
       <span class="span2 inline-label">
 	<%= f.label :started_on, "Starting time:" %>
       </span>
       <span class="span1">
-	<%= f.text_field :started_on, :class=> "datetimepicker" %>
+	<%= f.text_field :started_on, :value=>time_start, :class=> "datetimepicker" %>
       </span>
     </div>
     <div class="row">
@@ -13,7 +15,7 @@
 	<%= f.label :ended_on, "Ending time:"%>
       </span>
       <span class="span1">
-	<%= f.text_field :ended_on, :class=> "datetimepicker" %>
+	<%= f.text_field :ended_on, :value=>time_end, :class=> "datetimepicker" %>
       </span>
     </div>
 

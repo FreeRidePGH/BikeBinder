@@ -10,6 +10,9 @@ describe ProjectTimeEntriesController do
       @proj = d.proj
       @proj.detail = d
     end
+
+    @user = FactoryGirl.create(:user)
+    sign_in @user
   end
 
   describe "GET 'index'" do
@@ -34,20 +37,26 @@ describe ProjectTimeEntriesController do
       response.should be_success
     end
 
+    it "should have a current user" do
+      subject.current_user.should_not be_nil
+    end
+
     it "should be valid" do
       # to sign in a user see:
       # http://eureka.ykyuen.info/2011/03/04/rails-rspec-test-with-devise/
       # https://github.com/plataformatec/devise/wiki/How-To:-Controllers-and-Views-tests-with-Rails-3-(and-rspec)
+      # http://stackoverflow.com/questions/9508707/rail3-rspec-devise-rspec-controller-test-fails-unless-i-add-a-dummy-subject-cur
       get :new, {:project_id => @proj}
-      
+
+      user = subject.current_user
+
       e = controller.time_entry
       e.should_not be_nil
 
+      e.user.should_not be_nil
+
       puts "Ended: #{e.ended_on}"
       puts "Started: #{e.started_on}"
-
-      e.started_on.should_not be_nil
-      e.ended_on.should_not be_nil
 
       puts "Id:  #{e.id}"
       puts "Obj Id:  #{e.time_trackable.id}"
@@ -56,6 +65,8 @@ describe ProjectTimeEntriesController do
             
       puts "Current user nil?:  #{controller.current_user.nil?}"
       
+      e.started_on.should_not be_nil
+      e.ended_on.should_not be_nil
       e.should be_valid
     end
   end
