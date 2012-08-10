@@ -1,14 +1,12 @@
 <% 
    projects.each do |proj|
    prog = proj.prog
-   cat = prog.project_category
    status = (proj.open?) ? "Open" : "Closed"
    status_icon = "icon-folder-#{(proj.open?) ? 'open': 'close'}"
  %>
 <tr>
   <td><%= link_to proj.bike.number, bike_path(proj.bike) %></td>
   <td><%= link_to prog.title, program_path(prog) %></td>
-  <td><%= link_to cat.name, project_category_path(cat) %></td>
   <td><%= proj.created_at.strftime('%d %B %y') %></td>
   <td><%= link_to project_path(proj) do %><i class="<%= status_icon %>"></i><%= " #{status}, view details" %></td><% end %>
 </tr>

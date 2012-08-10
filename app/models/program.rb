@@ -39,6 +39,10 @@ class Program < ActiveRecord::Base
     @term
   end
 
+  def accepting_projects?
+    # TODO Validate that the program is accepting projects
+  end
+
 
   def category_must_be_accepting_new_programs 
     if project_category and not project_category.accepting_programs?

@@ -3,11 +3,6 @@ class ProjectsController < ApplicationController
   include ProjectsExposure
 
   # GET
-  def index
-    @title = "Projects List"
-  end
-
-  # GET
   def show
     redirect_to root_path and return unless project
 
@@ -146,7 +141,8 @@ class ProjectsController < ApplicationController
       redirect_to bike_path(bike) and return
     end
     
-    flash[:error] = "Project could not be found or canceled."
+    flash[:error] = "Project could not be found" if project.nil?
+    flash[:error] ||= "Project could not be canceled"
     render 'show'
   end
 

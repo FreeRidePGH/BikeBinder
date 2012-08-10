@@ -1,8 +1,25 @@
 <section class="row span8">
 
+<h2>Program information</h2>
+<dl>
+  <dt>Title</dt><dd><%= program.title %> </dd>
+  <dt>Category</dt><dd><%= link_to program.project_category.name, program.project_category %></dd>
+  <dt>Max open projects</dt><dd><%= (program.max_open.nil?) ? "Unlimited" : program.max_open %></dd>
+  <dt>Max total projects</dt><dd><%= (program.max_total.nil?) ? "Unlimited" : program.max_total %></dd>
+</dl>
+<h3>Current status</h3>
+<ul>
+  <li>Open?</li>
+  <li>Accepting new projects?</li>
+</ul>
+
+<hr />
 
 <h2>Projects in <%= program.title %></h2>
 
 <%= render :partial=>"projects/project_table", :layout =>"projects/project_table_layout" %>
 
+
+
 </section>
+

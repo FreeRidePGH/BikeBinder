@@ -11,7 +11,7 @@ BikeBinder::Application.routes.draw do
 
   # access to projects without nesting in programs
   resources :projects, \
-  :only => [:show, :index, :edit, :update, :create, :new, :delete, :destroy], \
+  :only => [:show, :edit, :update, :create, :new, :delete, :destroy], \
   :path_names => {:new=>'start', :delete=>'cancel'} do
     member do
       post 'new_comment'
