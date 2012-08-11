@@ -1,3 +1,13 @@
+<table class="span12 table table-bordered project">
+<thead>
+<tr>
+<th>Bike</th>
+<th>Date Started</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+
 <% 
    projects.each do |proj|
    prog = proj.prog
@@ -6,8 +16,10 @@
  %>
 <tr>
   <td><%= link_to proj.bike.number, bike_path(proj.bike) %></td>
-  <td><%= link_to prog.title, program_path(prog) %></td>
   <td><%= proj.created_at.strftime('%d %B %y') %></td>
   <td><%= link_to project_path(proj) do %><i class="<%= status_icon %>"></i><%= " #{status}, view details" %></td><% end %>
 </tr>
 <% end %>
+
+</tbody>
+</table>

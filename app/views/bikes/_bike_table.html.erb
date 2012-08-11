@@ -5,9 +5,9 @@
     <% if b.available? %>
       <i class="icon-ok"></i> Available
     <% elsif b.departed? %>
-      <i class="icon-ban-circle"></i> Departed
+      <%= link_to project_path(b.project) do %><i class="icon-folder-close"></i> Departed as <%= "#{b.project.project_category.name}" %><% end %>
     <% elsif b.project %>
-      <%= link_to project_path(b.project) do %><i class="icon-ban-circle"></i> <%= "#{b.project.project_category.name} Project" %><% end %>
+      <%= link_to project_path(b.project) do %><i class="icon-folder-open"></i> <%= "#{b.project.project_category.name} Project" %><% end %>
     <% end # elsif %>
   </td>
   <td>

@@ -7,7 +7,9 @@ BikeBinder::Application.routes.draw do
 
   # Note:  See all routes with "rake routes"
 
-  resources :programs, :except => [:destroy]
+  resources :programs, :except => [:destroy] do
+    resources :bikes, :only => [:index]
+  end
 
   # access to projects without nesting in programs
   resources :projects, \
@@ -23,7 +25,9 @@ BikeBinder::Application.routes.draw do
     resources_project_work_log
   end
 
-  resources :project_categories, :except=>[:destroy, :new, :create]
+  resources :project_categories, :except=>[:destroy, :new, :create, :index] do
+    resources :bikes, :only => [:index]
+  end
 
   devise_for :users
 

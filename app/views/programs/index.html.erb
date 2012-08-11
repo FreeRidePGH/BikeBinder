@@ -1,13 +1,12 @@
 <section class="row span8 programs">
 
-
-<%= render :partial=>"program_table", :layout =>"program_table_layout" %>
+<% project_categories.each do |cat| %>
+  <h2><%= link_to cat.name, cat %> Category</h2>
+  <%= render :partial=>"project_categories/programs", :locals=>{:category=>cat} %>
+<% end %>
 
 <!-- this should be a button and probably should go in the menu action area -->
+<hr />
 <%= link_to "Start a new program", new_program_path, :class => "btn btn-primary", :id=> "newProgram" %>
-
-
-
-<p>Find me in app/views/programs/index.html.erb</p>
 
 </section>

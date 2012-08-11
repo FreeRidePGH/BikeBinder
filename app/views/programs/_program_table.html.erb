@@ -1,8 +1,0 @@
-<% programs.each do |prog| %>
-<% category = prog.project_category %>
-<tr>
-  <td><%= link_to prog.title, program_path(prog) %></td>
-  <td><%= link_to category.name, project_category_path(category) %></td>
-  <td><%= pluralize(prog.projects.count, "bike") %></td>
-</tr>
-<% end %>

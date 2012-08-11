@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   #end
   
   # Scope from collection of all categories
-  expose(:project_categories) {ProjectCategories.all}
+  expose(:project_categories) {ProjectCategory.all}
   # Fetch category by:
   # * project_category_id
   # Create never

@@ -1,5 +1,19 @@
 <section class="row span8">
+<h2>Category Info</h2>
+<dl>
+  <dt>Name</dt><dd><%= category.name %></dd>
+  <dt>Total number of projects</dt>
+  <dd>
+    <%= link_to pluralize(category.projects.count, 'bike'), project_category_bikes_path(category) %>
+  </dd>
+  <dt>Total number of programs</dt><dd><%= category.programs.count %></dd>
+  <dt>Max number of programs allowed</dt>
+  <dd>
+    <%= (category.max_programs<0) ? "Unlimited" : category.max_programs %>
+  </dd>
+</dl>
 
-<%= render :partial=>"projects/project_table", :layout =>"projects/project_table_layout" %>
+<h2><%= pluralize(category.programs.count, "#{category.name} Program") %></h2>
+<%= render :partial=>"project_categories/programs", :locals=>{:category=>category} %>
 
 </section>

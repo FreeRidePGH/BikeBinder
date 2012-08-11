@@ -1,9 +1,0 @@
-
-<section class="">
-
-
-<% if @program %>
-<h2><%= link_to @program.title, program_path(@program) %>'s Projects</h2>
-<% end %>
-<%= render :partial=>"project_table", :layout =>"project_table_layout" %>
-</section>

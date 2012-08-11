@@ -1,0 +1,32 @@
+<% category ||= project_category %>
+<% programs = category.programs %>
+
+<% if programs.count == 0 %>
+  <p>No programs exist in this category.
+    <% if category.accepting_programs? %>
+      <%= link_to "Create a new program.", new_program_path %>
+    <% end %>
+  </p>
+<% elsif programs.count == 1 %>
+  <% prog = programs.first %>
+  <p>The <%= link_to prog.title, prog %> program has <%= link_to pluralize(prog.projects.count, 'bike'), program_bikes_path(prog) %></p>
+<% else %>
+
+<table class="programs span8 table table-bordered">
+<thead>
+<tr>
+<th>Program Title</th>
+<th>Projects total</th>
+</tr>
+</thead>
+  <% programs.each do |prog| %>
+  <tr>
+    <td><%= link_to prog.title, prog %></td>
+    <td>
+      <%= link_to pluralize(prog.projects.count, 'bike'), program_bikes_path(prog) %>
+    </td>
+  </tr>
+  <% end %>
+</table>
+
+<% end #programs.count %>
