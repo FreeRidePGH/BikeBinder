@@ -6,13 +6,14 @@
   <%= devise_error_messages! %>
 <fieldset>
   <%= f.label :email %>
-  <%= f.email_field :email %>
+  <%= f.email_field :email, :required => true %>
+
 
   <%= f.label :password %>
-  <%= f.password_field :password %>
+  <%= f.password_field :password , :required => true %>
 
   <%= f.label :password_confirmation %>
-  <%= f.password_field :password_confirmation %>
+  <%= f.password_field :password_confirmation, :required => true %>
 
   <%= f.submit "Sign up", :class => "btn btn-primary"  %>
 </fieldset>

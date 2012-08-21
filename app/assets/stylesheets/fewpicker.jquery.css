@@ -1,3 +1,4 @@
+
 div[data-picker="swatch"],
 .selected-swatch {
     border-radius: 15px;
@@ -8,26 +9,50 @@ div[data-picker="swatch"],
     position: absolute;
 }
 table[data-picker]#color-grid {
-    background-color: white;
-    border-collapse: separate;
-    border-spacing: 1;
     border: solid 1px gray;
-    cursor: crosshair;
+    cursor: pointer;
     padding: 5px;
     position: absolute;
+    z-index: 500;
+
 }
-table[data-picker]#color-grid  th {width: 25px;}
+table[data-picker]#color-grid  th {width: 50px;}
 table[data-picker]#color-grid tr {
-    background: none;
-    width: 220px;
+    background-color: none;
     padding: 5px;
 }
-table[data-picker]#color-grid td {
-    border-radius: 15px;
-    margin: 2px;
-    width: 30px;
-    height: 30px;
-    text-overflow: ellipsis;
-    box-shadow: 0px 3px 1px #444444;
+table#color-grid tr:nth-child(2n+1) {
+    background: #fff;
+}
+table[data-picker]#color-grid td span  {
 
+    margin: 0 auto;
+    width: 30px;
+}
+table[data-picker]#color-grid td p  {
+    padding: 0;
+    margin: 5% 0 0 0;
+}
+table[data-picker]#color-grid td {
+    width: 50px;
+    text-overflow: ellipsis;
+    height: 30px;
+    text-align: center;
+    padding: 2% 0;
+    border-radius: 2px 2px;
+
+}
+table[data-picker]#color-grid td:hover {
+/*    -moz-transition-property: background-color;
+    -moz-transition-duration: 0.25s;
+    background: #DBDBDB;*/
+}
+table[data-picker]#color-grid td:hover {
+    text-decoration: underline;
+}
+table[data-picker]#color-grid .circleShadow {
+    display: block;
+    border-radius: 15px;
+    height: 30px;
+    box-shadow: 0px 3px 1px #444444;
 }

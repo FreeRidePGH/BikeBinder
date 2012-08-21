@@ -1,12 +1,16 @@
+<section class=" offset4 span8 userLogin" >
 <h2>Forgot your password?</h2>
 
 <%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f| %>
   <%= devise_error_messages! %>
+<fieldset>
+  <%= f.label :email %>
+  <%= f.email_field :email, :required => true %>
 
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email %></div>
-
-  <div><%= f.submit "Send me reset password instructions" %></div>
+<%= f.submit "Send me reset password instructions", :class => "btn btn-primary" %>
+</fieldset>
 <% end %>
 
 <%= render :partial => "devise/shared/links" %>
+
+</section>

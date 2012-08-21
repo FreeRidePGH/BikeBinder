@@ -39,9 +39,9 @@
     <%= yield %>
 
 
-    <footer class="span8">
-      <%= debug(params) if Rails.env.development? %>
-      &copy; 2012 Free Ride Bicycle Project
+    <footer class="span12">
+      <div class="span6"><%= debug(params) if Rails.env.development? %></div>
+      <p class="offset4 copyright">&copy; 2012 Free Ride Bicycle Project</p>
     </footer>
   </div>
 </body>

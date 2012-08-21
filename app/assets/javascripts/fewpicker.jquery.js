@@ -8,11 +8,11 @@
 	     // hide the picker initially
 	     var settings = $.extend( {
 					  input: this,
-					  colorsArray : ['White', 'Silver', 'Gray ','Black', 'Red', 'Brown', 'SaddleBrown', 'Maroon', 'Yellow', 'Gold', 'Olive', 'DarkOliveGreen','LightGreen', 'Lime', 'Green', 'Teal', 'Blue', 'Cyan', 'LightBlue', 'Navy', 'Magenta', 'Purple', 'MediumPurple', 'Orange', 'DarkOrange' ]
+					  colorsArray : ['White', 'Silver', 'Gray ','Black', 'Red', 'Brown', 'SaddleBrown', 'Maroon', 'Yellow', 'Gold', 'Olive', 'DarkOlive','LightGreen', 'Lime', 'Green', 'Teal', 'Blue', 'Cyan', 'LightBlue', 'Navy', 'Magenta', 'Purple', 'MediumPurple', 'Orange', 'DarkOrange' ]
 				      }, options );
 
 	     // create and add table to DOM
-	     var tableMarkup = $(methods.createColorTable(settings.colorsArray)).hide(),
+	   var tableMarkup = $(methods.createColorTable(settings.colorsArray)),
 	     swatch =   '<div data-picker="swatch" ></div>',
 	     coords = this.position();
 	     
@@ -24,7 +24,9 @@
 	     this.after(tableMarkup);
 
 	     var DomTableElement = this.next('table[data-picker]');
-	     $('table[data-picker]').css('left', coords.left);
+	   $('table[data-picker]').css(
+	     {'left' : coords.left*1.40,
+	      'top' : coords.top});
 	     if (this.val()) {
 		 var values = this.val().split(',');
 		 this.siblings('[data-picker="swatch"]').css('backgroundColor', values[0]);
@@ -41,7 +43,7 @@
 		 function(e){
     		     DomTableElement.show();
 
-		 });
+		   	 });
 
 	     this.dblclick(
 		 function(e){
@@ -62,11 +64,17 @@
 	     tableOuter;
 
 	     for (i = 0; i<length; i++) {
-		 var td = document.createElement('td');
-		 td.style.backgroundColor = colorsArray[i];
-		 td.dataset.color = colorsArray[i];
+	       var td = document.createElement('td'),
+	       label = document.createElement('p'),
+	       colorCircle = document.createElement('span');
+	       
+	       colorCircle.style.backgroundColor = colorsArray[i];
+	       colorCircle.className = 'circleShadow';
+	       td.dataset.color = colorsArray[i];
+	       label.innerHTML = colorsArray[i];
+	       td.innerHTML = colorCircle.outerHTML + label.outerHTML;
 		 // outer html apparently is not supported inFF. I think it is only setting, not getting
-		 cells+=td.outerHTML;
+	       cells+= td.outerHTML;
 		 // when colorsArray length %10 has leftovers final case gets cut off, hence extra test condition
 		 // add 1 to compensate for 0 index
 		 if ( (i+1)%5 == 0 || (i+1) == length) {
@@ -77,7 +85,7 @@
 	     }
 	     tableOuter =  '<table  data-picker="true" id="color-grid">';
 	     tableOuter+=    '<thead>';
-	     tableOuter+=    '<th></th>';
+	     tableOuter+=    '<th></th><th></th><th></th><th></th><th></th>';
 	     tableOuter+=    '</thead>';
 	     tableOuter+=    '<tbody>';
 	     tableOuter+= tableBody;
