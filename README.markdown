@@ -8,23 +8,53 @@ Reproduce all functionality that exists with the current paper bike binder and d
 ## Getting up and running
 
 ### After the first clone
-Take the following actions to get a cloned/pulled version to run locally
 
-* rename "config/database.yml.sample" to "config/database.yml"
-* run "bundle install"
-* run "rake db:populate"
+Take the following actions to get a cloned/pulled version to run locally
+* Rename the database config file (remove ".sample")
+* Install gems
+* Initialize and populate the database 
+
+        mv config/database.yml.sample config/database.yml
+        bundle install
+        rake db:populate
 
 ### After each time you pull updates
 
-* Run "bundle install"
-* run "rake db:populate"
+* Install missing (or out of date) gems
+* Reinitialize and repopulate the database
+
+        bundle install
+        rake db:populate
 
 ## Running tests
 
-* run "rake db:test_setup"
-* "bundle exec guard"
+* Create the test database
+* Start the autotest
 
-(See http://guides.rubyonrails.org/testing.html#preparing-your-application-for-testing)
+        rake db:test_setup
+        bundle exec guard
+
+(See also http://guides.rubyonrails.org/testing.html#preparing-your-application-for-testing)
+
+
+## Documentation Tasks
+
+* Generating ERD images using railroady (http://railroady.prestonlee.com/)
+
+        rake diagram:all
+
+* Diagram state machines
+
+        rake state_machine:draw FILE=project.rb CLASS=Project
+        rake state_machine:draw FILE=bike.rb CLASS=Bike
+        rake state_machine:draw FILE=project/youth_detail.rb CLASS=Project::YouthDetail
+        rake state_machine:draw FILE=project/eab_detail.rb CLASS=Project::EabDetail
+
+* Annotate models (list attributes as comments in the class file)
+** See http://ruby.railstutorial.org/chapters/modeling-and-viewing-users-one#code:gemfile_annotate
+
+        bundle exec annotate --position after
+
 
 --------------------------------------------
 
@@ -110,9 +140,11 @@ eg, a blue underline link represents a Navigational action such as going to the 
 * Infrastructure support for: Back-ups and restore; Monitoring & notifying system status; Admin functionality to fix problems/take care of unexpected issues
 
 ## Milestone 5: Traceability and reporting
+
 * Record and display history of edits, projects, etc.
 * Reporting of bike and project statistics
  * Export of data via XML, CSV or EXCEL
+
 
 # Copyright
 
