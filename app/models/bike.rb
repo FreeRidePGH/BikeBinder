@@ -14,7 +14,6 @@
 #  mfg              :string(255)
 #  model            :string(255)
 #  number           :string(255)
-#  project_id       :integer
 #  location_state   :string(255)
 #
 

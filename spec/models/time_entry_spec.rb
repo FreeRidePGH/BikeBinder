@@ -23,3 +23,24 @@ describe TimeEntry do
   end
 
 end
+# == Schema Information
+#
+# Table name: time_entries
+#
+#  id                  :integer         not null, primary key
+#  time_trackable_id   :integer         default(0)
+#  time_trackable_type :string(255)     default("")
+#  title               :string(255)     default("")
+#  description         :text            default("")
+#  context_type        :string(255)     default("")
+#  context_id          :integer         default(0)
+#  user_id             :integer         default(0), not null
+#  parent_id           :integer
+#  lft                 :integer
+#  rgt                 :integer
+#  started_on          :datetime        not null
+#  ended_on            :datetime        not null
+#  created_at          :datetime        not null
+#  updated_at          :datetime        not null
+#
+

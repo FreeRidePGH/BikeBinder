@@ -51,7 +51,7 @@ Take the following actions to get a cloned/pulled version to run locally
         rake state_machine:draw FILE=project/eab_detail.rb CLASS=Project::EabDetail
 
 * Annotate models (list attributes as comments in the class file)
-** See http://ruby.railstutorial.org/chapters/modeling-and-viewing-users-one#code:gemfile_annotate
+ * See http://ruby.railstutorial.org/chapters/modeling-and-viewing-users-one#code:gemfile_annotate
 
         bundle exec annotate --position after
 

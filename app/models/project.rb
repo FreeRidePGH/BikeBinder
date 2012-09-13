@@ -11,6 +11,7 @@
 #  updated_at          :datetime
 #  closed_at           :datetime
 #  project_category_id :integer
+#  bike_id             :integer
 #  state               :string(255)
 #  completion_state    :string(255)
 #
