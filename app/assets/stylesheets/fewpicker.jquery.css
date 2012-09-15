@@ -9,11 +9,12 @@ div[data-picker="swatch"],
     position: absolute;
 }
 table[data-picker]#color-grid {
-    border: solid 1px gray;
+    border: solid 1px #999;
     cursor: pointer;
     padding: 5px;
     position: absolute;
     z-index: 500;
+    background: #fff;
 
 }
 table[data-picker]#color-grid  th {width: 50px;}
@@ -25,22 +26,21 @@ table#color-grid tr:nth-child(2n+1) {
     background: #fff;
 }
 table[data-picker]#color-grid td span  {
-
     margin: 0 auto;
     width: 30px;
 }
 table[data-picker]#color-grid td p  {
     padding: 0;
-    margin: 5% 0 0 0;
+    margin: 8px 0 0 0;
+    border: 1px solid #fff;
 }
 table[data-picker]#color-grid td {
     width: 50px;
     text-overflow: ellipsis;
     height: 30px;
     text-align: center;
-    padding: 2% 0;
+    padding: 5px 5px;
     border-radius: 2px 2px;
-
 }
 table[data-picker]#color-grid td:hover {
 /*    -moz-transition-property: background-color;
@@ -48,7 +48,12 @@ table[data-picker]#color-grid td:hover {
     background: #DBDBDB;*/
 }
 table[data-picker]#color-grid td:hover {
-    text-decoration: underline;
+    #text-decoration: underline;
+    background: #ddf;
+    border: 0;
+}
+table[data-picker]#color-grid td:hover p{
+    border: 1px solid #666;
 }
 table[data-picker]#color-grid .circleShadow {
     display: block;

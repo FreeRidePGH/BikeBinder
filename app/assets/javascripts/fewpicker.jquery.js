@@ -5,14 +5,38 @@
 	 init : function( options ) { 
 	     
 	     // Create some defaults, extending them with any options that were provided
-	     // hide the picker initially
+
 	     var settings = $.extend( {
 					  input: this,
-					  colorsArray : ['White', 'Silver', 'Gray ','Black', 'Red', 'Brown', 'SaddleBrown', 'Maroon', 'Yellow', 'Gold', 'Olive', 'DarkOlive','LightGreen', 'Lime', 'Green', 'Teal', 'Blue', 'Cyan', 'LightBlue', 'Navy', 'Magenta', 'Purple', 'MediumPurple', 'Orange', 'DarkOrange' ]
+					  colorsArray : 
+					  [
+					   'White', 
+					   'Silver', 
+					   'Gray ',
+					   'Black', 
+					   'Red', 
+					   'Brown', 
+					   'Tan',
+					   'Maroon', 
+					   'Yellow', 
+					   'Gold', 
+					   'Orange',
+					   'Olive',
+					   'DarkGreen',
+					   'Green', 
+					   'LightGreen', 
+					   'Teal', 
+					   'Blue', 
+					   'LightBlue', 
+					   'Navy',
+					   'Pink', 
+					   'Purple', 
+					   ]
 				      }, options );
 
 	     // create and add table to DOM
-	   var tableMarkup = $(methods.createColorTable(settings.colorsArray)),
+	     // hide the picker initially
+	     var tableMarkup = $(methods.createColorTable(settings.colorsArray)).hide(),
 	     swatch =   '<div data-picker="swatch" ></div>',
 	     coords = this.position();
 	     
@@ -25,8 +49,8 @@
 
 	     var DomTableElement = this.next('table[data-picker]');
 	   $('table[data-picker]').css(
-	     {'left' : coords.left*1.40,
-	      'top' : coords.top});
+	     {'left' : coords.left,
+	      'top' : coords.top+30});
 	     if (this.val()) {
 		 var values = this.val().split(',');
 		 this.siblings('[data-picker="swatch"]').css('backgroundColor', values[0]);
@@ -34,24 +58,17 @@
 	     }
 	     // add color clicking power
 	     methods.registerClickHandlers(DomTableElement, this);
-	     // conditionally show and hide the picker
-	     this.focusin(function(){
-    			      DomTableElement.show();
-			  });
+	     // conditionally show the picker
+	     var showPicker = function(e){DomTableElement.show()};
+	     this.focusin(showPicker);
+	     this.click(showPicker);
 
-	     this.click(
-		 function(e){
-    		     DomTableElement.show();
-
-		   	 });
-
-	     this.dblclick(
-		 function(e){
-    		     DomTableElement.hide();
-
+	     // conditinally hide the picker
+	     var hidePicker = function(e){DomTableElement.hide();}
+	     this.dblclick(hidePicker);
+	     $(document).keyup(function(e){
+		     if(e.keyCode==27){DomTableElement.hide();} //esc
 		 });
-
-
 
 	 },
 	 createColorTable : function(colorsArray) {
@@ -85,7 +102,7 @@
 	     }
 	     tableOuter =  '<table  data-picker="true" id="color-grid">';
 	     tableOuter+=    '<thead>';
-	     tableOuter+=    '<th></th><th></th><th></th><th></th><th></th>';
+	     tableOuter+=    '<th></th><th></th><th></th><th></th><th><i class="icon-remove"></i>close</th>';
 	     tableOuter+=    '</thead>';
 	     tableOuter+=    '<tbody>';
 	     tableOuter+= tableBody;
@@ -108,6 +125,8 @@
 				 }
 
 			     });
+	     // click event to close
+	     DomTableElement.on('click.fewPicker', 'th', function(e){DomTableElement.hide()});
 	 }
      };
 
