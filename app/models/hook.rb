@@ -47,4 +47,9 @@ class Hook < ActiveRecord::Base
     id = Hook.id_from_label(label, delimiter)
     Hook.find_by_number(id)
   end
+
+  def self.simple_search(search)
+    hooks = Hook.where("number LIKE ?","%#{search}%")
+    return hooks
+  end
 end

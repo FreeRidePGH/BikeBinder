@@ -1,0 +1,6 @@
+.floatRight{
+    float: right !important;
+}
+.searchBox input{
+    display: inline;
+}
