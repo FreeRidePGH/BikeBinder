@@ -12,6 +12,7 @@
   <hr />
   
   <div class="span7 noLeftMarg">
+<!-- it would be nice to conditionally add the span7 class to prevent too much space when no log entries have been recorded --> 
     <% if project.detail.work_log %>
     <h3>Work log</h3>
     <%= link_to "Log work on this project", new_project_work_log_path(project) %>
