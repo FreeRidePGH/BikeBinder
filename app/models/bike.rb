@@ -11,8 +11,9 @@
 #  created_at       :datetime
 #  updated_at       :datetime
 #  departed_at      :datetime
-#  mfg              :string(255)
-#  model            :string(255)
+#  date_in_shop     :datetime
+#  bike_model_id    :integer
+#  brand_id         :integer
 #  number           :string(255)
 #  location_state   :string(255)
 #
@@ -28,9 +29,11 @@ class Bike < ActiveRecord::Base
 
   acts_as_commentable
 
-  attr_accessible :color, :value, :seat_tube_height, :top_tube_length, :mfg, :model, :number
+  attr_accessible :color, :value, :wheel_size, :seat_tube_height, :top_tube_length, :bike_model_id, :brand_id, :number, :quality, :condition
   
   has_one :hook, :dependent => :nullify, :inverse_of=>:bike
+  belongs_to :brand
+  belongs_to :bike_model
   has_many :inspections, :class_name=>'ResponseSet', :as => :surveyable
 
   has_one_and_soft_delete :project, :dependent => :destroy #, :inverse_of => :bike
@@ -125,6 +128,28 @@ class Bike < ActiveRecord::Base
 
   def self.simple_search(search)
     Bike.where("number LIKE ?","%#{search}%").all
+  end
+
+  def brand_name
+    self.brand.name
+  end
+
+  def model_name
+    self.bike_model.name
+  end
+
+  def self.wheel_sizes
+    { "660 mm" => 660,
+      "680 mm" => 680,
+      "Other"  => -1}
+  end
+
+  def self.qualities
+    {"A" => "A","B" => "B","C" => "C","D" => "D"}
+  end
+
+  def self.conditions
+    {"A" => "A","B" => "B","C" => "C","D" => "D"}
   end
 
   validates_uniqueness_of :number, :allow_nil => true
