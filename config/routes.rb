@@ -43,10 +43,15 @@ BikeBinder::Application.routes.draw do
 
   resources :hooks,:except =>[:destroy, :new, :create]
 
+  # Search routes
+  resources :searches, :only => [:index]
+  match '/searches/browse' => 'searches#browse', :as => :browse
+
   # Ensure root is set per recommendations when installing Devise
   root :to => 'bikes#index', :via => [:get]
 
   # Map top level domain seach to bikes and hooks
   match '/:id' => 'bikes#show', :id => Bike.number_pattern, :via => [:get]
   match '/:id' => 'hooks#show', :id => Hook.number_pattern, :via => [:get]
+
 end
