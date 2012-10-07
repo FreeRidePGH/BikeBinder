@@ -15,7 +15,7 @@
 <%= f.collection_select :bike_model_id, BikeModel.all, :id, :name %>
 
 <%= f.label :quality, "Quality" %>
-<%= f.text_field :qualtiy, Bike.qualities %>
+<%= f.select :quality, Bike.qualities %>
 
 <%= f.label :condition, "Condition" %>
 <%= f.select :condition, Bike.conditions %>
