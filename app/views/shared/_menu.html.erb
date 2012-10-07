@@ -15,7 +15,6 @@
   <% end %>
 
 <div class="span12  sub-nav grad-blue-extra-gray" id="shared_menu">
-
   <ul class="nav nav-pills">
     <li><%= link_to bikes_path do %><i class=""></i>Bikes<% end %></li>
     <li><%= link_to programs_path do %><i class=""></i>Programs<% end %></li>
@@ -24,5 +23,11 @@
     <!-- have a visual divider here like | -->
     <li class="signed-in-action-1"><%= link_to "Add a bike", new_bike_path %></li>
     <% end %>
+    <li class="floatRight">
+        <form action = '/searches' method = 'get' class = 'searchBox'>
+            <input type = "text" name = "search" value = "Search by Bike/Hook Number" onfocus="inputFocus(this)" onblur="inputBlur(this)" style = "color:#888"/>
+            <input type = "submit" name = "submit" value = "Search" />
+        </form>
+    </li>
   </ul>
 </div>

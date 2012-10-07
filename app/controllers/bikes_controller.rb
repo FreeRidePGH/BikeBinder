@@ -5,6 +5,8 @@ class BikesController < ApplicationController
   # Create by:
   # Bike.new
   expose(:bike) do
+    puts params[:choice]
+    puts params[:select]
     id_param = params[:id]||params[:bike_id]
     unless id_param.blank?
       label = id_param
@@ -154,7 +156,7 @@ class BikesController < ApplicationController
   # See https://gist.github.com/1975644
   # http://rubysource.com/rails-mass-assignment-issue-a-php-perspective/
   def bike_params
-    params[:bike].slice(:color, :value, :seat_tube_height, :top_tube_length, :mfg, :model, :number) if params[:bike]
+    params[:bike].slice(:color, :value, :seat_tube_height, :top_tube_length, :bike_model_id, :brand_id, :model, :number) if params[:bike]
   end
 
 end

@@ -29,10 +29,11 @@ namespace :db do
     Rake::Task['db:populate_project_categories'].invoke         
     
     Rake::Task['db:populate_programs'].invoke
-	
+	Rake::Task['db:populate_brands'].invoke
+    Rake::Task['db:populate_bike_models'].invoke
     Rake::Task['db:populate_bikes'].invoke
     Rake::Task['db:populate_projects'].invoke
-
+    
     # Pass rake argument using ENV hash
     ENV['FILE'] = 'surveys/bike_overhaul_inspection.rb'
     Rake::Task['surveyor'].invoke
@@ -104,6 +105,21 @@ namespace :db do
       
     end
   end
+
+  desc "Populate database with several fake brands"
+  task :populate_brands => :environment do
+    for i in 1..3
+      brand = Brand.create!(:name => "Schwinn #{i}")
+    end
+  end
+ 
+  desc "Populate database with several fake models"
+  task :populate_bike_models => :environment do
+    for i in 1..3
+      bm = BikeModel.create!(:name => "Mountain #{i}",
+                             :brand_id => i)
+    end
+  end
   
   
   desc "Fill database with fake Bikes"
@@ -132,15 +148,38 @@ namespace :db do
       #manufacturer = Faker::Company.name
       #fake_model = Faker::Company.bs
 
-      manufacturer = mfgr[n_bike_info]
-      fake_model = model[n_bike_info]
+      #manufacturer = mfgr[n_bike_info]
+      #fake_model = model[n_bike_info]
+      bm = BikeModel.find(rand(3)+1)
+      brand = bm.brand
+
+      quality = rand(3)
+      if quality == 0
+        quality = "A"
+      elsif quality == 1
+        quality = "B"
+      elsif quality == 2
+        quality = "C"
+      end
+
+      condition = rand(3)
+      if condition == 0
+        condition = "A"
+      elsif condition == 1
+        condition = "B"
+      elsif condition == 2
+        condition = "C"
+      end
 
       b = Bike.create!(
                        :color=>c,
                        :seat_tube_height=>sh, 
                        :top_tube_length=>tl,
-                       :mfg => manufacturer,
-                       :model => fake_model,
+                       :wheel_size => rand(700),
+                       :brand_id => brand.id,
+                       :bike_model_id => bm.id,
+                       :quality => quality,
+                       :condition => condition,
                        :number => Bike.format_number(n+1001))
       if rand(3)>0
         b.reserve_hook!
