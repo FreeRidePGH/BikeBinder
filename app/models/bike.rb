@@ -139,9 +139,10 @@ class Bike < ActiveRecord::Base
   end
 
   def self.wheel_sizes
-    { "660 mm" => 660,
-      "680 mm" => 680,
-      "Other"  => -1}
+    [["Unknown",nil],
+     ["660 mm",660],
+     ["680 mm",680],
+     ["Other",-1]]
   end
 
   def self.qualities

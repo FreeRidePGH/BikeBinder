@@ -5,13 +5,11 @@ class BikesController < ApplicationController
   # Create by:
   # Bike.new
   expose(:bike) do
-    puts params[:choice]
-    puts params[:select]
     id_param = params[:id]||params[:bike_id]
     unless id_param.blank?
       label = id_param
       @bike ||= Bike.find_by_label(label) unless label.nil?
-    end
+    end    
     @bike ||= Bike.new(bike_params)
   end
   # Fetch by:
@@ -37,14 +35,34 @@ class BikesController < ApplicationController
     @commentable ||= bike
   end
 
-  before_filter :verify_bike, :except => [:new, :create, :index]
+  before_filter :verify_bike, :except => [:new, :create, :index,:get_models]
 
   def new
     @title = "Add a new bike"
     @form_text = "Create new bike"
   end
 
-  def create    
+  def create     
+    newBrand = params[:bike][:new_brand_id]
+    newModel = params[:bike][:new_bike_model_id]
+    oldBrand = params[:bike][:brand_id]
+    # Case 1 new brand and model
+    # Create new brands and models and assign this bike
+    if (newBrand.nil? == false and newBrand != "" and newModel.nil? == false and newModel != "")
+        thisBrand = Brand.new(:name => newBrand)
+        thisModel = BikeModel.new(:name => newModel,:brand_id => thisBrand.id)
+        thisBrand.save!
+        thisModel.save!
+        bike.brand_id = thisBrand.id
+        bike.bike_model_id = thisModel.id
+    # Case 2 new model and existing brand
+    elsif (newModel.nil? == false and newModel != "" and oldBrand.nil? == false and oldBrand != "")
+        thisBrand = Brand.find_by_id(oldBrand)
+        thisModel = BikeModel.new(:name => newModel, :brand_id => thisBrand.id)
+        thisModel.save!
+        bike.brand_id = thisBrand.id
+        bike.bike_model_id = thisModel.id
+    end
     if bike.save
       flash[:success] = "New bike was added."
       redirect_to bike_path(bike) and return
@@ -72,6 +90,17 @@ class BikesController < ApplicationController
       @title = "Edit Bike"
       render 'edit'
     end
+  end
+  
+  def get_models
+    @brand_id = params[:brand_id]
+    @bike_models = []
+    if @brand_id.nil? || @brand_id == ""
+        @bike_models = []
+    else
+        @bike_models = BikeModel.find_all_by_brand_id(@brand_id)
+    end
+    render :json => @bike_models
   end
 
 
@@ -142,6 +171,7 @@ class BikesController < ApplicationController
   def change_hook
     
   end
+  
 
   private
 
@@ -152,11 +182,15 @@ class BikesController < ApplicationController
     end
   end
 
+  def verify_brandmodels
+    puts params[:bike][:new_brand_id]
+  end
+
   # Project from mass assignment
   # See https://gist.github.com/1975644
   # http://rubysource.com/rails-mass-assignment-issue-a-php-perspective/
   def bike_params
-    params[:bike].slice(:color, :value, :seat_tube_height, :top_tube_length, :bike_model_id, :brand_id, :model, :number) if params[:bike]
+    params[:bike].slice(:color, :value, :seat_tube_height, :top_tube_length, :bike_model_id, :brand_id, :model, :number, :quality, :condition, :wheel_size) if params[:bike]
   end
 
 end
