@@ -38,6 +38,11 @@ class Bike < ActiveRecord::Base
 
   has_one_and_soft_delete :project, :dependent => :destroy #, :inverse_of => :bike
 
+  WHEEL_SIZES =     [["Unknown",1],
+                     ["660 mm",660],
+                     ["680 mm",680],
+                     ["Other",2]]
+
   # Clean up all associations
   # See http://www.mrchucho.net/2008/09/30/the-correct-way-to-override-activerecordbasedestroy
   def destroy_without_callbacks
@@ -147,10 +152,21 @@ class Bike < ActiveRecord::Base
   end
 
   def self.wheel_sizes
-    [["Unknown",1],
-     ["660 mm",660],
-     ["680 mm",680],
-     ["Other",2]]
+    return WHEEL_SIZES 
+  end
+
+  def get_wheel_size
+    wheelHash = WHEEL_SIZES
+    wheelHash.each do |key|
+        if key[1] == self.wheel_size
+            return key[0]
+        end
+    end
+    if self.wheel_size.nil? == false
+        return self.wheel_size.to_s + " mm"
+    else
+        return "n/a"
+    end
   end
 
   def self.qualities
@@ -159,6 +175,10 @@ class Bike < ActiveRecord::Base
 
   def self.conditions
     {"A" => "A","B" => "B","C" => "C","D" => "D"}
+  end
+
+  def entered_shop
+    return self.created_at.strftime("%m/%d/%Y")
   end
 
   validates_uniqueness_of :number, :allow_nil => true
