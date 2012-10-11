@@ -36,6 +36,7 @@ class BikesController < ApplicationController
   end
 
   before_filter :verify_bike, :except => [:new, :create, :index,:get_models]
+  before_filter :verify_brandmodels, :only => [:create,:update]
 
   def new
     @title = "Add a new bike"
@@ -43,26 +44,6 @@ class BikesController < ApplicationController
   end
 
   def create     
-    newBrand = params[:bike][:new_brand_id]
-    newModel = params[:bike][:new_bike_model_id]
-    oldBrand = params[:bike][:brand_id]
-    # Case 1 new brand and model
-    # Create new brands and models and assign this bike
-    if (newBrand.nil? == false and newBrand != "" and newModel.nil? == false and newModel != "")
-        thisBrand = Brand.new(:name => newBrand)
-        thisModel = BikeModel.new(:name => newModel,:brand_id => thisBrand.id)
-        thisBrand.save!
-        thisModel.save!
-        bike.brand_id = thisBrand.id
-        bike.bike_model_id = thisModel.id
-    # Case 2 new model and existing brand
-    elsif (newModel.nil? == false and newModel != "" and oldBrand.nil? == false and oldBrand != "")
-        thisBrand = Brand.find_by_id(oldBrand)
-        thisModel = BikeModel.new(:name => newModel, :brand_id => thisBrand.id)
-        thisModel.save!
-        bike.brand_id = thisBrand.id
-        bike.bike_model_id = thisModel.id
-    end
     if bike.save
       flash[:success] = "New bike was added."
       redirect_to bike_path(bike) and return
@@ -183,7 +164,32 @@ class BikesController < ApplicationController
   end
 
   def verify_brandmodels
-    puts params[:bike][:new_brand_id]
+    newBrand = params[:bike][:new_brand_id]
+    newModel = params[:bike][:new_bike_model_id]
+    oldBrand = params[:bike][:brand_id]
+    # Case 1 new brand and model
+    # Create new brands and models and assign this bike
+    if (newBrand.nil? == false and newBrand != "" and newModel.nil? == false and newModel != "" and newBrand != "-1" and newModel != "-1")
+        thisBrand = Brand.new(:name => newBrand)
+        thisModel = BikeModel.new(:name => newModel,:brand_id => thisBrand.id)
+        thisBrand.save!
+        thisModel.save!
+        bike.brand_id = thisBrand.id
+        bike.bike_model_id = thisModel.id
+        params[:bike][:brand_id] = thisBrand.id
+        params[:bike][:bike_model_id] = thisModel.id
+    # Case 2 new model and existing brand
+    elsif (newModel.nil? == false and newModel != "" and oldBrand.nil? == false and oldBrand != "" and newBrand != "-1" and newModel != "-1")
+        thisBrand = Brand.find_by_id(oldBrand)
+        thisModel = BikeModel.new(:name => newModel, :brand_id => thisBrand.id)
+        thisModel.save!
+        bike.brand_id = thisBrand.id
+        bike.bike_model_id = thisModel.id
+        params[:bike][:brand_id] = thisBrand.id
+        params[:bike][:bike_model_id] = thisModel.id
+    end
+    params[:bike].delete :new_brand_id
+    params[:bike].delete :new_bike_model_id
   end
 
   # Project from mass assignment

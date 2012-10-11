@@ -4,3 +4,8 @@
 .searchBox input{
     display: inline;
 }
+#add_brand,#add_model{
+    cursor: pointer;
+    color: red;
+}
+

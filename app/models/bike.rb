@@ -131,18 +131,26 @@ class Bike < ActiveRecord::Base
   end
 
   def brand_name
-    self.brand.name
+    if !self.brand_id
+       return "None"
+    else
+       return self.brand.name
+    end
   end
 
   def model_name
-    self.bike_model.name
+    if self.bike_model.nil?
+        return "None"
+    else
+        return self.bike_model.name
+    end
   end
 
   def self.wheel_sizes
-    [["Unknown",nil],
+    [["Unknown",1],
      ["660 mm",660],
      ["680 mm",680],
-     ["Other",-1]]
+     ["Other",2]]
   end
 
   def self.qualities
