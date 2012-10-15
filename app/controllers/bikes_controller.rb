@@ -35,7 +35,7 @@ class BikesController < ApplicationController
     @commentable ||= bike
   end
 
-  before_filter :verify_bike, :except => [:new, :create, :index,:get_models]
+  before_filter :verify_bike, :except => [:new, :create, :index,:get_models,:filter_bikes]
   before_filter :verify_brandmodels, :only => [:create,:update]
 
   def new
@@ -57,6 +57,9 @@ class BikesController < ApplicationController
 
   def index
     @title = "Bike Listing"
+    @brands = Brand.all_brands
+    @colors = Bike.all_colors
+    @statuses = Bike.all_statuses
   end
 
   def edit
@@ -82,6 +85,14 @@ class BikesController < ApplicationController
         @bike_models = BikeModel.find_all_by_brand_id(@brand_id)
     end
     render :json => @bike_models
+  end
+
+  def filter_bikes
+    @brand = params[:brands]
+    @color = params[:colors]
+    @status = params[:statuses]
+    @bikes = Bike.filter_bikes(@brand,@color,@status)
+    render :json => @bikes
   end
 
 

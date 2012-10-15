@@ -43,6 +43,33 @@ class Bike < ActiveRecord::Base
                      ["680 mm",680],
                      ["Other",2]]
 
+  COLORS = ["White","Silver","Gray","Black","Red","Brown","Tan","Maroon",
+            "Yellow","Gold","Orange","Olive","DarkGreen","Green","LightGreen",
+            "Teal","Blue","LightBlue","Navy","Pink","Purple"]
+
+  STATUSES = ["Available","EAB","Youth","Departed"]
+
+  def self.filter_bikes(brands,colors,status)
+    statusSql = []
+    if status.nil? or status.empty?
+        return []
+    end
+    if status.include?("Available")
+        statusSql.push("departed_at IS NULL AND projects.id IS NULL")
+    end
+    if status.include?("Youth")
+        statusSql.push("departed_at IS NULL AND projects.type = 'Project::Youth'")
+    end
+    if status.include?("EAB")
+        statusSql.push("departed_at IS NULL AND projects.type = 'Project::Eab'")
+    end
+    if status.include?("Departed") # Departed
+        statusSql.push("departed_at NOT NULL")
+    end
+    statusSqlString = "(" +  statusSql.join(") OR (") + ")"
+    Bike.joins("LEFT OUTER JOIN projects ON projects.bike_id = bikes.id").where("brand_id IN (?) AND color IN (?) AND (#{statusSqlString})",brands,colors)
+  end
+
   # Clean up all associations
   # See http://www.mrchucho.net/2008/09/30/the-correct-way-to-override-activerecordbasedestroy
   def destroy_without_callbacks
@@ -179,6 +206,14 @@ class Bike < ActiveRecord::Base
 
   def entered_shop
     return self.created_at.strftime("%m/%d/%Y")
+  end
+
+  def self.all_colors
+    return COLORS  
+  end
+
+  def self.all_statuses
+    return STATUSES
   end
 
   validates_uniqueness_of :number, :allow_nil => true

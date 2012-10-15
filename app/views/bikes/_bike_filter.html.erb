@@ -1,0 +1,33 @@
+<div class = "pull-left filter">
+    <span class = "filterName">BRAND</span>
+    <ul>
+        <% @brands.each do |brand| %>
+            <input name = "bike_brand" class = "checkBrand" value = "<%=brand.id%>" type = "checkbox" >
+                <%= brand.name %>
+            </input><br />
+        <% end %>
+    </ul>
+</div>
+<div class = "pull-left filter">
+    <span class = "filterName">COLOR</span>
+    <ul>
+        <% counter = 1 %>
+        <% @colors.each do |color| %>
+            <input name = "bike_color" class = "checkColor" value = "<%=color%>" type = "checkbox" >
+                <%= color %>
+            </input>
+            <% if (counter%5 == 0) %>
+                <br />
+            <% end %>
+            <% counter = counter + 1 %>
+        <% end %>
+    </ul>
+</div>
+<div class = "pull-left filter">
+    <span class = "filterName">STATUS</span>
+    <ul>
+        <% @statuses.each do |status| %>
+            <%= status %>: <%= check_box_tag "bike_brand",status,(status == "Available"),:class => "checkStatus" %><br />
+        <% end %>
+    </ul>
+</div>

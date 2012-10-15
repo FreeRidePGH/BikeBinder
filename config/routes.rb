@@ -58,5 +58,6 @@ BikeBinder::Application.routes.draw do
 
   # AJAX Routes
   match '/bikes/get_models/:brand_id' => 'bikes#get_models'
+  match '/bikes/filter_bikes/:id' => 'bikes#filter_bikes'
 
 end
