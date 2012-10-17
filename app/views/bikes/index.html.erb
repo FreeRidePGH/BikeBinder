@@ -1,5 +1,87 @@
+<script type = "text/javascript">
+    $(document).ready(function(){
+        // Attach filters
+        function attachListeners(){
+            $(".checkBrand").each(function(){
+                $(this).click(function(){
+                    populateBikeList();
+                });
+            });
+            $(".checkColor").each(function(){
+                $(this).click(function(){
+                    populateBikeList();
+                });
+            });
+            $(".checkStatus").each(function(){
+                $(this).click(function(){
+                    populateBikeList();
+                });
+            });
+        }
 
+        // Function to get bikes
+        function populateBikeList(){
+            var brandArr = $("input:checkbox:checked.checkBrand").map(function(){
+                return this.value;
+            }).get();
+            var colorArr = $("input:checkbox:checked.checkColor").map(function(){
+                return this.value;
+            }).get();
+            var statusArr = $("input:checkbox:checked.checkStatus").map(function(){
+                return this.value;
+            }).get();
+            $.ajax({
+                type: "GET",
+                url: "/bikes/filter_bikes/filter",
+                data: {
+                    "brands" : brandArr,
+                    "colors" : colorArr,
+                    "statuses" : statusArr
+                },
+                dataType : "json",
+                success: function (response){
+                    console.log(response);
+                    renderHtml(response);
+                }
+            });
+        }
+
+        function renderHtml(response){
+            $("#bikeList").html("");
+            for(var i = 0; i < response.length; i++){
+                var bikeObj = response[i];
+                var newRow = document.createElement("tr");
+                var bikeNumber = document.createElement("td");
+                var bikeNumberLink = document.createElement("a");
+                bikeNumberLink.href = "/bikes/sn-"+bikeObj.number;
+                bikeNumberLink.innerHTML = bikeObj.number;
+                bikeNumber.appendChild(bikeNumberLink);
+                var bikeAvailable = document.createElement("td");
+                bikeAvailable.innerHTML = (bikeObj.location_state == "departed" ? "Departed" : bikeObj.name || "Available");
+                var bikeHook = document.createElement("td");
+                bikeHook.innerHTML = bikeObj.hook_number || "n/a";
+                var bikeColor = document.createElement("td");
+                bikeColor.innerHTML = bikeObj.color;
+                var bikeBrand = document.createElement("td");
+                bikeBrand.innerHTML = bikeObj.brand_id;
+                var bikeSeat = document.createElement("td");
+                bikeSeat.innerHTML = bikeObj.seat_tube_height;
+                var bikeTop = document.createElement("td");
+                bikeTop.innerHTML = bikeObj.top_tube_length;
+                var bikeWheel = document.createElement("td");
+                bikeWheel.innerHTML = bikeObj.wheel_size || "n/a";
+                var bikeIn = document.createElement("td");
+                bikeIn.innerHTML = bikeObj.created_at;
+                $(newRow).append(bikeNumber).append(bikeAvailable).append(bikeHook).append(bikeColor).append(bikeBrand).append(bikeSeat)
+                .append(bikeTop).append(bikeWheel).append(bikeIn);
+                $("#bikeList").append(newRow);
+            }
+        }
+
+        attachListeners();
+    });
+</script>
 <section class="">
-
+<%= render :partial=>"bike_filter" %>
 <%= render :partial=>"bike_table", :layout =>"bike_table_layout" %>
 </section>

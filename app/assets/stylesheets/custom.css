@@ -4,3 +4,17 @@
 .searchBox input{
     display: inline;
 }
+#add_brand,#add_model{
+    cursor: pointer;
+    color: red;
+}
+.filterName{
+    font-weight: bold;
+}
+.filter{
+    text-align: center;
+}
+.filter ul{
+    text-align: left;
+    border: 1px solid gray;
+}

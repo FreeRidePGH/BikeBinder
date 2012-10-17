@@ -11,8 +11,9 @@
 #  created_at       :datetime
 #  updated_at       :datetime
 #  departed_at      :datetime
-#  mfg              :string(255)
-#  model            :string(255)
+#  date_in_shop     :datetime
+#  bike_model_id    :integer
+#  brand_id         :integer
 #  number           :string(255)
 #  location_state   :string(255)
 #
@@ -28,12 +29,50 @@ class Bike < ActiveRecord::Base
 
   acts_as_commentable
 
-  attr_accessible :color, :value, :seat_tube_height, :top_tube_length, :mfg, :model, :number
+  attr_accessible :color, :value, :wheel_size, :seat_tube_height, :top_tube_length, :bike_model_id, :brand_id, :number, :quality, :condition
   
   has_one :hook, :dependent => :nullify, :inverse_of=>:bike
+  belongs_to :brand
+  belongs_to :bike_model
   has_many :inspections, :class_name=>'ResponseSet', :as => :surveyable
 
   has_one_and_soft_delete :project, :dependent => :destroy #, :inverse_of => :bike
+
+  WHEEL_SIZES =     [["Unknown",1],
+                     ["660 mm",660],
+                     ["680 mm",680],
+                     ["Other",2]]
+
+  COLORS = ["White","Silver","Gray","Black","Red","Brown","Tan","Maroon",
+            "Yellow","Gold","Orange","Olive","DarkGreen","Green","LightGreen",
+            "Teal","Blue","LightBlue","Navy","Pink","Purple"]
+
+  STATUSES = ["Available","EAB","Youth","Departed"]
+
+  def self.filter_bikes(brands,colors,status)
+    statusSql = []
+    if status.nil? or status.empty?
+        return []
+    end
+    if status.include?("Available")
+        statusSql.push("departed_at IS NULL AND projects.id IS NULL")
+    end
+    if status.include?("Youth")
+        statusSql.push("departed_at IS NULL AND projects.type = 'Project::Youth'")
+    end
+    if status.include?("EAB")
+        statusSql.push("departed_at IS NULL AND projects.type = 'Project::Eab'")
+    end
+    if status.include?("Departed") # Departed
+        statusSql.push("departed_at NOT NULL")
+    end
+    statusSqlString = "(" +  statusSql.join(") OR (") + ")"
+    bikes = Bike.select("bikes.*,project_categories.name,hooks.number as hook_number").joins("LEFT JOIN hooks ON hooks.bike_id = bikes.id LEFT OUTER JOIN projects ON projects.bike_id = bikes.id LEFT JOIN project_categories ON project_categories.id = projects.project_category_id").where("brand_id IN (?) AND color IN (?) AND (#{statusSqlString})",brands,colors)
+    bikes.each do |bike|
+        bike.created_at = bike.created_at.strftime("%m/%d/%Y")
+    end
+    return bikes
+  end
 
   # Clean up all associations
   # See http://www.mrchucho.net/2008/09/30/the-correct-way-to-override-activerecordbasedestroy
@@ -125,6 +164,60 @@ class Bike < ActiveRecord::Base
 
   def self.simple_search(search)
     Bike.where("number LIKE ?","%#{search}%").all
+  end
+
+  def brand_name
+    if !self.brand_id
+       return "None"
+    else
+       return self.brand.name
+    end
+  end
+
+  def model_name
+    if self.bike_model.nil?
+        return "None"
+    else
+        return self.bike_model.name
+    end
+  end
+
+  def self.wheel_sizes
+    return WHEEL_SIZES 
+  end
+
+  def get_wheel_size
+    wheelHash = WHEEL_SIZES
+    wheelHash.each do |key|
+        if key[1] == self.wheel_size
+            return key[0]
+        end
+    end
+    if self.wheel_size.nil? == false
+        return self.wheel_size.to_s + " mm"
+    else
+        return "n/a"
+    end
+  end
+
+  def self.qualities
+    {"A" => "A","B" => "B","C" => "C","D" => "D"}
+  end
+
+  def self.conditions
+    {"A" => "A","B" => "B","C" => "C","D" => "D"}
+  end
+
+  def entered_shop
+    return self.created_at.strftime("%m/%d/%Y")
+  end
+
+  def self.all_colors
+    return COLORS  
+  end
+
+  def self.all_statuses
+    return STATUSES
   end
 
   validates_uniqueness_of :number, :allow_nil => true

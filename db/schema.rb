@@ -41,18 +41,36 @@ ActiveRecord::Schema.define(:version => 20120628030935) do
     t.float    "value"
     t.float    "seat_tube_height"
     t.float    "top_tube_length"
+    t.integer  "wheel_size"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "departed_at"
-    t.string   "mfg"
-    t.string   "model"
+    t.integer  "brand_id"
+    t.integer  "bike_model_id"
     t.string   "number"
+    t.string   "quality"
+    t.string   "condition"
     #t.integer  "project_id"
     t.string   "location_state"
   end
 
   add_index "bikes", ["number"], :name => "index_bikes_on_number"
   #add_index "bikes", ["project_id"], :name => "index_bikes_on_project_id"
+
+  create_table "bike_models", :force => true do |t|
+    t.integer    "brand_id"
+    t.string     "name"
+    t.datetime   "created_at"
+    t.datetime   "updated_at"
+  end
+
+  create_table "brands", :force => true do |t|
+    t.string     "name"
+    t.datetime   "created_at"
+    t.datetime   "updated_at"
+  end
+
+
 
   create_table "comments", :force => true do |t|
     t.integer  "commentable_id",   :default => 0
