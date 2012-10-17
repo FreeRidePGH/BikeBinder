@@ -206,12 +206,11 @@ button[type="submit"] {
 }
 /* Generic comments styling */
 #newCommentWrap,  form#new_comment {
-    margin-top: 25px;
-    position: absolute;
+    margin-top: 0;
 }
 form#new_comment #comment_body {
-    
-    width: 261px;
+height: 100px;
+    width: 200px;
 }
 
 div.comments {
