@@ -67,7 +67,11 @@ class Bike < ActiveRecord::Base
         statusSql.push("departed_at NOT NULL")
     end
     statusSqlString = "(" +  statusSql.join(") OR (") + ")"
-    Bike.joins("LEFT OUTER JOIN projects ON projects.bike_id = bikes.id").where("brand_id IN (?) AND color IN (?) AND (#{statusSqlString})",brands,colors)
+    bikes = Bike.select("bikes.*,project_categories.name,hooks.number as hook_number").joins("LEFT JOIN hooks ON hooks.bike_id = bikes.id LEFT OUTER JOIN projects ON projects.bike_id = bikes.id LEFT JOIN project_categories ON project_categories.id = projects.project_category_id").where("brand_id IN (?) AND color IN (?) AND (#{statusSqlString})",brands,colors)
+    bikes.each do |bike|
+        bike.created_at = bike.created_at.strftime("%m/%d/%Y")
+    end
+    return bikes
   end
 
   # Clean up all associations

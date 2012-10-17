@@ -52,11 +52,14 @@
                 var bikeObj = response[i];
                 var newRow = document.createElement("tr");
                 var bikeNumber = document.createElement("td");
-                bikeNumber.innerHTML = bikeObj.number;
+                var bikeNumberLink = document.createElement("a");
+                bikeNumberLink.href = "/bikes/sn-"+bikeObj.number;
+                bikeNumberLink.innerHTML = bikeObj.number;
+                bikeNumber.appendChild(bikeNumberLink);
                 var bikeAvailable = document.createElement("td");
-                bikeAvailable.innerHTML = bikeObj.location_state;
+                bikeAvailable.innerHTML = (bikeObj.location_state == "departed" ? "Departed" : bikeObj.name || "Available");
                 var bikeHook = document.createElement("td");
-                bikeHook.innerHTML = "n/a";
+                bikeHook.innerHTML = bikeObj.hook_number || "n/a";
                 var bikeColor = document.createElement("td");
                 bikeColor.innerHTML = bikeObj.color;
                 var bikeBrand = document.createElement("td");
@@ -66,7 +69,7 @@
                 var bikeTop = document.createElement("td");
                 bikeTop.innerHTML = bikeObj.top_tube_length;
                 var bikeWheel = document.createElement("td");
-                bikeWheel.innerHTML = bikeObj.wheel_size;
+                bikeWheel.innerHTML = bikeObj.wheel_size || "n/a";
                 var bikeIn = document.createElement("td");
                 bikeIn.innerHTML = bikeObj.created_at;
                 $(newRow).append(bikeNumber).append(bikeAvailable).append(bikeHook).append(bikeColor).append(bikeBrand).append(bikeSeat)
