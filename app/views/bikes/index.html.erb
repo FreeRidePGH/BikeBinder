@@ -17,6 +17,9 @@
                     populateBikeList();
                 });
             });
+            $("#sortBy").change(function(){
+                populateBikeList();
+            });
         }
 
         // Function to get bikes
@@ -30,13 +33,15 @@
             var statusArr = $("input:checkbox:checked.checkStatus").map(function(){
                 return this.value;
             }).get();
+            var sortBy = $("#sortBy").val();
             $.ajax({
                 type: "GET",
                 url: "/bikes/filter_bikes/filter",
                 data: {
                     "brands" : brandArr,
                     "colors" : colorArr,
-                    "statuses" : statusArr
+                    "statuses" : statusArr,
+                    "sortBy" : sortBy
                 },
                 dataType : "json",
                 success: function (response){

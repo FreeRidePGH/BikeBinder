@@ -49,7 +49,7 @@ class Bike < ActiveRecord::Base
 
   STATUSES = ["Available","EAB","Youth","Departed"]
 
-  def self.filter_bikes(brands,colors,status)
+  def self.filter_bikes(brands,colors,status,sortBy)
     statusSql = []
     if status.nil? or status.empty?
         return []
@@ -67,7 +67,12 @@ class Bike < ActiveRecord::Base
         statusSql.push("departed_at NOT NULL")
     end
     statusSqlString = "(" +  statusSql.join(") OR (") + ")"
-    bikes = Bike.select("bikes.*,project_categories.name,hooks.number as hook_number").joins("LEFT JOIN hooks ON hooks.bike_id = bikes.id LEFT OUTER JOIN projects ON projects.bike_id = bikes.id LEFT JOIN project_categories ON project_categories.id = projects.project_category_id").where("brand_id IN (?) AND color IN (?) AND (#{statusSqlString})",brands,colors)
+    bikes = Bike.select("bikes.*,project_categories.name,hooks.number as hook_number")
+            .joins("LEFT JOIN hooks ON hooks.bike_id = bikes.id 
+                    LEFT OUTER JOIN projects ON projects.bike_id = bikes.id
+                    LEFT JOIN project_categories ON project_categories.id = projects.project_category_id")
+            .where("brand_id IN (?) AND color IN (?) AND (#{statusSqlString})",brands,colors)
+            .order(sortBy)
     bikes.each do |bike|
         bike.created_at = bike.created_at.strftime("%m/%d/%Y")
     end
@@ -218,6 +223,11 @@ class Bike < ActiveRecord::Base
 
   def self.all_statuses
     return STATUSES
+  end
+
+  def self.sort_filters
+    return {"Number" => "number","Seat Tube" => "seat_tube_height","Top Tube" => "top_tube_length",
+            "Wheel Size" => "wheel_size", "Date Entered" => "created_at"}
   end
 
   validates_uniqueness_of :number, :allow_nil => true
