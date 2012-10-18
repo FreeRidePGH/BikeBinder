@@ -56,25 +56,57 @@
             for(var i = 0; i < response.length; i++){
                 var bikeObj = response[i];
                 var newRow = document.createElement("tr");
+
+                // Bike Number
                 var bikeNumber = document.createElement("td");
                 var bikeNumberLink = document.createElement("a");
                 bikeNumberLink.href = "/bikes/sn-"+bikeObj.number;
                 bikeNumberLink.innerHTML = bikeObj.number;
                 bikeNumber.appendChild(bikeNumberLink);
+
+                // Bike Status
                 var bikeAvailable = document.createElement("td");
-                bikeAvailable.innerHTML = (bikeObj.location_state == "departed" ? "Departed" : bikeObj.name || "Available");
+                if(bikeObj.name && bikeObj.location_state != "departed"){
+                    var bikeStatusLink = document.createElement("a");
+                    bikeStatusLink.href = "/projects/sn-" + bikeObj.number;
+                    bikeStatusLink.innerHTML = bikeObj.name;
+                    bikeAvailable.appendChild(bikeStatusLink);
+                }else{
+                    bikeAvailable.innerHTML = (bikeObj.location_state == "departed" ? "Departed" : bikeObj.name || "Available");
+                }
+
+                // Bike Hook
                 var bikeHook = document.createElement("td");
-                bikeHook.innerHTML = bikeObj.hook_number || "n/a";
+                if (bikeObj.hook_number){
+                    var bikeHookLink = document.createElement("a");
+                    bikeHookLink.href = "/hooks/location-"+bikeObj.hook_number;
+                    bikeHookLink.innerHTML = bikeObj.hook_number;
+                    bikeHook.appendChild(bikeHookLink);
+                }else{
+                    bikeHook.innerHTML = "n/a";
+                }
+
+                // Color
                 var bikeColor = document.createElement("td");
                 bikeColor.innerHTML = bikeObj.color;
+                
+                // Brand
                 var bikeBrand = document.createElement("td");
                 bikeBrand.innerHTML = bikeObj.brand_id;
+                
+                // Seat Tube
                 var bikeSeat = document.createElement("td");
                 bikeSeat.innerHTML = bikeObj.seat_tube_height;
+                
+                // Top Tube
                 var bikeTop = document.createElement("td");
                 bikeTop.innerHTML = bikeObj.top_tube_length;
+                
+                // Wheel Size
                 var bikeWheel = document.createElement("td");
                 bikeWheel.innerHTML = bikeObj.wheel_size || "n/a";
+                
+                // Created at
                 var bikeIn = document.createElement("td");
                 bikeIn.innerHTML = bikeObj.created_at;
                 $(newRow).append(bikeNumber).append(bikeAvailable).append(bikeHook).append(bikeColor).append(bikeBrand).append(bikeSeat)
