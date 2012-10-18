@@ -1,3 +1,59 @@
+<script type = "text/javascript">
+    $(function(){ // Load jquery
+    
+        // Function to attach event listeners to form
+        function attachListeners(){
+            // Attach Brand Listener
+            $("#bike_brand_id").change(function(){
+                var brand = $("#bike_brand_id").val();
+                if (brand === undefined || brand === ""){
+                    brand = "-1";
+                }
+                // On select, get models based on this brand
+                $.ajax({
+                    url: "/bikes/get_models/" + brand,
+                    dataType: 'json'
+                }).done(function(response){
+                    var modelSelect = $("#bike_bike_model_id");
+                    modelSelect.html("");
+                    if(response.length === 0){
+                        var noneOpt = document.createElement("option");
+                        noneOpt.value = "";
+                        noneOpt.innerHTML = "None";
+                        modelSelect.append(noneOpt);
+                    }
+                    for(var i = 0; i < response.length; i++){
+                        var brandJson = response[i];
+                        var newModel = document.createElement("option");
+                        newModel.value = brandJson.id;
+                        newModel.innerHTML = brandJson.name;
+                        modelSelect.append(newModel);                   
+                    }
+                });
+            });
+
+            // Attach Click Add Listeners
+            $("#add_brand").click(function(){
+                // Hide select
+                $("#bike_brand_id").hide();
+                $("#bike_brand_id").val("");
+                $("#add_brand").hide();
+                $("#bike_new_brand_id").show();
+                $("#bike_new_brand_id").focus();
+            });
+            $("#add_model").click(function(){
+                $("#bike_bike_model_id").hide();
+                $("#bike_bike_model_id").val("");
+                $("#add_model").hide();
+                $("#bike_new_bike_model_id").show();
+                $("#bike_new_bike_model_id").focus();
+            });    
+        }
+        
+        
+        attachListeners(); 
+    });
+</script>
 <!-- This is the main form generated for editing a bike. Another form template is rendered for creating a new bike. -->
 <%= form_for(bike) do |f| %>
   <%= render 'shared/error_messages', :object => f.object %>
@@ -9,10 +65,14 @@
 <%= f.text_field :color , :required => true, :id => "colorInput"  %>
 
 <%= f.label :brand_id, "Manufacturer" %>
-<%= f.collection_select :brand_id, Brand.all, :id, :name %>
+<%= f.collection_select :brand_id, Brand.all, :id, :name, {:include_blank => "None"} %>
+<span id = "add_brand">New Brand</span>
+<input type = "text" id = "bike_new_brand_id" name = "bike[new_brand_id]" style = "display:none;" />
 
 <%= f.label :bike_model_id, "Model" %>
-<%= f.collection_select :bike_model_id, BikeModel.all, :id, :name %>
+<%= f.collection_select :bike_model_id, BikeModel.all, :id, :name, {:include_blank => "None"} %>
+<span id = "add_model">New Model</span>
+<input type = "text" id = "bike_new_bike_model_id" name = "bike[new_bike_model_id]" style = "display:none;" />
 
 <%= f.label :quality, "Quality" %>
 <%= f.select :quality, Bike.qualities %>
