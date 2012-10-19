@@ -35,7 +35,7 @@ class BikesController < ApplicationController
     @commentable ||= bike
   end
 
-  before_filter :verify_bike, :except => [:new, :create, :index,:get_models,:filter_bikes]
+  before_filter :verify_bike, :except => [:new, :create, :index,:get_models,:get_brands,:filter_bikes]
   before_filter :verify_brandmodels, :only => [:create,:update]
 
   def new
@@ -86,6 +86,17 @@ class BikesController < ApplicationController
         @bike_models = BikeModel.find_all_by_brand_id(@brand_id)
     end
     render :json => @bike_models
+  end
+
+  def get_brands
+    @model_id = params[:bike_model_id]
+    @brands = []
+    if @model_id.nil? || @model_id == ""
+        @brands = []
+    else
+        @brands = Brand.find_all_for_models(@model_id)
+    end
+    render :json => @brands
   end
 
   def filter_bikes
@@ -199,6 +210,22 @@ class BikesController < ApplicationController
         bike.brand_id = thisBrand.id
         bike.bike_model_id = thisModel.id
         params[:bike][:brand_id] = thisBrand.id
+        params[:bike][:bike_model_id] = thisModel.id
+    # Case 3 new brand and no model
+    elsif (newBrand.nil? == false and newBrand != "" and (newModel.nil? or newModel == "" or newModel == "-1"))
+        thisBrand = Brand.new(:name => newBrand)
+        thisBrand.save!
+        bike.brand_id = thisBrand.id
+        bike.bike_model_id = nil
+        params[:bike][:brand_id] = thisBrand.id
+        params[:bike][:bike_model_id] = nil
+    # Case 4 new model and no brand
+    elsif (newModel.nil? == false and newModel != "" and newModel != "-1" and (newBrand.nil? == true or newBrand == "" or newBrand == "-1"))
+        thisModel = BikeModel.new(:name => newModel, :brand_id => nil)
+        thisModel.save!
+        bike.brand_id = nil
+        bike.bike_model_id = thisModel.id
+        params[:bike][:brand_id] = nil
         params[:bike][:bike_model_id] = thisModel.id
     end
     params[:bike].delete :new_brand_id
