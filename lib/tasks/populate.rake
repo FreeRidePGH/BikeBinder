@@ -50,9 +50,11 @@ namespace :db do
   desc "Fill databse with project categories"
   task :populate_project_categories => :environment do
     ProjectCategory.create!(:name=>"EAB", :project_type=>"Project::Eab", 
-
                             :max_programs=>1)
 	
+    ProjectCategory.create!(:name=>"Fix for Sale", :project_type=>"Project::FixForSale", 
+                            :max_programs=>1)
+
     ProjectCategory.create!(:name=>"Youth", 
                             :project_type=>"Project::Youth",
                             :max_programs=>3)
