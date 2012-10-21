@@ -53,13 +53,14 @@ class BikesController < ApplicationController
 
   def show
     @title = "Bike #{bike.number} Overview"
+    @program = Program.new
   end
 
   def index
     @title = "Bike Listing"
     @brands = Brand.all_brands
     @colors = Bike.all_colors
-    @statuses = Bike.all_statuses
+    @statuses = Program.all_programs
     @sorts = Bike.sort_filters
   end
 
@@ -105,6 +106,10 @@ class BikesController < ApplicationController
     @status = params[:statuses]
     @sortBy = params[:sortBy]
     @bikes = Bike.filter_bikes(@brand,@color,@status,@sortBy)
+    @bikes.each do |bike|
+        bikeDate = bike.created_at
+        bike.created_at = bikeDate.utc.to_i * 1000
+    end
     render :json => @bikes
   end
 
@@ -136,22 +141,10 @@ class BikesController < ApplicationController
       redirect_to bike and return
     end
 
-    project = bike.project
-
-    if project.nil?
-      is_done_project = false
-    else
-      is_done_project = project.terminal?
-      is_done_project ||= project.detail.done?
-    end
-
-    if is_done_project
-      redirect_to finish_project_path(project) and return
-    end
-
-    @title = "Depart Bike"
-    render 'depart'
-  end
+    bike.departed_at = DateTime.now
+    bike.save!
+    redirect_to :root and return
+ end
 
   def vacate_hook
     if bike.vacate_hook!
@@ -170,6 +163,15 @@ class BikesController < ApplicationController
       flash[:error] = "Could not reserve the hook."
     end
     
+    redirect_to bike
+  end
+
+  def assign_program
+    if bike.update_attribute(:program_id,params[:program_id])
+        flash[:success] = "Assigned to Program"
+    else
+        flash[:error] = "Could not assign bike to program"
+    end
     redirect_to bike
   end
 

@@ -66,13 +66,13 @@
 
                 // Bike Status
                 var bikeAvailable = document.createElement("td");
-                if(bikeObj.name && bikeObj.location_state != "departed"){
+                if(bikeObj.name && !bikeObj.departed_at){
                     var bikeStatusLink = document.createElement("a");
-                    bikeStatusLink.href = "/projects/sn-" + bikeObj.number;
+                    bikeStatusLink.href = "/programs/" + bikeObj.program_id;
                     bikeStatusLink.innerHTML = bikeObj.name;
                     bikeAvailable.appendChild(bikeStatusLink);
                 }else{
-                    bikeAvailable.innerHTML = (bikeObj.location_state == "departed" ? "Departed" : bikeObj.name || "Available");
+                    bikeAvailable.innerHTML = (bikeObj.departed_at ? "Departed as " + bikeObj.name : bikeObj.name || "Available");
                 }
 
                 // Bike Hook
@@ -92,7 +92,7 @@
                 
                 // Brand
                 var bikeBrand = document.createElement("td");
-                bikeBrand.innerHTML = bikeObj.brand_id;
+                bikeBrand.innerHTML = bikeObj.brand_name || "n/a";
                 
                 // Seat Tube
                 var bikeSeat = document.createElement("td");
@@ -108,12 +108,19 @@
                 
                 // Created at
                 var bikeIn = document.createElement("td");
-                bikeIn.innerHTML = bikeObj.created_at;
+                var formattedDate = dp(bikeObj.created_at);
+
+                bikeIn.innerHTML = (formattedDate.getMonth()+1) + "/" + formattedDate.getDate() + "/" + formattedDate.getFullYear();
                 $(newRow).append(bikeNumber).append(bikeAvailable).append(bikeHook).append(bikeColor).append(bikeBrand).append(bikeSeat)
                 .append(bikeTop).append(bikeWheel).append(bikeIn);
                 $("#bikeList").append(newRow);
             }
         }
+
+        function dp(dateStr) {
+            return new Date(dateStr)
+        }
+
 
         attachListeners();
     });

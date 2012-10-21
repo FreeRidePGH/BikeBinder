@@ -36,6 +36,7 @@ BikeBinder::Application.routes.draw do
       post 'new_comment'
       put 'vacate_hook'
       put 'reserve_hook'
+      put 'assign_program'
       put 'change_hook'
       get 'depart'
       get 'get_models'
