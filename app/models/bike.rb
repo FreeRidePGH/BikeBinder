@@ -31,7 +31,7 @@ class Bike < ActiveRecord::Base
 
   attr_accessible :color, :value, :wheel_size, :seat_tube_height, :top_tube_length, :bike_model_id, :brand_id, :number, :quality, :condition, :program_id
   
-  has_one :hook, :dependent => :nullify, :inverse_of=>:bike
+  has_one :hook, :dependent => :nullify, :inverse_of => :bike
   belongs_to :program
   belongs_to :brand
   belongs_to :bike_model
@@ -39,6 +39,8 @@ class Bike < ActiveRecord::Base
   # Callbacks for setting scrap programs as departed
   before_create :depart_scrap
   before_update :depart_scrap
+  after_create  :check_hook
+  after_update  :check_hook
 
   WHEEL_SIZES =     [["Unknown",1],
                      ["660 mm",660],
@@ -54,14 +56,15 @@ class Bike < ActiveRecord::Base
   def depart_scrap
     if self.program_id == Program.where("name = ?","Scrap").first.id
         self.departed_at = DateTime.now()
-        if self.hook
-            h = self.hook
-            h.update_attribute(:bike_id,nil)
-            puts "=================="
-            puts h
-            #self.hook.bike = nil
-            #self.hook.save
-        end
+    end
+  end
+ 
+  def check_hook
+    if self.departed_at.nil? == false
+      if self.hook
+        h = Hook.find_by_id(self.hook)
+        h.update_attribute(:bike_id,nil)
+      end
     end
   end
 
@@ -98,38 +101,11 @@ class Bike < ActiveRecord::Base
     super
   end
 
-  state_machine :location_state, :initial => :shop do
-    after_transition (any - :departed) => :departed , :do => :depart_action
-    after_transition :departed => (any-:departed), :do => :return_action
-    before_transition :hook => any, :do => :vacate_hook_action
-    before_transition any => :hook, :do => :get_hook_action
-
-    event :depart do
-      transition [:shop, :hook] => :departed, :unless => 'project.nil?'
+  def reserve_hook
+    h = Hook.next_available
+    if h
+        h.update_attribute(:bike_id,self.id)
     end
-
-    event :return do
-      transition [:departed,:offsite] => :hook, :if => :hook
-      transition [:departed,:offsite] => :shop 
-    end
-
-    event :reserve_hook do
-      transition :shop => :hook, :unless => :hook
-    end
-
-    event :vacate_hook do
-      transition :hook => :shop, :if => :hook
-    end
-
-    event :travel_offsite do
-      transition :shop => :offsite
-      transition :hook => :offsite
-    end
-
-    state :departed 
-    state :shop 
-    state :hook
-    state :offsite
   end
 
   def label
@@ -254,6 +230,7 @@ class Bike < ActiveRecord::Base
  
   def depart_action
     self.departed_at = Time.now
+    self.vacate_hook_action
     self.save
   end  
 

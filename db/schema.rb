@@ -51,7 +51,6 @@ ActiveRecord::Schema.define(:version => 20120628030935) do
     t.string   "quality"
     t.string   "condition"
     t.integer  "program_id"
-    t.string   "location_state"
   end
 
   add_index "bikes", ["number"], :name => "index_bikes_on_number"

@@ -1,5 +1,6 @@
 <script type = "text/javascript">
     $(document).ready(function(){
+        var sorter = $(".active.sorter")[0];
         // Attach filters
         function attachListeners(){
             $(".checkBrand").each(function(){
@@ -17,8 +18,18 @@
                     populateBikeList();
                 });
             });
-            $("#sortBy").change(function(){
+            /*$("#sortBy").change(function(){
                 populateBikeList();
+            });*/
+            $(".sorter").each(function(){
+                $(this).click(function(){
+                    if(sorter !== undefined && sorter !== null){
+                        $(sorter).removeClass("active");
+                    }
+                    sorter = $(this);
+                    sorter.addClass("active");
+                    populateBikeList();
+                });
             });
         }
 
@@ -33,7 +44,7 @@
             var statusArr = $("input:checkbox:checked.checkStatus").map(function(){
                 return this.value;
             }).get();
-            var sortBy = $("#sortBy").val();
+            var sortBy = (sorter ? sorter.attr("fieldName") : "number");
             $.ajax({
                 type: "GET",
                 url: "/bikes/filter_bikes/filter",

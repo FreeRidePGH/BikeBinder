@@ -18,7 +18,7 @@ class Hook < ActiveRecord::Base
   validates_presence_of :number
   validates_uniqueness_of :number
 
-  belongs_to :bike, :inverse_of=>:hook
+  belongs_to :bike, :inverse_of => :hook
 
   scope :available, :conditions => {:bike_id => nil}
 

@@ -142,7 +142,7 @@ namespace :db do
                        :condition => condition,
                        :number => Bike.format_number(n+1001))
       if rand(3)>0
-        b.reserve_hook!
+        b.reserve_hook
       end
     end
   end 
