@@ -1,0 +1,32 @@
+<div class="detail">
+	<div>
+      <dl class="staticAttributes">
+	<dd class="key">Manufacturer:</dd><dd class="value" ><%= bike.brand_name %></dd>
+	<dd class="key" >Model:</dd><dd class="value"><%= bike.model_name %></dd>
+	<dd class="key">Color: </dd>
+	<dd class="value" ><%= bike.color %></dd>
+	<span data-bike-color=<%=bike.color %> ></span>
+	<dd class="key">Wheel Size:</dd><dd class="value" ><%= bike.wheel_size %></dd>
+	<dd class="key">Seat tube height:</dd><dd class="value" ><%= bike.seat_tube_height %></dd>
+	<dd class="key">Top tube length:</dd><dd class="value" ><%= bike.top_tube_length %></dd>
+    <dd class="key">Quality:</dd><dd class="value" ><%= bike.quality %></dd>
+    <dd class="key">Condition:</dd><dd class="value" ><%= bike.condition %></dd>
+
+	<dd class="key">Value:</dd><dd class="value" ><%= bike.value %></dd>
+
+      </dl>
+      <dl class="dynamicAttributes">
+	<dd class="key ">Status: </dd> <dd class="value">
+	  <% if bike.available? %>
+	  Available
+	  <% elsif bike.departed? %>
+	  Departed
+	  <% elsif bike.project %>
+	  <%= link_to "#{bike.project.project_category.name} Project",
+	      project_path(bike.project) %>
+	  <% end %>
+	</dd>
+
+      </dl>
+    </div>
+</div>
