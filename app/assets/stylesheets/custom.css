@@ -21,3 +21,9 @@
 #sort{
     margin-left: 10px;
 }
+#bikelisting{
+	float:left;
+}
+#bikedetailpanel{
+	float:right;
+}
