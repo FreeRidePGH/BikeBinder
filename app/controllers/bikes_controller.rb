@@ -61,6 +61,10 @@ class BikesController < ApplicationController
     @colors = Bike.all_colors
     @statuses = Bike.all_statuses
     @sorts = Bike.sort_filters
+    
+    #filter_bikes()
+    #@bikes = Bike.filter_bikes(@brands,@colors,@statuses,[@sorts.first], true)
+    #render :json => @bikes
   end
 
   def edit
@@ -93,7 +97,7 @@ class BikesController < ApplicationController
     @color = params[:colors]
     @status = params[:statuses]
     @sortBy = params[:sortBy]
-    @bikes = Bike.filter_bikes(@brand,@color,@status,@sortBy)
+    @bikes = Bike.filter_bikes(@brand,@color,@status,@sortBy, true)
     render :json => @bikes
   end
 

@@ -49,7 +49,8 @@ class Bike < ActiveRecord::Base
 
   STATUSES = ["Available","EAB","Youth","Departed"]
 
-  def self.filter_bikes(brands,colors,status,sortBy)
+  def self.filter_bikes(brands,colors,status,sortBy,ascending)
+    ascending ||= true
     statusSql = []
     if status.nil? or status.empty?
         return []
