@@ -61,5 +61,5 @@ BikeBinder::Application.routes.draw do
   match '/bikes/get_models/:brand_id' => 'bikes#get_models'
   match '/bikes/get_brands/:bike_model_id' => 'bikes#get_brands'
   match '/bikes/filter_bikes/:id' => 'bikes#filter_bikes'
-
+  match '/bikes/get_details/:id' => 'bikes#get_details'
 end
