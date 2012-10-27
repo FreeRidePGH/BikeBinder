@@ -10,17 +10,13 @@
     <dd class="key">Top tube length:</dd><dd class="value" id = "bikeDetailTopTube"></dd>
     <dd class="key">Quality:</dd><dd class="value" id = "bikeDetailQuality"></dd>
     <dd class="key">Condition:</dd><dd class="value" id = "bikeDetailCondition"></dd>
-
+    <dd class="key">Date In:</dd><dd class="value" id = "bikeDetailDate"></dd>
     <dd class="key">Value:</dd><dd class="value" id = "bikeDetailValue"></dd>
 
       </dl>
       <dl class="dynamicAttributes">
-    <dd class="key ">Status: </dd> <dd class="value">
-      <% if bike.available? %>
-      Available
-      <% elsif bike.departed? %>
-      Departed
-     <% end %>
+    <dd class="key ">Status: </dd> 
+    <dd class="value" id = "bikeDetailStatus">
     </dd>
    </dl>
 </div>
