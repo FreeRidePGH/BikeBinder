@@ -35,11 +35,3 @@
         <% end %>
     </ul>
 </div>
-<div class = "pull-left filter" id = "sort">
-    <div class = "filterName">SORT BY</div>
-    <select id = "sortBy">
-        <% @sorts.each do |label,value| %>
-            <option value = "<%= value %>"><%= label %></option>
-        <% end %>
-    </select>
-</div>
