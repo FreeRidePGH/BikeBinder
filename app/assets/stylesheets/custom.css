@@ -17,7 +17,13 @@
 .filter ul{
     text-align: left;
     border: 1px solid gray;
+    height:150px;
+    overflow-y:auto;
 }
 #sort{
     margin-left: 10px;
+}
+.checkColor{
+    display:block;
+    width:80px;
 }

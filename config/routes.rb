@@ -36,6 +36,7 @@ BikeBinder::Application.routes.draw do
       post 'new_comment'
       put 'vacate_hook'
       put 'reserve_hook'
+      put 'assign_program'
       put 'change_hook'
       get 'depart'
       get 'get_models'
@@ -58,6 +59,7 @@ BikeBinder::Application.routes.draw do
 
   # AJAX Routes
   match '/bikes/get_models/:brand_id' => 'bikes#get_models'
+  match '/bikes/get_brands/:bike_model_id' => 'bikes#get_brands'
   match '/bikes/filter_bikes/:id' => 'bikes#filter_bikes'
-
+  match '/bikes/get_details/:id' => 'bikes#get_details'
 end
