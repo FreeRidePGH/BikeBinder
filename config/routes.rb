@@ -36,10 +36,13 @@ BikeBinder::Application.routes.draw do
       post 'new_comment'
       put 'vacate_hook'
       put 'reserve_hook'
+      put 'assign_program'
       put 'change_hook'
       get 'depart'
+      get 'get_models'
     end
   end
+  
 
   resources :hooks,:except =>[:destroy, :new, :create]
 
@@ -53,5 +56,10 @@ BikeBinder::Application.routes.draw do
   # Map top level domain seach to bikes and hooks
   match '/:id' => 'bikes#show', :id => Bike.number_pattern, :via => [:get]
   match '/:id' => 'hooks#show', :id => Hook.number_pattern, :via => [:get]
+
+  # AJAX Routes
+  match '/bikes/get_models/:brand_id' => 'bikes#get_models'
+  match '/bikes/get_brands/:bike_model_id' => 'bikes#get_brands'
+  match '/bikes/filter_bikes/:id' => 'bikes#filter_bikes'
 
 end

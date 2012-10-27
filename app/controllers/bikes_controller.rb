@@ -5,13 +5,11 @@ class BikesController < ApplicationController
   # Create by:
   # Bike.new
   expose(:bike) do
-    puts params[:choice]
-    puts params[:select]
     id_param = params[:id]||params[:bike_id]
     unless id_param.blank?
       label = id_param
       @bike ||= Bike.find_by_label(label) unless label.nil?
-    end
+    end    
     @bike ||= Bike.new(bike_params)
   end
   # Fetch by:
@@ -37,14 +35,15 @@ class BikesController < ApplicationController
     @commentable ||= bike
   end
 
-  before_filter :verify_bike, :except => [:new, :create, :index]
+  before_filter :verify_bike, :except => [:new, :create, :index,:get_models,:get_brands,:filter_bikes]
+  before_filter :verify_brandmodels, :only => [:create,:update]
 
   def new
     @title = "Add a new bike"
     @form_text = "Create new bike"
   end
 
-  def create    
+  def create     
     if bike.save
       flash[:success] = "New bike was added."
       redirect_to bike_path(bike) and return
@@ -54,10 +53,15 @@ class BikesController < ApplicationController
 
   def show
     @title = "Bike #{bike.number} Overview"
+    @program = Program.new
   end
 
   def index
     @title = "Bike Listing"
+    @brands = Brand.all_brands
+    @colors = Bike.all_colors
+    @statuses = Program.all_programs
+    @sorts = Bike.sort_filters
   end
 
   def edit
@@ -72,6 +76,41 @@ class BikesController < ApplicationController
       @title = "Edit Bike"
       render 'edit'
     end
+  end
+  
+  def get_models
+    @brand_id = params[:brand_id]
+    @bike_models = []
+    if @brand_id.nil? || @brand_id == ""
+        @bike_models = []
+    else
+        @bike_models = BikeModel.find_all_by_brand_id(@brand_id)
+    end
+    render :json => @bike_models
+  end
+
+  def get_brands
+    @model_id = params[:bike_model_id]
+    @brands = []
+    if @model_id.nil? || @model_id == ""
+        @brands = []
+    else
+        @brands = Brand.find_all_for_models(@model_id)
+    end
+    render :json => @brands
+  end
+
+  def filter_bikes
+    @brand = params[:brands]
+    @color = params[:colors]
+    @status = params[:statuses]
+    @sortBy = params[:sortBy]
+    @bikes = Bike.filter_bikes(@brand,@color,@status,@sortBy)
+    @bikes.each do |bike|
+        bikeDate = bike.created_at
+        bike.created_at = bikeDate.utc.to_i * 1000
+    end
+    render :json => @bikes
   end
 
 
@@ -102,22 +141,10 @@ class BikesController < ApplicationController
       redirect_to bike and return
     end
 
-    project = bike.project
-
-    if project.nil?
-      is_done_project = false
-    else
-      is_done_project = project.terminal?
-      is_done_project ||= project.detail.done?
-    end
-
-    if is_done_project
-      redirect_to finish_project_path(project) and return
-    end
-
-    @title = "Depart Bike"
-    render 'depart'
-  end
+    bike.departed_at = DateTime.now
+    bike.save!
+    redirect_to :root and return
+ end
 
   def vacate_hook
     if bike.vacate_hook!
@@ -139,9 +166,19 @@ class BikesController < ApplicationController
     redirect_to bike
   end
 
+  def assign_program
+    if bike.update_attribute(:program_id,params[:program_id])
+        flash[:success] = "Assigned to Program"
+    else
+        flash[:error] = "Could not assign bike to program"
+    end
+    redirect_to bike
+  end
+
   def change_hook
     
   end
+  
 
   private
 
@@ -152,11 +189,56 @@ class BikesController < ApplicationController
     end
   end
 
+  def verify_brandmodels
+    newBrand = params[:bike][:new_brand_id]
+    newModel = params[:bike][:new_bike_model_id]
+    oldBrand = params[:bike][:brand_id]
+    # Case 1 new brand and model
+    # Create new brands and models and assign this bike
+    if (newBrand.nil? == false and newBrand != "" and newModel.nil? == false and newModel != "" and newBrand != "-1" and newModel != "-1")
+        thisBrand = Brand.new(:name => newBrand)
+        thisModel = BikeModel.new(:name => newModel,:brand_id => thisBrand.id)
+        thisBrand.save!
+        thisModel.save!
+        bike.brand_id = thisBrand.id
+        bike.bike_model_id = thisModel.id
+        params[:bike][:brand_id] = thisBrand.id
+        params[:bike][:bike_model_id] = thisModel.id
+    # Case 2 new model and existing brand
+    elsif (newModel.nil? == false and newModel != "" and oldBrand.nil? == false and oldBrand != "" and newBrand != "-1" and newModel != "-1")
+        thisBrand = Brand.find_by_id(oldBrand)
+        thisModel = BikeModel.new(:name => newModel, :brand_id => thisBrand.id)
+        thisModel.save!
+        bike.brand_id = thisBrand.id
+        bike.bike_model_id = thisModel.id
+        params[:bike][:brand_id] = thisBrand.id
+        params[:bike][:bike_model_id] = thisModel.id
+    # Case 3 new brand and no model
+    elsif (newBrand.nil? == false and newBrand != "" and (newModel.nil? or newModel == "" or newModel == "-1"))
+        thisBrand = Brand.new(:name => newBrand)
+        thisBrand.save!
+        bike.brand_id = thisBrand.id
+        bike.bike_model_id = nil
+        params[:bike][:brand_id] = thisBrand.id
+        params[:bike][:bike_model_id] = nil
+    # Case 4 new model and no brand
+    elsif (newModel.nil? == false and newModel != "" and newModel != "-1" and (newBrand.nil? == true or newBrand == "" or newBrand == "-1"))
+        thisModel = BikeModel.new(:name => newModel, :brand_id => nil)
+        thisModel.save!
+        bike.brand_id = nil
+        bike.bike_model_id = thisModel.id
+        params[:bike][:brand_id] = nil
+        params[:bike][:bike_model_id] = thisModel.id
+    end
+    params[:bike].delete :new_brand_id
+    params[:bike].delete :new_bike_model_id
+  end
+
   # Project from mass assignment
   # See https://gist.github.com/1975644
   # http://rubysource.com/rails-mass-assignment-issue-a-php-perspective/
   def bike_params
-    params[:bike].slice(:color, :value, :seat_tube_height, :top_tube_length, :bike_model_id, :brand_id, :model, :number) if params[:bike]
+    params[:bike].slice(:color, :value, :seat_tube_height, :top_tube_length, :bike_model_id, :brand_id, :model, :number, :quality, :condition, :wheel_size) if params[:bike]
   end
 
 end

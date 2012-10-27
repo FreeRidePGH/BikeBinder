@@ -17,6 +17,8 @@
 	<dd class="key">Wheel Size:</dd><dd class="value" ><%= bike.wheel_size %></dd>
 	<dd class="key">Seat tube height:</dd><dd class="value" ><%= bike.seat_tube_height %></dd>
 	<dd class="key">Top tube length:</dd><dd class="value" ><%= bike.top_tube_length %></dd>
+    <dd class="key">Quality:</dd><dd class="value" ><%= bike.quality %></dd>
+    <dd class="key">Condition:</dd><dd class="value" ><%= bike.condition %></dd>
 
 	<dd class="key">Value:</dd><dd class="value" ><%= bike.value %></dd>
 
@@ -26,10 +28,10 @@
 	  <% if bike.available? %>
 	  Available
 	  <% elsif bike.departed? %>
-	  Departed
-	  <% elsif bike.project %>
-	  <%= link_to "#{bike.project.project_category.name} Project",
-	      project_path(bike.project) %>
+	  Departed as <%= link_to "#{bike.program.name}",program_path(bike.program) %>
+	  <% elsif bike.program %>
+	  <%= link_to "#{bike.program.name}",
+	      program_path(bike.program) %>
 	  <% end %>
 	</dd>
 
@@ -64,14 +66,17 @@
     </div> <!-- end of location wrapper -->
     <div class="projInfo">
       <h3>Assignment</h3>
-      <% if bike.project %>
-        <p>Assigned to: <%= link_to bike.project.prog.title, bike.project.prog %></p>
-        <p><%= link_to "View project details", project_path(bike.project) %>
+      <% if bike.program %>
+        <p>Assigned to: <%= link_to bike.program.label, bike.program %></p>
+        <% if bike.departed_at.nil?%>
+        <div>
+            <%= link_to "Depart Bike", depart_bike_path(bike), :class => "btn btn-primary" %>
+        </div>
+        <% end %>
       <% elsif bike.available? %>
         <p>This bike is available</p>
-	<%= form_for(project, :url => projects_path, :method => :post) do |f| %>
-	  <%= hidden_field_tag(:bike_id, bike.id) %>
-	  <%= select_tag(:program_id, options_from_collection_for_select(Program.all, :id, :title)) %>
+	<%= form_for(bike, :url => assign_program_bike_path(bike), :method => :put) do |f| %>
+	  <%= select_tag(:program_id, options_from_collection_for_select(Program.all, :id, :label)) %>
 	  <%= f.submit "Start project", :class => "btn btn-primary" %>
 	<% end # bike.available? %>
 
@@ -79,21 +84,14 @@
         <p>Bike is unavailable.</p>
       <% end %>
 
-      <% if bike.canceled_projects.count > 0 %>
-        <h4>Canceled projects:</h4>
-	<ul>
-	  <% bike.canceled_projects.each do |p| %>
-	  <li><%= link_to p.label, p %></li>
-	  <% end %>
-	</ul>
-      <% end %>
-
     </div> <!-- end of proj info wrapper -->
 
     <div class="departInfo">
       <h3>Arrival & Departure</h3>
       <p>Arrived: <%= bike.created_at.strftime('%Y-%m-%d') %></p>
-      <%= render :partial =>"departure"  %>
+      <% if bike.departed_at %>
+        <p>Departed: <%= bike.departed_at.strftime("%Y-%m-%d") %></p>
+      <% end %>
     </div> <!-- end of depart info wrapper -->
 
   </section> <!-- end of bikes meta -->
@@ -102,7 +100,7 @@
 
     <h3><%= pluralize(bike.comment_threads.length, 'Note') %></h3>
    <%= render :partial=>"comments/form",
-   :locals=>{:commentable=>project, :url => new_comment_bike_path(bike)} %>
+   :locals=>{:commentable=>programs, :url => new_comment_bike_path(bike)} %>
 
 
     <%= render :partial=>"comments/index", :locals=>{:comments => bike.comment_threads} %> 

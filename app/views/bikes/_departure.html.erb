@@ -2,7 +2,7 @@
   <p>Departed: <%= bike.departed_at.strftime('%Y-%m-%d') %></p>
 <% else %>
   <% if bike.project %>
-    <p><%= link_to "Close project and depart", finish_project_path(bike.project) %></p>
+    <p><%= link_to "Close program and depart", finish_project_path(bike.project) %></p>
   <% else %>
     <p><%= link_to "Depart bike.", depart_bike_path(bike) %></p>
   <% end %>

@@ -1,3 +1,123 @@
+<script type = "text/javascript">
+    $(function(){ // Load jquery
+    
+        // Function to attach event listeners to form
+        function attachListeners(){
+            // Attach Brand Listener
+            $("#bike_brand_id").change(function(){
+                var brand = $("#bike_brand_id").val();
+                if (brand === undefined || brand === ""){
+                    brand = "-1";
+                }
+                // On select, get models based on this brand
+                $.ajax({
+                    url: "/bikes/get_models/" + brand,
+                    dataType: 'json'
+                }).done(function(response){
+                    var modelSelect = $("#bike_bike_model_id");
+                    modelSelect.html("");
+                    if(response.length === 0){
+                        var noneOpt = document.createElement("option");
+                        noneOpt.value = "";
+                        noneOpt.innerHTML = "None";
+                        modelSelect.append(noneOpt);
+                    }
+                    for(var i = 0; i < response.length; i++){
+                        var brandJson = response[i];
+                        var newModel = document.createElement("option");
+                        newModel.value = brandJson.id;
+                        newModel.innerHTML = brandJson.name;
+                        modelSelect.append(newModel);                   
+                    }
+                });
+            });
+
+            $("#bike_bike_model_id").change(function(){
+                var bikeModel = $("#bike_bike_model_id").val();
+                if (bikeModel === undefined || bikeModel === ""){
+                    bikeModel = "-1";
+                }
+                // On select, get models based on this brand
+                $.ajax({
+                    url: "/bikes/get_brands/" + bikeModel,
+                    dataType: 'json'
+                }).done(function(response){
+                    var brandSelect = $("#bike_brand_id");
+                    brandSelect.html("");
+                    if(response.length === 0){
+                        var noneOpt = document.createElement("option");
+                        noneOpt.value = "";
+                        noneOpt.innerHTML = "None";
+                        brandSelect.append(noneOpt);
+                    }
+                    for(var i = 0; i < response.length; i++){
+                        var brandJson = response[i];
+                        var newBrand = document.createElement("option");
+                        newBrand.value = brandJson.id;
+                        newBrand.innerHTML = brandJson.name;
+                        brandSelect.append(newBrand);                   
+                    }
+                });
+            });
+            // Attach Click Add Listeners
+            var offBrandClick = function(){
+                // Hide select
+                $("#bike_brand_id").hide();
+                $("#bike_brand_id").val("");
+                $("#bike_new_brand_id").show();
+                $("#bike_new_brand_id").focus();
+                $(this).addClass("on");
+                $(this).html("Old brand");
+                $(this).removeClass("off");
+                $(this).unbind();
+                $(this).click(onBrandClick);
+            };
+
+            var offModelClick = function(){
+                $("#bike_bike_model_id").hide();
+                $("#bike_bike_model_id").val("");
+                $("#bike_new_bike_model_id").show();
+                $("#bike_new_bike_model_id").focus();
+                $(this).addClass("on");
+                $(this).html("Old model");
+                $(this).removeClass("off");
+                $(this).unbind();
+                $(this).click(onModelClick);
+            };    
+
+            var onBrandClick = function(){
+                // Hide select
+                $("#bike_new_brand_id").hide();
+                $("#bike_new_brand_id").val("");
+                $("#bike_brand_id").show();
+                $("#bike_brand_id").focus();
+                $(this).addClass("off");
+                $(this).html("New brand");
+                $(this).removeClass("on");
+                $(this).unbind();
+                $(this).click(offBrandClick);
+            };
+
+            var onModelClick = function(){
+                $("#bike_new_bike_model_id").hide();
+                $("#bike_new_bike_model_id").val("");
+                $("#bike_bike_model_id").show();
+                $("#bike_bike_model_id").focus();
+                $(this).addClass("off");
+                $(this).html("New model");
+                $(this).removeClass("on");
+                $(this).unbind();
+                $(this).click(offModelClick);
+            };
+
+            $("#add_brand.off").click(offBrandClick);
+            $("#add_model.off").click(offModelClick);
+        }
+        
+        
+        attachListeners(); 
+    });
+</script>
 <!-- This is the main form generated for editing a bike. Another form template is rendered for creating a new bike. -->
 <%= form_for(bike) do |f| %>
   <%= render 'shared/error_messages', :object => f.object %>
@@ -9,10 +129,14 @@
 <%= f.text_field :color , :required => true, :id => "colorInput"  %>
 
 <%= f.label :brand_id, "Manufacturer" %>
-<%= f.collection_select :brand_id, Brand.all, :id, :name %>
+<%= f.collection_select :brand_id, Brand.all, :id, :name, {:include_blank => "None"} %>
+<input type = "text" id = "bike_new_brand_id" name = "bike[new_brand_id]" style = "display:none;" />
+<span id = "add_brand" class = "off">New Brand</span>
 
 <%= f.label :bike_model_id, "Model" %>
-<%= f.collection_select :bike_model_id, BikeModel.all, :id, :name %>
+<%= f.collection_select :bike_model_id, BikeModel.all, :id, :name, {:include_blank => "None"} %>
+<input type = "text" id = "bike_new_bike_model_id" name = "bike[new_bike_model_id]" style = "display:none;" />
+<span id = "add_model" class = "off">New Model</span>
 
 <%= f.label :quality, "Quality" %>
 <%= f.select :quality, Bike.qualities %>
