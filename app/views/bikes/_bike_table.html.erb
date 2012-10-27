@@ -1,5 +1,5 @@
 <% bikes.each do |b| %>
-<tr>
+<tr class = "bikeRow">
   <td><%= link_to b.number, bike_path(b) %></td>
   <td> 
     <% if b.available? %>
