@@ -52,16 +52,20 @@
         }
 
         function renderBikeDetails(bike){
-            $("#bikeDetailBrand").html(bike.brand_id);
-            $("#bikeDetailModel").html(bike.bike_model_id);
+            $("#bikeDetailBrand").html(bike.brand_name || "n/a");
+            $("#bikeDetailModel").html(bike.model_name || "n/a");
             //$("#bikeDetailColor").attr("data-bike-color",bike.color);
             $("#bikeDetailColor").html(bike.color);
-            $("#bikeDetailWheelSize").html(bike.wheel_size);
+            $("#bikeDetailWheelSize").html(bike.wheel_size || "n/a");
             $("#bikeDetailSeatTube").html(bike.seat_tube_height);
             $("#bikeDetailTopTube").html(bike.top_tube_length);
             $("#bikeDetailQuality").html(bike.quality);
             $("#bikeDetailCondition").html(bike.condition);
-            $("#bikeDetailValue").html(bike.value);
+            $("#bikeDetailValue").html(bike.value || "n/a");
+            $("#bikeDetailStatus").html(bike.name || "Available");
+            var formattedDate = dp(bike.created_at);    
+            $("#bikeDetailDate").html((formattedDate.getMonth()+1) + "/" + formattedDate.getDate() + "/" + formattedDate.getFullYear());
+
         }
 
         // Function to get bikes
@@ -140,21 +144,23 @@
                 var bikeSeat = document.createElement("td");
                 bikeSeat.innerHTML = bikeObj.seat_tube_height;
                 
-                // Top Tube
+                /* Top Tube
                 var bikeTop = document.createElement("td");
                 bikeTop.innerHTML = bikeObj.top_tube_length;
-                
+                */
+
                 // Wheel Size
                 var bikeWheel = document.createElement("td");
                 bikeWheel.innerHTML = bikeObj.wheel_size || "n/a";
                 
-                // Created at
+                /* Created at
                 var bikeIn = document.createElement("td");
                 var formattedDate = dp(bikeObj.created_at);
-
+                
                 bikeIn.innerHTML = (formattedDate.getMonth()+1) + "/" + formattedDate.getDate() + "/" + formattedDate.getFullYear();
+                */
                 $(newRow).append(bikeNumber).append(bikeAvailable).append(bikeHook).append(bikeColor).append(bikeBrand).append(bikeSeat)
-                .append(bikeTop).append(bikeWheel).append(bikeIn);
+                .append(bikeWheel);
                 $("#bikeList").append(newRow);
             }
         }

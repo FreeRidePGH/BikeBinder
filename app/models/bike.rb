@@ -92,6 +92,16 @@ class Bike < ActiveRecord::Base
     return bikes
   end
 
+  def self.get_bike_details(bike_number)
+    bike = Bike.select("bikes.*,programs.name,bike_models.name as model_name,hooks.number as hook_number,brands.name as brand_name")
+            .joins("LEFT JOIN hooks ON hooks.bike_id = bikes.id 
+                    LEFT JOIN programs ON programs.id = bikes.program_id
+                    LEFT JOIN brands ON brands.id = bikes.brand_id
+                    LEFT JOIN bike_models ON brands.id = bike_models.brand_id")
+            .where("bikes.number = ?",bike_number).first
+    return bike
+  end
+
   # Clean up all associations
   # See http://www.mrchucho.net/2008/09/30/the-correct-way-to-override-activerecordbasedestroy
   def destroy_without_callbacks

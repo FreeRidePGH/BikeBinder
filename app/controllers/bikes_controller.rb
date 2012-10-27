@@ -114,7 +114,7 @@ class BikesController < ApplicationController
   end
 
   def get_details
-    @bike = Bike.find_by_number(params[:id])
+    @bike = Bike.get_bike_details(params[:id])
     render :json => @bike
   end
 
