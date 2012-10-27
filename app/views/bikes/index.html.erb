@@ -39,7 +39,29 @@
         }
 
         function getBikeDetails(bike){
-            console.log(bike);
+            bike = bike[0];
+            var bikeNumber = bike.children[0].children[0].innerHTML;
+            $.ajax({
+                type: "GET",
+                url: "/bikes/get_details/" + bikeNumber,
+                dataType : "json",
+                success: function (response){
+                    renderBikeDetails(response);
+                }
+            });
+        }
+
+        function renderBikeDetails(bike){
+            $("#bikeDetailBrand").html(bike.brand_id);
+            $("#bikeDetailModel").html(bike.bike_model_id);
+            $("#bikeDetailColor").attr("data-bike-color",bike.color);
+            $("#bikeDetailColor").html(bike.color);
+            $("#bikeDetailWheelSize").html(bike.wheel_size);
+            $("#bikeDetailSeatTube").html(bike.seat_tube_height);
+            $("#bikeDetailTopTube").html(bike.top_tube_length);
+            $("#bikeDetailQuality").html(bike.quality);
+            $("#bikeDetailCondition").html(bike.condition);
+            $("#bikeDetailValue").html(bike.value);
         }
 
         // Function to get bikes
@@ -76,7 +98,7 @@
             for(var i = 0; i < response.length; i++){
                 var bikeObj = response[i];
                 var newRow = document.createElement("tr");
-
+                newRow.className = "bikeRow"
                 // Bike Number
                 var bikeNumber = document.createElement("td");
                 var bikeNumberLink = document.createElement("a");
@@ -148,4 +170,5 @@
 <section class="">
 <%= render :partial=>"bike_filter" %>
 <%= render :partial=>"bike_table", :layout =>"bike_table_layout" %>
+<%= render :partial=>"bike_listing_details" %>
 </section>

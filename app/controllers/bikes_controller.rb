@@ -35,7 +35,7 @@ class BikesController < ApplicationController
     @commentable ||= bike
   end
 
-  before_filter :verify_bike, :except => [:new, :create, :index,:get_models,:get_brands,:filter_bikes]
+  before_filter :verify_bike, :except => [:new, :create, :index,:get_models,:get_brands,:filter_bikes,:get_details]
   before_filter :verify_brandmodels, :only => [:create,:update]
 
   def new
@@ -111,6 +111,11 @@ class BikesController < ApplicationController
         bike.created_at = bikeDate.utc.to_i * 1000
     end
     render :json => @bikes
+  end
+
+  def get_details
+    @bike = Bike.find_by_number(params[:id])
+    render :json => @bike
   end
 
 
