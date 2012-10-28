@@ -152,7 +152,7 @@ class BikesController < ApplicationController
  end
 
   def vacate_hook
-    if bike.vacate_hook!
+    if bike.vacate_hook
       flash[:success] = "Hook vacated"
     else
       flash[:error] = "Could not vacate hook"
@@ -162,7 +162,10 @@ class BikesController < ApplicationController
   end
 
   def reserve_hook
-    if bike.reserve_hook!(hook)
+    if params[:hook_id]
+      hook = params[:hook_id]
+    end
+    if bike.reserve_hook_by_id(hook)
       flash[:success] = "Hook #{bike.hook.number} reserved successfully"
     else
       flash[:error] = "Could not reserve the hook."

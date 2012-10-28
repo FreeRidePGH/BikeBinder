@@ -68,6 +68,22 @@ class Bike < ActiveRecord::Base
     end
   end
 
+  def vacate_hook
+    if self.nil? == false and self.hook.nil? == false
+      h = self.hook
+      h.bike = nil
+      h.save!
+    end
+  end
+
+  def reserve_hook_by_id(hook_id)
+    if self.nil? == false and self.hook.nil? == true
+      h = Hook.find_by_id(hook_id)
+      h.bike = self
+      h.save!
+    end
+  end
+
   def self.filter_bikes(brands,colors,status,sortBy)
     statusSql = []
     if status.nil? or status.empty?
