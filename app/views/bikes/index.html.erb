@@ -18,6 +18,25 @@
                     populateBikeList();
                 });
             });
+            $(".allFilter").each(function(){
+                $(this).click(function(){
+                    var thisFilter = $(this).attr("id");
+                    var thisFilterType = thisFilter.substring(3);
+                    $(".check"+thisFilterType).each(function(){
+                        $(this).attr("checked","checked");
+                    });
+                    populateBikeList();
+                });
+            });
+            $(".noFilter").each(function(){
+                $(this).click(function(){
+                    var thisFilter = $(this).attr("id");
+                    var thisFilterType = thisFilter.substring(2);
+                    $(".check"+thisFilterType).each(function(){
+                        $(this).attr("checked",false);
+                    });
+                });
+            });
             attachRowListeners();
             $(".sorter").each(function(){
                 $(this).click(function(){
@@ -55,7 +74,6 @@
         function renderBikeDetails(bike){
             $("#bikeDetailBrand").html(bike.brand_name || "n/a");
             $("#bikeDetailModel").html(bike.model_name || "n/a");
-            //$("#bikeDetailColor").attr("data-bike-color",bike.color);
             $("#bikeDetailColor").html(bike.color);
             $("#bikeDetailWheelSize").html(bike.wheel_size || "n/a");
             $("#bikeDetailSeatTube").html(bike.seat_tube_height || "n/a");
@@ -92,7 +110,6 @@
                 },
                 dataType : "json",
                 success: function (response){
-                    console.log(response);
                     renderHtml(response);
                     attachRowListeners();
                 }
@@ -146,21 +163,10 @@
                 var bikeSeat = document.createElement("td");
                 bikeSeat.innerHTML = bikeObj.seat_tube_height;
                 
-                /* Top Tube
-                var bikeTop = document.createElement("td");
-                bikeTop.innerHTML = bikeObj.top_tube_length;
-                */
-
                 // Wheel Size
                 var bikeWheel = document.createElement("td");
                 bikeWheel.innerHTML = bikeObj.wheel_size || "n/a";
                 
-                /* Created at
-                var bikeIn = document.createElement("td");
-                var formattedDate = dp(bikeObj.created_at);
-                
-                bikeIn.innerHTML = (formattedDate.getMonth()+1) + "/" + formattedDate.getDate() + "/" + formattedDate.getFullYear();
-                */
                 $(newRow).append(bikeNumber).append(bikeAvailable).append(bikeHook).append(bikeColor).append(bikeBrand).append(bikeSeat)
                 .append(bikeWheel);
                 $("#bikeList").append(newRow);

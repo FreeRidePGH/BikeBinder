@@ -28,6 +28,7 @@
 	float:left;
 	height:500px;
 	overflow-y:scroll;
+    margin-top: 10px;
 }
 #bikeDetailPanel{
 	float:right;
@@ -43,4 +44,15 @@
 .staticAttributes tr,th{
 	border:0;
 	color:black;
+}
+.allFilter{
+    color: green;
+    margin-left: 15px;
+    padding-right: 5px;
+    cursor: pointer;
+}
+.noFilter{
+    color: red;
+    margin-left: 5px;
+    cursor: pointer;
 }
