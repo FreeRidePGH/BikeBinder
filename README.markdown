@@ -14,7 +14,7 @@ Take the following actions to get a cloned/pulled version to run locally
 * Install gems
 * Initialize and populate the database 
 
-        mv config/database.yml.sample config/database.yml
+        cp config/database.yml.sample config/database.yml
         bundle install
         rake db:populate
 

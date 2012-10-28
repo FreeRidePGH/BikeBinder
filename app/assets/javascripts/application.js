@@ -18,7 +18,7 @@ $(document).ready(function(){
 	var colorSwatchDiv = $("[data-bike-color]");
 	colorSwatchDiv.css("backgroundColor", colorSwatchDiv.data("bike-color"));
     }
-    $("#newCommentWrap").hide();
+// show the notes textarea
     $("button[data-role=toggle]").click(function(){
 	$("#newCommentWrap").toggle();
     });

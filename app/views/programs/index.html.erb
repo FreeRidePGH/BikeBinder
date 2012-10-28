@@ -1,8 +1,9 @@
 <section class="row span8 programs">
 
-<% project_categories.each do |cat| %>
-  <h2><%= link_to cat.name, cat %> Category</h2>
-  <%= render :partial=>"project_categories/programs", :locals=>{:category=>cat} %>
+<% programs.each do |program| %>
+  <h2><%= link_to program.name, program_path(program)%> Program</h2>
+    <p>Active Bikes: <%= program.active_bikes %></p>
+    <p>Departed Bikes: <%= program.departed_bikes %></p>
 <% end %>
 
 <!-- this should be a button and probably should go in the menu action area -->

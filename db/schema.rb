@@ -50,12 +50,11 @@ ActiveRecord::Schema.define(:version => 20120628030935) do
     t.string   "number"
     t.string   "quality"
     t.string   "condition"
-    #t.integer  "project_id"
-    t.string   "location_state"
+    t.integer  "program_id"
   end
 
   add_index "bikes", ["number"], :name => "index_bikes_on_number"
-  #add_index "bikes", ["project_id"], :name => "index_bikes_on_project_id"
+  add_index "bikes", ["program_id"], :name => "index_bikes_on_program_id"
 
   create_table "bike_models", :force => true do |t|
     t.integer    "brand_id"
@@ -136,91 +135,15 @@ ActiveRecord::Schema.define(:version => 20120628030935) do
   add_index "hooks", ["number"], :name => "index_hooks_on_number"
 
   create_table "programs", :force => true do |t|
-    t.string   "title"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "cosed_at"
-    t.string   "slug"
-    t.integer  "max_open"
-    t.integer  "max_total"
-    t.integer  "project_category_id"
-  end
-
-  add_index "programs", ["project_category_id"], :name => "index_programs_on_project_category_id"
-  add_index "programs", ["slug"], :name => "index_programs_on_slug"
-
-  create_table "project_categories", :force => true do |t|
     t.string   "name"
-    t.string   "project_type"
-    t.integer  "max_programs"
-    t.string   "slug"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "project_categories", ["slug"], :name => "index_project_categories_on_slug"
-
-  create_table "project_detail_versions", :force => true do |t|
-    t.string   "item_type",  :null => false
-    t.integer  "item_id",    :null => false
-    t.string   "event",      :null => false
-    t.string   "whodunnit"
-    t.text     "object"
-    t.datetime "created_at"
-    t.string   "state"
-  end
-
-  add_index "project_detail_versions", ["item_id"], :name => "index_project_detail_versions_on_item_id"
-  add_index "project_detail_versions", ["item_type"], :name => "index_project_detail_versions_on_item_type"
-  add_index "project_detail_versions", ["state"], :name => "index_project_detail_versions_on_state"
-
-  create_table "project_eab_details", :force => true do |t|
-    t.integer  "proj_id"
-    t.string   "proj_type"
-    t.string   "state"
-    t.string   "status_state"
-    t.datetime "created_at",             :null => false
-    t.datetime "updated_at",             :null => false
-    t.string   "inspection_access_code"
-  end
-
-  create_table "project_scrap_details", :force => true do |t|
-    t.integer  "proj_id"
-    t.string   "proj_type"
-    t.string   "state"
-    t.string   "description"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
-
-  create_table "project_youth_details", :force => true do |t|
-    t.integer  "proj_id"
-    t.string   "proj_type"
-    t.string   "state"
-    t.datetime "created_at",             :null => false
-    t.datetime "updated_at",             :null => false
-    t.string   "inspection_access_code"
-  end
-
-  create_table "projects", :force => true do |t|
-    t.string   "type"
-    t.integer  "prog_id"
-    t.string   "prog_type"
     t.string   "label"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "closed_at"
-    t.integer  "project_category_id"
-    t.integer  "bike_id"
-    t.string   "state"
-    t.string   "completion_state"
   end
 
-  add_index "projects", ["label"], :name => "index_projects_on_label", :unique => true
-  add_index "projects", ["prog_id"], :name => "index_projects_on_prog_id"
-  add_index "projects", ["project_category_id"], :name => "index_projects_on_project_category_id"
-  add_index "projects", ["type"], :name => "index_projects_on_type"
-  add_index "projects", ["bike_id"], :name => "index_projects_on_bike_id"
+  add_index "programs", ["label"], :name => "index_programs_on_label", :unique => true
+  add_index "programs", ["name"], :name => "index_programs_on_name"
 
   create_table "question_groups", :force => true do |t|
     t.text     "text"

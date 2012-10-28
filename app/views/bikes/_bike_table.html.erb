@@ -1,13 +1,13 @@
 <% bikes.each do |b| %>
-<tr>
+<tr class = "bikeRow">
   <td><%= link_to b.number, bike_path(b) %></td>
   <td> 
     <% if b.available? %>
       <i class="icon-ok"></i> Available
     <% elsif b.departed? %>
-      <%= link_to project_path(b.project) do %><i class="icon-folder-close"></i> Departed as <%= "#{b.project.project_category.name}" %><% end %>
-    <% elsif b.project %>
-      <%= link_to project_path(b.project) do %><i class="icon-folder-open"></i> <%= "#{b.project.project_category.name} Project" %><% end %>
+      <%= link_to program_path(b.program) do %><i class="icon-folder-close"></i> Departed as <%= "#{b.program.name}" %><% end %>
+    <% elsif b.program %>
+      <%= link_to program_path(b.program) do %><i class="icon-folder-open"></i> <%= "#{b.program.name} Project" %><% end %>
     <% end # elsif %>
   </td>
   <td>
@@ -20,8 +20,6 @@
   <td><%= b.color %></td>
   <td><%= b.brand_name %></td>
   <td><%= b.seat_tube_height %></td>
-  <td><%= b.top_tube_length %></td>
   <td><%= b.get_wheel_size %></td>
-  <td><%= b.entered_shop %></td>
 </tr>
 <% end %>
