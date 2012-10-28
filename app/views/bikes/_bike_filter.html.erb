@@ -13,13 +13,12 @@
     <ul>
         <% counter = 1 %>
         <% @colors.each do |color| %>
+            <div class = "colorFilter" style = "background-color:<%=color%>">
             <input name = "bike_color" class = "checkColor" value = "<%=color%>" type = "checkbox" checked = "checked">
                 <%= color %>
             </input>
-            <% if (counter%5 == 0) %>
-                <br />
-            <% end %>
             <% counter = counter + 1 %>
+            </div>
         <% end %>
     </ul>
 </div>
