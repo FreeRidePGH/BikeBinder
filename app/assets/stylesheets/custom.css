@@ -1,0 +1,38 @@
+.floatRight{
+    float: right !important;
+}
+.searchBox input{
+    display: inline;
+}
+#add_brand,#add_model{
+    cursor: pointer;
+    color: red;
+}
+.filterName{
+    font-weight: bold;
+}
+.filter{
+    text-align: center;
+}
+.filter ul{
+    text-align: left;
+    border: 1px solid gray;
+	width:130px;
+	height:100px;
+	overflow:scroll;
+}
+#sort{
+    margin-left: 10px;
+}
+#bikelisting{
+	float:left;
+	height:500px;
+	overflow:scroll;
+}
+#bikeDetailPanel{
+	float:right;
+	width:250px;
+}
+.contentBikes{
+	width:1000px;
+}
