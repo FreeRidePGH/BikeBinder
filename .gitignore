@@ -18,3 +18,5 @@ tmp/*
 config/database.yml
 
 app/assets/stylesheets/custom.css
+
+app/assets/stylesheets/custom.css
