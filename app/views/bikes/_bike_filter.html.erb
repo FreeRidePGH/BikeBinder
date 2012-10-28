@@ -25,11 +25,11 @@
 <div class = "pull-left filter">
     <span class = "filterName">STATUS</span>
     <ul>
-        <li>Available: <input type = "checkbox" class = "checkStatus" checked = "checked" value = "-1" type = "checkbox" /></li>
-        <li>Departed: <input type = "checkbox" class = "checkStatus" checked = "checked" value = "-2" type = "checkbox" /></li>
+        <li><input type = "checkbox" class = "checkStatus" checked = "checked" value = "-1" type = "checkbox" />Available</li>
+        <li><input type = "checkbox" class = "checkStatus" checked = "checked" value = "-2" type = "checkbox" />Departed</li>
         <% @statuses.each do |progName,progId| %>
             <li>
-            <%= progName %>: <%= check_box_tag "bike_brand",progId,false,:class => "checkStatus" %><br />
+            <%= check_box_tag "bike_brand",progId,false,:class => "checkStatus" %> <%= progName %> <br />
             </li>
         <% end %>
     </ul>

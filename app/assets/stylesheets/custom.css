@@ -27,7 +27,7 @@
 #bikelisting{
 	float:left;
 	height:500px;
-	overflow:scroll;
+	overflow-y:scroll;
 }
 #bikeDetailPanel{
 	float:right;
@@ -35,4 +35,12 @@
 }
 .contentBikes{
 	width:1000px;
+}
+.staticAttributes{
+	width:250px;
+	border: 1px solid black;
+}
+.staticAttributes tr,th{
+	border:0;
+	color:black;
 }
