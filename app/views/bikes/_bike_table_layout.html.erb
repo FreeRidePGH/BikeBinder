@@ -1,24 +1,22 @@
-<div id="bikelisting">
-	<table class="bikes table table-bordered span10">
-		<thead>
-			<tr>
-				<th><input class = "btn active sorter" type = "button" value = "Number" fieldName = "number"/></th>
-				<th><input class = "btn sorter" type = "button" value = "Status" fieldName = "status"/></th>
-				<th><input class = "btn sorter" type = "button" value = "Hook" fieldName = "hook_number"/></th>
-				<th><input class = "btn sorter" type = "button" value = "Color" fieldName = "color"/></th>
-				<th><input class = "btn sorter" type = "button" value = "Brand" fieldName = "brand_name"/></th>
-				<th><input class = "btn sorter" type = "button" value = "Seat Tube" fieldName = "seat_tube_height"/></th>
-				<!--
-				<th><input class = "btn sorter" type = "button" value = "Top Tube" fieldName = "top_tube_length"/></th>
-				-->
-				<th><input class = "btn sorter" type = "button" value = "Wheel Size" fieldName = "wheel_size"/></th>
-				<!--
-				<th><input class = "btn sorter" type = "button" value = "Date Entered" fieldName = "created_at"/></th>
-				-->
-			</tr>
-		</thead>
-		<tbody id = "bikeList">
-			<%= yield %>
-		</tbody>
-	</table>
-</div>
+<table class="bikes table table-bordered span10">
+  <thead>
+    <tr>
+      <th><input class = "btn active sorter" type = "button" value = "Number" fieldName = "number"/></th>
+      <th><input class = "btn sorter" type = "button" value = "Status" fieldName = "status"/></th>
+      <th><input class = "btn sorter" type = "button" value = "Hook" fieldName = "hook_number"/></th>
+      <th><input class = "btn sorter" type = "button" value = "Color" fieldName = "color"/></th>
+      <th><input class = "btn sorter" type = "button" value = "Brand" fieldName = "brand_name"/></th>
+      <th><input class = "btn sorter" type = "button" value = "Seat Tube" fieldName = "seat_tube_height"/></th>
+      <!--
+      <th><input class = "btn sorter" type = "button" value = "Top Tube" fieldName = "top_tube_length"/></th>
+       -->
+      <th><input class = "btn sorter" type = "button" value = "Wheel Size" fieldName = "wheel_size"/></th>
+      <!--
+      <th><input class = "btn sorter" type = "button" value = "Date Entered" fieldName = "created_at"/></th>
+      -->
+    </tr>
+  </thead>
+  <tbody id = "bikeList">
+  <%= yield %>
+  </tbody>
+</table>
