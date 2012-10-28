@@ -17,13 +17,22 @@
 .filter ul{
     text-align: left;
     border: 1px solid gray;
+	width:130px;
+	height:100px;
+	overflow:scroll;
 }
 #sort{
     margin-left: 10px;
 }
 #bikelisting{
 	float:left;
+	height:500px;
+	overflow:scroll;
 }
-#bikedetailpanel{
+#bikeDetailPanel{
 	float:right;
+	width:250px;
+}
+.contentBikes{
+	width:1000px;
 }
