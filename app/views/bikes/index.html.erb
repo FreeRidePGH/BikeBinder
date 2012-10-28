@@ -1,5 +1,6 @@
 <script type = "text/javascript">
     $(document).ready(function(){
+        var sorter = $(".active.sorter")[0];
         // Attach filters
         function attachListeners(){
             $(".checkBrand").each(function(){
@@ -17,6 +18,54 @@
                     populateBikeList();
                 });
             });
+            $(".bikeRow").each(function(){
+                $(this).click(function(){
+                    getBikeDetails($(this));
+                });
+            });
+            /*$("#sortBy").change(function(){
+                populateBikeList();
+            });*/
+            $(".sorter").each(function(){
+                $(this).click(function(){
+                    if(sorter !== undefined && sorter !== null){
+                        $(sorter).removeClass("active");
+                    }
+                    sorter = $(this);
+                    sorter.addClass("active");
+                    populateBikeList();
+                });
+            });
+        }
+
+        function getBikeDetails(bike){
+            bike = bike[0];
+            var bikeNumber = bike.children[0].children[0].innerHTML;
+            $.ajax({
+                type: "GET",
+                url: "/bikes/get_details/" + bikeNumber,
+                dataType : "json",
+                success: function (response){
+                    renderBikeDetails(response);
+                }
+            });
+        }
+
+        function renderBikeDetails(bike){
+            $("#bikeDetailBrand").html(bike.brand_name || "n/a");
+            $("#bikeDetailModel").html(bike.model_name || "n/a");
+            //$("#bikeDetailColor").attr("data-bike-color",bike.color);
+            $("#bikeDetailColor").html(bike.color);
+            $("#bikeDetailWheelSize").html(bike.wheel_size || "n/a");
+            $("#bikeDetailSeatTube").html(bike.seat_tube_height);
+            $("#bikeDetailTopTube").html(bike.top_tube_length);
+            $("#bikeDetailQuality").html(bike.quality);
+            $("#bikeDetailCondition").html(bike.condition);
+            $("#bikeDetailValue").html(bike.value || "n/a");
+            $("#bikeDetailStatus").html(bike.name || "Available");
+            var formattedDate = dp(bike.created_at);    
+            $("#bikeDetailDate").html((formattedDate.getMonth()+1) + "/" + formattedDate.getDate() + "/" + formattedDate.getFullYear());
+
         }
 
         // Function to get bikes
@@ -30,13 +79,15 @@
             var statusArr = $("input:checkbox:checked.checkStatus").map(function(){
                 return this.value;
             }).get();
+            var sortBy = (sorter ? sorter.attr("fieldname") : "number");
             $.ajax({
                 type: "GET",
                 url: "/bikes/filter_bikes/filter",
                 data: {
                     "brands" : brandArr,
                     "colors" : colorArr,
-                    "statuses" : statusArr
+                    "statuses" : statusArr,
+                    "sortBy" : sortBy
                 },
                 dataType : "json",
                 success: function (response){
@@ -51,32 +102,73 @@
             for(var i = 0; i < response.length; i++){
                 var bikeObj = response[i];
                 var newRow = document.createElement("tr");
+                newRow.className = "bikeRow"
+                // Bike Number
                 var bikeNumber = document.createElement("td");
                 var bikeNumberLink = document.createElement("a");
                 bikeNumberLink.href = "/bikes/sn-"+bikeObj.number;
                 bikeNumberLink.innerHTML = bikeObj.number;
                 bikeNumber.appendChild(bikeNumberLink);
+
+                // Bike Status
                 var bikeAvailable = document.createElement("td");
-                bikeAvailable.innerHTML = (bikeObj.location_state == "departed" ? "Departed" : bikeObj.name || "Available");
+                if(bikeObj.name && !bikeObj.departed_at){
+                    var bikeStatusLink = document.createElement("a");
+                    bikeStatusLink.href = "/programs/" + bikeObj.program_id;
+                    bikeStatusLink.innerHTML = bikeObj.name;
+                    bikeAvailable.appendChild(bikeStatusLink);
+                }else{
+                    bikeAvailable.innerHTML = (bikeObj.departed_at ? "Departed as " + bikeObj.name : bikeObj.name || "Available");
+                }
+
+                // Bike Hook
                 var bikeHook = document.createElement("td");
-                bikeHook.innerHTML = bikeObj.hook_number || "n/a";
+                if (bikeObj.hook_number){
+                    var bikeHookLink = document.createElement("a");
+                    bikeHookLink.href = "/hooks/location-"+bikeObj.hook_number;
+                    bikeHookLink.innerHTML = bikeObj.hook_number;
+                    bikeHook.appendChild(bikeHookLink);
+                }else{
+                    bikeHook.innerHTML = "n/a";
+                }
+
+                // Color
                 var bikeColor = document.createElement("td");
                 bikeColor.innerHTML = bikeObj.color;
+                
+                // Brand
                 var bikeBrand = document.createElement("td");
-                bikeBrand.innerHTML = bikeObj.brand_id;
+                bikeBrand.innerHTML = bikeObj.brand_name || "n/a";
+                
+                // Seat Tube
                 var bikeSeat = document.createElement("td");
                 bikeSeat.innerHTML = bikeObj.seat_tube_height;
+                
+                /* Top Tube
                 var bikeTop = document.createElement("td");
                 bikeTop.innerHTML = bikeObj.top_tube_length;
+                */
+
+                // Wheel Size
                 var bikeWheel = document.createElement("td");
                 bikeWheel.innerHTML = bikeObj.wheel_size || "n/a";
+                
+                /* Created at
                 var bikeIn = document.createElement("td");
-                bikeIn.innerHTML = bikeObj.created_at;
+                var formattedDate = dp(bikeObj.created_at);
+                
+                bikeIn.innerHTML = (formattedDate.getMonth()+1) + "/" + formattedDate.getDate() + "/" + formattedDate.getFullYear();
+                */
                 $(newRow).append(bikeNumber).append(bikeAvailable).append(bikeHook).append(bikeColor).append(bikeBrand).append(bikeSeat)
-                .append(bikeTop).append(bikeWheel).append(bikeIn);
+                .append(bikeWheel);
                 $("#bikeList").append(newRow);
             }
         }
+
+        function dp(dateStr) {
+            return new Date(dateStr)
+        }
+
 
         attachListeners();
     });
@@ -84,4 +176,5 @@
 <section class="">
 <%= render :partial=>"bike_filter" %>
 <%= render :partial=>"bike_table", :layout =>"bike_table_layout" %>
+<%= render :partial=>"bike_listing_details" %>
 </section>

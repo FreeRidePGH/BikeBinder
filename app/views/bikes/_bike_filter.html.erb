@@ -2,7 +2,7 @@
     <span class = "filterName">BRAND</span>
     <ul>
         <% @brands.each do |brand| %>
-            <input name = "bike_brand" class = "checkBrand" value = "<%=brand.id%>" type = "checkbox" >
+            <input name = "bike_brand" class = "checkBrand" value = "<%=brand.id%>" type = "checkbox" checked = "checked" >
                 <%= brand.name %>
             </input><br />
         <% end %>
@@ -13,7 +13,7 @@
     <ul>
         <% counter = 1 %>
         <% @colors.each do |color| %>
-            <input name = "bike_color" class = "checkColor" value = "<%=color%>" type = "checkbox" >
+            <input name = "bike_color" class = "checkColor" value = "<%=color%>" type = "checkbox" checked = "checked">
                 <%= color %>
             </input>
             <% if (counter%5 == 0) %>
@@ -26,8 +26,12 @@
 <div class = "pull-left filter">
     <span class = "filterName">STATUS</span>
     <ul>
-        <% @statuses.each do |status| %>
-            <%= status %>: <%= check_box_tag "bike_brand",status,(status == "Available"),:class => "checkStatus" %><br />
+        <li>Available: <input type = "checkbox" class = "checkStatus" checked = "checked" value = "-1" type = "checkbox" /></li>
+        <li>Departed: <input type = "checkbox" class = "checkStatus" checked = "checked" value = "-2" type = "checkbox" /></li>
+        <% @statuses.each do |progName,progId| %>
+            <li>
+            <%= progName %>: <%= check_box_tag "bike_brand",progId,false,:class => "checkStatus" %><br />
+            </li>
         <% end %>
     </ul>
 </div>

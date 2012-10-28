@@ -29,14 +29,18 @@ class Bike < ActiveRecord::Base
 
   acts_as_commentable
 
-  attr_accessible :color, :value, :wheel_size, :seat_tube_height, :top_tube_length, :bike_model_id, :brand_id, :number, :quality, :condition
+  attr_accessible :color, :value, :wheel_size, :seat_tube_height, :top_tube_length, :bike_model_id, :brand_id, :number, :quality, :condition, :program_id
   
-  has_one :hook, :dependent => :nullify, :inverse_of=>:bike
+  has_one :hook, :dependent => :nullify, :inverse_of => :bike
+  belongs_to :program
   belongs_to :brand
   belongs_to :bike_model
-  has_many :inspections, :class_name=>'ResponseSet', :as => :surveyable
 
-  has_one_and_soft_delete :project, :dependent => :destroy #, :inverse_of => :bike
+  # Callbacks for setting scrap programs as departed
+  before_create :depart_scrap
+  before_update :depart_scrap
+  after_create  :check_hook
+  after_update  :check_hook
 
   WHEEL_SIZES =     [["Unknown",1],
                      ["660 mm",660],
@@ -49,74 +53,69 @@ class Bike < ActiveRecord::Base
 
   STATUSES = ["Available","EAB","Youth","Departed"]
 
-  def self.filter_bikes(brands,colors,status)
+  def depart_scrap
+    if self.program_id == Program.where("name = ?","Scrap").first.id
+        self.departed_at = DateTime.now()
+    end
+  end
+ 
+  def check_hook
+    if self.departed_at.nil? == false
+      if self.hook
+        h = Hook.find_by_id(self.hook)
+        h.update_attribute(:bike_id,nil)
+      end
+    end
+  end
+
+  def self.filter_bikes(brands,colors,status,sortBy)
     statusSql = []
     if status.nil? or status.empty?
         return []
     end
-    if status.include?("Available")
-        statusSql.push("departed_at IS NULL AND projects.id IS NULL")
+    if status.include?("-1")
+        statusSql.push("departed_at IS NULL AND program_id IS NULL")
+        status.delete("-1")
     end
-    if status.include?("Youth")
-        statusSql.push("departed_at IS NULL AND projects.type = 'Project::Youth'")
-    end
-    if status.include?("EAB")
-        statusSql.push("departed_at IS NULL AND projects.type = 'Project::Eab'")
-    end
-    if status.include?("Departed") # Departed
+    if status.include?("-2")
         statusSql.push("departed_at NOT NULL")
+        status.delete("-2")
     end
+    statusSql.push("departed_at IS NULL AND program_id IN (#{status.join(",")})")
     statusSqlString = "(" +  statusSql.join(") OR (") + ")"
-    bikes = Bike.select("bikes.*,project_categories.name,hooks.number as hook_number").joins("LEFT JOIN hooks ON hooks.bike_id = bikes.id LEFT OUTER JOIN projects ON projects.bike_id = bikes.id LEFT JOIN project_categories ON project_categories.id = projects.project_category_id").where("brand_id IN (?) AND color IN (?) AND (#{statusSqlString})",brands,colors)
-    bikes.each do |bike|
-        bike.created_at = bike.created_at.strftime("%m/%d/%Y")
-    end
+    bikes = Bike.select("bikes.*,programs.name,hooks.number as hook_number,brands.name as brand_name")
+            .joins("LEFT JOIN hooks ON hooks.bike_id = bikes.id 
+                    LEFT JOIN programs ON programs.id = bikes.program_id
+                    LEFT JOIN brands ON brands.id = bikes.brand_id")
+            .where("brand_id IN (?) AND color IN (?) AND (#{statusSqlString})",brands,colors)
+            .order(sortBy)
     return bikes
+  end
+
+  def self.get_bike_details(bike_number)
+    bike = Bike.select("bikes.*,programs.name,bike_models.name as model_name,hooks.number as hook_number,brands.name as brand_name")
+            .joins("LEFT JOIN hooks ON hooks.bike_id = bikes.id 
+                    LEFT JOIN programs ON programs.id = bikes.program_id
+                    LEFT JOIN brands ON brands.id = bikes.brand_id
+                    LEFT JOIN bike_models ON brands.id = bike_models.brand_id")
+            .where("bikes.number = ?",bike_number).first
+    return bike
   end
 
   # Clean up all associations
   # See http://www.mrchucho.net/2008/09/30/the-correct-way-to-override-activerecordbasedestroy
   def destroy_without_callbacks
     unless new_record?
-      # make sure old projects are destroyed
-      project.destroy
       # (May need to iterate through bike.versions)
     end
     super
   end
 
-  state_machine :location_state, :initial => :shop do
-    after_transition (any - :departed) => :departed , :do => :depart_action
-    after_transition :departed => (any-:departed), :do => :return_action
-    before_transition :hook => any, :do => :vacate_hook_action
-    before_transition any => :hook, :do => :get_hook_action
-
-    event :depart do
-      transition [:shop, :hook] => :departed, :unless => 'project.nil?'
+  def reserve_hook
+    h = Hook.next_available
+    if h
+        h.update_attribute(:bike_id,self.id)
     end
-
-    event :return do
-      transition [:departed,:offsite] => :hook, :if => :hook
-      transition [:departed,:offsite] => :shop 
-    end
-
-    event :reserve_hook do
-      transition :shop => :hook, :unless => :hook
-    end
-
-    event :vacate_hook do
-      transition :hook => :shop, :if => :hook
-    end
-
-    event :travel_offsite do
-      transition :shop => :offsite
-      transition :hook => :offsite
-    end
-
-    state :departed 
-    state :shop 
-    state :hook
-    state :offsite
   end
 
   def label
@@ -135,19 +134,23 @@ class Bike < ActiveRecord::Base
   end
 
   def self.unavailable
-    self.where{(departed_at != nil) | (project_id != nil) }
+    self.where{(departed_at != nil) | (program_id != nil) }
   end
 
   def self.available
-    self.where{(departed_at == nil) & (project_id == nil)}
+    self.where{(departed_at == nil) & (program_id == nil)}
   end
 
   def available?
-    departed_at.nil? and project.nil?
+    departed_at.nil? and program.nil?
   end
   
   def unavailable?
     not available?
+  end
+
+  def departed?
+    departed_at.nil? == false
   end
   
   def self.departed
@@ -220,13 +223,24 @@ class Bike < ActiveRecord::Base
     return STATUSES
   end
 
+  def self.sort_filters
+    return {"Number" => "number","Seat Tube" => "seat_tube_height","Top Tube" => "top_tube_length",
+            "Wheel Size" => "wheel_size", "Date Entered" => "created_at"}
+  end
+
   validates_uniqueness_of :number, :allow_nil => true
   validates :number, :format => { :with => Bike.number_pattern, :message => "Must be 5 digits only"}
   
   private
-  
+ 
+  def assign_program(program_id)
+    self.program_id = program_id
+    self.save
+  end
+ 
   def depart_action
     self.departed_at = Time.now
+    self.vacate_hook_action
     self.save
   end  
 

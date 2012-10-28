@@ -3,52 +3,32 @@
 # Table name: programs
 #
 #  id                  :integer         not null, primary key
-#  title               :string(255)
+#  type                :string(255)
+#  label               :string(255)
 #  created_at          :datetime
 #  updated_at          :datetime
-#  cosed_at            :datetime
-#  slug                :string(255)
-#  max_open            :integer
-#  max_total           :integer
-#  project_category_id :integer
 #
 
 class Program < ActiveRecord::Base
-  extend FriendlyId
-  friendly_id :title, use: [:slugged, :history]
+
+  attr_accessible :name, :label
+  has_many :bikes
   
-  has_many :projects, :as => :prog
-  belongs_to :project_category
-  
-  validates_presence_of :title
-  validates_uniqueness_of :title, :allow_nil=>false
-  validate :category_must_be_accepting_new_programs
 
-  attr_accessible :title, :max_total, :max_open
-
-  def self.terminal 
-    if @term.nil?
-      @term = []
-      Program.all.each do |p|
-        p_class = p.project_category.project_type.constantize
-        if p_class.terminal?
-          @term << p
-        end
-      end
+  def self.all_programs
+    progs = Program.all
+    @filters = Hash.new
+    progs.each do |prog|
+      @filters[prog.label] = prog.id
     end
-    @term
+    return @filters
+  end  
+
+  def active_bikes
+    return self.bikes.where("departed_at IS NULL").count
   end
 
-  def accepting_projects?
-    # TODO Validate that the program is accepting projects
+  def departed_bikes
+    return self.bikes.where("departed_at NOT NULL").count
   end
-
-
-  def category_must_be_accepting_new_programs 
-    if project_category and not project_category.accepting_programs?
-      errors.add(:project_category_id, "must be accepting new programs.")
-    end
-  end
-
 end
-

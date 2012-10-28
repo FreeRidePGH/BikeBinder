@@ -35,7 +35,7 @@ class BikesController < ApplicationController
     @commentable ||= bike
   end
 
-  before_filter :verify_bike, :except => [:new, :create, :index,:get_models,:filter_bikes]
+  before_filter :verify_bike, :except => [:new, :create, :index,:get_models,:get_brands,:filter_bikes,:get_details]
   before_filter :verify_brandmodels, :only => [:create,:update]
 
   def new
@@ -53,13 +53,15 @@ class BikesController < ApplicationController
 
   def show
     @title = "Bike #{bike.number} Overview"
+    @program = Program.new
   end
 
   def index
     @title = "Bike Listing"
     @brands = Brand.all_brands
     @colors = Bike.all_colors
-    @statuses = Bike.all_statuses
+    @statuses = Program.all_programs
+    @sorts = Bike.sort_filters
   end
 
   def edit
@@ -87,12 +89,33 @@ class BikesController < ApplicationController
     render :json => @bike_models
   end
 
+  def get_brands
+    @model_id = params[:bike_model_id]
+    @brands = []
+    if @model_id.nil? || @model_id == ""
+        @brands = []
+    else
+        @brands = Brand.find_all_for_models(@model_id)
+    end
+    render :json => @brands
+  end
+
   def filter_bikes
     @brand = params[:brands]
     @color = params[:colors]
     @status = params[:statuses]
-    @bikes = Bike.filter_bikes(@brand,@color,@status)
+    @sortBy = params[:sortBy]
+    @bikes = Bike.filter_bikes(@brand,@color,@status,@sortBy)
+    @bikes.each do |bike|
+        bikeDate = bike.created_at
+        bike.created_at = bikeDate.utc.to_i * 1000
+    end
     render :json => @bikes
+  end
+
+  def get_details
+    @bike = Bike.get_bike_details(params[:id])
+    render :json => @bike
   end
 
 
@@ -123,22 +146,10 @@ class BikesController < ApplicationController
       redirect_to bike and return
     end
 
-    project = bike.project
-
-    if project.nil?
-      is_done_project = false
-    else
-      is_done_project = project.terminal?
-      is_done_project ||= project.detail.done?
-    end
-
-    if is_done_project
-      redirect_to finish_project_path(project) and return
-    end
-
-    @title = "Depart Bike"
-    render 'depart'
-  end
+    bike.departed_at = DateTime.now
+    bike.save!
+    redirect_to :root and return
+ end
 
   def vacate_hook
     if bike.vacate_hook!
@@ -157,6 +168,15 @@ class BikesController < ApplicationController
       flash[:error] = "Could not reserve the hook."
     end
     
+    redirect_to bike
+  end
+
+  def assign_program
+    if bike.update_attribute(:program_id,params[:program_id])
+        flash[:success] = "Assigned to Program"
+    else
+        flash[:error] = "Could not assign bike to program"
+    end
     redirect_to bike
   end
 
@@ -197,6 +217,22 @@ class BikesController < ApplicationController
         bike.brand_id = thisBrand.id
         bike.bike_model_id = thisModel.id
         params[:bike][:brand_id] = thisBrand.id
+        params[:bike][:bike_model_id] = thisModel.id
+    # Case 3 new brand and no model
+    elsif (newBrand.nil? == false and newBrand != "" and (newModel.nil? or newModel == "" or newModel == "-1"))
+        thisBrand = Brand.new(:name => newBrand)
+        thisBrand.save!
+        bike.brand_id = thisBrand.id
+        bike.bike_model_id = nil
+        params[:bike][:brand_id] = thisBrand.id
+        params[:bike][:bike_model_id] = nil
+    # Case 4 new model and no brand
+    elsif (newModel.nil? == false and newModel != "" and newModel != "-1" and (newBrand.nil? == true or newBrand == "" or newBrand == "-1"))
+        thisModel = BikeModel.new(:name => newModel, :brand_id => nil)
+        thisModel.save!
+        bike.brand_id = nil
+        bike.bike_model_id = thisModel.id
+        params[:bike][:brand_id] = nil
         params[:bike][:bike_model_id] = thisModel.id
     end
     params[:bike].delete :new_brand_id
