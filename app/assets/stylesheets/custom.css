@@ -19,16 +19,17 @@
     border: 1px solid gray;
 	width:130px;
 	height:100px;
-	overflow:scroll;
+	overflow:auto;
 }
 #sort{
     margin-left: 10px;
 }
 #bikelisting{
 	float:left;
-	height:500px;
-	overflow-y:scroll;
     margin-top: 10px;
+    height: 500px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 #bikeDetailPanel{
 	float:right;
