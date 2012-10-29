@@ -32,7 +32,4 @@ class Program < ActiveRecord::Base
     return self.bikes.where("departed_at NOT NULL").count
   end
 
-  def title
-    name
-  end
 end
