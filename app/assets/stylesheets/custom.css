@@ -57,3 +57,23 @@
     margin-left: 5px;
     cursor: pointer;
 }
+
+#newBikeForm{
+    margin-top: 20px;
+}
+#newBikeForm input{
+    width: 120px;
+}
+#newBikeForm select{
+    width: 140px;
+}
+#newBikeForm input[name='bike[seat_tube_height]']{
+    width: 70px;
+}
+#newBikeForm input[name='bike[top_tube_length]']{
+    width: 70px;
+}
+#top_tube_unit,#seat_tube_unit{
+    display: inline;
+    width: 55px !important;
+}

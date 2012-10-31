@@ -8,7 +8,11 @@ class SearchesController < ApplicationController
         if @search.size == 3
             @hook = Hook.find_by_label(@search)
             if @hook.nil? == false
-                redirect_to(@hook)
+                if @hook.bike.nil? == false
+                    redirect_to(@hook.bike)
+                else
+                    redirect_to(@hook)
+                end
                 return
             end
         else
