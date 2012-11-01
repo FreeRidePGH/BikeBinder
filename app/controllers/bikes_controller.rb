@@ -37,7 +37,8 @@ class BikesController < ApplicationController
 
   before_filter :verify_bike, :except => [:new, :create, :index,:get_models,:get_brands,:filter_bikes,:get_details]
   before_filter :verify_brandmodels, :only => [:create,:update]
-
+  before_filter :convert_units, :only => [:create,:update]
+  
   def new
     @title = "Add a new bike"
     @form_text = "Create new bike"
@@ -195,6 +196,25 @@ class BikesController < ApplicationController
     if not bike_found?
       redirect_to bikes_path and return
     end
+  end
+
+  # Method to convert cm to inches
+  def convert_units
+    ttu = params[:bike][:top_tube_unit]
+    stu = params[:bike][:seat_tube_unit]
+    if stu == "centimeters"
+      sth = params[:bike][:seat_tube_height].to_i
+      sth = sth * 0.393701
+      puts sth
+      params[:bike][:seat_tube_height] = sth
+    end
+    if ttu == "centimeters"
+      ttl = params[:bike][:top_tube_length].to_i
+      ttl = ttl * 0.393701
+      params[:bike][:top_tube_length] = ttl
+    end
+    params[:bike].delete :seat_tube_unit
+    params[:bike].delete :top_tube_unit
   end
 
   def verify_brandmodels

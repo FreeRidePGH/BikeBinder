@@ -150,16 +150,16 @@
 
 <%= f.label :seat_tube_height, "Seat tube height" %>
 <%= f.text_field :seat_tube_height, :maxlength => 7 %>
-<select id = "seat_tube_unit">
+<select id = "seat_tube_unit" name = 'bike[seat_tube_unit]'>
   <option value = "inches">inch</option>
-  <option value = "centimers">cm</option>
+  <option value = "centimeters">cm</option>
 </select>
 
 <%= f.label :top_tube_length, "Top tube length" %>
 <%= f.text_field :top_tube_length, :maxlength => 7 %>
-<select id = "top_tube_unit">
+<select id = "top_tube_unit" name = 'bike[top_tube_unit]'>
   <option value = "inches">inch</option>
-  <option value = "centimers">cm</option>
+  <option value = "centimeters">cm</option>
 </select>
 
 <%= f.label :value, "Value" %>
