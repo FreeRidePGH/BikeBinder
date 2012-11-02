@@ -34,9 +34,6 @@
     overflow-y: auto;
 }
 #bikeDetailPanel{
-	float:right;
-	width:250px;
-	position:fixed;
 }
 .contentBikes{
 	width:1000px;

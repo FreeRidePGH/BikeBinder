@@ -29,22 +29,21 @@
 
 			<% end %>
 			<div class="row-fluid">
-			<header class="span12" >
+				<header class="span12" >
 
-				<%= content_tag(:h1, header_title) %>
-				<%= render 'shared/menu' %>
-			</header>
+					<%= content_tag(:h1, header_title) %>
+					<%= render 'shared/menu' %>
+				</header>
 
-			<%= render 'shared/alerts' %>
+				<%= render 'shared/alerts' %>
 			</div>
-
 			<%= yield %>
 
-
-			<footer class="span12">
+		</div>
+	</div>
+		<footer class="span12">
 				<div class="span6"><%= debug(params) if Rails.env.development? %></div>
 				<p class="offset4 copyright">&copy; 2012 Free Ride Bicycle Project</p>
-			</footer>
-		</div>
+		</footer>
 	</body>
 	</html>
