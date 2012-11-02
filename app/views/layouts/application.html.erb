@@ -1,48 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>BikeBinder</title>
-  <%= stylesheet_link_tag    "application" %>
-  <!-- lets get Bootstrapping -->
-  <%= stylesheet_link_tag    "bootstrap" %>
-  <%= stylesheet_link_tag    "custom" %>
+	<title>BikeBinder</title>
+	<%= stylesheet_link_tag    "application" %>
+	<!-- lets get Bootstrapping -->
+	<%= stylesheet_link_tag    "bootstrap" %>
+	<%= stylesheet_link_tag    "custom" %>
 
-  <%= javascript_include_tag "application" %>
+	<%= javascript_include_tag "application" %>
 
 
-  <%= csrf_meta_tags %>
-  <%= favicon_link_tag '/favicon.png' %>
- <!-- need to establish the proper route to serve up the favicon -->
-  <!-- <link rel="shortcut icon" type="image/png" href="./favicon.png" /> -->
+	<%= csrf_meta_tags %>
+	<%= favicon_link_tag '/favicon.png' %>
+	<!-- need to establish the proper route to serve up the favicon -->
+	<!-- <link rel="shortcut icon" type="image/png" href="./favicon.png" /> -->
 
 
 </head>
 
 <body>
-  <% if user_signed_in? %>
-      <div class="container">
-      <% else %>
-    <div class="container no-user">
-  <div class="navbar-fixed-top navbar overlay">
-    <p class="demoHelp" >You can sign in with username "demo@freeridepgh.org" and password "testdemo"</p>
-  </div>
+	<% if user_signed_in? %>
+	<div class="container-fluid">
+		<% else %>
+		<div class="container no-user">
+			<div class="navbar-fixed-top navbar overlay">
+				<p class="demoHelp" >You can sign in with username "demo@freeridepgh.org" and password "testdemo"</p>
+			</div>
 
-	<% end %>
-    <header class="span12" >
+			<% end %>
+			<div class="row-fluid">
+			<header class="span12" >
 
-      <%= content_tag(:h1, header_title) %>
-      <%= render 'shared/menu' %>
-    </header>
+				<%= content_tag(:h1, header_title) %>
+				<%= render 'shared/menu' %>
+			</header>
 
-    <%= render 'shared/alerts' %>
+			<%= render 'shared/alerts' %>
+			</div>
 
-    <%= yield %>
+			<%= yield %>
 
 
-    <footer class="span12">
-      <div class="span6"><%= debug(params) if Rails.env.development? %></div>
-      <p class="offset4 copyright">&copy; 2012 Free Ride Bicycle Project</p>
-    </footer>
-  </div>
-</body>
-</html>
+			<footer class="span12">
+				<div class="span6"><%= debug(params) if Rails.env.development? %></div>
+				<p class="offset4 copyright">&copy; 2012 Free Ride Bicycle Project</p>
+			</footer>
+		</div>
+	</body>
+	</html>

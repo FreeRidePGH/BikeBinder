@@ -28,12 +28,15 @@
 	float:left;
     margin-top: 10px;
     height: 500px;
-    overflow-x: hidden;
+}
+#results{
+	overflow-x: hidden;
     overflow-y: auto;
 }
 #bikeDetailPanel{
 	float:right;
 	width:250px;
+	position:fixed;
 }
 .contentBikes{
 	width:1000px;
