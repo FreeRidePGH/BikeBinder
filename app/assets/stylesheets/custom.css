@@ -17,7 +17,63 @@
 .filter ul{
     text-align: left;
     border: 1px solid gray;
+	width:130px;
+	height:100px;
+	overflow:auto;
 }
 #sort{
     margin-left: 10px;
+}
+#bikelisting{
+	float:left;
+    margin-top: 10px;
+    height: 500px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+#bikeDetailPanel{
+	float:right;
+	width:250px;
+}
+.contentBikes{
+	width:1000px;
+}
+.staticAttributes{
+	width:250px;
+	border: 1px solid black;
+}
+.staticAttributes tr,th{
+	border:0;
+	color:black;
+}
+.allFilter{
+    color: green;
+    margin-left: 15px;
+    padding-right: 5px;
+    cursor: pointer;
+}
+.noFilter{
+    color: red;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+#newBikeForm{
+    margin-top: 20px;
+}
+#newBikeForm input{
+    width: 120px;
+}
+#newBikeForm select{
+    width: 140px;
+}
+#newBikeForm input[name='bike[seat_tube_height]']{
+    width: 70px;
+}
+#newBikeForm input[name='bike[top_tube_length]']{
+    width: 70px;
+}
+#top_tube_unit,#seat_tube_unit{
+    display: inline;
+    width: 55px !important;
 }

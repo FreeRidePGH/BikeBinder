@@ -45,6 +45,9 @@ gem 'jquery-rails', '~>2'
 group :production do
   # Use PostgreSQL for Heroku deployment
   gem 'pg'
+
+  # Include faker gem so that db:populate will work in the heroku deployment
+  gem 'faker', '~>1'
 end
 
 group :test do

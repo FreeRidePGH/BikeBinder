@@ -121,14 +121,14 @@
 <!-- This is the main form generated for editing a bike. Another form template is rendered for creating a new bike. -->
 <%= form_for(bike) do |f| %>
   <%= render 'shared/error_messages', :object => f.object %>
-
+<div class = "span3">
 <%= f.label :number %>
 <%= f.text_field :number, :value=>bike.number , :required => true %>
 
 <%= f.label :color %>
 <%= f.text_field :color , :required => true, :id => "colorInput"  %>
 
-<%= f.label :brand_id, "Manufacturer" %>
+<%= f.label :brand_id, "Brand" %>
 <%= f.collection_select :brand_id, Brand.all, :id, :name, {:include_blank => "None"} %>
 <input type = "text" id = "bike_new_brand_id" name = "bike[new_brand_id]" style = "display:none;" />
 <span id = "add_brand" class = "off">New Brand</span>
@@ -137,7 +137,8 @@
 <%= f.collection_select :bike_model_id, BikeModel.all, :id, :name, {:include_blank => "None"} %>
 <input type = "text" id = "bike_new_bike_model_id" name = "bike[new_bike_model_id]" style = "display:none;" />
 <span id = "add_model" class = "off">New Model</span>
-
+</div>
+<div class = "span2">
 <%= f.label :quality, "Quality" %>
 <%= f.select :quality, Bike.qualities %>
 
@@ -149,9 +150,17 @@
 
 <%= f.label :seat_tube_height, "Seat tube height" %>
 <%= f.text_field :seat_tube_height, :maxlength => 7 %>
+<select id = "seat_tube_unit">
+  <option value = "inches">inch</option>
+  <option value = "centimers">cm</option>
+</select>
 
 <%= f.label :top_tube_length, "Top tube length" %>
 <%= f.text_field :top_tube_length, :maxlength => 7 %>
+<select id = "top_tube_unit">
+  <option value = "inches">inch</option>
+  <option value = "centimers">cm</option>
+</select>
 
 <%= f.label :value, "Value" %>
 <%= f.text_field :value, :maxlength => 10 %>
@@ -159,7 +168,7 @@
 <!-- how do I make render this tag differently for edit or add bike? -->
 <% submit_text = (bike.id.nil?) ? "Create new bike" : "Save changes" %>
 <%= f.submit submit_text, :class => "btn btn-primary" %>
-
+</div>
 </fieldset>
 
 <% end %>

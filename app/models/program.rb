@@ -31,4 +31,5 @@ class Program < ActiveRecord::Base
   def departed_bikes
     return self.bikes.where("departed_at NOT NULL").count
   end
+
 end

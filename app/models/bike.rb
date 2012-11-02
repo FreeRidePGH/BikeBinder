@@ -36,6 +36,10 @@ class Bike < ActiveRecord::Base
   belongs_to :brand
   belongs_to :bike_model
 
+  # Validations
+  validates_presence_of :number,:color
+  validates :seat_tube_height,:top_tube_length,:value, :numericality => true, :allow_nil => true
+
   # Callbacks for setting scrap programs as departed
   before_create :depart_scrap
   before_update :depart_scrap
@@ -43,8 +47,16 @@ class Bike < ActiveRecord::Base
   after_update  :check_hook
 
   WHEEL_SIZES =     [["Unknown",1],
-                     ["660 mm",660],
-                     ["680 mm",680],
+                     ["622 mm",622],
+                     ["630 mm",630],
+                     ["597 mm",597],
+                     ["590 mm",590],
+                     ["587 mm",587],
+                     ["571 mm",571],
+                     ["559 mm",559],
+                     ["507 mm",507],
+                     ["406 mm",406],
+                     ["305 mm",305],
                      ["Other",2]]
 
   COLORS = ["White","Silver","Gray","Black","Red","Brown","Tan","Maroon",
@@ -65,6 +77,22 @@ class Bike < ActiveRecord::Base
         h = Hook.find_by_id(self.hook)
         h.update_attribute(:bike_id,nil)
       end
+    end
+  end
+
+  def vacate_hook
+    if self.nil? == false and self.hook.nil? == false
+      h = self.hook
+      h.bike = nil
+      h.save!
+    end
+  end
+
+  def reserve_hook_by_id(hook_id)
+    if self.nil? == false and self.hook.nil? == true
+      h = Hook.find_by_id(hook_id)
+      h.bike = self
+      h.save!
     end
   end
 
