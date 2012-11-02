@@ -13,7 +13,7 @@
                 $.ajax({
                     url: "/bikes/get_models/" + brand,
                     dataType: 'json'
-                }).done(function(response){
+                }).done(functi6on(response){
                     var modelSelect = $("#bike_bike_model_id");
                     modelSelect.html("");
                     if(response.length === 0){

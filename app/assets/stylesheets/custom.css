@@ -57,7 +57,7 @@
     margin-left: 5px;
     cursor: pointer;
 }
-
+color
 #newBikeForm{
     margin-top: 20px;
 }
@@ -76,4 +76,22 @@
 #top_tube_unit,#seat_tube_unit{
     display: inline;
     width: 55px !important;
+}
+.c2{
+	padding-left: 20px;
+}
+.c1{
+	padding-left: 20px;
+}
+.c4{
+	padding-left: 20px;
+	padding-right: 20px;
+}
+#PricingGuide{
+	text-align: left;
+}
+.PGC1{
+	font-weight:bold;
+	padding-left: 10px;
+	width: 120px;
 }
