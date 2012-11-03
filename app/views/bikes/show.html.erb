@@ -1,3 +1,11 @@
+<script type = "text/javascript">
+    $(document).ready(function(){
+        $("#changeProgram").click(function(){
+            $("#changeProgram").fadeOut();
+            $("#changeProgramForm").slideDown();
+        });
+    });
+</script>
 <section class="show-bike span12">
 
   <section id="bikeInfo" class="span8 noteCard noLeftMarg">
@@ -71,6 +79,16 @@
         <% if bike.departed_at.nil?%>
         <div>
             <%= link_to "Depart Bike", depart_bike_path(bike), :class => "btn btn-primary" %>
+        </div>
+        <div>
+            <br />
+            <button class = "btn btn-info" id = "changeProgram">Change programs</button>
+            <div id = "changeProgramForm" style = "display:none;">
+            <%= form_for(bike, :url => assign_program_bike_path(bike), :method => :put) do |f| %>
+                <%= select_tag(:program_id, options_from_collection_for_select(Program.all, :id, :label)) %>
+                <%= f.submit "Change program", :class => "btn btn-success" %>
+            <% end%>
+            </div>
         </div>
         <% end %>
       <% elsif bike.available? %>

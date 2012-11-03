@@ -50,7 +50,8 @@ group :production do
   gem 'faker', '~>1'
 end
 
-require 'rubyXL'
+gem 'rubyXL'
+#require 'rubyXL'
 
 group :test do
   gem 'sqlite3', '~>1.3.6'
