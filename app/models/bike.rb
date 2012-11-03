@@ -257,7 +257,7 @@ class Bike < ActiveRecord::Base
   end
 
   validates_uniqueness_of :number, :allow_nil => true
-  validates :number, :format => { :with => Bike.number_pattern, :message => "Must be 5 digits only"}
+  validates :number, :format => { :with => Bike.number_pattern, :message => "Must be 5 digits exactly"}
   
   private
  

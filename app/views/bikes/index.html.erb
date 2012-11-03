@@ -1,6 +1,8 @@
 <script type = "text/javascript">
     $(document).ready(function(){
         var sorter = $(".active.sorter")[0];
+        var prevSort = "";
+        var reverseBool = false;
         // Attach filters
         function attachListeners(){
             $(".checkBrand").each(function(){
@@ -99,6 +101,14 @@
                 return this.value;
             }).get();
             var sortBy = (sorter ? $(sorter).attr("fieldname") : "number");
+            if(prevSort == sortBy){
+                // Toggle the sort if we click on the same button twice
+                reverseBool = !reverseBool;
+            }else{
+                // Otherwise we clicked on a new sort so start sorting ASCENDING
+                reverseBool = false;
+            }
+            prevSort = sortBy;
             $.ajax({
                 type: "GET",
                 url: "/bikes/filter_bikes/filter",
@@ -106,7 +116,7 @@
                     "brands" : brandArr,
                     "colors" : colorArr,
                     "statuses" : statusArr,
-                    "sortBy" : sortBy
+                    "sortBy" : sortBy + (reverseBool ? " DESC" : "")
                 },
                 dataType : "json",
                 success: function (response){
