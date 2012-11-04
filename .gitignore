@@ -16,7 +16,3 @@ tmp/*
 *#
 #*.lock
 config/database.yml
-
-app/assets/stylesheets/custom.css
-
-app/assets/stylesheets/custom.css
