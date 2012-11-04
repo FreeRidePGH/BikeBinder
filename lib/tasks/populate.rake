@@ -15,7 +15,9 @@ namespace :db do
 
   workbook = RubyXL::Parser.parse("public/BikeInventory.xlsx")
   worksheet = workbook[0].extract_data
-
+  require 'set'
+  brands = Hash.new
+  
   desc "Fill database with test data"
   task :populate => :environment do
     # Preparte test db
@@ -57,24 +59,48 @@ namespace :db do
     Program.create!(:name=>"Northview", :label=>"Northview")
   end
 
+  
   desc "Populate database with several fake brands"
   task :populate_brands => :environment do
-    for i in 1..3
+    #for i in 1..3
       #manufacturer = Faker::Company.name
       #fake_model = Faker::Company.bs
 
       #manufacturer = mfgr[n_bike_info]
       #fake_model = model[n_bike_info]
-      brand = Brand.create!(:name =>  Faker::Company.name + " #{i}")
+      #brand = Brand.create!(:name =>  Faker::Company.name + " #{i}")
+    #end
+    i = 0
+    while(i < worksheet.length - 1)
+      i += 1
+      br = worksheet[i][15]
+      if(br == nil || br == "")
+        next
+      end
+      br = String(br)
+      if(brands[br] == nil)
+        brands[br] = [i-1, Set.new]
+        brand = Brand.create!(:name =>  br)
+      end
+      mdl = worksheet[i][16]
+      if(mdl == nil || mdl == "")
+        next
+      end
+      mdl = String(mdl)
+      (brands[br][1]).add mdl
     end
   end
  
   desc "Populate database with several fake models"
   task :populate_bike_models => :environment do
-    for i in 1..3
-      bm = BikeModel.create!(:name => Faker::Company.bs + " #{i}",
-                             :brand_id => i)
-    end
+    #for i in 1..3
+      #bm = BikeModel.create!(:name => Faker::Company.bs + " #{i}",
+                             #:brand_id => i)
+    #end
+    
+    brands.each_key{|br|
+      (brands[br][1]).each{|mdl| bm = BikeModel.create!(:name => mdl, :brand_id => brands[br][0])}
+    }
   end
   
   def froat x
@@ -137,7 +163,6 @@ namespace :db do
     end
     return nil
   end
-  
   desc "Fill database with fake Bikes"
   task :populate_bikes => :environment do
 
@@ -157,15 +182,22 @@ namespace :db do
     i = 0
     numb = ""
     temp = ""
-    while(i < worksheet.length - 1 && i < 20)
+    while(i < worksheet.length - 1)
       i += 1
       temp = num(String(worksheet[i][0]), numb)
       if(temp == numb)
         next
       end
       numb = temp
-      bm = BikeModel.find(rand(3)+1)
-      brand = bm.brand
+      mod = String(worksheet[i][16])
+      
+      bm = nil
+      brand = nil
+      if(mod != nil && mod != "")
+        bm = BikeModel.where(:name => mod).first
+        #.find(rand(3)+1)
+        brand = bm.brand
+      end
       ws = froat(worksheet[i][8])
       
       b = Bike.create!(
@@ -174,8 +206,8 @@ namespace :db do
         :seat_tube_height=>froat(worksheet[i][5]),
         :top_tube_length=>froat(worksheet[i][7]),
         :wheel_size => (ws) ? Integer(ws) : ws,
-        :brand_id => brand.id,
-        :bike_model_id => bm.id,
+        :brand_id => (brand)? brand.id : brand,
+        :bike_model_id => (bm) ? bm.id : bm,
         :quality => worksheet[i][17],
         :condition => worksheet[i][18],
         :number => numb)
