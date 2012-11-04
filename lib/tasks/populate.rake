@@ -48,11 +48,15 @@ namespace :db do
 
   desc "Fill databse with programs"
   task :populate_programs => :environment do
+    Program.create!(:name=>"Available", :label=>"Available")
     Program.create!(:name=>"Earn a Bike", :label=>"EAB")
     Program.create!(:name=>"Fix for Sale", :label=>"FFS")
     Program.create!(:name=>"Youth", :label=>"Youth")
     Program.create!(:name=>"Scrap", :label=>"Scrap")
     Program.create!(:name=>"Buildathon", :label=>"Buildathon")
+    Program.create!(:name=>"As-Is", :label=>"As-Is")
+    Program.create!(:name=>"Unknown", :label=>"Uknown")
+    Program.create!(:name=>"Northview", :label=>"Northview")
   end
 
   desc "Populate database with several fake brands"
@@ -115,6 +119,26 @@ namespace :db do
     end
     return c
   end
+  def prog status
+    if(status =~ /available/i)
+      return 0
+    elsif(status =~ /Earn\W?a\W?Bike/i || status =~ /E\W?A\W?B/i)
+      return 1
+    elsif(status =~ /Fix\W?For\W?Sale/i || status =~ /F\W?F\W?S/i)
+      return 2
+    elsif(status =~ /youth/i)
+      return 3
+    elsif(status =~ /scrap/i)
+      return 4
+    elsif(status =~ /build/i)
+      return 5
+    elsif(status =~ /as\W?is/i)
+      return 6
+    elsif(status = /north/i)
+      return 8
+    end
+    return 7
+  end
   
   desc "Fill database with fake Bikes"
   task :populate_bikes => :environment do
@@ -142,16 +166,14 @@ namespace :db do
         next
       end
       numb = temp
-      progs = Program.count
-      prog_id = rand(progs+1)
       bm = BikeModel.find(rand(3)+1)
       brand = bm.brand
       ws = froat(worksheet[i][8])
       
       b = Bike.create!(
-        :program_id => prog_id,
+        :program_id => prog(String(worksheet[i][19])),
         :color=>col(worksheet[i][14]),
-        :seat_tube_height=>froat(worksheet[i][5]), 
+        :seat_tube_height=>froat(worksheet[i][5]),
         :top_tube_length=>froat(worksheet[i][7]),
         :wheel_size => (ws) ? Integer(ws) : ws,
         :brand_id => brand.id,
