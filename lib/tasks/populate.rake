@@ -48,14 +48,12 @@ namespace :db do
 
   desc "Fill databse with programs"
   task :populate_programs => :environment do
-    Program.create!(:name=>"Available", :label=>"Available")
     Program.create!(:name=>"Earn a Bike", :label=>"EAB")
     Program.create!(:name=>"Fix for Sale", :label=>"FFS")
     Program.create!(:name=>"Youth", :label=>"Youth")
     Program.create!(:name=>"Scrap", :label=>"Scrap")
     Program.create!(:name=>"Buildathon", :label=>"Buildathon")
     Program.create!(:name=>"As-Is", :label=>"As-Is")
-    Program.create!(:name=>"Unknown", :label=>"Uknown")
     Program.create!(:name=>"Northview", :label=>"Northview")
   end
 
@@ -121,23 +119,23 @@ namespace :db do
   end
   def prog status
     if(status =~ /available/i)
+      return nil
+    elsif(status =~ /Earn.?a.?Bike/i || status =~ /E.?A.?B/i)
       return 0
-    elsif(status =~ /Earn\W?a\W?Bike/i || status =~ /E\W?A\W?B/i)
+    elsif(status =~ /Fix.?For.?Sale/i || status =~ /F.?F.?S/i)
       return 1
-    elsif(status =~ /Fix\W?For\W?Sale/i || status =~ /F\W?F\W?S/i)
-      return 2
     elsif(status =~ /youth/i)
-      return 3
+      return 2
     elsif(status =~ /scrap/i)
-      return 4
+      return 3
     elsif(status =~ /build/i)
+      return 4
+    elsif(status =~ /as.?is/i)
       return 5
-    elsif(status =~ /as\W?is/i)
-      return 6
     elsif(status = /north/i)
-      return 8
+      return 6
     end
-    return 7
+    return nil
   end
   
   desc "Fill database with fake Bikes"
