@@ -121,19 +121,19 @@ namespace :db do
     if(status =~ /available/i)
       return nil
     elsif(status =~ /Earn.?a.?Bike/i || status =~ /E.?A.?B/i)
-      return 0
-    elsif(status =~ /Fix.?For.?Sale/i || status =~ /F.?F.?S/i)
       return 1
-    elsif(status =~ /youth/i)
+    elsif(status =~ /Fix.?For.?Sale/i || status =~ /F.?F.?S/i)
       return 2
-    elsif(status =~ /scrap/i)
+    elsif(status =~ /youth/i)
       return 3
-    elsif(status =~ /build/i)
+    elsif(status =~ /scrap/i)
       return 4
-    elsif(status =~ /as.?is/i)
+    elsif(status =~ /build/i)
       return 5
-    elsif(status = /north/i)
+    elsif(status =~ /as.?is/i)
       return 6
+    elsif(status = /north/i)
+      return 7
     end
     return nil
   end
@@ -157,7 +157,7 @@ namespace :db do
     i = 0
     numb = ""
     temp = ""
-    while(i < worksheet.length - 1)
+    while(i < worksheet.length - 1 && i < 20)
       i += 1
       temp = num(String(worksheet[i][0]), numb)
       if(temp == numb)
