@@ -106,10 +106,12 @@ class Bike < ActiveRecord::Base
         status.delete("-1")
     end
     if status.include?("-2")
-        statusSql.push("departed_at NOT NULL")
+        statusSql.push("departed_at IS NOT NULL")
         status.delete("-2")
     end
-    statusSql.push("departed_at IS NULL AND program_id IN (#{status.join(",")})")
+    if status.empty? == false
+        statusSql.push("departed_at IS NULL AND program_id IN (#{status.join(",")})")
+    end
     statusSqlString = "(" +  statusSql.join(") OR (") + ")"
     bikes = Bike.select("bikes.*,programs.name,hooks.number as hook_number,COALESCE(brands.name,'n/a') as brand_name")
             .joins("LEFT JOIN hooks ON hooks.bike_id = bikes.id 
