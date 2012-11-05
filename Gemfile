@@ -23,8 +23,6 @@ gem 'paper_trail', '~>2'
 
 gem 'surveyor', '~>0.22.0'
 
-gem 'nokogiri'
-gem 'rubyXL'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -80,4 +78,7 @@ group :development do
   gem 'railroady', '~>1'
   gem 'rspec-rails', '~>2'
   gem 'guard-rspec', '0.5.5'
+  gem 'nokogiri'
+  gem 'rubyXL'
+
 end
