@@ -23,6 +23,8 @@ gem 'paper_trail', '~>2'
 
 gem 'surveyor', '~>0.22.0'
 
+gem 'nokogiri'
+gem 'rubyXL'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -50,7 +52,6 @@ group :production do
   gem 'faker', '~>1'
 end
 
-gem 'rubyXL'
 #require 'rubyXL'
 
 group :test do

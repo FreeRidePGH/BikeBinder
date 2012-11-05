@@ -247,6 +247,7 @@ DEPENDENCIES
   guard-spork (= 0.3.2)
   jquery-rails (~> 2)
   libnotify (= 0.5.9)
+  nokogiri
   paper_trail (~> 2)
   pg
   railroady (~> 1)
