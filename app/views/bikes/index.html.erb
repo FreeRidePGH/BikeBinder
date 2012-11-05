@@ -73,13 +73,25 @@
             });
         }
 
+        function convert_wheel_size(ws){
+            if(ws !== null){
+                if(ws <= 1){
+                    return "Unknown";
+                }else{
+                    return ws + " mm";
+                }
+            }else{
+                return "n/a";
+            }
+        }
+
         function renderBikeDetails(bike){
             $("#bikeDetailBrand").html(bike.brand_name || "n/a");
             $("#bikeDetailModel").html(bike.model_name || "n/a");
             $("#bikeDetailColor").html(bike.color);
-            $("#bikeDetailWheelSize").html(bike.wheel_size || "n/a");
-            $("#bikeDetailSeatTube").html(bike.seat_tube_height || "n/a");
-            $("#bikeDetailTopTube").html(bike.top_tube_length || "n/a");
+            $("#bikeDetailWheelSize").html(convert_wheel_size(bike.wheel_size));
+            $("#bikeDetailSeatTube").html(bike.seat_tube_height ? bike.seat_tube_height + " in." : "n/a");
+            $("#bikeDetailTopTube").html(bike.top_tube_length ? bike.top_tube_length + " in." : "n/a");
             $("#bikeDetailQuality").html(bike.quality);
             $("#bikeDetailCondition").html(bike.condition);
             $("#bikeDetailValue").html(bike.value || "n/a");
@@ -174,11 +186,11 @@
                 
                 // Seat Tube
                 var bikeSeat = document.createElement("td");
-                bikeSeat.innerHTML = bikeObj.seat_tube_height;
+                bikeSeat.innerHTML = (bikeObj.seat_tube_height ? bikeObj.seat_tube_height + " inches" : "n/a");
                 
                 // Wheel Size
                 var bikeWheel = document.createElement("td");
-                bikeWheel.innerHTML = bikeObj.wheel_size || "n/a";
+                bikeWheel.innerHTML = convert_wheel_size(bikeObj.wheel_size);
                 
                 $(newRow).append(bikeNumber).append(bikeAvailable).append(bikeHook).append(bikeColor).append(bikeBrand).append(bikeSeat)
                 .append(bikeWheel);
