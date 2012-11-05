@@ -127,6 +127,9 @@
         }
 
         function renderHtml(response){
+            if(response.length == 0){
+            $("#bikeList").html("No bikes found!");
+            }else{
             $("#bikeList").html("");
             for(var i = 0; i < response.length; i++){
                 var bikeObj = response[i];
@@ -180,6 +183,7 @@
                 $(newRow).append(bikeNumber).append(bikeAvailable).append(bikeHook).append(bikeColor).append(bikeBrand).append(bikeSeat)
                 .append(bikeWheel);
                 $("#bikeList").append(newRow);
+            }
             }
         }
 

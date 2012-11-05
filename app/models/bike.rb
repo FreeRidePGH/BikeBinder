@@ -111,11 +111,11 @@ class Bike < ActiveRecord::Base
     end
     statusSql.push("departed_at IS NULL AND program_id IN (#{status.join(",")})")
     statusSqlString = "(" +  statusSql.join(") OR (") + ")"
-    bikes = Bike.select("bikes.*,programs.name,hooks.number as hook_number,brands.name as brand_name")
+    bikes = Bike.select("bikes.*,programs.name,hooks.number as hook_number,COALESCE(brands.name,'n/a') as brand_name")
             .joins("LEFT JOIN hooks ON hooks.bike_id = bikes.id 
                     LEFT JOIN programs ON programs.id = bikes.program_id
                     LEFT JOIN brands ON brands.id = bikes.brand_id")
-            .where("brand_id IN (?) AND color IN (?) AND (#{statusSqlString})",brands,colors)
+            .where("(brand_id IN (?) OR brand_id IS NULL) AND color IN (?) AND (#{statusSqlString})",brands,colors)
             .order(sortBy)
     return bikes
   end

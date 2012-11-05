@@ -74,7 +74,7 @@ end
 
 group :development do
   gem 'sqlite3', '~>1.3.6'
-  gem 'annotate', '~> 2.4.1.beta'
+  #gem 'annotate', '~> 2.4.1.beta'
   gem 'faker', '~>1'
   gem 'railroady', '~>1'
   gem 'rspec-rails', '~>2'
