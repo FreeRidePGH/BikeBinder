@@ -14,7 +14,7 @@ namespace :db do
   end
 
   desc "Fill database with test data"
-  task :populate => :environment do
+  task :heroku_populate => :environment do
     # Preparte test db
     # http://stackoverflow.com/questions/5264355/rspec-failure-could-not-find-table-after-migration
     #Rake::Task['db:test:prepare'].invoke
@@ -24,19 +24,19 @@ namespace :db do
     User.create!(:email=>"wwedler@riseup.net", :password=>"testtest")
     User.create!(:email=>"demo@freeridepgh.org", :password=>"testdemo")
     
-    Rake::Task['db:populate_hooks'].invoke
+    Rake::Task['db:heroku_populate_hooks'].invoke
     
-    Rake::Task['db:populate_programs'].invoke
-    Rake::Task['db:populate_brands'].invoke
-    Rake::Task['db:populate_bike_models'].invoke
-    Rake::Task['db:populate_bikes'].invoke
+    Rake::Task['db:heroku_populate_programs'].invoke
+    Rake::Task['db:heroku_populate_brands'].invoke
+    Rake::Task['db:heroku_populate_bike_models'].invoke
+    Rake::Task['db:heroku_populate_bikes'].invoke
     # Pass rake argument using ENV hash
     ENV['FILE'] = 'surveys/bike_overhaul_inspection.rb'
     Rake::Task['surveyor'].invoke
   end
 
   desc "Fill database with initial Hooks"
-  task :populate_hooks => :environment do   
+  task :heroku_populate_hooks => :environment do   
     19.times do |n|
       Hook.create!(:number=>(101+n))
       Hook.create!(:number=>(201+n))
@@ -44,7 +44,7 @@ namespace :db do
   end
 
   desc "Fill databse with programs"
-  task :populate_programs => :environment do
+  task :heroku_populate_programs => :environment do
     Program.create!(:name=>"Earn a Bike", :label=>"EAB")
     Program.create!(:name=>"Fix for Sale", :label=>"FFS")
     Program.create!(:name=>"Youth", :label=>"Youth")
@@ -53,7 +53,7 @@ namespace :db do
   end
 
   desc "Populate database with several fake brands"
-  task :populate_brands => :environment do
+  task :heroku_populate_brands => :environment do
     for i in 1..3
       #manufacturer = Faker::Company.name
       #fake_model = Faker::Company.bs
@@ -65,7 +65,7 @@ namespace :db do
   end
  
   desc "Populate database with several fake models"
-  task :populate_bike_models => :environment do
+  task :heroku_populate_bike_models => :environment do
     for i in 1..3
       bm = BikeModel.create!(:name => Faker::Company.bs + " #{i}",
                              :brand_id => i)
@@ -74,7 +74,7 @@ namespace :db do
   
   
   desc "Fill database with fake Bikes"
-  task :populate_bikes => :environment do
+  task :heroku_populate_bikes => :environment do
 
     require File.dirname(__FILE__)+'/bike_data'
    
