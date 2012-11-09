@@ -106,7 +106,8 @@ class BikesController < ApplicationController
     @color = params[:colors]
     @status = params[:statuses]
     @sortBy = params[:sortBy]
-    @bikes = Bike.filter_bikes(@brand,@color,@status,@sortBy)
+    @search = params[:searchDesc]
+    @bikes = Bike.filter_bikes(@brand,@color,@status,@sortBy,@search)
     @bikes.each do |bike|
         bikeDate = bike.created_at
         bike.created_at = bikeDate.utc.to_i * 1000

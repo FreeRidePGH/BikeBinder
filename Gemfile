@@ -50,7 +50,6 @@ group :production do
   gem 'faker', '~>1'
 end
 
-gem 'rubyXL'
 #require 'rubyXL'
 
 group :test do
@@ -74,9 +73,12 @@ end
 
 group :development do
   gem 'sqlite3', '~>1.3.6'
-  gem 'annotate', '~> 2.4.1.beta'
+  #gem 'annotate', '~> 2.4.1.beta'
   gem 'faker', '~>1'
   gem 'railroady', '~>1'
   gem 'rspec-rails', '~>2'
   gem 'guard-rspec', '0.5.5'
+  gem 'nokogiri'
+  gem 'rubyXL'
+
 end
