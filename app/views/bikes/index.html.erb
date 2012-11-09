@@ -5,6 +5,9 @@
         var reverseBool = false;
         // Attach filters
         function attachListeners(){
+            $("#searchButton").click(function(){
+                populateBikeList();
+            });
             $(".checkBrand").each(function(){
                 $(this).click(function(){
                     populateBikeList();
@@ -121,6 +124,7 @@
                 reverseBool = false;
             }
             prevSort = sortBy;
+            var searchDesc = $("#searchDesc").val();
             $.ajax({
                 type: "GET",
                 url: "/bikes/filter_bikes/filter",
@@ -128,7 +132,8 @@
                     "brands" : brandArr,
                     "colors" : colorArr,
                     "statuses" : statusArr,
-                    "sortBy" : sortBy + (reverseBool ? " DESC" : "")
+                    "sortBy" : sortBy + (reverseBool ? " DESC" : ""),
+                    "searchDesc" : searchDesc
                 },
                 dataType : "json",
                 success: function (response){
