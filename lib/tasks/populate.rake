@@ -32,7 +32,7 @@ namespace :db do
     Rake::Task['db:populate_hooks'].invoke
     
     Rake::Task['db:populate_programs'].invoke
-	Rake::Task['db:populate_brands'].invoke
+	  Rake::Task['db:populate_brands'].invoke
     Rake::Task['db:populate_bike_models'].invoke
     Rake::Task['db:populate_bikes'].invoke
     # Pass rake argument using ENV hash
@@ -196,7 +196,9 @@ namespace :db do
       if(mod != nil && mod != "")
         bm = BikeModel.where(:name => mod).first
         #.find(rand(3)+1)
-        brand = bm.brand
+        if(bm != nil && bm != "")
+          brand = bm.brand
+        end
       end
       ws = froat(worksheet[i][8])
       
