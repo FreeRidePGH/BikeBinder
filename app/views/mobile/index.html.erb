@@ -8,7 +8,9 @@
         <h1>BikeBinder</h1>
     </div>
     <div data-role = "content">
-        <ul data-role = "listview">
+        <form role = "search">
+        </form>
+        <ul data-role = "listview" data-filter = "true">
         <% @bikes.each do |bike| %>
             <li>
                 <div class="ui-grid-b">
