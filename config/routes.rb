@@ -50,6 +50,9 @@ BikeBinder::Application.routes.draw do
   resources :searches, :only => [:index]
   match '/searches/browse' => 'searches#browse', :as => :browse
 
+  # Mobile routes
+  resources :mobile, :only => [:index]
+
   # Ensure root is set per recommendations when installing Devise
   root :to => 'bikes#index', :via => [:get]
 
