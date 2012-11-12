@@ -8,11 +8,11 @@
             $("#searchButton").click(function(){
                 populateBikeList();
             });
-            $(".checkBrand").each(function(){
+            /*$(".checkBrand").each(function(){
                 $(this).click(function(){
                     populateBikeList();
                 });
-            });
+            });*/
             $(".checkColor").each(function(){
                 $(this).click(function(){
                     populateBikeList();
@@ -106,9 +106,9 @@
 
         // Function to get bikes
         function populateBikeList(){
-            var brandArr = $("input:checkbox:checked.checkBrand").map(function(){
+            /*var brandArr = $("input:checkbox:checked.checkBrand").map(function(){
                 return this.value;
-            }).get();
+            }).get();*/
             var colorArr = $("input:checkbox:checked.checkColor").map(function(){
                 return this.value;
             }).get();
@@ -129,7 +129,7 @@
                 type: "POST",
                 url: "/bikes/filter_bikes/filter",
                 data: {
-                    "brands" : brandArr,
+                    //"brands" : brandArr,
                     "colors" : colorArr,
                     "statuses" : statusArr,
                     "sortBy" : sortBy + (reverseBool ? " DESC" : ""),

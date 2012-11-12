@@ -6,7 +6,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require_tree .
+// require_tree .
 $(document).ready(function(){
     // hack to see if we are adding a new bike
 		      if ($('#colorInput').length) {
