@@ -126,7 +126,7 @@
             prevSort = sortBy;
             var searchDesc = $("#searchDesc").val();
             $.ajax({
-                type: "GET",
+                type: "POST",
                 url: "/bikes/filter_bikes/filter",
                 data: {
                     "brands" : brandArr,
