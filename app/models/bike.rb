@@ -96,7 +96,7 @@ class Bike < ActiveRecord::Base
     end
   end
 
-  def self.filter_bikes(brands,colors,status,sortBy)
+  def self.filter_bikes(brands,colors,status,sortBy,search)
     statusSql = []
     if status.nil? or status.empty?
         return []
@@ -113,11 +113,21 @@ class Bike < ActiveRecord::Base
         statusSql.push("departed_at IS NULL AND program_id IN (#{status.join(",")})")
     end
     statusSqlString = "(" +  statusSql.join(") OR (") + ")"
+    searchSql = []
+    search.split.each do |ss|
+        searchSql.push("bikes.number LIKE '%#{ss}%' OR bikes.color LIKE '%#{ss}%' OR brand_name LIKE '%#{ss}%'")
+    end
+    puts searchSql
+    if search.nil? or search.empty?
+        searchSqlString = "1=1"
+    else
+        searchSqlString = "(" + searchSql.join(") AND (") + ")"
+    end
     bikes = Bike.select("bikes.*,programs.name,hooks.number as hook_number,COALESCE(brands.name,'n/a') as brand_name")
             .joins("LEFT JOIN hooks ON hooks.bike_id = bikes.id 
                     LEFT JOIN programs ON programs.id = bikes.program_id
                     LEFT JOIN brands ON brands.id = bikes.brand_id")
-            .where("(brand_id IN (?) OR brand_id IS NULL) AND color IN (?) AND (#{statusSqlString})",brands,colors)
+            .where("(brand_id IN (?) OR brand_id IS NULL) AND color IN (?) AND (#{statusSqlString}) AND (#{searchSqlString})",brands,colors)
             .order(sortBy)
     return bikes
   end
