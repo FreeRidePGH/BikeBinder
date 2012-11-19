@@ -103,7 +103,7 @@ namespace :db do
     }
   end
   
-  def froat x
+  def froat(x, metric)
     if x == nil
       return nil
     end
@@ -113,10 +113,18 @@ namespace :db do
         return 0
       end
       t = Float(t)
-      if(t > 100)
-        t = t / 25.4
-      elsif(t >= 40)
-        t = t / 2.54
+      if(metric)
+        if(t < 40)
+          t = t * 25.4
+        elsif(t < 100)
+          t = t * 10
+        end
+      else
+        if(t > 100)
+          t = t / 25.4
+        elsif(t >= 40)
+          t = t / 2.54
+        end
       end
       return t
     end
@@ -200,13 +208,13 @@ namespace :db do
           brand = bm.brand
         end
       end
-      ws = froat(worksheet[i][8])
+      ws = froat(worksheet[i][8], true)
       
       b = Bike.create!(
         :program_id => prog(String(worksheet[i][19])),
         :color=>col(worksheet[i][14]),
-        :seat_tube_height=>froat(worksheet[i][5]),
-        :top_tube_length=>froat(worksheet[i][7]),
+        :seat_tube_height=>froat(worksheet[i][5], false),
+        :top_tube_length=>froat(worksheet[i][7], false),
         :wheel_size => (ws) ? Integer(ws) : ws,
         :brand_id => (brand)? brand.id : brand,
         :bike_model_id => (bm) ? bm.id : bm,

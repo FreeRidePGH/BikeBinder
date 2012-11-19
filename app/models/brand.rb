@@ -6,7 +6,7 @@ class Brand < ActiveRecord::Base
 
     # Method to get all Brands for filters
     def self.all_brands
-        Brand.all
+        Brand.order("name ASC").all
     end
 
     def self.find_all_for_models(model_id)
