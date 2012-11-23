@@ -146,12 +146,12 @@ ActiveRecord::Schema.define(:version => 20120628030935) do
   add_index "programs", ["name"], :name => "index_programs_on_name"
 
   create_table "assignments", :force => true do |t|
-    t.integer   "program_id",
-    t.integer   "bike_id",
-    t.boolean   "active",
-    t.datetime  "created_at",
-    t.datetime  "updated_at",
-    t.dateimte  "closed_at"
+    t.integer   "program_id"
+    t.integer   "bike_id"
+    t.boolean   "active"
+    t.datetime  "created_at"
+    t.datetime  "updated_at"
+    t.datetime  "closed_at"
   end
 
   create_table "question_groups", :force => true do |t|

@@ -105,10 +105,9 @@
         }
 
         // Function to get bikes
-        function populateBikeList(){
-            /*var brandArr = $("input:checkbox:checked.checkBrand").map(function(){
-                return this.value;
-            }).get();*/
+        function populateBikeList(min,max){
+            min = min || 1;
+            max = max || 10;
             var colorArr = $("input:checkbox:checked.checkColor").map(function(){
                 return this.value;
             }).get();
@@ -133,7 +132,9 @@
                     "colors" : colorArr,
                     "statuses" : statusArr,
                     "sortBy" : sortBy + (reverseBool ? " DESC" : ""),
-                    "searchDesc" : searchDesc
+                    "searchDesc" : searchDesc,
+                    "min" : min,
+                    "max" : max
                 },
                 dataType : "json",
                 success: function (response){
@@ -143,13 +144,27 @@
             });
         }
 
+        function setupPagination(count){
+            $("#pagination").html("");
+            for(var i = 1; i < Math.floor(count/10) + 1; i++){
+                var newPage = document.createElement("span");
+                newPage.innerHTML = i;
+                $(newPage).click(function(){
+                    var thisPageNum = parseInt($(this).html());
+                    populateBikeList(thisPageNum-1,thisPageNum+9);
+                });
+                $("#pagination").append(newPage);
+            }
+        }
+
         function renderHtml(response){
-            if(response.length == 0){
+            if(response.count.numbikes == 0){
             $("#bikeList").html("No bikes found!");
             }else{
             $("#bikeList").html("");
-            for(var i = 0; i < response.length; i++){
-                var bikeObj = response[i];
+            setupPagination(response.count.numbikes);
+            for(var i = 0; i < response.bikes.length; i++){
+                var bikeObj = response.bikes[i];
                 var newRow = document.createElement("tr");
                 newRow.className = "bikeRow"
                 // Bike Number
@@ -210,6 +225,7 @@
 
 
         attachListeners();
+        populateBikeList();
     });
 </script>
 <section class="">

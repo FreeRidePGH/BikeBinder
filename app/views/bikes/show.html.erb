@@ -57,7 +57,7 @@
         <% if bike.hook %>
           <p>Bike <%= bike.number %> is on hook: <%= bike.hook.number %>.</p>
           <%= form_for(hook, :url => vacate_hook_bike_path(bike), :method=>:put) do |f| %>
-            <%= f.submit "Free hook" ,  :class => "btn btn-primary", :title=>"Choose Free Hook to remove this bike from its hook" %>
+          <%= f.submit "Free hook" ,  :class => "btn btn-primary", :title=>"Choose Free Hook to remove this bike from its hook" %>
 	  <% end %>
 	<% else #not bike.hook %>
           <% if hook %>
@@ -105,8 +105,15 @@
     </div> <!-- end of proj info wrapper -->
 
     <div class="departInfo">
-      <h3>Arrival & Departure</h3>
-      <p>Arrived: <%= bike.created_at.strftime('%Y-%m-%d') %></p>
+      <h3>History</h3>
+      <% bike.assignments.each do |a| %>
+            <br />
+            <p><b><%= (a.program ? a.program.name : "Available In Shop") %></b></p>
+            <p>From: <%= a.created_at.strftime('%Y-%m-%d') %></p>
+            <% if !a.active %>
+                <p>To: <%= a.closed_at.strftime('%Y-%m-%d') %></p>
+            <% end %>
+      <% end %>
       <% if bike.departed_at %>
         <p>Departed: <%= bike.departed_at.strftime("%Y-%m-%d") %></p>
       <% end %>

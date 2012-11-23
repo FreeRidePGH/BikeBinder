@@ -31,35 +31,7 @@
                     }
                 });
             });
-
-            $("#bike_bike_model_id").change(function(){
-                var bikeModel = $("#bike_bike_model_id").val();
-                if (bikeModel === undefined || bikeModel === ""){
-                    bikeModel = "-1";
-                }
-                // On select, get models based on this brand
-                $.ajax({
-                    url: "/bikes/get_brands/" + bikeModel,
-                    dataType: 'json'
-                }).done(function(response){
-                    var brandSelect = $("#bike_brand_id");
-                    brandSelect.html("");
-                    if(response.length === 0){
-                        var noneOpt = document.createElement("option");
-                        noneOpt.value = "";
-                        noneOpt.innerHTML = "None";
-                        brandSelect.append(noneOpt);
-                    }
-                    for(var i = 0; i < response.length; i++){
-                        var brandJson = response[i];
-                        var newBrand = document.createElement("option");
-                        newBrand.value = brandJson.id;
-                        newBrand.innerHTML = brandJson.name;
-                        brandSelect.append(newBrand);                   
-                    }
-                });
-            });
-            // Attach Click Add Listeners
+           // Attach Click Add Listeners
             var offBrandClick = function(){
                 // Hide select
                 $("#bike_brand_id").hide();

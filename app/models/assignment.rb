@@ -1,5 +1,5 @@
 class Assignment < ActiveRecord::Base
-    attr_accessible :program_id,:bike_id,:active
+    attr_accessible :program_id,:bike_id,:active,:closed_at
     belongs_to :program
     belongs_to :bike
 
