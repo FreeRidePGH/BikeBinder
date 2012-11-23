@@ -13,7 +13,7 @@ class Program < ActiveRecord::Base
 
   attr_accessible :name, :label
   has_many :bikes
-  
+  has_many :assignments 
 
   def self.all_programs
     progs = Program.all

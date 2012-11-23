@@ -29,9 +29,12 @@ class Bike < ActiveRecord::Base
 
   acts_as_commentable
 
+  # Program ID is denormalized, referencing the active assignment for this bike
   attr_accessible :color, :value, :wheel_size, :seat_tube_height, :top_tube_length, :bike_model_id, :brand_id, :number, :quality, :condition, :program_id
   
   has_one :hook, :dependent => :nullify, :inverse_of => :bike
+  has_many :assignments
+  has_many :programs, :through => :assignments
   belongs_to :program
   belongs_to :brand
   belongs_to :bike_model
@@ -67,6 +70,8 @@ class Bike < ActiveRecord::Base
 
   def depart_scrap
     if self.program_id == Program.where("name = ?","Scrap").first.id
+        current_assignment = self.assignments.where("active = ?",true)
+        current_assignment.closed_at = DateTime.now()
         self.departed_at = DateTime.now()
     end
   end
@@ -106,10 +111,12 @@ class Bike < ActiveRecord::Base
         status.delete("-1")
     end
     if status.include?("-2")
-        statusSql.push("departed_at NOT NULL")
+        statusSql.push("departed_at IS NOT NULL")
         status.delete("-2")
     end
-    statusSql.push("departed_at IS NULL AND program_id IN (#{status.join(",")})")
+    if status.empty? == false
+        statusSql.push("departed_at IS NULL AND program_id IN (#{status.join(",")})")
+    end
     statusSqlString = "(" +  statusSql.join(") OR (") + ")"
     searchSql = []
     search.split.each do |ss|
@@ -272,6 +279,16 @@ class Bike < ActiveRecord::Base
   private
  
   def assign_program(program_id)
+    current_assignment = self.assignments.where("active = ?",true)
+    if(current_assignment)
+        current_assignment.active = false
+        current_assignment.closed_at = DateTime.now()
+    end
+    new_assignment = Assignment.new
+    new_assignment.bike_id = self.id
+    new_assignment.program_id = program_id
+    new_assignment.active = true
+    new_assignment.save
     self.program_id = program_id
     self.save
   end
