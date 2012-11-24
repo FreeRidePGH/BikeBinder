@@ -84,7 +84,14 @@
 footer{
 	margin-top:200px;
 }
-
+#pagination span{
+    padding: 10px;
+    color: LightBlue;
+    cursor: pointer;
+}
+#pagination span:hover{
+    font-weight: bold;
+}
 
 /*.c2{
 	padding-left: 20px;

@@ -107,8 +107,10 @@ class BikesController < ApplicationController
     @status = params[:statuses]
     @sortBy = params[:sortBy]
     @search = params[:searchDesc]
-    @bikes = Bike.filter_bikes(@color,@status,@sortBy,@search)
-    @bikes.each do |bike|
+    @min = params[:min]
+    @max = params[:max]
+    @bikes = Bike.filter_bikes(@color,@status,@sortBy,@search,@min,@max)
+    @bikes["bikes"].each do |bike|
         bikeDate = bike.created_at
         bike.created_at = bikeDate.utc.to_i * 1000
     end
@@ -177,11 +179,7 @@ class BikesController < ApplicationController
   end
 
   def assign_program
-    if bike.update_attribute(:program_id,params[:program_id])
-        flash[:success] = "Assigned to Program"
-    else
-        flash[:error] = "Could not assign bike to program"
-    end
+    bike.assign_program(params[:program_id])
     redirect_to bike
   end
 
