@@ -29,9 +29,11 @@ class Bike < ActiveRecord::Base
 
   acts_as_commentable
 
+  # Program ID is denormalized, referencing the active assignment for this bike
   attr_accessible :color, :value, :wheel_size, :seat_tube_height, :top_tube_length, :bike_model_id, :brand_id, :number, :quality, :condition, :program_id
   
   has_one :hook, :dependent => :nullify, :inverse_of => :bike
+  has_many :assignments
   belongs_to :program
   belongs_to :brand
   belongs_to :bike_model
@@ -67,6 +69,10 @@ class Bike < ActiveRecord::Base
 
   def depart_scrap
     if self.program_id == Program.where("name = ?","Scrap").first.id
+        current_assignment = self.assignments.where("active = ?",true).first
+        if current_assignment
+            current_assignment.closed_at = DateTime.now()
+        end
         self.departed_at = DateTime.now()
     end
   end
@@ -96,7 +102,7 @@ class Bike < ActiveRecord::Base
     end
   end
 
-  def self.filter_bikes(brands,colors,status,sortBy,search)
+  def self.filter_bikes(colors,status,sortBy,search,min,max)
     statusSql = []
     if status.nil? or status.empty?
         return []
@@ -106,10 +112,12 @@ class Bike < ActiveRecord::Base
         status.delete("-1")
     end
     if status.include?("-2")
-        statusSql.push("departed_at NOT NULL")
+        statusSql.push("departed_at IS NOT NULL")
         status.delete("-2")
     end
-    statusSql.push("departed_at IS NULL AND program_id IN (#{status.join(",")})")
+    if status.empty? == false
+        statusSql.push("departed_at IS NULL AND program_id IN (#{status.join(",")})")
+    end
     statusSqlString = "(" +  statusSql.join(") OR (") + ")"
     searchSql = []
     search.split.each do |ss|
@@ -121,13 +129,21 @@ class Bike < ActiveRecord::Base
     else
         searchSqlString = "(" + searchSql.join(") AND (") + ")"
     end
+    count = Bike.select("count(*) numbikes")
+            .joins("LEFT JOIN hooks ON hooks.bike_id = bikes.id 
+                    LEFT JOIN programs ON programs.id = bikes.program_id
+                    LEFT JOIN brands ON brands.id = bikes.brand_id")
+            .where("color IN (?) AND (#{statusSqlString}) AND (#{searchSqlString})",colors).limit(1)
     bikes = Bike.select("bikes.*,programs.name,hooks.number as hook_number,COALESCE(brands.name,'n/a') as brand_name")
             .joins("LEFT JOIN hooks ON hooks.bike_id = bikes.id 
                     LEFT JOIN programs ON programs.id = bikes.program_id
                     LEFT JOIN brands ON brands.id = bikes.brand_id")
-            .where("(brand_id IN (?) OR brand_id IS NULL) AND color IN (?) AND (#{statusSqlString}) AND (#{searchSqlString})",brands,colors)
+            .where("color IN (?) AND (#{statusSqlString}) AND (#{searchSqlString})",colors)
             .order(sortBy)
-    return bikes
+            .limit(10)
+            .offset(min)
+    bikeJSON = {"count" => count[0], "bikes" => bikes}
+    return bikeJSON
   end
 
   def self.get_bike_details(bike_number)
@@ -269,13 +285,25 @@ class Bike < ActiveRecord::Base
   validates_uniqueness_of :number, :allow_nil => true
   validates :number, :format => { :with => Bike.number_pattern, :message => "Must be 5 digits exactly"}
   
-  private
  
   def assign_program(program_id)
+    current_assignment = self.assignments.where("active = ?",true).first
+    if(current_assignment)
+        current_assignment.active = false
+        current_assignment.closed_at = DateTime.now()
+        current_assignment.save
+    end
+    new_assignment = Assignment.new
+    new_assignment.bike_id = self.id
+    new_assignment.program_id = program_id
+    new_assignment.active = true
+    new_assignment.save
     self.program_id = program_id
     self.save
   end
  
+  private
+
   def depart_action
     self.departed_at = Time.now
     self.vacate_hook_action

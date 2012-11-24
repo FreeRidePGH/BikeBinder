@@ -50,8 +50,8 @@ namespace :db do
 
   desc "Fill databse with programs"
   task :populate_programs => :environment do
-    Program.create!(:name=>"Earn a Bike", :label=>"EAB")
-    Program.create!(:name=>"Fix for Sale", :label=>"FFS")
+    Program.create!(:name=>"Earn a Bike", :label=>"Earn a Bike")
+    Program.create!(:name=>"Fix for Sale", :label=>"Fix for Sale")
     Program.create!(:name=>"Youth", :label=>"Youth")
     Program.create!(:name=>"Scrap", :label=>"Scrap")
     Program.create!(:name=>"Buildathon", :label=>"Buildathon")
@@ -209,7 +209,7 @@ namespace :db do
         end
       end
       ws = froat(worksheet[i][8], true)
-      
+                                                
       b = Bike.create!(
         :program_id => prog(String(worksheet[i][19])),
         :color=>col(worksheet[i][14]),
@@ -221,6 +221,11 @@ namespace :db do
         :quality => worksheet[i][17],
         :condition => worksheet[i][18],
         :number => numb)
+      
+      current_assignment = Assignment.create!(:program_id => b.program_id,
+                                                :bike_id => b.id,
+                                                :active => true,
+                                                :closed_at => nil)
     end
              
 #    30.times do |n|

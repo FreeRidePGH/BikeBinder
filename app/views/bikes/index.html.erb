@@ -1,18 +1,18 @@
 <script type = "text/javascript">
     $(document).ready(function(){
-        var sorter = $(".active.sorter")[0];
-        var prevSort = "";
-        var reverseBool = false;
+        var sorter;
+        var reverseSort = false;
+        var prevSort = $(".active.sortup")[0];
         // Attach filters
         function attachListeners(){
             $("#searchButton").click(function(){
                 populateBikeList();
             });
-            $(".checkBrand").each(function(){
+            /*$(".checkBrand").each(function(){
                 $(this).click(function(){
                     populateBikeList();
                 });
-            });
+            });*/
             $(".checkColor").each(function(){
                 $(this).click(function(){
                     populateBikeList();
@@ -42,17 +42,31 @@
                     });
                 });
             });
-            attachRowListeners();
-            $(".sorter").each(function(){
+            $(".sortup").each(function(){
                 $(this).click(function(){
-                    if(sorter !== undefined && sorter !== null){
-                        $(sorter).removeClass("active");
+                    reverseSort = false;
+                    if(prevSort){
+                        $(prevSort).removeClass("active");
                     }
-                    sorter = $(this);
-                    sorter.addClass("active");
+                    prevSort = $(this);
+                    $(this).addClass("active");
+                    sorter = $(this).parent().siblings(".sorter");
                     populateBikeList();
                 });
             });
+            $(".sortdown").each(function(){
+                $(this).click(function(){
+                    reverseSort = true;
+                    if(prevSort){
+                        $(prevSort).removeClass("active");
+                    }
+                    prevSort = $(this);
+                    $(this).addClass("active");
+                    sorter = $(this).parent().siblings(".sorter");
+                    populateBikeList();
+                });
+            });
+            attachRowListeners();
         }
 
         function attachRowListeners(){
@@ -105,35 +119,30 @@
         }
 
         // Function to get bikes
-        function populateBikeList(){
-            var brandArr = $("input:checkbox:checked.checkBrand").map(function(){
-                return this.value;
-            }).get();
+        function populateBikeList(min,max){
+            min = min || 1;
+            max = max || 10;
             var colorArr = $("input:checkbox:checked.checkColor").map(function(){
                 return this.value;
             }).get();
             var statusArr = $("input:checkbox:checked.checkStatus").map(function(){
                 return this.value;
             }).get();
-            var sortBy = (sorter ? $(sorter).attr("fieldname") : "number");
-            if(prevSort == sortBy){
-                // Toggle the sort if we click on the same button twice
-                reverseBool = !reverseBool;
-            }else{
-                // Otherwise we clicked on a new sort so start sorting ASCENDING
-                reverseBool = false;
-            }
-            prevSort = sortBy;
             var searchDesc = $("#searchDesc").val();
+            var sortBy = (sorter ? sorter.attr("fieldname") : "number");
+            if(reverseSort){
+                sortBy = sortBy + " DESC";
+            }
             $.ajax({
-                type: "GET",
+                type: "POST",
                 url: "/bikes/filter_bikes/filter",
                 data: {
-                    "brands" : brandArr,
                     "colors" : colorArr,
                     "statuses" : statusArr,
-                    "sortBy" : sortBy + (reverseBool ? " DESC" : ""),
-                    "searchDesc" : searchDesc
+                    "sortBy" : sortBy,
+                    "searchDesc" : searchDesc,
+                    "min" : min,
+                    "max" : max
                 },
                 dataType : "json",
                 success: function (response){
@@ -143,13 +152,27 @@
             });
         }
 
+        function setupPagination(count){
+            $("#pagination").html("");
+            for(var i = 1; i < Math.floor(count/10) + 1; i++){
+                var newPage = document.createElement("span");
+                newPage.innerHTML = i;
+                $(newPage).click(function(){
+                    var thisPageNum = parseInt($(this).html());
+                    populateBikeList(thisPageNum-1,thisPageNum+9);
+                });
+                $("#pagination").append(newPage);
+            }
+        }
+
         function renderHtml(response){
-            if(response.length == 0){
+            if(response.count.numbikes == 0){
             $("#bikeList").html("No bikes found!");
             }else{
             $("#bikeList").html("");
-            for(var i = 0; i < response.length; i++){
-                var bikeObj = response[i];
+            setupPagination(response.count.numbikes);
+            for(var i = 0; i < response.bikes.length; i++){
+                var bikeObj = response.bikes[i];
                 var newRow = document.createElement("tr");
                 newRow.className = "bikeRow"
                 // Bike Number
@@ -210,6 +233,7 @@
 
 
         attachListeners();
+        populateBikeList();
     });
 </script>
 <section class="">

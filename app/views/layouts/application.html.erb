@@ -15,7 +15,6 @@
 	<!-- need to establish the proper route to serve up the favicon -->
 	<!-- <link rel="shortcut icon" type="image/png" href="./favicon.png" /> -->
 
-
 </head>
 
 <body>
@@ -31,7 +30,8 @@
 			<div class="row-fluid">
 				<header class="span12" >
 
-					<%= content_tag(:h1, header_title) %>
+				  <%= image_tag("free_ride_logo.jpg") %>
+				<!--	<%= content_tag(:h1, header_title) %> -->
 					<%= render 'shared/menu' %>
 				</header>
 
@@ -42,7 +42,9 @@
 		</div>
 	</div>
 		<footer class="span12">
+                <!--
 				<p class="offset4 copyright">&copy; 2012 Free Ride Bicycle Project</p>
-		</footer>
+		        -->
+        </footer>
 	</body>
 	</html>
