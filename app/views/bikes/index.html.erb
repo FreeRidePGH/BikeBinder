@@ -163,33 +163,24 @@
                 $("#pagination").append(firstPage);
                 for(var i = currentMin-3; i < currentMin; i++){
                     var newPage = document.createElement("span");
-                    newPage.innerHTML = i;
-                    $(newPage).click(function(){
-                        var thisPageNum = (parseInt($(this).html()))*10;
-                        populateBikeList(thisPageNum,thisPageNum+10);
-                    });
+                    $(newPage).click({pageNum : i},clickToPage);
+                    newPage.innerHTML = i+1;
                     $("#pagination").append(newPage);
                 }
             }else{
                 for(var i = currentMin - 3; i < currentMin; i++){
                     if(i >= 0){
                         var newPage = document.createElement("span");
-                        newPage.innerHTML = i;
-                        $(newPage).click(function(){
-                            var thisPageNum = (parseInt($(this).html()))*10;
-                            populateBikeList(thisPageNum,thisPageNum+10);
-                        });
+                        $(newPage).click({pageNum : i},clickToPage);
+                        newPage.innerHTML = i+1;
                         $("#pagination").append(newPage);
                     }
                 }
             }
             //Setup current page
             var currentPage = document.createElement("span");
-            currentPage.innerHTML = currentMin;
+            currentPage.innerHTML = currentMin+1;
             currentPage.className = "currentPage";
-            $(currentPage).click(function(){
-                populateBikeList(currentMin,currentMin+10);
-            });
             $("#pagination").append(currentPage);
 
             //Setup last three pages
@@ -197,10 +188,8 @@
                 for(var i = currentMin+1; i < currentMin+4; i++){
                     var newPage = document.createElement("span");
                     newPage.innerHTML = i;
-                    $(newPage).click(function(){
-                        var thisPageNum = (parseInt($(this).html()))*10;
-                        populateBikeList(thisPageNum,thisPageNum+10);
-                    });
+                    $(newPage).click({pageNum : i},clickToPage);
+                    newPage.innerHTML = i+1;
                     $("#pagination").append(newPage);
                 }
                 var lastPage = document.createElement("span");
@@ -213,11 +202,8 @@
                 for(var i = currentMin+1; i < currentMin+4; i++){
                     if(i < count/10){
                         var newPage = document.createElement("span");
-                        newPage.innerHTML = i;
-                        $(newPage).click(function(){
-                            var thisPageNum = (parseInt($(this).html()))*10;
-                            populateBikeList(thisPageNum,thisPageNum+10);
-                        });
+                        $(newPage).click({pageNum : i},clickToPage);
+                        newPage.innerHTML = i+1;
                         $("#pagination").append(newPage);
                     }
                 }
@@ -231,6 +217,11 @@
                 $("#pagination").html("");
             });
             $("#pagination").append(viewAll);
+        }
+
+        function clickToPage(event){
+            var pageNum = parseInt(event.data.pageNum)*10;
+            populateBikeList(pageNum,pageNum+10);
         }
 
         function renderHtml(response,viewAll){
