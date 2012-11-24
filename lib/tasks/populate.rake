@@ -50,8 +50,8 @@ namespace :db do
 
   desc "Fill databse with programs"
   task :populate_programs => :environment do
-    Program.create!(:name=>"Earn a Bike", :label=>"EAB")
-    Program.create!(:name=>"Fix for Sale", :label=>"FFS")
+    Program.create!(:name=>"Earn a Bike", :label=>"Earn a Bike")
+    Program.create!(:name=>"Fix for Sale", :label=>"Fix for Sale")
     Program.create!(:name=>"Youth", :label=>"Youth")
     Program.create!(:name=>"Scrap", :label=>"Scrap")
     Program.create!(:name=>"Buildathon", :label=>"Buildathon")
