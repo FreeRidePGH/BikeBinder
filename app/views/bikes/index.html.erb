@@ -3,16 +3,12 @@
         var sorter;
         var reverseSort = false;
         var prevSort = $(".active.sortup")[0];
+        var currentMin = 0;
         // Attach filters
         function attachListeners(){
             $("#searchButton").click(function(){
                 populateBikeList();
             });
-            /*$(".checkBrand").each(function(){
-                $(this).click(function(){
-                    populateBikeList();
-                });
-            });*/
             $(".checkColor").each(function(){
                 $(this).click(function(){
                     populateBikeList();
@@ -120,7 +116,7 @@
 
         // Function to get bikes
         function populateBikeList(min,max){
-            min = min || 1;
+            min = min || 0;
             max = max || 10;
             var colorArr = $("input:checkbox:checked.checkColor").map(function(){
                 return this.value;
@@ -134,7 +130,7 @@
                 sortBy = sortBy + " DESC";
             }
             $.ajax({
-                type: "POST",
+                type: "GET",
                 url: "/bikes/filter_bikes/filter",
                 data: {
                     "colors" : colorArr,
@@ -146,6 +142,7 @@
                 },
                 dataType : "json",
                 success: function (response){
+                    currentMin = parseInt(min)/10;
                     renderHtml(response);
                     attachRowListeners();
                 }
@@ -154,14 +151,75 @@
 
         function setupPagination(count){
             $("#pagination").html("");
-            for(var i = 1; i < Math.floor(count/10) + 1; i++){
-                var newPage = document.createElement("span");
-                newPage.innerHTML = i;
-                $(newPage).click(function(){
-                    var thisPageNum = parseInt($(this).html());
-                    populateBikeList(thisPageNum-1,thisPageNum+9);
+            //Setup first three pages
+            if(currentMin-3 > 0){
+                var firstPage = document.createElement("span");
+                firstPage.innerHTML = "first";
+                $(firstPage).click(function(){
+                    populateBikeList(0,10);
                 });
-                $("#pagination").append(newPage);
+                $("#pagination").append(firstPage);
+                for(var i = currentMin-3; i < currentMin; i++){
+                    var newPage = document.createElement("span");
+                    newPage.innerHTML = i;
+                    $(newPage).click(function(){
+                        var thisPageNum = (parseInt($(this).html()))*10;
+                        populateBikeList(thisPageNum,thisPageNum+10);
+                    });
+                    $("#pagination").append(newPage);
+                }
+            }else{
+                for(var i = currentMin - 3; i < currentMin; i++){
+                    if(i >= 0){
+                        var newPage = document.createElement("span");
+                        newPage.innerHTML = i;
+                        $(newPage).click(function(){
+                            var thisPageNum = (parseInt($(this).html()))*10;
+                            populateBikeList(thisPageNum,thisPageNum+10);
+                        });
+                        $("#pagination").append(newPage);
+                    }
+                }
+            }
+            //Setup current page
+            var currentPage = document.createElement("span");
+            currentPage.innerHTML = currentMin;
+            currentPage.className = "currentPage";
+            $(currentPage).click(function(){
+                populateBikeList(currentMin,currentMin+10);
+            });
+            $("#pagination").append(currentPage);
+
+            //Setup last three pages
+            if(currentMin + 4 < Math.floor(count/10)){
+                for(var i = currentMin+1; i < currentMin+4; i++){
+                    var newPage = document.createElement("span");
+                    newPage.innerHTML = i;
+                    $(newPage).click(function(){
+                        var thisPageNum = (parseInt($(this).html()))*10;
+                        populateBikeList(thisPageNum,thisPageNum+10);
+                    });
+                    $("#pagination").append(newPage);
+                }
+                var lastPage = document.createElement("span");
+                lastPage.innerHTML = "last";
+                $(lastPage).click(function(){
+                    populateBikeList(Math.floor(count/10)*10,Math.floor(count/10)*10+10);
+                });
+                $("#pagination").append(lastPage);
+            }else{
+                for(var i = currentMin+1; i < currentMin+4; i++){
+                    if(i < count/10){
+                        var newPage = document.createElement("span");
+                        newPage.innerHTML = i;
+                        $(newPage).click(function(){
+                            var thisPageNum = (parseInt($(this).html()))*10;
+                            populateBikeList(thisPageNum,thisPageNum+10);
+                        });
+                        $("#pagination").append(newPage);
+                    }
+                }
+
             }
         }
 

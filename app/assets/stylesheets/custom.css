@@ -92,7 +92,10 @@ footer{
 #pagination span:hover{
     font-weight: bold;
 }
-
+#pagination span.currentPage{
+    font-weight: bold;
+    color: blue;
+}
 /*.c2{
 	padding-left: 20px;
 }
