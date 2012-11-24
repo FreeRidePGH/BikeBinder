@@ -102,7 +102,7 @@ class Bike < ActiveRecord::Base
     end
   end
 
-  def self.filter_bikes(colors,status,sortBy,search,min,max)
+  def self.filter_bikes(colors,status,sortBy,search,min,max,all)
     statusSql = []
     if status.nil? or status.empty?
         return []
@@ -140,7 +140,7 @@ class Bike < ActiveRecord::Base
                     LEFT JOIN brands ON brands.id = bikes.brand_id")
             .where("color IN (?) AND (#{statusSqlString}) AND (#{searchSqlString})",colors)
             .order(sortBy)
-            .limit(10)
+            .limit((all == "true" ? 2000 : 10))
             .offset(min)
     bikeJSON = {"count" => count[0], "bikes" => bikes}
     return bikeJSON

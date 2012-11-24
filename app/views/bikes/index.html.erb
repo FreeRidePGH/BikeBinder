@@ -115,9 +115,10 @@
         }
 
         // Function to get bikes
-        function populateBikeList(min,max){
+        function populateBikeList(min,max,viewAll){
             min = min || 0;
             max = max || 10;
+            viewAll = viewAll || false;
             var colorArr = $("input:checkbox:checked.checkColor").map(function(){
                 return this.value;
             }).get();
@@ -138,12 +139,13 @@
                     "sortBy" : sortBy,
                     "searchDesc" : searchDesc,
                     "min" : min,
-                    "max" : max
+                    "max" : max,
+                    "all" : viewAll
                 },
                 dataType : "json",
                 success: function (response){
                     currentMin = parseInt(min)/10;
-                    renderHtml(response);
+                    renderHtml(response,viewAll);
                     attachRowListeners();
                 }
             });
@@ -221,14 +223,24 @@
                 }
 
             }
+            // Setup View All Page
+            var viewAll = document.createElement("span");
+            viewAll.innerHTML = "View All";
+            $(viewAll).click(function(){
+                populateBikeList(0,Math.floor(count/10)*10,true);
+                $("#pagination").html("");
+            });
+            $("#pagination").append(viewAll);
         }
 
-        function renderHtml(response){
+        function renderHtml(response,viewAll){
             if(response.count.numbikes == 0){
             $("#bikeList").html("No bikes found!");
             }else{
             $("#bikeList").html("");
-            setupPagination(response.count.numbikes);
+            if(!viewAll){
+                setupPagination(response.count.numbikes);
+            }
             for(var i = 0; i < response.bikes.length; i++){
                 var bikeObj = response.bikes[i];
                 var newRow = document.createElement("tr");
