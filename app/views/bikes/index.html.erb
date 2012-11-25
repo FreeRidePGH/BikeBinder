@@ -187,7 +187,6 @@
             if(currentMin + 4 < Math.floor(count/10)){
                 for(var i = currentMin+1; i < currentMin+4; i++){
                     var newPage = document.createElement("span");
-                    newPage.innerHTML = i;
                     $(newPage).click({pageNum : i},clickToPage);
                     newPage.innerHTML = i+1;
                     $("#pagination").append(newPage);
@@ -195,7 +194,11 @@
                 var lastPage = document.createElement("span");
                 lastPage.innerHTML = "last";
                 $(lastPage).click(function(){
-                    populateBikeList(Math.floor(count/10)*10,Math.floor(count/10)*10+10);
+                    if((count%10 === 0)){
+                        populateBikeList((Math.floor(count/10)-1)*10,Math.floor(count/10)*10+10);
+                    }else{
+                        populateBikeList(Math.floor(count/10)*10,Math.floor(count/10)*10+10);
+                    }
                 });
                 $("#pagination").append(lastPage);
             }else{
@@ -245,13 +248,20 @@
 
                 // Bike Status
                 var bikeAvailable = document.createElement("td");
+                // Status icon
+                var statusIcon = document.createElement("i");
+                statusIcon.className = "statusIcon ";
                 if(bikeObj.name && !bikeObj.departed_at){
+                    statusIcon.className += "icon-folder-open";
                     var bikeStatusLink = document.createElement("a");
                     bikeStatusLink.href = "/programs/" + bikeObj.program_id;
                     bikeStatusLink.innerHTML = bikeObj.name;
+                    bikeAvailable.appendChild(statusIcon);
                     bikeAvailable.appendChild(bikeStatusLink);
                 }else{
-                    bikeAvailable.innerHTML = (bikeObj.departed_at ? "Departed as " + bikeObj.name : bikeObj.name || "Available");
+                    statusIcon.className += (bikeObj.departed_at ? "icon-folder-close" : "icon-ok");
+                    bikeAvailable.appendChild(statusIcon);
+                    bikeAvailable.innerHTML += (bikeObj.departed_at ? "Departed as " + bikeObj.name : bikeObj.name || "Available");
                 }
 
                 // Bike Hook

@@ -96,6 +96,9 @@ footer{
     font-weight: bold;
     color: blue;
 }
+.statusIcon{
+    margin-right: 6px;
+}
 /*.c2{
 	padding-left: 20px;
 }
