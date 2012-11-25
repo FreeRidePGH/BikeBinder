@@ -121,7 +121,7 @@ class Bike < ActiveRecord::Base
     statusSqlString = "(" +  statusSql.join(") OR (") + ")"
     searchSql = []
     search.split.each do |ss|
-        searchSql.push("bikes.number LIKE '%#{ss}%' OR bikes.color LIKE '%#{ss}%' OR brand_name LIKE '%#{ss}%'")
+        searchSql.push("bikes.number LIKE '%#{ss}%' OR bikes.color LIKE '%#{ss}%' OR brands.name LIKE '%#{ss}%'")
     end
     puts searchSql
     if search.nil? or search.empty?
