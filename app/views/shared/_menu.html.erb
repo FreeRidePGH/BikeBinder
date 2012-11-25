@@ -14,8 +14,16 @@
   
   <% end %>
 
-<div class="span12  sub-nav grad-blue-extra-gray" id="shared_menu">
-  <ul class="nav nav-pills">
+<div id = "searchNav">
+    <form action = "/searches" method = "get" class = "searchBox">
+        <span class = "searchLabel">Search for a bike</span>
+        <input type = "text" id = "searchInput" name = "search" value = "Ex. Black Schwinn" onfocus="inputFocus(this)" onblur="inputBlur(this)" style = "color:#888"/>
+        <input type = "submit" name = "submit" value = "Search" class = "searchButton" />
+    </form>
+</div>
+<% if false %>
+<div class="span12" id="shared_menu">
+  <ul class="nav">
     <li><%= link_to bikes_path do %><i class=""></i>Bikes<% end %></li>
     <% if user_signed_in? %>
     <!-- have a visual divider here like | -->
@@ -29,3 +37,4 @@
     </li>
   </ul>
 </div>
+<% end %>

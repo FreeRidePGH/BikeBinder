@@ -8,18 +8,45 @@
     cursor: pointer;
     color: red;
 }
+.filter{
+    padding: 10px;
+    margin-left: 10px;
+    text-align: left;
+}
 .filterName{
     font-weight: bold;
 }
-.filter{
-    text-align: center;
+.filterName img{
+    cursor: pointer;
 }
-.filter ul{
-    text-align: left;
-    border: 1px solid gray;
-	width:130px;
-	height:100px;
-	overflow:auto;
+.colorFilter,.statusFilter{
+    left: 0px;
+    padding-bottom: 1px;
+}
+.filterName{
+    margin-bottom: 10px;
+}
+.filterOpts{
+    height: 20px;
+    margin-top: -5px;
+}
+.allFilter{
+    margin-left: 10px;
+    cursor: pointer;
+    color: rgb(49,133,156);
+    font-size: 11px;
+    font-weight: normal;
+}
+.noFilter{
+    font-weight: normal;
+    cursor: pointer;
+    color: rgb(49,133,156);
+    font-size: 11px;
+    margin-left: 10px;
+}
+label.colorFilter,label.statusFilter{
+    color: rgb(33,89,104) !important;
+    margin-left: 15px;
 }
 #sort{
     margin-left: 10px;
@@ -46,6 +73,7 @@
 	border:0;
 	color:black;
 }
+/*
 .allFilter{
     color: green;
     margin-left: 15px;
@@ -57,6 +85,7 @@
     margin-left: 5px;
     cursor: pointer;
 }
+*/
 #newBikeForm{
     margin-top: 20px;
 }
@@ -96,24 +125,45 @@ footer{
     font-weight: bold;
     color: blue;
 }
+#pagination{
+    margin-top: -5px;
+    height: 20px;
+    padding-bottom: 10px;
+}
 .statusIcon{
     margin-right: 6px;
 }
-/*.c2{
-	padding-left: 20px;
+.sorter{
+
 }
-.c1{
-	padding-left: 20px;
+#pageHeader{
+    background-color: rgb(147,205,221);
+    border-bottom: 4px solid LightGray;
+    margin-bottom: 25px;
 }
-.c4{
-	padding-left: 20px;
-	padding-right: 20px;
+#pageHeaderContainer{
+    position: relative;
 }
-#PricingGuide{
-	text-align: left;
+.searchBox{
+    position: absolute;
+    float: right;
+    bottom: 0px;
+    right: 10px;
+    height: 15px;
 }
-.PGC1{
-	font-weight:bold;
-	padding-left: 10px;
-	width: 120px;
-}*/
+#searchInput{
+    width: 120px;
+}
+.searchLabel{
+    color: rgb(33,89,104);
+    margin-right: 5px;
+}
+.searchButton{
+    background-color: white;
+}
+#bikeFilters{
+    text-align: left;
+    color: rgb(33,89,104);
+    border: 1px solid LightGray;
+    background-color: rgb(219,238,244);
+}

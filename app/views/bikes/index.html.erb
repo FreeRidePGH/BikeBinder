@@ -62,6 +62,27 @@
                     populateBikeList();
                 });
             });
+            // Collapse/Expand Listeners
+            $("#collapseColors").live("click",function(){
+                $("#colorContainer").slideUp();
+                $(this).attr("src","/assets/expand-blue.png");
+                $(this).attr("id","expandColors");
+            });
+            $("#expandColors").live("click",function(){
+                $("#colorContainer").slideDown();
+                $(this).attr("src","/assets/collapse-blue.png");
+                $(this).attr("id","collapseColors");
+            });
+            $("#collapseStatus").live("click",function(){
+                $("#statusContainer").slideUp();
+                $(this).attr("src","/assets/expand-blue.png");
+                $(this).attr("id","expandStatus");
+            });
+            $("#expandStatus").live("click",function(){
+                $("#statusContainer").slideDown();
+                $(this).attr("src","/assets/collapse-blue.png");
+                $(this).attr("id","collapseStatus");
+            });
             attachRowListeners();
         }
 

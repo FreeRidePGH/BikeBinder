@@ -1,45 +1,42 @@
-<!--<div class = "pull-left filter">
-    <span class = "filterName">BRAND</span>
-    <ul>
-        <% @brands.each do |brand| %>
-            <div class = "brandFilter">
-            <input name = "bike_brand" class = "checkBrand" value = "<%=brand.id%>" type = "checkbox" checked = "checked" >
-                <%= brand.name %>
-            </input>
-            </div>
-        <% end %>
-    </ul>
-    <span id = "allBrand" class = "allFilter">Select All</span><span id = "noBrand" class = "noFilter">Clear</span>
-</div>-->
-<div class = "pull-left filter">
-    <span class = "filterName">COLOR</span>
-    <ul>
+<div id = "bikeFilters" class = "span3">
+<div class = "filter">
+    <div class = "filterName">
+    <img src = "/assets/collapse-blue.png" id = "collapseColors" />
+    Color
+    <span id = "allColor" class = "allFilter">Select All</span><span id = "noColor" class = "noFilter">Clear</span>
+    </div>
+    <div id = "colorContainer">
         <% counter = 1 %>
         <% @colors.each do |color| %>
-            <div class = "colorFilter" style = "background-color:<%=color%>">
+            <label class = "checkbox colorFilter">
             <input name = "bike_color" class = "checkColor" value = "<%=color%>" type = "checkbox" checked = "checked">
                 <%= color %>
             </input>
+            </label>
             <% counter = counter + 1 %>
-            </div>
         <% end %>
-    </ul>
-    <span id = "allColor" class = "allFilter">Select All</span><span id = "noColor" class = "noFilter">Clear</span>
+    </div>
 </div>
-<div class = "pull-left filter">
-    <span class = "filterName">STATUS</span>
-    <ul>
-        <li class = "statusFilter"><input type = "checkbox" class = "checkStatus" checked = "checked" value = "-1" type = "checkbox" />Available</li>
-        <li class = "statusFilter"><input type = "checkbox" class = "checkStatus" checked = "checked" value = "-2" type = "checkbox" />Departed</li>
+<div class = "filter">
+    <div class = "filterName">
+        <img src = "/assets/collapse-blue.png" id = "collapseStatus" />
+        Status
+        <span id = "allStatus" class = "allFilter">Select All</span><span id = "noStatus" class = "noFilter">Clear</span>
+    </div>
+    <div id = "statusContainer">
+        <label class = "checkbox statusFilter">
+            <input type = "checkbox" class = "checkStatus" checked = "checked" value = "-1" type = "checkbox" />Available
+        </label>
+        <label class = "checkbox statusFilter">
+            <input type = "checkbox" class = "checkStatus" checked = "checked" value = "-2" type = "checkbox" />Departed</label>
         <% @statuses.each do |progName,progId| %>
-            <li class = "statusFilter">
+            <label class = "checkbox statusFilter">
             <%= check_box_tag "bike_brand",progId,false,:class => "checkStatus" %> <%= progName %> <br />
-            </li>
+            </label>
         <% end %>
-    </ul>
-    <span id = "allStatus" class = "allFilter">Select All</span><span id = "noStatus" class = "noFilter">Clear</span>
+    </div>
 </div>
-<div class = "pull-left filter">
+<div class = "filter">
     <span class = "filterName">DESCRIPTION</span>
     <div>
         <input type = "text" id = "searchDesc" placeholder = "Number,Color,Brand,Etc." />
@@ -47,4 +44,5 @@
     <div>
         <input type = "button" id = "searchButton" value = "Find" />
     </div>
+</div>
 </div>
