@@ -63,6 +63,7 @@ class BikesController < ApplicationController
     @colors = Bike.all_colors
     @statuses = Program.all_programs
     @sorts = Bike.sort_filters
+    @searchTerm = params[:search]
   end
 
   def edit

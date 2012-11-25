@@ -1,24 +1,6 @@
 <div id = "bikeFilters" class = "span3">
 <div class = "filter">
     <div class = "filterName">
-    <img src = "/assets/collapse-blue.png" id = "collapseColors" />
-    Color
-    <span id = "allColor" class = "allFilter">Select All</span><span id = "noColor" class = "noFilter">Clear</span>
-    </div>
-    <div id = "colorContainer">
-        <% counter = 1 %>
-        <% @colors.each do |color| %>
-            <label class = "checkbox colorFilter">
-            <input name = "bike_color" class = "checkColor" value = "<%=color%>" type = "checkbox" checked = "checked">
-                <%= color %>
-            </input>
-            </label>
-            <% counter = counter + 1 %>
-        <% end %>
-    </div>
-</div>
-<div class = "filter">
-    <div class = "filterName">
         <img src = "/assets/collapse-blue.png" id = "collapseStatus" />
         Status
         <span id = "allStatus" class = "allFilter">Select All</span><span id = "noStatus" class = "noFilter">Clear</span>
@@ -36,13 +18,24 @@
         <% end %>
     </div>
 </div>
+
 <div class = "filter">
-    <span class = "filterName">DESCRIPTION</span>
-    <div>
-        <input type = "text" id = "searchDesc" placeholder = "Number,Color,Brand,Etc." />
+    <div class = "filterName">
+    <img src = "/assets/collapse-blue.png" id = "collapseColors" />
+    Color
+    <span id = "allColor" class = "allFilter">Select All</span><span id = "noColor" class = "noFilter">Clear</span>
     </div>
-    <div>
-        <input type = "button" id = "searchButton" value = "Find" />
+    <div id = "colorContainer">
+        <% counter = 1 %>
+        <% @colors.each do |color| %>
+            <label class = "checkbox colorFilter">
+            <input name = "bike_color" class = "checkColor" value = "<%=color%>" type = "checkbox" checked = "checked">
+                <%= color %>
+            </input>
+            <span class = "colorSquare" style = "background-color:<%=color%>"></span>
+            </label>
+            <% counter = counter + 1 %>
+        <% end %>
     </div>
 </div>
 </div>

@@ -22,7 +22,8 @@ gem 'ruby-graphviz','~>1.0.5', :require => 'graphviz'
 gem 'paper_trail', '~>2'
 
 gem 'surveyor', '~>0.22.0'
-
+gem 'jquery-ui-rails'
+gem 'jquery-ui-themes'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

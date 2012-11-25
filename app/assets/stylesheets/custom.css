@@ -1,3 +1,7 @@
+body div.container-fluid{
+    padding-left: 0px;
+    padding-right: 0px;
+}
 .floatRight{
     float: right !important;
 }
@@ -22,6 +26,12 @@
 .colorFilter,.statusFilter{
     left: 0px;
     padding-bottom: 1px;
+}
+.colorSquare{
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 2em;
 }
 .filterName{
     margin-bottom: 10px;
@@ -55,6 +65,7 @@ label.colorFilter,label.statusFilter{
 	float:left;
     margin-top: 10px;
     height: 500px;
+    margin-left: 50px;
 }
 #results{
 	overflow-x: hidden;
@@ -64,6 +75,19 @@ label.colorFilter,label.statusFilter{
 }
 .contentBikes{
 	/* width:1000px; */
+}
+#detailTable{
+    margin-bottom: 2px;
+    height: 100px;
+    text-align: left;
+}
+#detailTable tr th{
+    font-size: 12px;
+    font-weight: normal !important;
+}
+.staticDetailAttributes tr{
+    font-size: 12px;
+    font-weight: normal;
 }
 .staticAttributes{
 	width:250px;
@@ -105,25 +129,51 @@ label.colorFilter,label.statusFilter{
     display: inline;
     width: 55px !important;
 }
-
-#user_login_status.no-user p{
-	margin-top:10px;
+#user_login_status{
+    top: -10px !important;
+    right: 15px !important;
+    position: relative;
 }
-
+#user_login_status.no-user p{
+	margin-top:20px;
+    right: 5px;
+}
+#bikesNav{
+    margin-left: 50px;
+}
+#bikesNav a{
+    margin-right: 5px;
+}
+#detailDialog{
+    background: white !important;
+}
+.table tbody#bikeList tr:hover td,
+.table tbody#bikeList tr:hover th {
+  background-color: #DBEEF4 !important;
+  cursor: pointer;
+}
 footer{
 	margin-top:200px;
 }
+.quickView{
+    font-size: 10px;
+    color: #F77B00;
+    cursor: pointer;
+}
+.quickView:hover{
+    text-decoration: underline;
+}
 #pagination span{
     padding: 10px;
-    color: LightBlue;
+    color: rgb(33,89,104);
     cursor: pointer;
 }
 #pagination span:hover{
     font-weight: bold;
+    color: rgb(147,205,221);
 }
 #pagination span.currentPage{
-    font-weight: bold;
-    color: blue;
+    color: rgb(147,205,221);
 }
 #pagination{
     margin-top: -5px;

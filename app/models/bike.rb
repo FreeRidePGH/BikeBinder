@@ -129,11 +129,11 @@ class Bike < ActiveRecord::Base
     else
         searchSqlString = "(" + searchSql.join(") AND (") + ")"
     end
-    count = Bike.select("count(*) numbikes")
+    count = Bike.select("bikes.*,programs.*,hooks.*,COALESCE(brands.name,'') as brand_name")
             .joins("LEFT JOIN hooks ON hooks.bike_id = bikes.id 
                     LEFT JOIN programs ON programs.id = bikes.program_id
                     LEFT JOIN brands ON brands.id = bikes.brand_id")
-            .where("color IN (?) AND (#{statusSqlString}) AND (#{searchSqlString})",colors).limit(1)
+            .where("color IN (?) AND (#{statusSqlString}) AND (#{searchSqlString})",colors)
     bikes = Bike.select("bikes.*,programs.name,hooks.number as hook_number,COALESCE(brands.name,'n/a') as brand_name")
             .joins("LEFT JOIN hooks ON hooks.bike_id = bikes.id 
                     LEFT JOIN programs ON programs.id = bikes.program_id
@@ -142,7 +142,7 @@ class Bike < ActiveRecord::Base
             .order(sortBy)
             .limit((all == "true" ? 2000 : 10))
             .offset(min)
-    bikeJSON = {"count" => count[0], "bikes" => bikes}
+    bikeJSON = {"count" => count.length, "bikes" => bikes}
     return bikeJSON
   end
 

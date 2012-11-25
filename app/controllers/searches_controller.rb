@@ -24,7 +24,7 @@ class SearchesController < ApplicationController
         end
 
         # Nothing found. Render browse page
-        redirect_to :controller => 'searches', :action => 'browse', :search => @search
+        redirect_to :controller => 'bikes', :action => 'index', :search => @search
     end
 
     def browse

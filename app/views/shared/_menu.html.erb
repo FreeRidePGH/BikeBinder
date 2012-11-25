@@ -1,11 +1,11 @@
 
   <% if user_signed_in? %>
-  <section id="user_login_status" class="span5">
+  <section id="user_login_status" class="pull-right">
   <p>Signed in as <%= current_user.email %>. Not you?
     <%= link_to "Sign out", destroy_user_session_path , :method=>:delete%></p>
   </section>
   <% else %>
-  <section id="user_login_status" class="span3 no-user">
+  <section id="user_login_status" class="no-user pull-right">
     <p>
     <%= link_to "Sign up", new_user_registration_path %> or
     <%= link_to "Sign in", new_user_session_path %>
@@ -13,11 +13,14 @@
   </section>
   
   <% end %>
-
+<div id = "bikesNav">
+    <a href = "/bikes" class = "btn btn-info">Home</a>
+    <a href = "/bikes/new" class = "btn btn-info">Add a bike</a>
+</div>
 <div id = "searchNav">
-    <form action = "/searches" method = "get" class = "searchBox">
+    <form action = "/searches" method = "get" class = "searchBox" id = "bikeSearch">
         <span class = "searchLabel">Search for a bike</span>
-        <input type = "text" id = "searchInput" name = "search" value = "Ex. Black Schwinn" onfocus="inputFocus(this)" onblur="inputBlur(this)" style = "color:#888"/>
+        <input type = "text" id = "searchInput" name = "search" placeholder = "Ex. Black Schwinn" value = "<%= (@searchTerm.nil? == true ? "" : @searchTerm) %>" />
         <input type = "submit" name = "submit" value = "Search" class = "searchButton" />
     </form>
 </div>

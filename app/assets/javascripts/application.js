@@ -7,6 +7,8 @@
 //= require jquery
 //= require jquery_ujs
 // require_tree .
+//= require jquery.ui.button
+//= require jquery.ui.dialog
 $(document).ready(function(){
     // hack to see if we are adding a new bike
 		      if ($('#colorInput').length) {
