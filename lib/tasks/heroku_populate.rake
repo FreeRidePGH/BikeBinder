@@ -144,6 +144,10 @@ namespace :db do
       if rand(3)>0
         b.reserve_hook
       end
+      current_assignment = Assignment.create!(:program_id => b.program_id,
+                                                :bike_id => b.id,
+                                                :active => true,
+                                                :closed_at => nil)
     end
   end 
 end
