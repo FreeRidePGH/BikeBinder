@@ -1,0 +1,32 @@
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1">
+<%= javascript_include_tag "jquery" %>
+<%= stylesheet_link_tag "mobile" %>
+<div id = "header">
+  <h1><%= image_tag("freeridelogothin.png") %></h1>
+</div>
+<div id = "showContainer">
+    <h1>Number : <%= @bike.number %></h1>
+    <div>Status : <%= (@bike.departed_at ? "Departed" : (@bike.program ? @bike.program.name : "Available")) %></div>
+    <div>Hook : <%= (@bike.hook ? @bike.hook.label : "n/a") %></div>
+    <div>Color : <%= @bike.color %></div>
+    <div>Brand : <%= (@bike.brand ? @bike.brand.name : "n/a") %></div>
+    <div>Model : <%= (@bike.bike_model ? @bike.bike_model.name : "n/a") %></div>
+    <div>Seat Tube : <%= (@bike.seat_tube_height ? "#{@bike.seat_tube_height} inches" : "n/a")  %></div>
+    <div>Top Tube : <%= (@bike.top_tube_length ? "#{@bike.top_tube_length} inches" : "n/a")  %></div>
+    <div>Wheel Size : <%= @bike.get_wheel_size %></div>
+    <div>Quality : <%= @bike.quality %></div>
+    <div>Condition : <%= @bike.condition %></div>
+    <div>Value : <%= @bike.value || "n/a" %></div>
+    <h3>History</h3>
+      <% @bike.assignments.each do |a| %>
+            <br />
+            <p><b><%= (a.program ? a.program.name : "Available In Shop") %></b></p>
+            <p>From: <%= a.created_at.strftime('%Y-%m-%d') %></p>
+            <% if !a.active %>
+                <p>To: <%= a.closed_at.strftime('%Y-%m-%d') %></p>
+            <% end %>
+      <% end %>
+      <% if @bike.departed_at %>
+        <p>Departed: <%= @bike.departed_at.strftime("%Y-%m-%d") %></p>
+      <% end %>
+</div>

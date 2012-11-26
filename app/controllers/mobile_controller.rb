@@ -48,12 +48,12 @@ class MobileController < ApplicationController
     @color = params[:color]
     bike = Bike.find_by_number(@bike_number)
     if bike
-        redirect_to(bike)
+        redirect_to :controller => "mobile", :action => "show", :id => @bike_number
         return
     end
     hook = Bike.find_by_label(@hook_number)
     if hook and hook.bike
-        redirect_to(hook.bike)
+        redirect_to :controller => "mobile", :action => "show", :id => hook.bike.number
         return
     end
     redirect_to :controller => "mobile", :action => "index", :search => "#{@brand} #{@color}"

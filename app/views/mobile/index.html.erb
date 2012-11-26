@@ -17,6 +17,11 @@
                     populateBikeList();
                 });
             });
+            $("#bikeTableBody tr").live("click",function(){
+                var bikeNumber = $(this).children()[0];
+                window.location.href = "/mobile/show/"+bikeNumber.innerHTML;
+                return;
+            });
         }
 
         var scrollHandler = function(){
