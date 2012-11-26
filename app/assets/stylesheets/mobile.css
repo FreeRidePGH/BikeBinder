@@ -76,4 +76,77 @@ table thead th.active{
 }
 
 /* FIND PAGE */
+#findContainer{
+    background: #93CDDD;
+    height: 100%;
+    text-align: center;
+    font-family: Arial;
+    font-size: 16px;
+}
+#findInstructions{
+    font-weight: bold;
+    padding: 10px;
+}
 
+#findContainer form{
+    text-align: left;
+    background: #93CDDD;
+}
+
+#findContainer form div{
+    padding: 10px;
+    line-height: 2em;
+}
+
+#findContainer form input{
+    width: 100%;
+    height: 40px;
+}
+#findContainer form input[type="submit"]{
+    border-radius: 1em;
+ background: #eeeeee; /* Old browsers */
+    background: -moz-linear-gradient(top,  #eeeeee 0%, #cccccc 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#cccccc)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #eeeeee 0%,#cccccc 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#cccccc',GradientType=0 ); /* IE6-9 */
+
+}
+#findContainer form select{
+    width: 100%;
+    height: 40px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* SHOW PAGE */
+#showContainer{
+    width: 100%;
+    background: #93CDDD;
+    height: 650px;
+    font-family: Arial;
+    font-size: 16px;
+}
+#showContainer div{
+    padding: 10px;
+    background: #93CDDD;
+}
+#showContainer label{
+    font-weight: bold; 
+}
+#showDetails{
+    border-right: 1px solid LightGray;
+}
+#showDetails h3,#showHistory h3{
+    padding: 10px;
+}
+#showDetails,#showHistory{
+    float: left;
+    width: 42%;
+}
+#showHistory div:last-child{
+    padding-top: 0px;
+    margin-top: -15px;
+}

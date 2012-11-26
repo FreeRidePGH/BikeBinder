@@ -124,7 +124,7 @@
 <span style = "display:none;" id = "hiddenSearch"><%= @search %></span>
 <div id = "container">
     <div id = "header">
-        <h1><%= image_tag("freeridelogothin.png") %></h1>
+     <h1><%= link_to image_tag("freeridelogothin.png"),"/mobile/home" %></h1>
     </div>
     <div id = "bikeListing">
     <table id = "bikeTable">
@@ -135,6 +135,9 @@
             <th id = "colorSort" sortAttr = "color" class = "sorter">Color</th>
         </thead>
         <tbody id = "bikeTableBody">
+        <% if @bikes.empty? %>
+            <tr><td>No Bikes Found</td><td><a href = "/mobile/find">Try again</a></td></tr>
+        <% end %>
         <% @bikes.each do |bike| %>
             <tr>
                 <td><%= bike.number %></td>
