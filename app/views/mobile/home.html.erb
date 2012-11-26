@@ -1,0 +1,19 @@
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1">
+<%= javascript_include_tag "jquery" %>
+<%= stylesheet_link_tag "mobile" %>
+<div id = "welcomeContainer">
+    <div id = "header">
+        <h1><%= image_tag("freeridelogothin.png") %></h1>
+    </div>
+    <div id = "welcomeContent"><br/><br/>
+        <div class = "navButton" id = "findButton">
+            <a href = "/mobile/find">Find a Bike</a>
+        </div>
+        <div class = "navButton" id = "addButton">
+            <a href = "/mobile/add">Add a Bike</a>
+        </div>
+        <div class = "navButton" id = "browseButton">
+            <a href = "/mobile">Browse Bikes</a>
+        </div>
+    </div>
+</div>

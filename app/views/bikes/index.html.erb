@@ -112,7 +112,7 @@
                     e.stopPropagation();
                     //e.preventDefault();
                     getBikeDetails($(this));
-                    $("#detailDialog").dialog("option","position",[e.clientX,e.clientY])
+                    $("#detailDialog").dialog("option","position",[e.clientX+40,e.clientY])
                     .dialog("open");
                     //getBikeDetails($(this));
                 });

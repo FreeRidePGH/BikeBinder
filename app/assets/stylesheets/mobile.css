@@ -1,0 +1,79 @@
+/* INDEX PAGE */
+#header{
+    text-align: center;
+    border-bottom: 2px solid LightGray;
+}
+#container{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    text-align: center;
+}
+#container table{
+    margin: 0 auto;
+    width: 100%; 
+}
+#container thead{
+    text-align: left;
+    background-color: #93CDDD;
+}
+#container table thead th{
+    padding: 7px;
+}
+#container table td{
+    padding: 7px;
+}
+#container table tr:nth-child(even){
+    background-color: LightGray;
+}
+#bikeFooter{
+    background-color: #549AAD;
+    height: 30px;
+    bottom: 0px;
+    width: 100%;
+    font-size: 14px;
+    position: fixed;
+    text-align: center;
+}
+#bikeFooter a{
+    text-decoration: none;
+    font-weight: bold;
+    color: #DBEEF4;
+}
+table thead th.active{
+    background-color: #F5820F !important;
+}
+
+/* WELCOME PAGE */
+#welcomeContent{
+    background: #93CDDD;
+    height: 100%;
+    top: 0px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.navButton{
+    padding: 20px;
+    margin: 0 auto;
+    margin-bottom: 15px;
+    height: 16px;
+    width: 150px;
+    font-family: Arial;
+    font-size: 18px;
+    border-radius: 1em;
+    border: 1px solid gray;
+    background: #eeeeee; /* Old browsers */
+    background: -moz-linear-gradient(top,  #eeeeee 0%, #cccccc 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#cccccc)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #eeeeee 0%,#cccccc 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#cccccc',GradientType=0 ); /* IE6-9 */
+}
+
+.navButton a,.navButton a:hover,.navButton a:visited{
+    text-decoration: none;
+}
+
+/* FIND PAGE */
+

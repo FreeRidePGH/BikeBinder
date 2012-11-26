@@ -1,31 +1,146 @@
-<meta name="viewport" content="width=device-width, initial-scale=1"> 
-<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
-<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
 
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1">
+<%= javascript_include_tag "jquery" %>
+<%= stylesheet_link_tag "mobile" %>
+<script type = "text/javascript">
+    $(document).ready(function(){
 
-<div data-role = "page">
-    <div data-role = "header">
-        <h1>BikeBinder</h1>
+        var numBikes = 10;
+        var count;
+        function attachListeners(){
+            $(window).scroll(scrollHandler);
+            $(".sorter").each(function(){
+                $(this).click(function(){
+                    $(".active").removeClass("active");
+                    $(this).addClass("active");
+                    $("#footerLink").html("Loading...");
+                    populateBikeList();
+                });
+            });
+        }
+
+        var scrollHandler = function(){
+            var dHeight = getDocHeight();
+            if($(window).scrollTop() + window.innerHeight >= dHeight - 10){
+                $(window).unbind("scroll");
+                $("#footerLink").html("Loading...");
+                loadBikes();
+            }
+        }
+
+        // Cross Browser Document Height from James Palodsy
+        function getDocHeight() {
+            var D = document;
+            return Math.max(
+                Math.max(D.body.scrollHeight, D.documentElement.scrollHeight),
+                Math.max(D.body.offsetHeight, D.documentElement.offsetHeight),
+                Math.max(D.body.clientHeight, D.documentElement.clientHeight)
+            );
+        }
+
+        function getSorter(){
+            return $(".active").attr("sortAttr");
+        }
+
+        function populateBikeList(){
+            $("#bikeTableBody").html("");
+            numBikes = 0;
+            $.ajax({
+                type : "GET",
+                url : "/mobile/filter_bikes",
+                data : {
+                    "sortBy" : getSorter(),
+                    "searchDesc" : "",
+                    "min" : numBikes,
+                    "max" : numBikes + 10,
+                    "all" : "false"
+                },
+                dataType : "json",
+                success: function(response){
+                    count = parseInt(response.count);
+                    if(numBikes + 10 < count){
+                        renderHtml(response);
+                    }
+                }
+            });
+        }
+
+        function loadBikes(){
+            $.ajax({
+                type : "GET",
+                url : "/mobile/filter_bikes",
+                data : {
+                    "sortBy" : getSorter(),
+                    "searchDesc" : "",
+                    "min" : numBikes,
+                    "max" : numBikes + 10,
+                    "all" : "false"
+                },
+                dataType : "json",
+                success: function(response){
+                    count = parseInt(response.count);
+                    if(numBikes + 10 < count){
+                        renderHtml(response);
+                    }
+                    $("#footerLink").html("Back To Top");
+                }
+            });
+        }
+
+        function renderHtml(response){
+            var bikes = response.bikes;
+            for(var i = 0; i < bikes.length; i++){
+                var bike = bikes[i];
+                var bikeRow = document.createElement("tr");
+                var bikeNumber = document.createElement("td");
+                bikeNumber.innerHTML = bike.number;
+                var bikeStatus = document.createElement("td");
+                bikeStatus.innerHTML = (bike.departed_at ? bike.name + " - Departed" : (bike.name || "Available"));
+                var bikeHook = document.createElement("td");
+                bikeHook.innerHTML = bike.hook_number || "n/a";
+                var bikeColor = document.createElement("td");
+                bikeColor.innerHTML = bike.color;
+                $(bikeRow)
+                .append(bikeNumber)
+                .append(bikeStatus)
+                .append(bikeHook)
+                .append(bikeColor);
+                $("#bikeTable").append(bikeRow);
+            }
+            numBikes += 10;
+            $(window).bind("scroll",scrollHandler);
+            $("#footerLink").html("Back To Top");
+            return false;
+        }
+
+        attachListeners();
+    });
+</script>
+<div id = "container">
+    <div id = "header">
+        <h1><%= image_tag("freeridelogothin.png") %></h1>
     </div>
-    <div data-role = "content">
-        <form role = "search">
-        </form>
-        <ul data-role = "listview" data-filter = "true">
+    <div id = "bikeListing">
+    <table id = "bikeTable">
+        <thead>
+            <th id = "numberSort" sortAttr = "number" class = "active sorter">Number</th>
+            <th sortAttr = "program_id" class = "sorter">Status</th>
+            <th id = "hookSort" sortAttr = "hook_number" class = "sorter">Hook</th>
+            <th id = "colorSort" sortAttr = "color" class = "sorter">Color</th>
+        </thead>
+        <tbody id = "bikeTableBody">
         <% @bikes.each do |bike| %>
-            <li>
-                <div class="ui-grid-b">
-                <div class="ui-block-a"><%= bike.number %></div>
-                <div class="ui-block-b"><%= bike.color %></div>
-                <div class="ui-block-c"><% if bike.program_id %>
-                <%= Program.find_by_id(bike.program_id).name %>
-                <% else %>
-                <%= "Available" %>
-                <% end
-                %></div>
-                </div><!-- /grid-b -->
-            </li>
+            <tr>
+                <td><%= bike.number %></td>
+                <td><%= (bike.departed_at ? "#{bike.name} - Departed" : (bike.name or "Available")) %></td>
+                <td><%= bike.hook_number or "n/a" %></td>
+                <td><%= bike.color %></td>
+            </tr>
         <% end %>
-        </ul>
+        </tbody>
+    </table>
+    </div>
+    <div id = "bikeFooter">
+        <a href = "#header" id = "footerLink">Back To Top</a>
     </div>
 </div>

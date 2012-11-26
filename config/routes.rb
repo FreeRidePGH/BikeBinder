@@ -52,6 +52,11 @@ BikeBinder::Application.routes.draw do
 
   # Mobile routes
   resources :mobile, :only => [:index]
+  match '/mobile/filter_bikes' => 'mobile#filter_bikes', :via => [:get]
+  match '/mobile/home' => 'mobile#home'
+  match '/mobile/find' => 'mobile#find'
+  match '/mobile/add' => 'mobile#add'
+  match '/mobile/show/:id' => 'mobile#show', :id => Bike.number_pattern
 
   # Ensure root is set per recommendations when installing Devise
   root :to => 'bikes#index', :via => [:get]
