@@ -1,13 +1,14 @@
 class MobileController < ApplicationController
   layout false
   def index
+    @search = params[:search] || ""
     @programs = []
     Program.all.each do |p|
         @programs.push(p.id)
     end
     @programs.push("-1")
     @programs.push("-2")
-    allBikes = Bike.filter_bikes(Bike::COLORS,@programs,"number","",0,10,"false")
+    allBikes = Bike.filter_bikes(Bike::COLORS,@programs,"number",@search,0,10,"false")
     @bikes = allBikes["bikes"]
   end
 
@@ -36,12 +37,35 @@ class MobileController < ApplicationController
   end
 
   def find
+    @colors = Bike::COLORS
+    @brands = Brand.mobile_brands
+  end
+
+  def find_submit
+    @bike_number = params[:number]
+    @hook_number = params[:hook]
+    @brand = params[:brand]
+    @color = params[:color]
+    bike = Bike.find_by_number(@bike_number)
+    if bike
+        redirect_to(bike)
+        return
+    end
+    hook = Bike.find_by_label(@hook_number)
+    if hook and hook.bike
+        redirect_to(hook.bike)
+        return
+    end
+    redirect_to :controller => "mobile", :action => "index", :search => "#{@brand} #{@color}"
+    return
   end
 
   def add
   end
 
   def show
+    @bike_number = params[:id]
+    @bike = Bike.find_by_number(@bike_number)
   end
 
 end
