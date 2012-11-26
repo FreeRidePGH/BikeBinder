@@ -47,6 +47,7 @@ class Bike < ActiveRecord::Base
   before_update :depart_scrap
   after_create  :check_hook
   after_update  :check_hook
+  after_create  :create_assignment
 
   WHEEL_SIZES =     [["Unknown",1],
                      ["622 mm",622],
@@ -285,6 +286,13 @@ class Bike < ActiveRecord::Base
   validates_uniqueness_of :number, :allow_nil => true
   validates :number, :format => { :with => Bike.number_pattern, :message => "Must be 5 digits exactly"}
   
+  def create_assignment
+    new_assignment = Assignment.new
+    new_assignment.bike_id = self.id
+    new_assignment.program_id = program_id
+    new_assignment.active = true
+    new_assignment.save
+  end
  
   def assign_program(program_id)
     current_assignment = self.assignments.where("active = ?",true).first

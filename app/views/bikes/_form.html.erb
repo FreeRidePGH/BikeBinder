@@ -92,7 +92,7 @@
 </script>
 <!-- This is the main form generated for editing a bike. Another form template is rendered for creating a new bike. -->
 <%= form_for(bike) do |f| %>
-  <%= render 'shared/error_messages', :object => f.object %>
+  <%= render 'shared/error_messages', :object => f %>
 <div class = "span3">
 <%= f.label :number %>
 <%= f.text_field :number, :value=>bike.number , :required => true %>

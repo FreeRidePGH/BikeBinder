@@ -222,10 +222,10 @@ namespace :db do
         :condition => worksheet[i][18],
         :number => numb)
       
-      current_assignment = Assignment.create!(:program_id => b.program_id,
-                                                :bike_id => b.id,
-                                                :active => true,
-                                                :closed_at => nil)
+     # current_assignment = Assignment.create!(:program_id => b.program_id,
+      #                                          :bike_id => b.id,
+       #                                         :active => true,
+        #                                        :closed_at => nil)
     end
              
 #    30.times do |n|

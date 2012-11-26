@@ -61,11 +61,43 @@ class MobileController < ApplicationController
   end
 
   def add
+    bike = params[:bike]
+    if bike
+        @errors = []
+        convert_units()
+        newBike = Bike.new(params[:bike])
+        if newBike.save
+            redirect_to :controller => "mobile", :action => "show", :id => newBike.number
+            return
+        else
+            @errors.push("Invalid Data")
+        end
+    end
   end
 
   def show
     @bike_number = params[:id]
     @bike = Bike.find_by_number(@bike_number)
   end
+
+  # Method to convert cm to inches 
+  def convert_units 
+    ttu = params[:bike][:top_tube_unit] 
+    stu = params[:bike][:seat_tube_unit] 
+    if stu == "centimeters" 
+      sth = params[:bike][:seat_tube_height].to_i 
+      sth = sth * 0.393701 
+      puts sth 
+      params[:bike][:seat_tube_height] = sth 
+    end 
+    if ttu == "centimeters" 
+      ttl = params[:bike][:top_tube_length].to_i 
+      ttl = ttl * 0.393701 
+      params[:bike][:top_tube_length] = ttl 
+    end 
+    params[:bike].delete :seat_tube_unit 
+    params[:bike].delete :top_tube_unit 
+  end 
+
 
 end

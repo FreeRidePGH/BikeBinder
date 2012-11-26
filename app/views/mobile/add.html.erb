@@ -1,0 +1,64 @@
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1">
+<%= javascript_include_tag "jquery" %>
+<%= stylesheet_link_tag "mobile" %>
+<div id = "header">
+ <h1><%= link_to image_tag("freeridelogothin.png"),"/mobile/home" %></h1>
+</div>
+<div id = "addContainer">
+<%= form_for :bike do |f| %>
+  <%# render 'shared/error_messages', :object => f.object %>
+<div>
+<%= f.label :number %>
+<%= f.text_field :number, :required => true %>
+</div>
+<div>
+<%= f.label :color %>
+<%= f.text_field :color , :required => true, :id => "colorInput"  %>
+</div>
+<div>
+<%= f.label :brand_id, "Brand" %>
+<%= f.collection_select :brand_id, Brand.all, :id, :name, {:include_blank => "None"} %>
+</div>
+<div>
+<%= f.label :bike_model_id, "Model" %>
+<%= f.collection_select :bike_model_id, BikeModel.all, :id, :name, {:include_blank => "None"} %>
+</div>
+<div>
+<%= f.label :quality, "Quality" %>
+<%= f.select :quality, Bike.qualities %>
+</div>
+<div>
+<%= f.label :condition, "Condition" %>
+<%= f.select :condition, Bike.conditions %>
+</div>
+<div>
+<%= f.label :wheel_size, "Wheel Size" %>
+<%= f.select :wheel_size, Bike.wheel_sizes %>
+</div>
+<div>
+<%= f.label :seat_tube_height, "Seat tube height" %>
+<%= f.text_field :seat_tube_height, :maxlength => 7 %>
+<select id = "seat_tube_unit" name = 'bike[seat_tube_unit]'>
+  <option value = "inches">inch</option>
+  <option value = "centimeters">cm</option>
+</select>
+</div>
+<div>
+<%= f.label :top_tube_length, "Top tube length" %>
+<%= f.text_field :top_tube_length, :maxlength => 7 %>
+<select id = "top_tube_unit" name = 'bike[top_tube_unit]'>
+  <option value = "inches">inch</option>
+  <option value = "centimeters">cm</option>
+</select>
+</div>
+<div>
+<%= f.label :value, "Value" %>
+<%= f.text_field :value, :maxlength => 10 %>
+</div>
+<div>
+<!-- how do I make render this tag differently for edit or add bike? -->
+<%= f.submit "Add Bike"%>
+</div>
+
+<% end %>
+<div>

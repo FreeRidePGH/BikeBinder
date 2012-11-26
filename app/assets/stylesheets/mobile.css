@@ -150,3 +150,24 @@ table thead th.active{
     padding-top: 0px;
     margin-top: -15px;
 }
+/* ADD PAGE */
+#addContainer{
+    background: #93CDDD;
+    height: 100%;
+    font-family: Arial;
+    font-size: 16px;
+}
+#addContainer form{
+    background: #93CDDD;
+}
+#addContainer div{
+    padding: 10px;
+    line-height: 2em;
+}
+#addContainer input,#addContainer select{
+    width: 100%;
+    height: 40px;
+}
+#addContainer label{
+    font-weight: bold;
+}
