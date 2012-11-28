@@ -75,11 +75,6 @@ label.colorFilter,label.statusFilter{
 	overflow-x: hidden;
     overflow-y: auto;
 }
-#bikeDetailPanel{
-}
-.contentBikes{
-	/* width:1000px; */
-}
 #detailTable{
     margin-bottom: 2px;
     height: 100px;
