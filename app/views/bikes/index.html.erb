@@ -27,6 +27,22 @@
                     $(".check"+thisFilterType).each(function(){
                         $(this).attr("checked","checked");
                     });
+                    $("#selectedColor").html("");
+                    var colorArr = selectedColors();
+                    for(var i = 0; i < colorArr.length; i++){
+                        var colorDiv = document.createElement("div");
+                        colorDiv.innerHTML = colorArr[i];
+                        colorDiv.className = "selectedFilter";
+                        $("#selectedColor").append(colorDiv);
+                    }
+                    $("#selectedStatus").html("");
+                    var statusArr = selectedStatusLabel();
+                    for(var i = 0; i < statusArr.length; i++){
+                        var statusDiv = document.createElement("div");
+                        statusDiv.innerHTML = statusArr[i];
+                        statusDiv.className = "selectedFilter";
+                        $("#selectedStatus").append(statusDiv);
+                    }
                     populateBikeList();
                 });
             });
@@ -34,6 +50,11 @@
                 $(this).click(function(){
                     var thisFilter = $(this).attr("id");
                     var thisFilterType = thisFilter.substring(2);
+                    if(thisFilterType == "Status"){
+                        $("#selectedStatus").html("");
+                    }else if(thisFilterType == "Color"){
+                        $("#selectedColor").html("");
+                    }
                     $(".check"+thisFilterType).each(function(){
                         $(this).attr("checked",false);
                     });
@@ -65,21 +86,43 @@
             });
             // Collapse/Expand Listeners
             $("#collapseColors").live("click",function(){
-                $("#colorContainer").slideUp();
+                $("#selectedColor").html("");
+                $("#colorContainer").slideUp(400, function(){
+                    var colorArr = selectedColors();
+                    for(var i = 0; i < colorArr.length; i++){
+                        var colorDiv = document.createElement("div");
+                        colorDiv.innerHTML = colorArr[i];
+                        colorDiv.className = "selectedFilter";
+                        $("#selectedColor").append(colorDiv);
+                    }
+                    $("#selectedColor").show();
+                });
                 $(this).attr("src","/assets/expand-blue.png");
                 $(this).attr("id","expandColors");
             });
             $("#expandColors").live("click",function(){
+                $("#selectedColor").hide();
                 $("#colorContainer").slideDown();
                 $(this).attr("src","/assets/collapse-blue.png");
                 $(this).attr("id","collapseColors");
             });
             $("#collapseStatus").live("click",function(){
-                $("#statusContainer").slideUp();
+                $("#selectedStatus").html("");
+                $("#statusContainer").slideUp(400,function(){
+                    var statusArr = selectedStatusLabel();
+                    for(var i = 0; i < statusArr.length; i++){
+                        var statusDiv = document.createElement("div");
+                        statusDiv.innerHTML = statusArr[i];
+                        statusDiv.className = "selectedFilter";
+                        $("#selectedStatus").append(statusDiv);
+                    }
+                    $("#selectedStatus").show();
+                });
                 $(this).attr("src","/assets/expand-blue.png");
                 $(this).attr("id","expandStatus");
             });
             $("#expandStatus").live("click",function(){
+                $("#selectedStatus").hide();
                 $("#statusContainer").slideDown();
                 $(this).attr("src","/assets/collapse-blue.png");
                 $(this).attr("id","collapseStatus");
@@ -107,7 +150,7 @@
         }
 
         function attachRowListeners(){
-            $(".quickView").each(function(){
+            $(".bikeRow").each(function(){
                 $(this).click(function(e){
                     e.stopPropagation();
                     //e.preventDefault();
@@ -117,15 +160,16 @@
                     //getBikeDetails($(this));
                 });
             });
-            $(".bikeRow").each(function(){
+            $(".bikeRow a").each(function(){
                 $(this).click(function(e){
-                    window.location = $('a:first', this).attr('href');
+                    e.stopPropagation();
+                    //window.location = $('a:first', this).attr('href');
                 });
             });
         }
 
         function getBikeDetails(bike){
-            bike = bike.siblings("a")[0];
+            bike = bike.children("td").children("a")[0];
             var bikeNumber = bike.innerHTML;
             $.ajax({
                 type: "GET",
@@ -150,6 +194,12 @@
         }
 
         function renderBikeDetails(bike){
+            var titleDiv = $("#detailDialog").siblings("div").children("span");
+            titleDiv.html("Bike Details - "+bike.number);
+            titleDiv.css("cursor","pointer");
+            titleDiv.click(function(){
+                window.location.href = "/bikes/sn-"+bike.number;
+            });
             $("#bikeDetailBrand").html(bike.brand_name || "n/a");
             $("#bikeDetailModel").html(bike.model_name || "n/a");
             $("#bikeDetailColor").html(bike.color);
@@ -162,7 +212,29 @@
             $("#bikeDetailStatus").html(bike.name || "Available");
             var formattedDate = dp(bike.created_at);    
             $("#bikeDetailDate").html((formattedDate.getMonth()+1) + "/" + formattedDate.getDate() + "/" + formattedDate.getFullYear());
+            $("#detailLink").attr("href","/bikes/sn-"+bike.number);
+        }
 
+        function selectedColors(){
+            var colorArr = $("input:checkbox:checked.checkColor").map(function(){
+                return this.value;
+            }).get();
+            return colorArr;
+        }
+
+        function selectedStatus(){
+            var statusArr = $("input:checkbox:checked.checkStatus").map(function(){
+                return this.value;
+            }).get();
+            return statusArr;
+       }
+
+        function selectedStatusLabel(){
+            var statusArr = $("input:checkbox:checked.checkStatus").map(function(){
+                var temp = $(this.parentNode).clone().children().remove().end().text();
+                return temp;
+            }).get();
+            return statusArr;
         }
 
         // Function to get bikes
@@ -170,12 +242,8 @@
             min = min || 0;
             max = max || 10;
             viewAll = viewAll || false;
-            var colorArr = $("input:checkbox:checked.checkColor").map(function(){
-                return this.value;
-            }).get();
-            var statusArr = $("input:checkbox:checked.checkStatus").map(function(){
-                return this.value;
-            }).get();
+            var colorArr = selectedColors(); 
+            var statusArr = selectedStatus(); 
             var searchDesc = $("#searchInput").val();
             var sortBy = (sorter ? sorter.attr("fieldname") : "number");
             if(reverseSort){
@@ -322,10 +390,10 @@
                     // Bike Hook
                     var bikeHook = document.createElement("td");
                     if (bikeObj.hook_number){
-                        var bikeHookLink = document.createElement("a");
-                        bikeHookLink.href = "/hooks/location-"+bikeObj.hook_number;
-                        bikeHookLink.innerHTML = bikeObj.hook_number;
-                        bikeHook.appendChild(bikeHookLink);
+                        //var bikeHookLink = document.createElement("a");
+                        //bikeHookLink.href = "/hooks/location-"+bikeObj.hook_number;
+                        bikeHook.innerHTML = bikeObj.hook_number;
+                        //bikeHook.appendChild(bikeHookLink);
                     }else{
                         bikeHook.innerHTML = "n/a";
                     }
@@ -367,7 +435,7 @@
         populateBikeList();
     });
 </script>
-<section class="">
+<section class="" id = "indexSection">
 <%= render :partial=>"bike_filter" %>
 <%= render :partial=>"bike_table", :layout =>"bike_table_layout" %>
 <%= render :partial=>"bike_listing_details" %>

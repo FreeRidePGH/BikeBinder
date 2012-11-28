@@ -17,6 +17,10 @@ body div.container-fluid{
     margin-left: 10px;
     text-align: left;
 }
+.selectedFilter{
+    margin-left: 20px;
+    font-weight: bold;
+}
 .filterName{
     font-weight: bold;
 }
@@ -70,11 +74,6 @@ label.colorFilter,label.statusFilter{
 #results{
 	overflow-x: hidden;
     overflow-y: auto;
-}
-#bikeDetailPanel{
-}
-.contentBikes{
-	/* width:1000px; */
 }
 #detailTable{
     margin-bottom: 2px;

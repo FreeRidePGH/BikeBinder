@@ -154,7 +154,8 @@ class BikesController < ApplicationController
 
     bike.departed_at = DateTime.now
     bike.save!
-    redirect_to :root and return
+    flash[:success] = "Bike departed"
+    redirect_to bike and return
  end
 
   def vacate_hook
