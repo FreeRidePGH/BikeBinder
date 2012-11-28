@@ -107,7 +107,7 @@
         }
 
         function attachRowListeners(){
-            $(".quickView").each(function(){
+            $(".bikeRow").each(function(){
                 $(this).click(function(e){
                     e.stopPropagation();
                     //e.preventDefault();
@@ -117,15 +117,16 @@
                     //getBikeDetails($(this));
                 });
             });
-            $(".bikeRow").each(function(){
+            $(".bikeRow a").each(function(){
                 $(this).click(function(e){
-                    window.location = $('a:first', this).attr('href');
+                    e.stopPropagation();
+                    //window.location = $('a:first', this).attr('href');
                 });
             });
         }
 
         function getBikeDetails(bike){
-            bike = bike.siblings("a")[0];
+            bike = bike.children("td").children("a")[0];
             var bikeNumber = bike.innerHTML;
             $.ajax({
                 type: "GET",
@@ -150,6 +151,12 @@
         }
 
         function renderBikeDetails(bike){
+            var titleDiv = $("#detailDialog").siblings("div").children("span");
+            titleDiv.html("Bike Details - "+bike.number);
+            titleDiv.css("cursor","pointer");
+            titleDiv.click(function(){
+                window.location.href = "/bikes/sn-"+bike.number;
+            });
             $("#bikeDetailBrand").html(bike.brand_name || "n/a");
             $("#bikeDetailModel").html(bike.model_name || "n/a");
             $("#bikeDetailColor").html(bike.color);
@@ -162,7 +169,7 @@
             $("#bikeDetailStatus").html(bike.name || "Available");
             var formattedDate = dp(bike.created_at);    
             $("#bikeDetailDate").html((formattedDate.getMonth()+1) + "/" + formattedDate.getDate() + "/" + formattedDate.getFullYear());
-
+            $("#detailLink").attr("href","/bikes/sn-"+bike.number);
         }
 
         // Function to get bikes
@@ -322,10 +329,10 @@
                     // Bike Hook
                     var bikeHook = document.createElement("td");
                     if (bikeObj.hook_number){
-                        var bikeHookLink = document.createElement("a");
-                        bikeHookLink.href = "/hooks/location-"+bikeObj.hook_number;
-                        bikeHookLink.innerHTML = bikeObj.hook_number;
-                        bikeHook.appendChild(bikeHookLink);
+                        //var bikeHookLink = document.createElement("a");
+                        //bikeHookLink.href = "/hooks/location-"+bikeObj.hook_number;
+                        bikeHook.innerHTML = bikeObj.hook_number;
+                        //bikeHook.appendChild(bikeHookLink);
                     }else{
                         bikeHook.innerHTML = "n/a";
                     }
