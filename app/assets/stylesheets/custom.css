@@ -17,6 +17,10 @@ body div.container-fluid{
     margin-left: 10px;
     text-align: left;
 }
+.selectedFilter{
+    margin-left: 20px;
+    font-weight: bold;
+}
 .filterName{
     font-weight: bold;
 }
