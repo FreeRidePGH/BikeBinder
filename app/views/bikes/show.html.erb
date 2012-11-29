@@ -95,7 +95,7 @@
         <p>This bike is available</p>
 	<%= form_for(bike, :url => assign_program_bike_path(bike), :method => :put) do |f| %>
 	  <%= select_tag(:program_id, options_from_collection_for_select(Program.all, :id, :label)) %>
-	  <%= f.submit "Start project", :class => "btn btn-primary" %>
+	  <%= f.submit "Assign", :class => "btn btn-primary" %>
 	<% end # bike.available? %>
 
       <% else %>
