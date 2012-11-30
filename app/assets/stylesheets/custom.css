@@ -138,7 +138,7 @@ label.colorFilter,label.statusFilter{
     right: 5px;
 }
 #bikesNav{
-    margin-left: 50px;
+    margin-left: 20px;
 }
 #bikesNav a{
     margin-right: 5px;
@@ -189,6 +189,7 @@ footer{
     background-color: rgb(147,205,221);
     border-bottom: 4px solid LightGray;
     margin-bottom: 25px;
+    height: 130px;
 }
 #pageHeaderContainer{
     position: relative;
