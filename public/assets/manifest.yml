@@ -5,7 +5,9 @@ collapse-blue.png: collapse-blue-841878b85e7aa28d7d70cbaa856d3852.png
 expand-blue.png: expand-blue-ec34cff9b9561984c70b3ba92f3b88d0.png
 favicon.png: favicon-93c1d09d5176025323c3ebcfed402ebd.png
 free_ride_logo.jpg: free_ride_logo-88c59d26b1d779ce877b79b44121de27.jpg
+free_ride_logo_smaller.jpg: free_ride_logo_smaller-f34e0c29fe9e32f1cfb21d8221ccd781.jpg
 freeridelogoblue.png: freeridelogoblue-e5bb6c7e65ff456ce79030f9aac27475.png
+freeridelogothin.png: freeridelogothin-2b692e5122cb0c0e46983c46291bf430.png
 glyphicons-halflings-white.png: glyphicons-halflings-white-ef3d5b8d6a297804352b4a46fdb5466d.png
 glyphicons-halflings.png: glyphicons-halflings-0e7ff93d8f48fe1f5f762e4312e78da7.png
 gradient.png: gradient-e37c7a0e6722d79c2d831cbc4005c150.png
@@ -13,8 +15,8 @@ line.gif: line-b5be8a411a0c51671632ed0b966dc39d.gif
 rails.png: rails-be8732dac73d845ac5b142c8fb5f9fb0.png
 rainbow.png: rainbow-8829865a55cf5162c692561dcb77a52f.png
 trigger.png: trigger-6bec1a20b787bb9f06db5bcd80cce4cd.png
-application.js: application-9f89d40d65a819cb6df9bab9018d2275.js
-application.css: application-53ff7a6cfdd4f2cc0edad168fd71a4e3.css
+application.js: application-9087dbe7f690255b9ab41b1fabbb2dab.js
+application.css: application-5c498f01f4957e3ea880bc74f219afe0.css
 surveyor/next.gif: surveyor/next-ef2eba6ee3fa8f15712427fddc2acbca.gif
 surveyor/prev.gif: surveyor/prev-d03326666232cd8ac4c53bdf99bf0ada.gif
 surveyor/ui-bg_glass_100_f6f6f6_1x400.png: surveyor/ui-bg_glass_100_f6f6f6_1x400-fc46298be15cb1f3815e1f64d5fc275c.png
