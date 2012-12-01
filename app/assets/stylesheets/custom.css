@@ -146,15 +146,16 @@ form.new_bike{
     width: 120px;
 }
 #navOpts{
-    bottom: -10px;
+    bottom: 0px;
     right: 15px;
     position: absolute;
     float: right;
-    display: inline-block;
 }
 #navOpts div{
-    display: inline-block;
-    bottom: 0px;
+    display: inline;
+}
+#navOpts form{
+    display: inline;
 }
 .navLink{
     color: white;
