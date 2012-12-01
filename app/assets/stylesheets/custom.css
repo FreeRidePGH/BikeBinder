@@ -19,7 +19,6 @@ body div.container-fluid{
 }
 .selectedFilter{
     margin-left: 20px;
-    font-weight: bold;
 }
 .filterName{
     font-weight: bold;
@@ -79,10 +78,15 @@ label.colorFilter,label.statusFilter{
     margin-bottom: 2px;
     height: 100px;
     text-align: left;
+    font-family: Arial;
 }
 #detailTable tr th{
     font-size: 12px;
     font-weight: normal !important;
+}
+#detailTable tbody tr:hover td,
+#detailTable tbody tr:hover th {
+  background-color: transparent;
 }
 .staticDetailAttributes tr{
     font-size: 12px;
@@ -109,6 +113,9 @@ label.colorFilter,label.statusFilter{
     cursor: pointer;
 }
 */
+form.new_bike{
+    background-color: #DBEEF4;
+}
 #newBikeForm{
     margin-top: 20px;
 }
@@ -136,6 +143,31 @@ label.colorFilter,label.statusFilter{
 #user_login_status.no-user p{
 	margin-top:20px;
     right: 5px;
+    width: 120px;
+}
+#navOpts{
+    bottom: -20px;
+    right: -100px;
+    position: absolute;
+    float: right;
+    display: inline-block;
+    width: 500px;
+}
+#navOpts div{
+    display: inline-block;
+    bottom: 0px;
+}
+.navLink{
+    color: white;
+    padding-right: 14px;
+    margin-right: 12px !important;
+    font-weight: bold;
+}
+.navLink:first-child{
+    border-right: 1px solid #0099FE;
+}
+.navLink:nth-child(2){
+    padding-right: 8px;
 }
 #bikesNav{
     margin-left: 20px;
@@ -151,12 +183,19 @@ label.colorFilter,label.statusFilter{
   background-color: #DBEEF4 !important;
   cursor: pointer;
 }
+.tab-content tr th{
+    text-align: left;
+}
+.tab-content tr td{
+    padding: 6px;
+}
 footer{
 	margin-top:200px;
 }
 .quickView{
     font-size: 10px;
-    color: #F77B00;
+    /*color: #F77B00;*/
+    color: #265D6C;
     cursor: pointer;
 }
 .quickView:hover{
@@ -186,20 +225,30 @@ footer{
 
 }
 #pageHeader{
+    position: relative;
     background-color: rgb(147,205,221);
     border-bottom: 4px solid LightGray;
     margin-bottom: 25px;
     height: 130px;
 }
+
 #pageHeaderContainer{
     position: relative;
 }
+#pageHeaderContainer a img{
+    margin-top: 30px;
+    margin-left: 20px;
+}
 .searchBox{
-    position: absolute;
+    margin-left: 0px;
+}
+.searchBox{
+ /*   position: absolute;
     float: right;
     bottom: 0px;
     right: 10px;
     height: 15px;
+*/
 }
 #searchInput{
     width: 120px;
@@ -209,6 +258,7 @@ footer{
     margin-right: 5px;
 }
 .searchButton{
+    margin-top: -9px;
     background-color: white;
 }
 #bikeFilters{

@@ -31,7 +31,8 @@
                     var colorArr = selectedColors();
                     for(var i = 0; i < colorArr.length; i++){
                         var colorDiv = document.createElement("div");
-                        colorDiv.innerHTML = colorArr[i];
+                        colorDiv.innerHTML = "<i class = 'icon-ok'></i> " + colorArr[i];
+                        colorDiv.innerHTML += " <span class = 'colorSquare' style = 'background-color:"+colorArr[i]+"'></span>";
                         colorDiv.className = "selectedFilter";
                         $("#selectedColor").append(colorDiv);
                     }
@@ -39,7 +40,7 @@
                     var statusArr = selectedStatusLabel();
                     for(var i = 0; i < statusArr.length; i++){
                         var statusDiv = document.createElement("div");
-                        statusDiv.innerHTML = statusArr[i];
+                        statusDiv.innerHTML = "<i class = 'icon-ok'></i>" + statusArr[i];
                         statusDiv.className = "selectedFilter";
                         $("#selectedStatus").append(statusDiv);
                     }
@@ -91,7 +92,8 @@
                     var colorArr = selectedColors();
                     for(var i = 0; i < colorArr.length; i++){
                         var colorDiv = document.createElement("div");
-                        colorDiv.innerHTML = colorArr[i];
+                        colorDiv.innerHTML = "<i class = 'icon-ok'></i> " + colorArr[i];
+                        colorDiv.innerHTML += " <span class = 'colorSquare' style = 'background-color:"+colorArr[i]+"'></span>";
                         colorDiv.className = "selectedFilter";
                         $("#selectedColor").append(colorDiv);
                     }
@@ -112,7 +114,7 @@
                     var statusArr = selectedStatusLabel();
                     for(var i = 0; i < statusArr.length; i++){
                         var statusDiv = document.createElement("div");
-                        statusDiv.innerHTML = statusArr[i];
+                        statusDiv.innerHTML = "<i class = 'icon-ok'></i>" + statusArr[i];
                         statusDiv.className = "selectedFilter";
                         $("#selectedStatus").append(statusDiv);
                     }

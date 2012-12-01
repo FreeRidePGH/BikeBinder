@@ -1,16 +1,5 @@
-<section id = "newBikeForm" class="span12">
-<div class = "row">
-
-    <script>
-    $(function () {
-    $('#myTab a:first').tab('show');
-    $("li a").each(function(){
-                $(this).click(function(){
-                        $(this).tab('show');
-                });
-        });
-        })
-    </script>
+<section id = "newBikeForm">
+<div class = "row-fluid">
 <%= render :partial => "form" %>
 
 </div>

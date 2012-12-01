@@ -13,16 +13,17 @@
   </section>
   
   <% end %>
+<div id = "navOpts">
 <div id = "bikesNav">
-    <a href = "/bikes" class = "btn btn-info">Home</a>
-    <a href = "/bikes/new" class = "btn btn-info">Add a bike</a>
+    <a href = "/bikes" class = "navLink">Home</a>
+    <a href = "/bikes/new" class = "navLink">Add a Bike</a>
 </div>
 <div id = "searchNav">
     <form action = "/searches" method = "get" class = "searchBox" id = "bikeSearch">
-        <span class = "searchLabel">Search for a bike</span>
         <input type = "text" id = "searchInput" name = "search" placeholder = "Ex. Black Schwinn" value = "<%= (@searchTerm.nil? == true ? "" : @searchTerm) %>" />
-        <input type = "submit" name = "submit" value = "Search" class = "searchButton" />
+        <input type = "submit" name = "submit" value = "Search" class = "searchButton btn btn-info" />
     </form>
+</div>
 </div>
 <% if false %>
 <div class="span12" id="shared_menu">

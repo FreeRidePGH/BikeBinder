@@ -1,15 +1,37 @@
 <script type = "text/javascript">
 
-    $(function () {
-    $('#myTab a:first').tab('show');
-    $("li a").each(function(){
-                $(this).click(function(){
-                        $(this).tab('show');
-                });
-        });
-        })
-    
+   
 	$(function(){ // Load jquery
+
+        // Load Tab Interface
+        $('#myTab a:first').tab('show');
+        $("li a").each(function(){
+            $(this).click(function(){
+                $(this).tab('show');
+            });
+        });
+
+        function attachGuideListeners(){
+            $("#bike_quality").focus(function(){
+                $($("#myTab li a")[1]).tab('show');
+            });
+            $("#bike_condition").focus(function(){
+                $($("#myTab li a")[1]).tab('show');
+            });
+            $("#bike_wheel_size").focus(function(){
+                $($("#myTab li a")[0]).tab('show');
+            });
+            $("#bike_seat_tube_height").focus(function(){
+                $($("#myTab li a")[2]).tab('show');
+            });
+            $("#bike_top_tube_length").focus(function(){
+                $($("#myTab li a")[2]).tab('show');
+            });
+            $("#bike_value").focus(function(){
+                $($("#myTab li a")[3]).tab('show');
+            });
+
+        }
     
         // Function to attach event listeners to form
         function attachListeners(){
@@ -94,6 +116,9 @@
 
             $("#add_brand.off").click(offBrandClick);
             $("#add_model.off").click(offModelClick);
+
+            // Attach Guide Listeners
+            attachGuideListeners();
         }
         
         
@@ -101,7 +126,7 @@
     });
 </script>
 <!-- This is the main form generated for editing a bike. Another form template is rendered for creating a new bike. -->
-<%= form_for(bike) do |f| %>
+<%= form_for(bike, :html => {:class => "new_bike span4"}) do |f| %>
   <%= render 'shared/error_messages', :object => f.object %>
 <div class = "span3">
 <%= f.label :number %>
@@ -119,6 +144,9 @@
 <%= f.collection_select :bike_model_id, BikeModel.all, :id, :name, {:include_blank => "None"} %>
 <input type = "text" id = "bike_new_bike_model_id" name = "bike[new_bike_model_id]" style = "display:none;" />
 <span id = "add_model" class = "off">New Model</span>
+
+<%= f.label :value, "Value" %>
+<%= f.text_field :value, :maxlength => 10 %>
 </div>
 <div class = "span2">
 <%= f.label :quality, "Quality" %>
@@ -143,10 +171,8 @@
   <option value = "inches">inch</option>
   <option value = "centimeters">cm</option>
 </select>
-
-<%= f.label :value, "Value" %>
-<%= f.text_field :value, :maxlength => 10 %>
-
+</div>
+<div class = "span3">
 <!-- how do I make render this tag differently for edit or add bike? -->
 <% submit_text = (bike.id.nil?) ? "Create new bike" : "Save changes" %>
 <%= f.submit submit_text, :class => "btn btn-primary" %>
@@ -167,7 +193,7 @@
     <div class="tab-pane active" id="WheelSizing">
                 <table>
                         <tr>
-                                <th>ISO Diameter (1)</th>
+                                <th style = "width:120px;">ISO Diameter (1)</th>
                                 <th style="width:200px;">Traditional Name (0+)</th>
                                 <th>Application (0+)</th>
                                 <th>Rarity (1)</th>

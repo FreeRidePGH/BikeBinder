@@ -10,7 +10,7 @@
             <input type = "checkbox" class = "checkStatus" checked = "checked" value = "-1" type = "checkbox" />Available
         </label>
         <label class = "checkbox statusFilter">
-            <input type = "checkbox" class = "checkStatus" checked = "checked" value = "-2" type = "checkbox" />Departed</label>
+            <input type = "checkbox" class = "checkStatus" value = "-2" type = "checkbox" />Departed</label>
         <% @statuses.each do |progName,progId| %>
             <label class = "checkbox statusFilter">
             <%= check_box_tag "bike_brand",progId,false,:class => "checkStatus" %> <%= progName %> <br />

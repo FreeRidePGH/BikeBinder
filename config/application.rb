@@ -44,5 +44,15 @@ module BikeBinder
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    # CORS for mobile
+    config.middleware.use Rack::Cors do
+      allow do
+        origins '*'
+        resource %r{/mobile/*},
+          :headers => ['Origin', 'Accept', 'Content-Type'],
+          :methods => [:get, :post]
+      end
+    end
   end
 end

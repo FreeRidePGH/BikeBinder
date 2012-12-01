@@ -1,5 +1,6 @@
 class MobileController < ApplicationController
   layout false
+
   def index
     @search = params[:search] || ""
     @programs = []
