@@ -146,8 +146,8 @@ form.new_bike{
     width: 120px;
 }
 #navOpts{
-    bottom: -20px;
-    right: -100px;
+    bottom: 0px;
+    right: 0px;
     position: absolute;
     float: right;
     display: inline-block;
