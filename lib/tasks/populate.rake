@@ -142,7 +142,7 @@ namespace :db do
     return Float(x)
   end
   def num(s, n)
-    if (s == nil)
+    if (s == nil || !(s =~ /\d*/))
       return n
     end
     if(s.length > 5)
@@ -220,7 +220,7 @@ namespace :db do
         end
       end
       ws = froat(worksheet[i][8], true)
-      if(numb.length != 5)
+      if(!(numb.length =~ /\d{5}/))
         next
       end
       b = Bike.create!(
