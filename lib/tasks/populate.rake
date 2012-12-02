@@ -220,7 +220,9 @@ namespace :db do
         end
       end
       ws = froat(worksheet[i][8], true)
-                                                
+      if(numb.length != 5)
+        next
+      end
       b = Bike.create!(
         :program_id => prog(String(worksheet[i][19])),
         :color=>col(worksheet[i][14]),
