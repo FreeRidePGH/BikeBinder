@@ -12,9 +12,20 @@ namespace :db do
     ENV['RAILS_ENV'] = 'test'
     Rake::Task['surveyor'].invoke
   end
-
-  workbook = RubyXL::Parser.parse("public/BikeInventory.xlsx")
-  worksheet = workbook[0].extract_data
+  
+  require 'csv'
+  file = File.open("public/BikeInventory.csv", "rb")
+  contents = file.read
+  worksheet = (CSV.parse(contents, :col_sep => "," , :row_sep =>:auto)).dup
+  #(CSV.open("public/BikeInventory.csv", "rb")
+  #l = 0
+  #CSV.parse("BikeInventory.csv", :col_sep => ",")
+  #do |row|
+  #  worksheet[l] = row
+  #  l += 1
+  #end
+  #workbook = RubyXL::Parser.parse("public/BikeInventory.xlsx")
+  #worksheet = workbook[0].extract_data
   require 'set'
   brands = Hash.new
   
@@ -99,7 +110,7 @@ namespace :db do
     #end
     
     brands.each_key{|br|
-      (brands[br][1]).each{|mdl| bm = BikeModel.create!(:name => mdl, :brand_id => brands[br][0])}
+      (brands[br][1]).each{|mdl| bm = BikeModel.create!(:name => mdl.dup, :brand_id => (brands[br][0])).dup}
     }
   end
   
