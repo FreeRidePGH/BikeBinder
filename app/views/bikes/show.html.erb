@@ -63,7 +63,7 @@
           <% if hook %>
 	    <%= form_for(hook, :url => reserve_hook_bike_path(bike), :method=>:put) do |f| %>
 	      <%= label_tag(:hook_id, "Select an available hook:") %>
-	      <%= select_tag(:hook_id, options_from_collection_for_select(Hook.available, :id, :number)) %>
+	      <%= select_tag(:hook_id, options_from_collection_for_select(Hook.available.order(:number), :id, :number)) %>
 	      <%= f.submit "Reserve hook", :class=>"btn btn-primary" %>
             <% end %>
           <% else #no hook %>

@@ -72,7 +72,7 @@ class BikesController < ApplicationController
 
   def update
     if bike.update_attributes(params[:bike])
-      flash[:success] = "Bike information updated."
+      flash.now[:success] = "Bike information updated."
       redirect_to bike
     else
       @title = "Edit Bike"
