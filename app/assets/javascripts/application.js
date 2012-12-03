@@ -26,6 +26,10 @@ $(document).ready(function(){
     $("button[data-role=toggle]").click(function(){
 	$("#newCommentWrap").toggle();
     });
+
+   $('#alerts').delay(500).fadeIn('normal', function() {
+      $(this).delay(2500).fadeOut();
+   });
 });
 
 function inputFocus(i){

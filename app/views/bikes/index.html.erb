@@ -338,6 +338,7 @@
             viewAll.innerHTML = "View All";
             $(viewAll).click(function(){
                 populateBikeList(0,Math.floor(count/10)*10,true);
+                $(".footer").hide();
                 $("#pagination").html("");
             });
             $("#pagination").append(viewAll);
