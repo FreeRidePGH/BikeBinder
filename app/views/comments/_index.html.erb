@@ -1,11 +1,12 @@
 <% if comments.length > 0 %>
 <div class="comments span4 noLeftMarg">
   <% comments.each do |c| %>
-  <span>Created by:
-    <strong> <%= c.user.email %> </strong> 
-    on <%= c.created_at.strftime(' %B %d %y') %> 
-  </span>
-  <p> <%= c.body %></p>
+  <div class = "oneComment">
+    Created by: <strong> <%= c.user.email %> </strong>  on<br/><%= c.created_at.strftime(' %B %d %y') %> 
+    <div>
+        <%= c.body %>
+    </div>
+  </div>
   <% end %>
 </div>
 <% end %>

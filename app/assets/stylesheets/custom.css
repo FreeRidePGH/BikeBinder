@@ -94,7 +94,6 @@ label.colorFilter,label.statusFilter{
 }
 .staticAttributes{
 	width:250px;
-	border: 1px solid black;
 }
 .staticAttributes tr,th{
 	border:0;
@@ -263,4 +262,20 @@ form.new_bike{
     color: rgb(33,89,104);
     border: 1px solid LightGray;
     background-color: rgb(219,238,244);
+}
+.bikesMeta{
+    background-color: #DBEEF4;
+    padding: 10px;
+}
+#bikeInfo{
+    margin-left: 20px;
+
+}
+.comments{
+    background-color: #DBEEF4;
+    padding: 5px;
+}
+.oneComment{
+    padding: 5px;
+    border-bottom: 1px solid LightGray;
 }

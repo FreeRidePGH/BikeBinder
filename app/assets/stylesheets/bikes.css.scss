@@ -53,9 +53,6 @@ dd.value {
     }
     
     div.block1 {
-	border-bottom-style: solid;
-	border-bottom-width: 1px;
-	border-bottom-color: #888;
 	margin: .25em;
 	h2 {
 	float: left;
@@ -108,8 +105,6 @@ dd.value {
 }
 /* Style comments/notes about bike here */
 .show-bike section.notesWrapper {
-    border-top: solid 1px gray;
-    margin-top: 1em;
     div {
 	margin-top: .5em;
     }
