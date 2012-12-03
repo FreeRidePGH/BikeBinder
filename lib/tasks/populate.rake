@@ -84,20 +84,21 @@ namespace :db do
     i = 0
     while(i < worksheet.length - 1)
       i += 1
-      br = worksheet[i][15].downcase
+      br = worksheet[i][15]
       if(br == nil || br == "")
         next
       end
-      br = String(br)
+      br = String(br).downcase
       if(brands[br] == nil)
         brands[br] = [i-1, Set.new]
         brand = Brand.create!(:name =>  br)
       end
-      mdl = worksheet[i][16].downcase
+      mdl = worksheet[i][16]
       if(mdl == nil || mdl == "")
         next
       end
-      mdl = String(mdl)
+      mdl
+      mdl = String(mdl).downcase
       (brands[br][1]).add mdl
     end
   end

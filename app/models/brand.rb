@@ -3,7 +3,7 @@ class Brand < ActiveRecord::Base
     has_many :bike_models
     has_many :bikes
     
-    validates_uniqueness_of :name, :allow_nil => true
+    #validates_uniqueness_of :name, :allow_nil => true
 
 
     # Method to get all Brands for filters

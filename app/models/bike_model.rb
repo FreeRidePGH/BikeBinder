@@ -3,5 +3,5 @@ class BikeModel < ActiveRecord::Base
     belongs_to :brand
     has_many :bikes
     
-    validates_uniqueness_of :name, :allow_nil => true
+    #validates_uniqueness_of :name, :allow_nil => true
 end
