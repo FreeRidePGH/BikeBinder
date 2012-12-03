@@ -78,8 +78,10 @@
         <p>Departed: <%= bike.departed_at.strftime("%Y-%m-%d") %></p>
       <% end %>
     </div> <!-- end of depart info wrapper -->
-
-  </section> <!-- end of bikes meta -->
+    <div>
+        <a class = "btn btn-info" style = "margin-top: 10px;" href = "/mobile/generate_code/<%=bike.number%>">Get QR Code</a>
+    <div>
+    </section> <!-- end of bikes meta -->
 
   <section id="bikeInfo" class="span8 noteCard noLeftMarg">
     <div class="block1 span8">

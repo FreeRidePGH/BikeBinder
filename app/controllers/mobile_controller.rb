@@ -1,3 +1,5 @@
+require('rqrcode')
+
 class MobileController < ApplicationController
   layout false
 
@@ -40,6 +42,15 @@ class MobileController < ApplicationController
   def find
     @colors = Bike::COLORS
     @brands = Brand.mobile_brands
+  end
+
+  def generate_code
+    respond_to do |format|
+        qrurl = "http://intense-chamber-9854.herokuapp.com/mobile/show/"+params[:id]
+        @qr = RQRCode::QRCode.new(qrurl, :size => 7)
+        @number = params[:id]
+        format.html
+    end
   end
 
   def find_submit

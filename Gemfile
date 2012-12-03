@@ -25,6 +25,11 @@ gem 'paper_trail', '~>2'
 gem 'surveyor', '~>0.22.0'
 gem 'jquery-ui-rails'
 gem 'jquery-ui-themes'
+
+# QR Codes
+gem 'rqrcode-rails3'
+gem 'mini_magick'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
