@@ -220,7 +220,7 @@ namespace :db do
         end
       end
       ws = froat(worksheet[i][8], true)
-      if(!(numb.length =~ /\d{5}/))
+      if(!(numb =~ /\d{5}/))
         next
       end
       b = Bike.create!(
