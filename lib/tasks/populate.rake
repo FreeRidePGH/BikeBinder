@@ -84,7 +84,7 @@ namespace :db do
     i = 0
     while(i < worksheet.length - 1)
       i += 1
-      br = worksheet[i][15]
+      br = worksheet[i][15].downcase
       if(br == nil || br == "")
         next
       end
@@ -93,7 +93,7 @@ namespace :db do
         brands[br] = [i-1, Set.new]
         brand = Brand.create!(:name =>  br)
       end
-      mdl = worksheet[i][16]
+      mdl = worksheet[i][16].downcase
       if(mdl == nil || mdl == "")
         next
       end
