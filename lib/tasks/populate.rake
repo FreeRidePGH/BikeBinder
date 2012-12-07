@@ -88,7 +88,7 @@ namespace :db do
       if(br == nil || br == "")
         next
       end
-      br = String(br)
+      br = String(br).downcase
       if(brands[br] == nil)
         brands[br] = [i-1, Set.new]
         brand = Brand.create!(:name =>  br)
@@ -97,7 +97,8 @@ namespace :db do
       if(mdl == nil || mdl == "")
         next
       end
-      mdl = String(mdl)
+      mdl
+      mdl = String(mdl).downcase
       (brands[br][1]).add mdl
     end
   end
