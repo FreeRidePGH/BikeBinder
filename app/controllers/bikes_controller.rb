@@ -55,6 +55,9 @@ class BikesController < ApplicationController
   def show
     @title = "Bike #{bike.number} Overview"
     @program = Program.new
+    if File.exists?("public/photos/bike-#{bike.number}.jpeg")
+        @bikePhoto = true
+    end
   end
 
   def index

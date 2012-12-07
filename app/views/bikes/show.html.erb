@@ -120,6 +120,11 @@
 
       </dl>
     </div>
+      <% if @bikePhoto %>
+        <div class = "pull-right bikePhotoContainer">
+        <%= image_tag root_path+"photos/bike-#{bike.number}.jpeg", :class => "bikePhoto" %>
+        </div>  
+    <% end %>
 
   </section>
   <section class="notesWrapper span3" >

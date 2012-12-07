@@ -269,6 +269,7 @@ form.new_bike{
 }
 #bikeInfo{
     margin-left: 20px;
+    position: relative;
 
 }
 .comments{
@@ -278,4 +279,15 @@ form.new_bike{
 .oneComment{
     padding: 5px;
     border-bottom: 1px solid LightGray;
+}
+.bikePhoto{
+    width: 300px;
+    height: 250px;
+}
+.bikePhotoContainer{
+    float: right;
+    top: 60px;
+    right: 25px;
+    position: absolute;
+    border: 1px solid LightGray;
 }

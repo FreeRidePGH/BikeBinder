@@ -59,6 +59,7 @@ BikeBinder::Application.routes.draw do
   match '/mobile/show/:id' => 'mobile#show', :id => Bike.number_pattern
   match '/mobile/findsubmit' => 'mobile#find_submit'
   match '/mobile/generate_code/:id' => 'mobile#generate_code'
+  match '/mobile/upload' => 'mobile#upload', :via => [:get,:post]
 
   # Ensure root is set per recommendations when installing Devise
   root :to => 'bikes#index', :via => [:get]

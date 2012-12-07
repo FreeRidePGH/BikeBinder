@@ -16,3 +16,4 @@ tmp/*
 *#
 #*.lock
 config/database.yml
+public/photos/*

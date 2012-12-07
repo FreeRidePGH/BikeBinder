@@ -78,13 +78,29 @@ class MobileController < ApplicationController
         @errors = []
         convert_units()
         newBike = Bike.new(params[:bike])
-        if newBike.save
+            if newBike.save
             redirect_to :controller => "mobile", :action => "show", :id => newBike.number
             return
         else
             @errors.push("Invalid Data")
         end
     end
+  end
+
+  def upload
+    photo = params[:file]
+    number = params[:number]
+    if photo
+            directory = "public/photos"
+            begin
+                Dir::mkdir(directory)
+            rescue
+                # directory exists
+            end
+            path = File.join(directory,"bike-#{number}.jpeg")
+            File.open(path,'wb') { |f| f.write(photo.read) }
+    end
+    render :nothing => true
   end
 
   def show
@@ -95,7 +111,8 @@ class MobileController < ApplicationController
   # Method to convert cm to inches 
   def convert_units 
     ttu = params[:bike][:top_tube_unit] 
-    stu = params[:bike][:seat_tube_unit] 
+    stu = params[:bike][:seat_tube_unit]
+    if ttu and stu 
     if stu == "centimeters" 
       sth = params[:bike][:seat_tube_height].to_i 
       sth = sth * 0.393701 
@@ -108,7 +125,8 @@ class MobileController < ApplicationController
       params[:bike][:top_tube_length] = ttl 
     end 
     params[:bike].delete :seat_tube_unit 
-    params[:bike].delete :top_tube_unit 
+    params[:bike].delete :top_tube_unit
+    end
   end 
 
 
