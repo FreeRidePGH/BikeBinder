@@ -1,42 +1,40 @@
 <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1">
 <%= javascript_include_tag "jquery" %>
-<%# javascript_include_tag "mobile/jquery.mobile-1.2.0.min" %>
 <%= stylesheet_link_tag "mobile" %>
-<%# stylesheet_link_tag "mobile/jquery.mobile-1.2.0.min" %>
+
 <div id = "header">
  <h1><%= link_to image_tag("freeridelogothin.png"),"/mobile/home" %></h1>
 </div>
 <div id = "findContainer">
-<div>
-    <div id = "findInstructions">Fill out what you know about the bike</div>
-    <%= form_tag("/mobile/findsubmit", :remote => true) do %>
-    <div class = "findField">
-    <label for = "number">Bike Number:</label>
-    <input type="text" name="number" id="bikeFind" value=""  />
+    <div>
+        <%= form_tag("/mobile/findsubmit", :remote => true) do %>
+        <div class = "findField">
+            <label for = "number">Bike Number</label>
+            <input type="text" name="number" id="bikeFind" value=""  />
+        </div>
+        <div class = "findField">
+            <label for = "hook">Hook Number</label>
+            <input type="text" name="hook" id="hookFind" value=""  />
+        </div>
+        <div class = "findField">
+            <label for = "color">Color</label>
+            <select name = "color" id = "colorFind">
+            <% @colors.each do |color| %>
+                <option value = "<%=color%>"><%= color %></option>
+            <% end %>
+            </select>
+        </div>
+        <div class = "findField">
+            <label for = "brand">Brand</label>
+            <select name = "brand" id = "brandFind">
+            <% @brands.each do |brand| %>
+                <option value = "<%=brand.name%>"><%= brand.name %></option>
+            <% end %>
+            <select>
+        </div>
+        <div class = "findField">
+            <input type = "submit" id = "findSubmit" value = "Find Bike!" />
+        </div>
+        <% end %>
     </div>
-    <div class = "findField">
-    <label for = "hook">Hook Number:</label>
-    <input type="text" name="hook" id="hookFind" value=""  />
-    </div>
-    <div class = "findField">
-    <label for = "color">Color:</label>
-    <select name = "color" id = "colorFind">
-    <% @colors.each do |color| %>
-        <option value = "<%=color%>"><%= color %></option>
-    <% end %>
-    </select>
-    </div>
-    <div class = "findField">
-    <label for = "brand">Brand:</label>
-    <select name = "brand" id = "brandFind">
-    <% @brands.each do |brand| %>
-        <option value = "<%=brand.name%>"><%= brand.name %></option>
-    <% end %>
-    <select>
-    </div>
-    <div class = "findField">
-        <input type = "submit" id = "findSubmit" value = "Find Bike!" />
-    </div>
-    <% end %>
-</div>
 </div>

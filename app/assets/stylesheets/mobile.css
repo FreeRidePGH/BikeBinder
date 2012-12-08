@@ -42,6 +42,20 @@
 table thead th.active{
     background-color: #F5820F !important;
 }
+.mobileFilter{
+    width: 49%;
+    padding: 10px;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.mobileLabel{
+    width: 49%;
+    text-align: center;
+    display: inline-block;
+    font-size: 14px;
+    color: black;
+}
 
 /* WELCOME PAGE */
 #welcomeContent{
@@ -52,6 +66,7 @@ table thead th.active{
     margin-bottom: 10px;
 }
 .navButton{
+    color: #009CB5;
     padding: 20px;
     margin: 0 auto;
     margin-bottom: 15px;
@@ -73,6 +88,7 @@ table thead th.active{
 
 .navButton a,.navButton a:hover,.navButton a:visited{
     text-decoration: none;
+    color: #009CB5;
 }
 
 /* FIND PAGE */
@@ -96,6 +112,8 @@ table thead th.active{
 #findContainer form div{
     padding: 10px;
     line-height: 2em;
+    color: white;
+    font-weight: bold;
 }
 
 #findContainer form input{
@@ -104,7 +122,8 @@ table thead th.active{
 }
 #findContainer form input[type="submit"]{
     border-radius: 1em;
- background: #eeeeee; /* Old browsers */
+    border: 1px solid gray;
+    background: #eeeeee; /* Old browsers */
     background: -moz-linear-gradient(top,  #eeeeee 0%, #cccccc 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#cccccc)); /* Chrome,Safari4+ */
     background: -webkit-linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* Chrome10+,Safari5.1+ */
@@ -112,7 +131,8 @@ table thead th.active{
     background: -ms-linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* IE10+ */
     background: linear-gradient(to bottom,  #eeeeee 0%,#cccccc 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#cccccc',GradientType=0 ); /* IE6-9 */
-
+    color: #009CB5;
+    font-size: 14px;
 }
 #findContainer form select{
     width: 100%;
@@ -123,33 +143,31 @@ table thead th.active{
 
 /* SHOW PAGE */
 #showContainer{
+    color: DarkBlue;
     width: 100%;
+    text-align: left;
     background: #93CDDD;
-    height: 650px;
+    /*height: 650px;*/
     font-family: Arial;
     font-size: 16px;
 }
 #showContainer div{
+    margin: 0 auto;
+    width: 200px;
     padding: 10px;
     background: #93CDDD;
 }
 #showContainer label{
     font-weight: bold; 
 }
-#showDetails{
-    border-right: 1px solid LightGray;
-}
 #showDetails h3,#showHistory h3{
     padding: 10px;
-}
-#showDetails,#showHistory{
-    float: left;
-    width: 42%;
 }
 #showHistory div:last-child{
     padding-top: 0px;
     margin-top: -15px;
 }
+
 /* ADD PAGE */
 #addContainer{
     background: #93CDDD;
@@ -170,4 +188,16 @@ table thead th.active{
 }
 #addContainer label{
     font-weight: bold;
+}
+#addErrors{
+    margin-top: 0px;
+    background-color: #93CDDD;
+    text-align: center;
+    color: red;
+}
+#addErrors li{
+    text-decoration: none;
+}
+#mobileForm label{
+    color: white;
 }

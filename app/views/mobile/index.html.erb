@@ -1,132 +1,33 @@
-
+<!-- Will Be Placed in head tag -->
 <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1">
 <%= javascript_include_tag "jquery" %>
+<%= javascript_include_tag "mobile/index" %>
 <%= stylesheet_link_tag "mobile" %>
-<script type = "text/javascript">
-    $(document).ready(function(){
-
-        var numBikes = 10;
-        var count;
-        function attachListeners(){
-            $(window).scroll(scrollHandler);
-            $(".sorter").each(function(){
-                $(this).click(function(){
-                    $(".active").removeClass("active");
-                    $(this).addClass("active");
-                    $("#footerLink").html("Loading...");
-                    populateBikeList();
-                });
-            });
-            $("#bikeTableBody tr").live("click",function(){
-                var bikeNumber = $(this).children()[0];
-                window.location.href = "/mobile/show/"+bikeNumber.innerHTML;
-                return;
-            });
-        }
-
-        var scrollHandler = function(){
-            var dHeight = getDocHeight();
-            if($(window).scrollTop() + window.innerHeight >= dHeight - 10){
-                $(window).unbind("scroll");
-                $("#footerLink").html("Loading...");
-                loadBikes();
-            }
-        }
-
-        // Cross Browser Document Height from James Palodsy
-        function getDocHeight() {
-            var D = document;
-            return Math.max(
-                Math.max(D.body.scrollHeight, D.documentElement.scrollHeight),
-                Math.max(D.body.offsetHeight, D.documentElement.offsetHeight),
-                Math.max(D.body.clientHeight, D.documentElement.clientHeight)
-            );
-        }
-
-        function getSorter(){
-            return $(".active").attr("sortAttr");
-        }
-
-        function populateBikeList(){
-            $("#bikeTableBody").html("");
-            numBikes = 0;
-            $.ajax({
-                type : "GET",
-                url : "/mobile/filter_bikes",
-                data : {
-                    "sortBy" : getSorter(),
-                    "searchDesc" : "",
-                    "min" : numBikes,
-                    "max" : numBikes + 10,
-                    "all" : "false"
-                },
-                dataType : "json",
-                success: function(response){
-                    count = parseInt(response.count);
-                    if(numBikes + 10 < count){
-                        renderHtml(response);
-                    }
-                }
-            });
-        }
-
-        function loadBikes(){
-            $.ajax({
-                type : "GET",
-                url : "/mobile/filter_bikes",
-                data : {
-                    "sortBy" : getSorter(),
-                    "searchDesc" : "",
-                    "min" : numBikes,
-                    "max" : numBikes + 10,
-                    "all" : "false"
-                },
-                dataType : "json",
-                success: function(response){
-                    count = parseInt(response.count);
-                    if(numBikes + 10 < count){
-                        renderHtml(response);
-                    }
-                    $("#footerLink").html("Back To Top");
-                }
-            });
-        }
-
-        function renderHtml(response){
-            var bikes = response.bikes;
-            for(var i = 0; i < bikes.length; i++){
-                var bike = bikes[i];
-                var bikeRow = document.createElement("tr");
-                var bikeNumber = document.createElement("td");
-                bikeNumber.innerHTML = bike.number;
-                var bikeStatus = document.createElement("td");
-                bikeStatus.innerHTML = (bike.departed_at ? bike.name + " - Departed" : (bike.name || "Available"));
-                var bikeHook = document.createElement("td");
-                bikeHook.innerHTML = bike.hook_number || "n/a";
-                var bikeColor = document.createElement("td");
-                bikeColor.innerHTML = bike.color;
-                $(bikeRow)
-                .append(bikeNumber)
-                .append(bikeStatus)
-                .append(bikeHook)
-                .append(bikeColor);
-                $("#bikeTable").append(bikeRow);
-            }
-            numBikes += 10;
-            $(window).bind("scroll",scrollHandler);
-            $("#footerLink").html("Back To Top");
-            return false;
-        }
-
-        attachListeners();
-    });
-</script>
+<!-- End Head Tag -->
 <span style = "display:none;" id = "hiddenSearch"><%= @search %></span>
 <div id = "container">
     <div id = "header">
      <h1><%= link_to image_tag("freeridelogothin.png"),"/mobile/home" %></h1>
     </div>
     <div id = "bikeListing">
+    <div>
+        <span class = "mobileLabel">Color</span>
+        <span class = "mobileLabel">Status</span>
+    </div>
+    <select id = "colorFilter" class = "mobileFilter">
+        <option value = "all" selected>All</option>
+        <% @colors.each do |color| %>
+            <option value = "<%=color%>"><%=color%></option>
+        <% end %>
+    </select>
+    <select id = "statusFilter" class = "mobileFilter">
+        <option value = "all" selected>All</option>
+        <option value = "-1">Available</option>
+        <option value = "-2">Departed</option>
+        <% @statuses.each do |progName,progId| %>
+            <option value = "<%=progId%>"><%=progName%></option>
+        <% end %>
+    </select>
     <table id = "bikeTable">
         <thead>
             <th id = "numberSort" sortAttr = "number" class = "active sorter">Number</th>

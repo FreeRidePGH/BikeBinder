@@ -1,11 +1,16 @@
+<!-- Begin Head Tag -->
 <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1">
 <%= javascript_include_tag "jquery" %>
+<%= javascript_include_tag "mobile/add" %>
 <%= stylesheet_link_tag "mobile" %>
+<!-- End Head Tag -->
+
 <div id = "header">
  <h1><%= link_to image_tag("freeridelogothin.png"),"/mobile/home" %></h1>
 </div>
 <div id = "addContainer">
-<%= form_for :bike do |f| %>
+    <ul id = "addErrors"></ul>
+<%= form_for :bike, {:html => {:id => "mobileForm"}} do |f| %>
   <%# render 'shared/error_messages', :object => f.object %>
 <div>
 <%= f.label :number %>
@@ -13,7 +18,7 @@
 </div>
 <div>
 <%= f.label :color %>
-<%= f.text_field :color , :required => true, :id => "colorInput"  %>
+<%= f.select :color , Bike::COLORS, :id => "colorInput"  %>
 </div>
 <div>
 <%= f.label :brand_id, "Brand" %>
