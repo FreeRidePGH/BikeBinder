@@ -125,7 +125,11 @@ class MobileController < ApplicationController
     # Get params
     photo = params[:file]
     number = params[:number]
-    if photo
+    bike = Bike.find_by_number(number)
+    success = true
+    if bike.nil?
+        success = false
+    elsif photo
             # Create the directory
             directory = "public/photos"
             begin  
@@ -139,7 +143,7 @@ class MobileController < ApplicationController
             # Binary write the uploaded file to the path
             File.open(path,'wb') { |f| f.write(photo.read) }
     end
-    render :nothing => true
+    render :json => { "success" => success }
   end
 
   # Action to show information for a bike
@@ -170,6 +174,79 @@ class MobileController < ApplicationController
     params[:bike].delete :top_tube_unit
     end
   end 
+
+  def ajax_show
+    bike_number = params[:id]
+    bike = Bike.get_bike_details(bike_number)
+    render :json => bike
+  end
+
+  def ajax_find
+    bike_number = params[:bikeFind]
+    hook_number = params[:hookFind]
+    bike = Bike.find_by_number(bike_number)
+    hook = Hook.find_by_number(hook_number)
+    if bike
+        render :json => {"bike" => bike.number}
+    elsif hook and hook.bike
+        render :json => {"bike" => hook.bike.number}
+    else
+        render :json => {"bike" => nil}
+    end
+  end
+
+  # Action to Create a Bike
+  def ajax_add
+    # Get Params
+    bike = params[:bike]
+    existing_bike = Bike.find_by_number(params[:bike][:number])
+    ttl = params[:bike][:top_tube_length]
+    sth = params[:bike][:seat_tube_height]
+    value = params[:bike][:value]
+    @errors = []
+    if existing_bike.nil? == false
+        @errors.push("Bike number already exists")
+    end
+    if @errors.empty? == true and bike
+        # Convert CM/Inches
+        #convert_units()
+        convert_brands()
+        newBike = Bike.new(params[:bike])
+            if newBike.save
+                render :json => {"errors" => @errors}
+            return
+        else
+            @errors.push("Invalid Data")
+        end
+    end
+    render :json => {"errors" => @errors}
+  end
+
+  def convert_brands
+    brand = params[:bike][:brand]
+    model = params[:bike][:model]
+    existing_brand = Brand.find_by_name(brand)
+    if existing_brand.nil? == false
+        params[:bike][:brand_id] = existing_brand.id
+        existing_model = BikeModel.where(:brand_id => existing_brand.id, :name => model).first
+        if existing_model.nil? == false
+            params[:bike][:bike_model_id] = existing_model.id
+        else
+            new_model = BikeModel.new(:name => model, :brand_id => existing_brand.id)
+            new_model.save
+            params[:bike][:bike_model_id] = new_model.id
+        end
+    else
+        new_brand = Brand.new(:name => brand)
+        new_model = BikeModel.new(:name => model, :brand_id => new_brand.id)
+        new_brand.save
+        new_model.save
+        params[:bike][:brand_id] = new_brand.id
+        params[:bike][:bike_model_id] = new_model.id
+    end
+    params[:bike].delete :brand
+    params[:bike].delete :model
+  end
 
 
 end

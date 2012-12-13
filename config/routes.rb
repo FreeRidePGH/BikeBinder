@@ -60,6 +60,9 @@ BikeBinder::Application.routes.draw do
   match '/mobile/findsubmit' => 'mobile#find_submit'
   match '/mobile/generate_code/:id' => 'mobile#generate_code'
   match '/mobile/upload' => 'mobile#upload', :via => [:get,:post]
+  match '/mobile/ajax_show/:id' => 'mobile#ajax_show'
+  match '/mobile/ajax_find' => 'mobile#ajax_find', :via => :get
+  match '/mobile/ajax_add' => 'mobile#ajax_add', :via => :get
 
   # Ensure root is set per recommendations when installing Devise
   root :to => 'bikes#index', :via => [:get]
