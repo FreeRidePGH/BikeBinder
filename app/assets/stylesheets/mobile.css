@@ -86,7 +86,7 @@ table thead th.active{
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#cccccc',GradientType=0 ); /* IE6-9 */
 }
 
-.navButton a,.navButton a:hover,.navButton a:visited{
+#welcomeContent a, #welcomeContent a:hover,#welcomeContent a:visited{
     text-decoration: none;
     color: #009CB5;
 }

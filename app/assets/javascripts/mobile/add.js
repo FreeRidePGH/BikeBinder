@@ -28,8 +28,20 @@ $(document).ready(function(){
         function processValidations(){
             var errors = [];
             var bikeNumber = $("#bike_number").val();
+            var bikeSeat = $("#bike_seat_tube_height").val();
+            var bikeTop = $("#bike_top_tube_length").val();
+            var bikeValue = $("#bike_value").val();
             if(isNaN(bikeNumber) == true || bikeNumber.length !== 5){
                 errors.push("Bike Number must be 5 digits");
+            }
+            if(bikeSeat && isNaN(bikeSeat)){
+                errors.push("Seat Tube must be a number");    
+            }
+            if(bikeTop && isNaN(bikeTop)){
+                errors.push("Top Tube must be a number");    
+            }
+            if(bikeValue && isNaN(bikeValue)){
+                errors.push("Value must be a number");    
             }
             return errors;
         }
