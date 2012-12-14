@@ -93,7 +93,7 @@ class MobileController < ApplicationController
         redirect_to :controller => "mobile", :action => "show", :id => @bike_number
         return
     end
-    hook = Bike.find_by_label(@hook_number)
+    hook = Hook.find_by_label(@hook_number)
     if hook and hook.bike
         redirect_to :controller => "mobile", :action => "show", :id => hook.bike.number
         return
