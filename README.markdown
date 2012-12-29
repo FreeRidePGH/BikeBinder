@@ -5,11 +5,12 @@
 Reproduce all functionality that exists with the current paper bike binder and departed bikes binder system.
 
 
-## Getting up and running
+## Getting up and running for development
 
 ### After the first clone
 
-Take the following actions to get a cloned/pulled version to run locally
+Take the following actions to get a cloned/pulled version to run locally for development
+
 * Rename the database config file (remove ".sample")
 * Install gems
 * Initialize and populate the database 
@@ -18,10 +19,11 @@ Take the following actions to get a cloned/pulled version to run locally
         bundle install
         rake db:populate
 
+
 ### After each time you pull updates
 
 * Install missing (or out of date) gems
-* Reinitialize and repopulate the database
+* Reinitialize and repopulate the database (see seeding approaches for details)
 
         bundle install
         rake db:populate
@@ -34,9 +36,6 @@ Take the following actions to get a cloned/pulled version to run locally
         rake db:test_setup
         bundle exec guard
 
-(See also http://guides.rubyonrails.org/testing.html#preparing-your-application-for-testing)
-
-
 ## Documentation Tasks
 
 * Generating ERD images using railroady (http://railroady.prestonlee.com/)
@@ -45,15 +44,29 @@ Take the following actions to get a cloned/pulled version to run locally
 
 * Diagram state machines
 
-        rake state_machine:draw FILE=project.rb CLASS=Project
         rake state_machine:draw FILE=bike.rb CLASS=Bike
-        rake state_machine:draw FILE=project/youth_detail.rb CLASS=Project::YouthDetail
-        rake state_machine:draw FILE=project/eab_detail.rb CLASS=Project::EabDetail
 
-* Annotate models (list attributes as comments in the class file)
-  (See http://ruby.railstutorial.org/chapters/modeling-and-viewing-users-one#code:gemfile_annotate)
 
-        bundle exec annotate --position after
+--------------------------------------------
+
+
+### Approach to seeding the application
+
+#### Seeding tasks
+
+* Non-destructively seed what is necessary to get the application running
+** Can be used to update a running application to additions made to the database
+
+	rake db:seed
+
+* Destructive seeding that resets the database structure and loads demo data
+** Existing data will be lost when the database is reset
+** Guarantees the database has the proper structure (good for development, especially if the strucuture is changing during development)
+
+	rake db:populate
+
+
+(See also http://guides.rubyonrails.org/testing.html#preparing-your-application-for-testing)
 
 
 --------------------------------------------
@@ -111,6 +124,31 @@ eg, a blue underline link represents a Navigational action such as going to the 
 
 --------------------------------------------
 
+## Mobile Strategy
+
+### Routing and controllers
+
+* The existing routes and controllers will provide mobile functionality in addition to standard functionality
+* Mobile-only urls will not be used
+
+### Content for mobile devices
+
+* Users will explicitly indicate if they want to use the mobile version 
+
+### Detecting mobile users
+
+* Screen size will be the criteria for detecting mobile
+* When mobile is detected, the usr will be given the suggestion to use the mobile version
+* A user's preference will be stored in the session
+
+### Unsupported Features
+
+* Unsupported javascript and client-dependent features should fall-back to more standard alternatives.
+* Some mobile devices will rely on the fall back features, but others may not need to fall-back
+
+
+--------------------------------------------
+
 # Project Milestones
 
 ## Milestone 1: Youth project implementation to be fully functional
@@ -149,7 +187,6 @@ eg, a blue underline link represents a Navigational action such as going to the 
 # Copyright
 
 (c) 2012 Free Ride Bicycle Project, See license for details
-
 
 
 
