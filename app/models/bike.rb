@@ -30,13 +30,19 @@ class Bike < ActiveRecord::Base
   acts_as_commentable
 
   # Program ID is denormalized, referencing the active assignment for this bike
-  attr_accessible :color, :value, :wheel_size, :seat_tube_height, :top_tube_length, :bike_model_id, :brand_id, :number, :quality, :condition, :program_id
+  attr_accessible :color, :value, :wheel_size, :seat_tube_height, :top_tube_length, :bike_model_id, :number, :quality, :condition, :program_id
   
   has_one :hook, :dependent => :nullify, :inverse_of => :bike
   has_many :assignments
   belongs_to :program
-  belongs_to :brand
   belongs_to :bike_model
+  
+  def brand
+    self.bike_model.brand
+  end
+  def model
+    self.bike_model
+  end
 
   # Validations
   validates_presence_of :number,:color

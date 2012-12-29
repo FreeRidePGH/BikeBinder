@@ -63,7 +63,6 @@ ActiveRecord::Schema.define(:version => 20121229071221) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "departed_at"
-    t.integer  "brand_id"
     t.integer  "bike_model_id"
     t.string   "number"
     t.string   "quality"

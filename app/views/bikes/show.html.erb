@@ -92,8 +92,8 @@
     </div>
     <div>
       <dl class="staticAttributes">
-	<dd class="key">Manufacturer:</dd><dd class="value" ><%= bike.brand_name %></dd>
-	<dd class="key" >Model:</dd><dd class="value"><%= bike.model_name %></dd>
+	<dd class="key">Manufacturer:</dd><dd class="value" ><%= bike.brand.name if bike.brand %></dd>
+	<dd class="key" >Model:</dd><dd class="value"><%= bike.model.name if bike.model %></dd>
 	<dd class="key">Color: </dd>
 	<dd class="value" ><%= bike.color %></dd>
 	<span data-bike-color=<%=bike.color %> ></span>

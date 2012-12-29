@@ -78,8 +78,6 @@ namespace :db do
       prog_id = (available) ? rand(n_progs+1) : nil
 
       bike_model_id = rand(n_models+1)
-      model = BikeModel.find(bike_model_id)
-      mfg = model.brand
 
       quality = arr_ratings[rand(arr_ratings.length)]
       condition = arr_ratings[rand(arr_ratings.length)]
@@ -92,11 +90,11 @@ namespace :db do
                        :seat_tube_height=>sh, 
                        :top_tube_length=>tl,
                        :wheel_size => wheel,
-                       :brand_id => mfg,
-                       :bike_model_id => model,
+                       :bike_model_id => bike_model_id,
                        :quality => quality,
                        :condition => condition,
                        :number => Bike.format_number(n+1001))
+
       if rand(3)>0
         b.reserve_hook
       end
