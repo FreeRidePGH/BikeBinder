@@ -50,20 +50,20 @@ Take the following actions to get a cloned/pulled version to run locally for dev
 --------------------------------------------
 
 
-### Approach to seeding the application
+## Approach to seeding the application
 
-#### Seeding tasks
+### Seeding tasks
 
 * Non-destructively seed what is necessary to get the application running
-** Can be used to update a running application to additions made to the database
+ * Can be used to update a running application to additions made to the database
 
-	rake db:seed
+        rake db:seed
 
 * Destructive seeding that resets the database structure and loads demo data
-** Existing data will be lost when the database is reset
-** Guarantees the database has the proper structure (good for development, especially if the strucuture is changing during development)
+ * Existing data will be lost when the database is reset
+ * Guarantees the database has the proper structure (good for development, especially if the strucuture is changing during development)
 
-	rake db:populate
+        rake db:populate
 
 
 (See also http://guides.rubyonrails.org/testing.html#preparing-your-application-for-testing)
