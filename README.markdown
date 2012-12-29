@@ -65,7 +65,6 @@ Take the following actions to get a cloned/pulled version to run locally for dev
 
         rake db:populate
 
-
 (See also http://guides.rubyonrails.org/testing.html#preparing-your-application-for-testing)
 
 
