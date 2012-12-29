@@ -12,7 +12,8 @@ gem 'devise', '~>2.1.0'
 gem 'acts_as_commentable_with_threading', '1.1.2'
 
 # Modular bulding-blocks for the application
-gem 'bike_mfg', :git => 'git://github.com/zflat/bike_mfg.git'
+gem 'bike_mfg', :path => '/home/william/rails_projects/bike_mfg', :group => :development
+# gem 'bike_mfg', :git => 'git://github.com/zflat/bike_mfg.git'
 gem 'color_name-i18n', :git => 'git://github.com/zflat/color_name-i18n.git'
 gem 'iso_bsd-i18n', :git => 'git://github.com/zflat/iso_bsd-i18n.git'
 gem 'time_sheet', :git => 'git://github.com/zflat/time_sheet.git'

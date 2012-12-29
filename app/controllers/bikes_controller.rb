@@ -18,6 +18,13 @@ class BikesController < ApplicationController
   expose(:bikes) do
     @bikes ||= ([bike] if bike_found?)
     @bikes ||= Bike.all 
+    @bikes
+  end
+
+  expose(:bike_form) do
+    data = params[:bike_form]
+    @bike_form ||= BikeForm.new(data)
+    @bike_form
   end
 
   # Fetch by
@@ -45,7 +52,7 @@ class BikesController < ApplicationController
   end
 
   def create     
-    if bike.save
+    if bike_form.save
       flash[:success] = "New bike was added."
       redirect_to bike_path(bike) and return
     end
@@ -63,7 +70,7 @@ class BikesController < ApplicationController
   def index
     @title = "Bike Listing"
     @brands = BikeBrand.all
-    @colors = Bike.all_colors
+    @colors = ColorNameI18n::keys
     @statuses = Program.all_programs
     @sorts = Bike.sort_filters
     @searchTerm = params[:search]

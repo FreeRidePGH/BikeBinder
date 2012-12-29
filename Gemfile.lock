@@ -1,14 +1,4 @@
 GIT
-  remote: git://github.com/zflat/bike_mfg.git
-  revision: 59ce498dcefe48064f783697b3fbaad21b63d62a
-  specs:
-    bike_mfg (0.0.1)
-      activesupport
-      oj
-      rabl (>= 0.6)
-      squeel (~> 1.0.14)
-
-GIT
   remote: git://github.com/zflat/color_name-i18n.git
   revision: 42fd427827b9f041a5bada38e72d32edaeb0463d
   specs:
@@ -33,6 +23,15 @@ GIT
       activerecord (>= 3.0)
       activesupport (~> 3.0)
       awesome_nested_set (>= 2.0)
+
+PATH
+  remote: /home/william/rails_projects/bike_mfg
+  specs:
+    bike_mfg (0.0.1)
+      activesupport
+      oj
+      rabl (>= 0.6)
+      squeel (~> 1.0.14)
 
 GEM
   remote: http://rubygems.org/

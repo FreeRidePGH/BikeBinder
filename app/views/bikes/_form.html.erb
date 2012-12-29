@@ -1,149 +1,19 @@
-<script type = "text/javascript">
-
-   
-	$(function(){ // Load jquery
-
-        // Load Tab Interface
-        $('#myTab a:first').tab('show');
-        $("li a").each(function(){
-            $(this).click(function(){
-                $(this).tab('show');
-            });
-        });
-
-        function attachGuideListeners(){
-            $("#bike_quality").focus(function(){
-                $($("#myTab li a")[1]).tab('show');
-            });
-            $("#bike_condition").focus(function(){
-                $($("#myTab li a")[1]).tab('show');
-            });
-            $("#bike_wheel_size").focus(function(){
-                $($("#myTab li a")[0]).tab('show');
-            });
-            $("#bike_seat_tube_height").focus(function(){
-                $($("#myTab li a")[2]).tab('show');
-            });
-            $("#bike_top_tube_length").focus(function(){
-                $($("#myTab li a")[2]).tab('show');
-            });
-            $("#bike_value").focus(function(){
-                $($("#myTab li a")[3]).tab('show');
-            });
-
-        }
-    
-        // Function to attach event listeners to form
-        function attachListeners(){
-            // Attach Brand Listener
-            $("#bike_brand_id").change(function(){
-                var brand = $("#bike_brand_id").val();
-                if (brand === undefined || brand === ""){
-                    brand = "-1";
-                }
-                // On select, get models based on this brand
-                $.ajax({
-                    url: "/bikes/get_models/" + brand,
-                    dataType: 'json'
-                }).done(function(response){
-                    var modelSelect = $("#bike_bike_model_id");
-                    modelSelect.html("");
-                    if(response.length === 0){
-                        var noneOpt = document.createElement("option");
-                        noneOpt.value = "";
-                        noneOpt.innerHTML = "None";
-                        modelSelect.append(noneOpt);
-                    }
-                    for(var i = 0; i < response.length; i++){
-                        var brandJson = response[i];
-                        var newModel = document.createElement("option");
-                        newModel.value = brandJson.id;
-                        newModel.innerHTML = brandJson.name;
-                        modelSelect.append(newModel);                   
-                    }
-                });
-            });
-           // Attach Click Add Listeners
-            var offBrandClick = function(){
-                // Hide select
-                $("#bike_brand_id").hide();
-                $("#bike_brand_id").val("");
-                $("#bike_new_brand_id").show();
-                $("#bike_new_brand_id").focus();
-                $(this).addClass("on");
-                $(this).html("Old brand");
-                $(this).removeClass("off");
-                $(this).unbind();
-                $(this).click(onBrandClick);
-            };
-
-            var offModelClick = function(){
-                $("#bike_bike_model_id").hide();
-                $("#bike_bike_model_id").val("");
-                $("#bike_new_bike_model_id").show();
-                $("#bike_new_bike_model_id").focus();
-                $(this).addClass("on");
-                $(this).html("Old model");
-                $(this).removeClass("off");
-                $(this).unbind();
-                $(this).click(onModelClick);
-            };    
-
-            var onBrandClick = function(){
-                // Hide select
-                $("#bike_new_brand_id").hide();
-                $("#bike_new_brand_id").val("");
-                $("#bike_brand_id").show();
-                $("#bike_brand_id").focus();
-                $(this).addClass("off");
-                $(this).html("New brand");
-                $(this).removeClass("on");
-                $(this).unbind();
-                $(this).click(offBrandClick);
-            };
-
-            var onModelClick = function(){
-                $("#bike_new_bike_model_id").hide();
-                $("#bike_new_bike_model_id").val("");
-                $("#bike_bike_model_id").show();
-                $("#bike_bike_model_id").focus();
-                $(this).addClass("off");
-                $(this).html("New model");
-                $(this).removeClass("on");
-                $(this).unbind();
-                $(this).click(offModelClick);
-            };
-
-            $("#add_brand.off").click(offBrandClick);
-            $("#add_model.off").click(offModelClick);
-
-            // Attach Guide Listeners
-            attachGuideListeners();
-        }
-        
-        
-        attachListeners(); 
-    });
-</script>
-<!-- This is the main form generated for editing a bike. Another form template is rendered for creating a new bike. -->
-<%= form_for(bike, :html => {:class => "new_bike span4"}) do |f| %>
+<%= form_for(bike_form, :html => {:class => "new_bike span4"}, :url => url_for(bike)) do |f| %>
   <%= render 'shared/error_messages', :object => f.object %>
 <div class = "span3">
 <%= f.label :number %>
-<%= f.text_field :number, :value=>bike.number , :required => true %>
+<%= f.text_field :number, :required => true %>
 
 <%= f.label :color %>
 <%= f.text_field :color , :required => true, :id => "colorInput"  %>
 
+
+
 <%= f.label :brand_id, "BikeBrand" %>
-<%= f.collection_select :brand_id, BikeBrand.order(:name).all, :id, :name, {:include_blank => "None"} %>
-<input type = "text" id = "bike_new_brand_id" name = "bike[new_brand_id]" style = "display:none;" />
-<span id = "add_brand" class = "off">New Brand</span>
+
 
 <%= f.label :bike_model_id, "Model" %>
-<%= f.collection_select :bike_model_id, BikeModel.order(:name).all, :id, :name, {:include_blank => "None"} %>
-<input type = "text" id = "bike_new_bike_model_id" name = "bike[new_bike_model_id]" style = "display:none;" />
-<span id = "add_model" class = "off">New Model</span>
+
 
 <%= f.label :value, "Value" %>
 <%= f.text_field :value, :maxlength => 10 %>
@@ -156,7 +26,7 @@
 <%= f.select :condition, Bike.conditions %>
 
 <%= f.label :wheel_size, "Wheel Size" %>
-<%= f.select :wheel_size, Bike.wheel_sizes %>
+<%= f.select :wheel_size, IsoBsdI18n::Rarity::default_division.common.sizes %>
 
 <%= f.label :seat_tube_height, "Seat tube height" %>
 <%= f.text_field :seat_tube_height, :maxlength => 7 %>
@@ -408,3 +278,134 @@
     </div>
     </div>
 </div>
+
+
+
+
+<script type = "text/javascript">
+
+   
+	$(function(){ // Load jquery
+
+        // Load Tab Interface
+        $('#myTab a:first').tab('show');
+        $("li a").each(function(){
+            $(this).click(function(){
+                $(this).tab('show');
+            });
+        });
+
+        function attachGuideListeners(){
+            $("#bike_quality").focus(function(){
+                $($("#myTab li a")[1]).tab('show');
+            });
+            $("#bike_condition").focus(function(){
+                $($("#myTab li a")[1]).tab('show');
+            });
+            $("#bike_wheel_size").focus(function(){
+                $($("#myTab li a")[0]).tab('show');
+            });
+            $("#bike_seat_tube_height").focus(function(){
+                $($("#myTab li a")[2]).tab('show');
+            });
+            $("#bike_top_tube_length").focus(function(){
+                $($("#myTab li a")[2]).tab('show');
+            });
+            $("#bike_value").focus(function(){
+                $($("#myTab li a")[3]).tab('show');
+            });
+
+        }
+    
+        // Function to attach event listeners to form
+        function attachListeners(){
+            // Attach Brand Listener
+            $("#bike_brand_id").change(function(){
+                var brand = $("#bike_brand_id").val();
+                if (brand === undefined || brand === ""){
+                    brand = "-1";
+                }
+                // On select, get models based on this brand
+                $.ajax({
+                    url: "/bikes/get_models/" + brand,
+                    dataType: 'json'
+                }).done(function(response){
+                    var modelSelect = $("#bike_bike_model_id");
+                    modelSelect.html("");
+                    if(response.length === 0){
+                        var noneOpt = document.createElement("option");
+                        noneOpt.value = "";
+                        noneOpt.innerHTML = "None";
+                        modelSelect.append(noneOpt);
+                    }
+                    for(var i = 0; i < response.length; i++){
+                        var brandJson = response[i];
+                        var newModel = document.createElement("option");
+                        newModel.value = brandJson.id;
+                        newModel.innerHTML = brandJson.name;
+                        modelSelect.append(newModel);                   
+                    }
+                });
+            });
+           // Attach Click Add Listeners
+            var offBrandClick = function(){
+                // Hide select
+                $("#bike_brand_id").hide();
+                $("#bike_brand_id").val("");
+                $("#bike_new_brand_id").show();
+                $("#bike_new_brand_id").focus();
+                $(this).addClass("on");
+                $(this).html("Old brand");
+                $(this).removeClass("off");
+                $(this).unbind();
+                $(this).click(onBrandClick);
+            };
+
+            var offModelClick = function(){
+                $("#bike_bike_model_id").hide();
+                $("#bike_bike_model_id").val("");
+                $("#bike_new_bike_model_id").show();
+                $("#bike_new_bike_model_id").focus();
+                $(this).addClass("on");
+                $(this).html("Old model");
+                $(this).removeClass("off");
+                $(this).unbind();
+                $(this).click(onModelClick);
+            };    
+
+            var onBrandClick = function(){
+                // Hide select
+                $("#bike_new_brand_id").hide();
+                $("#bike_new_brand_id").val("");
+                $("#bike_brand_id").show();
+                $("#bike_brand_id").focus();
+                $(this).addClass("off");
+                $(this).html("New brand");
+                $(this).removeClass("on");
+                $(this).unbind();
+                $(this).click(offBrandClick);
+            };
+
+            var onModelClick = function(){
+                $("#bike_new_bike_model_id").hide();
+                $("#bike_new_bike_model_id").val("");
+                $("#bike_bike_model_id").show();
+                $("#bike_bike_model_id").focus();
+                $(this).addClass("off");
+                $(this).html("New model");
+                $(this).removeClass("on");
+                $(this).unbind();
+                $(this).click(offModelClick);
+            };
+
+            $("#add_brand.off").click(offBrandClick);
+            $("#add_model.off").click(offModelClick);
+
+            // Attach Guide Listeners
+            attachGuideListeners();
+        }
+        
+        
+        attachListeners(); 
+    });
+</script>

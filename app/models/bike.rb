@@ -1,25 +1,4 @@
-
-# == Schema Information
-#
-# Table name: bikes
-#
-#  id               :integer         not null, primary key
-#  color            :string(255)
-#  value            :float
-#  seat_tube_height :float
-#  top_tube_length  :float
-#  created_at       :datetime
-#  updated_at       :datetime
-#  departed_at      :datetime
-#  date_in_shop     :datetime
-#  bike_model_id    :integer
-#  brand_id         :integer
-#  number           :string(255)
-#  location_state   :string(255)
-#
-
 require "has_one_soft_delete"
-
 
 class Bike < ActiveRecord::Base
   include HasOneSoftDelete
@@ -30,28 +9,35 @@ class Bike < ActiveRecord::Base
   acts_as_commentable
 
   # Program ID is denormalized, referencing the active assignment for this bike
-  attr_accessible :color, :value, :wheel_size, :seat_tube_height, :top_tube_length, :bike_model_id, :number, :quality, :condition, :program_id
+  attr_accessible :color, :value, :wheel_size, :seat_tube_height, :top_tube_length,
+  :number, :quality, :condition, :program_id
   
   has_one :hook, :dependent => :nullify, :inverse_of => :bike
   has_many :assignments
   belongs_to :program
-  belongs_to :bike_model
+  include BikeMfg::ActsAsManufacturable
   
-  def brand
-    self.bike_model.brand
-  end
-  def model
-    self.bike_model
-  end
 
   # Override accessor with value object
   def color
     ColorNameI18n::Color.new(super)
   end
+  # Override accessor with value object
+  def wheel_size
+    IsoBsdI18n::Size.new(super)
+  end
+
+  def self.number_pattern
+    return /\d{5}/
+  end
+
 
   # Validations
   validates_presence_of :number,:color
   validates :seat_tube_height,:top_tube_length,:value, :numericality => true, :allow_nil => true
+  validates_uniqueness_of :number, :allow_nil => true
+  validates :number, :format => { :with => Bike.number_pattern, :message => "Must be 5 digits exactly"}
+
 
   # Callbacks for setting scrap programs as departed
   before_create :depart_scrap
@@ -59,23 +45,6 @@ class Bike < ActiveRecord::Base
   after_create  :check_hook
   after_update  :check_hook
   after_create  :create_assignment
-
-  WHEEL_SIZES =     [["Unknown",1],
-                     ["622 mm",622],
-                     ["630 mm",630],
-                     ["597 mm",597],
-                     ["590 mm",590],
-                     ["587 mm",587],
-                     ["571 mm",571],
-                     ["559 mm",559],
-                     ["507 mm",507],
-                     ["406 mm",406],
-                     ["305 mm",305],
-                     ["Other",2]]
-
-  COLORS = ["White","Silver","Gray","Black","Red","Brown","Tan","Maroon",
-            "Yellow","Gold","Orange","Olive","DarkGreen","Green","LightGreen",
-            "Teal","Blue","LightBlue","Navy","Pink","Purple"]
 
   STATUSES = ["Available","EAB","Youth","Departed"]
 
@@ -228,46 +197,9 @@ class Bike < ActiveRecord::Base
     return sprintf("%05d", num.to_i) if num
   end
     
-  def self.number_pattern
-    return /\d{5}/
-  end
 
   def self.simple_search(search)
     Bike.where("number LIKE ?","%#{search}%").all
-  end
-
-  def brand_name
-    if !self.brand_id
-       return "None"
-    else
-       return self.brand.name
-    end
-  end
-
-  def model_name
-    if self.bike_model.nil?
-        return "None"
-    else
-        return self.bike_model.name
-    end
-  end
-
-  def self.wheel_sizes
-    return WHEEL_SIZES 
-  end
-
-  def get_wheel_size
-    wheelHash = WHEEL_SIZES
-    wheelHash.each do |key|
-        if key[1] == self.wheel_size
-            return key[0]
-        end
-    end
-    if self.wheel_size.nil? == false
-        return self.wheel_size.to_s + " mm"
-    else
-        return "n/a"
-    end
   end
 
   def self.qualities
@@ -282,10 +214,6 @@ class Bike < ActiveRecord::Base
     return self.created_at.strftime("%m/%d/%Y")
   end
 
-  def self.all_colors
-    return COLORS  
-  end
-
   def self.all_statuses
     return STATUSES
   end
@@ -295,8 +223,6 @@ class Bike < ActiveRecord::Base
             "Wheel Size" => "wheel_size", "Date Entered" => "created_at"}
   end
 
-  validates_uniqueness_of :number, :allow_nil => true
-  validates :number, :format => { :with => Bike.number_pattern, :message => "Must be 5 digits exactly"}
   
   def create_assignment
     new_assignment = Assignment.new
