@@ -62,7 +62,7 @@ class BikesController < ApplicationController
 
   def index
     @title = "Bike Listing"
-    @brands = Brand.all_brands
+    @brands = BikeBrand.all
     @colors = Bike.all_colors
     @statuses = Program.all_programs
     @sorts = Bike.sort_filters
@@ -100,7 +100,7 @@ class BikesController < ApplicationController
     if @model_id.nil? || @model_id == ""
         @brands = []
     else
-        @brands = Brand.find_all_for_models(@model_id)
+        @brands = BikeBrand.find_all_for_models(@model_id)
     end
     render :json => @brands
   end

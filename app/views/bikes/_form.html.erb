@@ -135,8 +135,8 @@
 <%= f.label :color %>
 <%= f.text_field :color , :required => true, :id => "colorInput"  %>
 
-<%= f.label :brand_id, "Brand" %>
-<%= f.collection_select :brand_id, Brand.order(:name).all, :id, :name, {:include_blank => "None"} %>
+<%= f.label :brand_id, "BikeBrand" %>
+<%= f.collection_select :brand_id, BikeBrand.order(:name).all, :id, :name, {:include_blank => "None"} %>
 <input type = "text" id = "bike_new_brand_id" name = "bike[new_brand_id]" style = "display:none;" />
 <span id = "add_brand" class = "off">New Brand</span>
 
