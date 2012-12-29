@@ -44,6 +44,11 @@ class Bike < ActiveRecord::Base
     self.bike_model
   end
 
+  # Override accessor with value object
+  def color
+    ColorNameI18n::Color.new(super)
+  end
+
   # Validations
   validates_presence_of :number,:color
   validates :seat_tube_height,:top_tube_length,:value, :numericality => true, :allow_nil => true

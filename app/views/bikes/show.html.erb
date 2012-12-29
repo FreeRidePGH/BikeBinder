@@ -95,8 +95,8 @@
 	<dd class="key">Manufacturer:</dd><dd class="value" ><%= bike.brand.name if bike.brand %></dd>
 	<dd class="key" >Model:</dd><dd class="value"><%= bike.model.name if bike.model %></dd>
 	<dd class="key">Color: </dd>
-	<dd class="value" ><%= bike.color %></dd>
-	<span data-bike-color=<%=bike.color %> ></span>
+	<dd class="value" ><%= bike.color.name.capitalize %></dd>
+	<span data-bike-color=<%=bike.color.name %> style="background-color:#<%= bike.color.key %>"></span>
 	<dd class="key">Wheel Size:</dd><dd class="value" ><%= "#{bike.wheel_size} mm" %></dd>
 	<dd class="key">Seat tube height:</dd><dd class="value" ><%= (bike.seat_tube_height ? "#{bike.seat_tube_height} inches" : "n/a") %></dd>
 	<dd class="key">Top tube length:</dd><dd class="value" ><%= (bike.top_tube_length ? "#{bike.top_tube_length} inches" :  "n/a") %></dd>
