@@ -5,3 +5,8 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+# Non-destructively seed the bike brand and model data
+if BikeBrand.count == 0
+  Rake::Task['db:bike_mfg:seed'].invoke
+end

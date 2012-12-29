@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120628030935) do
+ActiveRecord::Schema.define(:version => 20121229071221) do
 
   create_table "answers", :force => true do |t|
     t.integer  "question_id"
@@ -36,6 +36,24 @@ ActiveRecord::Schema.define(:version => 20120628030935) do
     t.string   "display_type"
   end
 
+  create_table "assignments", :force => true do |t|
+    t.integer  "program_id"
+    t.integer  "bike_id"
+    t.boolean  "active"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "closed_at"
+  end
+
+  create_table "bike_brands", :force => true do |t|
+    t.string "name"
+  end
+
+  create_table "bike_models", :force => true do |t|
+    t.string  "name",          :null => false
+    t.integer "bike_brand_id", :null => false
+  end
+
   create_table "bikes", :force => true do |t|
     t.string   "color"
     t.float    "value"
@@ -55,21 +73,6 @@ ActiveRecord::Schema.define(:version => 20120628030935) do
 
   add_index "bikes", ["number"], :name => "index_bikes_on_number"
   add_index "bikes", ["program_id"], :name => "index_bikes_on_program_id"
-
-  create_table "bike_models", :force => true do |t|
-    t.integer    "brand_id"
-    t.string     "name"
-    t.datetime   "created_at"
-    t.datetime   "updated_at"
-  end
-
-  create_table "brands", :force => true do |t|
-    t.string     "name"
-    t.datetime   "created_at"
-    t.datetime   "updated_at"
-  end
-
-
 
   create_table "comments", :force => true do |t|
     t.integer  "commentable_id",   :default => 0
@@ -144,15 +147,6 @@ ActiveRecord::Schema.define(:version => 20120628030935) do
 
   add_index "programs", ["label"], :name => "index_programs_on_label", :unique => true
   add_index "programs", ["name"], :name => "index_programs_on_name"
-
-  create_table "assignments", :force => true do |t|
-    t.integer   "program_id"
-    t.integer   "bike_id"
-    t.boolean   "active"
-    t.datetime  "created_at"
-    t.datetime  "updated_at"
-    t.datetime  "closed_at"
-  end
 
   create_table "question_groups", :force => true do |t|
     t.text     "text"
