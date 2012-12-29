@@ -4,17 +4,46 @@ class BikeForm
   extend ActiveModel::Naming
   include ActiveModel::Conversion
   include ActiveModel::Validations
-  
+
   # Bike Attributes
-  attr_accessor :color, :value, :wheel_size, :seat_tube_height, 
+  attr_reader :color, :value, :wheel_size, :seat_tube_height, 
   :top_tube_length, :bike_model_id, :number, :quality, :condition
 
-  # Bike model and brand attributes
-  attr_accessor :bike_brand_name, :bike_model_name, :bike_brand_id
+  # Bike objec, model and brand attributes
+  attr_reader :bike, :bike_brand_name, :bike_model_name, :bike_brand_id
 
-  def initialize(vals)
-    vals ||= {}
-    vals.each do |key, val|
+  def form_method( action )
+    m = {:edit => :put, :new => :post}
+    m[action.to_sym]
+  end
+
+  def initialize(current_bike, params = {})
+    params ||= {}
+    @bike = current_bike || Bike.new
+  
+    # Populate data first from the supplied object
+    parse_obj(bike)
+    # Then populate from the optional params
+    # Populating from params second
+    # allows supplied params to override persisted
+    # obj data
+    parse_params(params)
+  end
+
+  def parse_obj(obj)
+    bike_params.each do |p|
+      set_val(p, obj.send(p).to_s)
+    end
+    bm = obj.model
+    if bm
+      set_val(:bike_model_name, bm.name)
+      set_val(:bike_brand_name, bm.brand.name)
+      set_val(:bike_brand_id, bm.brand.id)
+    end
+  end
+
+  def parse_params(data)
+    data.each do |key, val|
       set_val(key, val)
     end
   end
@@ -28,7 +57,7 @@ class BikeForm
 
   # Forms are never themselves persisted
   def persisted?
-    false
+    false # || (bike.persisted? if bike)
   end
 
   def save
@@ -79,11 +108,19 @@ class BikeForm
     {:name=>bike_model_name}
   end
 
+  def bike_params
+    [:color, :value, :wheel_size, :seat_tube_height, 
+     :top_tube_length, :bike_model_id, 
+     :number, :quality, :condition]
+  end
+
   # Always create the bike record
   # Create bike model and brand records if they are new
   def persist!
     m_id = bike_model_assignment!
-    @bike = Bike.create!(
+    
+    #@bike = Bike.create!(
+    bike.update_attributes(
                          :number => number,
                          :color => color, 
                          :value => value,
@@ -92,6 +129,7 @@ class BikeForm
                          :top_tube_length => top_tube_length,
                          :bike_model_id => m_id
                      )
+    bike.save!
   end
 
   def set_val(attrib, val)

@@ -1,13 +1,4 @@
 GIT
-  remote: git://github.com/zflat/color_name-i18n.git
-  revision: 42fd427827b9f041a5bada38e72d32edaeb0463d
-  specs:
-    color_name-i18n (0.1.2)
-      activemodel
-      bundler (~> 1.2)
-      i18n
-
-GIT
   remote: git://github.com/zflat/iso_bsd-i18n.git
   revision: 767f745fc586429206bff8f4473d91fdbe3a02aa
   specs:
@@ -32,6 +23,14 @@ PATH
       oj
       rabl (>= 0.6)
       squeel (~> 1.0.14)
+
+PATH
+  remote: /home/william/rails_projects/color_name-i18n
+  specs:
+    color_name-i18n (0.1.2)
+      activemodel
+      bundler (~> 1.2)
+      i18n
 
 GEM
   remote: http://rubygems.org/

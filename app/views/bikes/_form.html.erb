@@ -1,4 +1,4 @@
-<%= form_for(bike_form, :html => {:class => "new_bike span4"}, :url => url_for(bike)) do |f| %>
+<%= form_for bike_form, :html => {:class => "new_bike span4"}, :url => url_for(bike_form.bike), :method => bike_form.form_method(action_name) do |f| %>
   <%= render 'shared/error_messages', :object => f.object %>
 <div class = "span3">
 <%= f.label :number %>
@@ -7,10 +7,7 @@
 <%= f.label :color %>
 <%= f.text_field :color , :required => true, :id => "colorInput"  %>
 
-
-
 <%= f.label :brand_id, "BikeBrand" %>
-
 
 <%= f.label :bike_model_id, "Model" %>
 
@@ -44,7 +41,7 @@
 </div>
 <div class = "span3">
 <!-- how do I make render this tag differently for edit or add bike? -->
-<% submit_text = (bike.id.nil?) ? "Create new bike" : "Save changes" %>
+<% submit_text = (action_name == 'new') ? "Create new bike" : "Save changes" %>
 <%= f.submit submit_text, :class => "btn btn-primary" %>
 </div>
 </fieldset>

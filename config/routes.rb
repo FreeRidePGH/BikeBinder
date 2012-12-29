@@ -42,7 +42,7 @@ BikeBinder::Application.routes.draw do
       get 'get_models'
     end
   end
-  
+
 
   resources :hooks,:except =>[:destroy, :new, :create]
 

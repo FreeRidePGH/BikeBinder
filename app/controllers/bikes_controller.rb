@@ -3,14 +3,14 @@ class BikesController < ApplicationController
   # Fetch by:
   # * id or bike_id
   # Create by:
-  # Bike.new
+  # Never. Let the bike creation happen with bike_form
   expose(:bike) do
     id_param = params[:id]||params[:bike_id]
     unless id_param.blank?
       label = id_param
       @bike ||= Bike.find_by_label(label) unless label.nil?
     end    
-    @bike ||= Bike.new(bike_params)
+    @bike
   end
   # Fetch by:
   # Array of single bike when bike is found & fetched
@@ -21,9 +21,10 @@ class BikesController < ApplicationController
     @bikes
   end
 
+  # The bike_form is action sensative, so it is defined
+  # in each action. This expose give the view access to
+  # the correct bike_form object
   expose(:bike_form) do
-    data = params[:bike_form]
-    @bike_form ||= BikeForm.new(data)
     @bike_form
   end
 
@@ -49,12 +50,14 @@ class BikesController < ApplicationController
   def new
     @title = "Add a new bike"
     @form_text = "Create new bike"
+    @bike_form = BikeForm.new(Bike.new)
   end
 
   def create     
+    @bike_form = BikeForm.new(Bike.new, params[:bike_form])
     if bike_form.save
       flash[:success] = "New bike was added."
-      redirect_to bike_path(bike) and return
+      redirect_to bike_path(bike_form.bike) and return
     end
     render :new
   end
@@ -62,9 +65,6 @@ class BikesController < ApplicationController
   def show
     @title = "Bike #{bike.number} Overview"
     @program = Program.new
-    if File.exists?("public/photos/bike-#{bike.number}.jpeg")
-        @bikePhoto = true
-    end
   end
 
   def index
@@ -77,11 +77,13 @@ class BikesController < ApplicationController
   end
 
   def edit
-    @title = "Edit details for bike " + @bike.number
+    @bike_form = BikeForm.new(bike)
+    @title = "Edit details for bike " + bike.number
   end
 
   def update
-    if bike.update_attributes(params[:bike])
+    @bike_form = BikeForm.new(bike, params[:bike_form])
+    if bike_form.save #  bike.update_attributes(params[:bike])
       flash.now[:success] = "Bike information updated."
       redirect_to bike
     else
@@ -130,7 +132,7 @@ class BikesController < ApplicationController
   end
 
   def get_details
-    @bike = Bike.get_bike_details(params[:id])
+    bike = Bike.get_bike_details(params[:id])
     render :json => @bike
   end
 
