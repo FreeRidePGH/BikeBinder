@@ -1,6 +1,6 @@
 # Form object for entering and editing bike data
 class BikeForm
-  
+
   extend ActiveModel::Naming
   include ActiveModel::Conversion
   include ActiveModel::Validations
@@ -31,7 +31,7 @@ class BikeForm
   end
 
   def parse_obj(obj)
-    bike_params.each do |p|
+    bike_params_list.each do |p|
       set_val(p, obj.send(p).to_s)
     end
     bm = obj.model
@@ -67,6 +67,16 @@ class BikeForm
     else
       false
     end
+  end
+
+  def self.bike_params_list
+    [:color, :value, :wheel_size, :seat_tube_height, 
+     :top_tube_length, :bike_model_id, 
+     :number, :quality, :condition]
+  end
+
+  def self.form_params_list
+    bike_params_list + [:bike_brand_id]
   end
 
   private
@@ -108,18 +118,15 @@ class BikeForm
     {:name=>bike_model_name}
   end
 
-  def bike_params
-    [:color, :value, :wheel_size, :seat_tube_height, 
-     :top_tube_length, :bike_model_id, 
-     :number, :quality, :condition]
+  def bike_params_list
+    self.class.bike_params_list
   end
 
   # Always create the bike record
   # Create bike model and brand records if they are new
   def persist!
     m_id = bike_model_assignment!
-    
-    #@bike = Bike.create!(
+
     bike.update_attributes(
                          :number => number,
                          :color => color, 
@@ -130,6 +137,7 @@ class BikeForm
                          :bike_model_id => m_id
                      )
     bike.save!
+
   end
 
   def set_val(attrib, val)

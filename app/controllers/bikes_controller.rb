@@ -3,13 +3,14 @@ class BikesController < ApplicationController
   # Fetch by:
   # * id or bike_id
   # Create by:
-  # Never. Let the bike creation happen with bike_form
+  # Bike.new()
   expose(:bike) do
     id_param = params[:id]||params[:bike_id]
-    unless id_param.blank?
+    if id_param.present?
       label = id_param
       @bike ||= Bike.find_by_label(label) unless label.nil?
     end    
+    @bike ||= Bike.new
     @bike
   end
   # Fetch by:
@@ -25,6 +26,7 @@ class BikesController < ApplicationController
   # in each action. This expose give the view access to
   # the correct bike_form object
   expose(:bike_form) do
+    @bike_form ||= BikeForm.new(bike, bike_form_params)
     @bike_form
   end
 
@@ -43,29 +45,6 @@ class BikesController < ApplicationController
     @commentable ||= bike
   end
 
-  before_filter :verify_bike, :except => [:new, :create, :index,:get_models,:get_brands,:filter_bikes,:get_details]
-  before_filter :verify_brandmodels, :only => [:create,:update]
-  before_filter :convert_units, :only => [:create,:update]
-  
-  def new
-    @title = "Add a new bike"
-    @form_text = "Create new bike"
-    @bike_form = BikeForm.new(Bike.new)
-  end
-
-  def create     
-    @bike_form = BikeForm.new(Bike.new, params[:bike_form])
-    if bike_form.save
-      flash[:success] = "New bike was added."
-      redirect_to bike_path(bike_form.bike) and return
-    end
-    render :new
-  end
-
-  def show
-    @title = "Bike #{bike.number} Overview"
-    @program = Program.new
-  end
 
   def index
     @title = "Bike Listing"
@@ -76,14 +55,31 @@ class BikesController < ApplicationController
     @searchTerm = params[:search]
   end
 
+  def show
+    @title = "Bike #{bike.number} Overview"
+    @program = Program.new
+    verify_bike
+  end
+
+  def new
+    @title = "Add a new bike"
+  end
+
+  def create     
+    if bike_form.save
+      flash[:success] = "New bike was added."
+      redirect_to bike_path(bike_form.bike) and return
+    end
+    render :new
+  end
+
   def edit
-    @bike_form = BikeForm.new(bike)
     @title = "Edit details for bike " + bike.number
+    verify_bike
   end
 
   def update
-    @bike_form = BikeForm.new(bike, params[:bike_form])
-    if bike_form.save #  bike.update_attributes(params[:bike])
+    if bike_form.save
       flash.now[:success] = "Bike information updated."
       redirect_to bike
     else
@@ -214,73 +210,27 @@ class BikesController < ApplicationController
 
   # Method to convert cm to inches
   def convert_units
-    ttu = params[:bike][:top_tube_unit]
-    stu = params[:bike][:seat_tube_unit]
-    if stu == "centimeters"
-      sth = params[:bike][:seat_tube_height].to_i
-      sth = sth * 0.393701
-      puts sth
-      params[:bike][:seat_tube_height] = sth
-    end
-    if ttu == "centimeters"
-      ttl = params[:bike][:top_tube_length].to_i
-      ttl = ttl * 0.393701
-      params[:bike][:top_tube_length] = ttl
-    end
-    params[:bike].delete :seat_tube_unit
-    params[:bike].delete :top_tube_unit
   end
 
+  # Method to create and or assign bike model
   def verify_brandmodels
-    newBrand = params[:bike][:new_brand_id]
-    newModel = params[:bike][:new_bike_model_id]
-    oldBrand = params[:bike][:brand_id]
+
     # Case 1 new brand and model
     # Create new brands and models and assign this bike
-    if (newBrand.nil? == false and newBrand != "" and newModel.nil? == false and newModel != "" and newBrand != "-1" and newModel != "-1")
-        thisBrand = Brand.new(:name => newBrand)
-        thisModel = BikeModel.new(:name => newModel,:brand_id => thisBrand.id)
-        thisBrand.save!
-        thisModel.save!
-        bike.brand_id = thisBrand.id
-        bike.bike_model_id = thisModel.id
-        params[:bike][:brand_id] = thisBrand.id
-        params[:bike][:bike_model_id] = thisModel.id
+
     # Case 2 new model and existing brand
-    elsif (newModel.nil? == false and newModel != "" and oldBrand.nil? == false and oldBrand != "" and newBrand != "-1" and newModel != "-1")
-        thisBrand = Brand.find_by_id(oldBrand)
-        thisModel = BikeModel.new(:name => newModel, :brand_id => thisBrand.id)
-        thisModel.save!
-        bike.brand_id = thisBrand.id
-        bike.bike_model_id = thisModel.id
-        params[:bike][:brand_id] = thisBrand.id
-        params[:bike][:bike_model_id] = thisModel.id
+
     # Case 3 new brand and no model
-    elsif (newBrand.nil? == false and newBrand != "" and (newModel.nil? or newModel == "" or newModel == "-1"))
-        thisBrand = Brand.new(:name => newBrand)
-        thisBrand.save!
-        bike.brand_id = thisBrand.id
-        bike.bike_model_id = nil
-        params[:bike][:brand_id] = thisBrand.id
-        params[:bike][:bike_model_id] = nil
+
     # Case 4 new model and no brand
-    elsif (newModel.nil? == false and newModel != "" and newModel != "-1" and (newBrand.nil? == true or newBrand == "" or newBrand == "-1"))
-        thisModel = BikeModel.new(:name => newModel, :brand_id => nil)
-        thisModel.save!
-        bike.brand_id = nil
-        bike.bike_model_id = thisModel.id
-        params[:bike][:brand_id] = nil
-        params[:bike][:bike_model_id] = thisModel.id
-    end
-    params[:bike].delete :new_brand_id
-    params[:bike].delete :new_bike_model_id
+
   end
 
   # Project from mass assignment
   # See https://gist.github.com/1975644
   # http://rubysource.com/rails-mass-assignment-issue-a-php-perspective/
-  def bike_params
-    params[:bike].slice(:color, :value, :seat_tube_height, :top_tube_length, :bike_model_id, :brand_id, :model, :number, :quality, :condition, :wheel_size) if params[:bike]
+  def bike_form_params
+    params[:bike_form].slice(*BikeForm.form_params_list) if params[:bike_form]
   end
 
 end

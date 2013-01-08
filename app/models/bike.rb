@@ -3,6 +3,9 @@ require 'bike_mfg'
 require 'color_name-i18n'
 
 class Bike < ActiveRecord::Base
+
+  include ActiveModel::ForbiddenAttributesProtection
+
   include HasOneSoftDelete
   extend FriendlyId
 
@@ -17,6 +20,7 @@ class Bike < ActiveRecord::Base
   has_one :hook, :dependent => :nullify, :inverse_of => :bike
   has_many :assignments
   belongs_to :program
+
   include BikeMfg::ActsAsManufacturable
   
 

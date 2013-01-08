@@ -3,17 +3,22 @@ require 'spec_helper'
 describe Bike do
 
   describe "A new bike" do
+    before :each do
+      @bike = FactoryGirl.create(:bike)
+    end
 
     it "Should be valid" do
-      @bike = FactoryGirl.create(:bike)
       @bike.save
       @bike.errors.count.should == 0
+    end
+
+    it "Should have a model" do
+      expect(@bike.model).to_not be_nil
     end
 
     describe "Assigning a hook" do
 
       it "should be assigned to an available hook" do
-        @bike = FactoryGirl.create(:bike)
         @bike.should be_can_reserve_hook
 
         @hook = FactoryGirl.create(:hook)

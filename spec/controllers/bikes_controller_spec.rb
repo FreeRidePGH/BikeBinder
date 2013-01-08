@@ -1,12 +1,17 @@
 require 'spec_helper'
 
 describe BikesController do
-
   describe "GET new" do
     it "should be successful" do
       get :new
       response.should be_success
     end
+
+    it "should expose a new bike" do
+      expect(controller.bike).to_not be_nil
+      expect(controller.bike).to_not be_persisted
+    end
+
   end
 
   describe "GET index" do
@@ -16,21 +21,58 @@ describe BikesController do
     end
   end
 
-  describe "Enter new bike"
+  describe "Get edit a bike" do
+    before(:each) do
+      @bike  = FactoryGirl.create(:bike)
+      get :edit, :id => @bike
+    end
+    it "should expose the correct bike" do
+      expect(controller.bike).to_not be_nil
+      expect(controller.bike.id).to eq(@bike.id)
+    end
 
-  describe "Get new while not signed in" do
+  end
+
+  describe "Put update a bike" do
+    before(:each) do
+      @bike  = FactoryGirl.create(:bike)
+    end
+    
+    describe "with valid parameters" do
+      it "should redirect to the bike" do
+        put :update, :id => @bike
+        expect(response).to redirect_to(:show)
+      end
+    end
+
+    describe "with invalid paramaters" do
+      it "should render edit" do
+        put :update, :id => @bike
+        expect(response).to render_template(:edit)
+      end
+    end
+  end
+
+  describe "GET new while not signed in" do
     it "should be successful" do
       get("new")
       response.should be_success
     end
   end
 
-  describe "Get bike" do
-    
-    it "should show bike page with success" do
+  describe "Show bike" do
+    before(:each) do
       @bike  = FactoryGirl.create(:bike)
       get :show, :id => @bike
-      response.should be_success      
+    end
+    
+    it "should show bike page with success" do
+      expect(response).to be_success
+    end
+
+    it "should expose the correct bike" do
+      expect(controller.bike).to_not be_nil
+      expect(controller.bike.id).to eq(@bike.id)
     end
     
   end
