@@ -1,5 +1,6 @@
 require "has_one_soft_delete"
 require 'bike_mfg'
+require 'color_name-i18n'
 
 class Bike < ActiveRecord::Base
   include HasOneSoftDelete
@@ -39,50 +40,6 @@ class Bike < ActiveRecord::Base
   validates_uniqueness_of :number, :allow_nil => true
   validates :number, :format => { :with => Bike.number_pattern, :message => "Must be 5 digits exactly"}
 
-
-  # Callbacks for setting scrap programs as departed
-  before_create :depart_scrap
-  before_update :depart_scrap
-  after_create  :check_hook
-  after_update  :check_hook
-  after_create  :create_assignment
-
-  STATUSES = ["Available","EAB","Youth","Departed"]
-
-  def depart_scrap
-    if self.program_id == Program.where("name = ?","Scrap").first.id
-        current_assignment = self.assignments.where("active = ?",true).first
-        if current_assignment
-            current_assignment.closed_at = DateTime.now()
-        end
-        self.departed_at = DateTime.now()
-    end
-  end
- 
-  def check_hook
-    if self.departed_at.nil? == false
-      if self.hook
-        h = Hook.find_by_id(self.hook)
-        h.update_attribute(:bike_id,nil)
-      end
-    end
-  end
-
-  def vacate_hook
-    if self.nil? == false and self.hook.nil? == false
-      h = self.hook
-      h.bike = nil
-      h.save!
-    end
-  end
-
-  def reserve_hook_by_id(hook_id)
-    if self.nil? == false and self.hook.nil? == true
-      h = Hook.find_by_id(hook_id)
-      h.bike = self
-      h.save!
-    end
-  end
 
   def self.filter_bikes(colors,status,sortBy,search,min,max,all)
     statusSql = []
