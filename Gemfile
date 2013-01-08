@@ -23,7 +23,7 @@ gem 'time_sheet', :git => 'git://github.com/zflat/time_sheet.git'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'friendly_id', '~>4.0.5'
 gem 'decent_exposure', '~>1.0.2'
-gem 'squeel', '~>1.0.1'
+gem 'squeel', '~>1.0.14'
 
 gem 'state_machine', '1.1.2'
 gem 'ruby-graphviz','~>1.0.5', :require => 'graphviz'

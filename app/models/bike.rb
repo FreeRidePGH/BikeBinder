@@ -1,4 +1,5 @@
 require "has_one_soft_delete"
+require 'bike_mfg'
 
 class Bike < ActiveRecord::Base
   include HasOneSoftDelete
