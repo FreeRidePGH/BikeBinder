@@ -41,7 +41,9 @@ select_init(sel2.ColorSelectBuilder,
 <%= f.select :condition, Bike.conditions %>
 
 <%= f.label :wheel_size, "Wheel Size" %>
-<%= f.select :wheel_size, IsoBsdI18n::Rarity::default_division.common.sizes %>
+<%=  render Select2BikeBinder::Builder::WheelDiameterSelect.new(f,
+     :param_key=>'wheel_size', :multiple=>false, :value=>bike.wheel_size, :width=>"90%") %>
+<% #f.select :wheel_size, IsoBsdI18n::Rarity::default_division.common.sizes %>
 
 <%= f.label :seat_tube_height, "Seat tube height" %>
 <%= f.text_field :seat_tube_height, :maxlength => 7 %>
