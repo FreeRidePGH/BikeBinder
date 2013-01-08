@@ -64,6 +64,18 @@ BikeBinder::Application.routes.draw do
   match '/mobile/ajax_find' => 'mobile#ajax_find', :via => :get
   match '/mobile/ajax_add' => 'mobile#ajax_add', :via => :get
 
+
+  # AJAX Routes
+  match '/bikes/get_models/:brand_id' => 'bikes#get_models'
+  match '/bikes/get_brands/:bike_model_id' => 'bikes#get_brands'
+  match '/bikes/filter_bikes/:id' => 'bikes#filter_bikes'
+  match '/bikes/get_details/:id' => 'bikes#get_details'
+
+  ####################################################
+  ## FINAL ROUTES TO CATCH UNMATCHED URIs AND SEARCHES
+  ####################################################
+  ####################################################
+
   # Ensure root is set per recommendations when installing Devise
   root :to => 'bikes#index', :via => [:get]
 
@@ -71,9 +83,8 @@ BikeBinder::Application.routes.draw do
   match '/:id' => 'bikes#show', :id => Bike.number_pattern, :via => [:get]
   match '/:id' => 'hooks#show', :id => Hook.number_pattern, :via => [:get]
 
-  # AJAX Routes
-  match '/bikes/get_models/:brand_id' => 'bikes#get_models'
-  match '/bikes/get_brands/:bike_model_id' => 'bikes#get_brands'
-  match '/bikes/filter_bikes/:id' => 'bikes#filter_bikes'
-  match '/bikes/get_details/:id' => 'bikes#get_details'
+  ####################################################
+  ####################################################
+  ## DO NOT ADD ROUTES AFTER THIS LINE
+  ####################################################
 end

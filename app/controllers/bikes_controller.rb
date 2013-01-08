@@ -9,6 +9,7 @@ class BikesController < ApplicationController
     if id_param.present?
       label = id_param
       @bike ||= Bike.find_by_label(label) unless label.nil?
+      @bike ||= Bike.find_by_number(id_param)
     end    
     @bike ||= Bike.new
     @bike
