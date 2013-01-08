@@ -7,7 +7,15 @@
  *= require jquery.ui.button
  *= require jquery.ui.dialog
  *= require jquery-ui/redmond
+ *
+ *
+ *= require select2
+ *= require select2/wheel_select
+ *= require select2/color_select
+ *
  */
+
+
 /* header provides a common label to rest above each part of the site */
 
 header {

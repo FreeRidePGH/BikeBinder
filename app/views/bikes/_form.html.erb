@@ -1,11 +1,29 @@
+<script type="text/javascript">
+I18n.locale = "<%= I18n::locale %>"; //specify locale
+
+$(document).ready(function(){
+// Initialize the Select2 Interface Elements
+select_init(sel2.WheelSelectBuilder, 
+{selector:"<%="*.#{Select2BikeBinder::Builder::WheelDiameterSelect.selector_class}"%>"});
+
+select_init(sel2.ColorSelectBuilder, 
+{selector:"<%="*.#{Select2BikeBinder::Builder::ColorSelect.selector_class}"%>"});
+
+})
+
+</script>
+
 <%= form_for bike_form, :html => {:class => "new_bike span4"}, :url => url_for(bike_form.bike), :method => bike_form.form_method(action_name) do |f| %>
   <%= render 'shared/error_messages', :object => f.object %>
 <div class = "span3">
 <%= f.label :number %>
 <%= f.text_field :number, :required => true %>
 
+
 <%= f.label :color %>
-<%= f.text_field :color , :required => true, :id => "colorInput"  %>
+<% color_optns = {:multiple=>false, :param_key => 'color', :value=>bike.color.key} %>
+<%= render Select2BikeBinder::Builder::ColorSelect.new f, color_optns %>
+<% # f.text_field :color , :required => true, :id => "colorInput"  %>
 
 <%= f.label :brand_id, "BikeBrand" %>
 

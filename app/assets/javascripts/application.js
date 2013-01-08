@@ -11,7 +11,23 @@
 //= require jquery.ui.dialog
 //= require bootstrap.min
 //= require fewpicker.jquery
+//
+// 
+// Internationalization Library
+//= require i18n
+//= require i18n/translations
+//
+// Select2 Library 
+//= require select2
+//= require select2/select2_builder
+//
+// Scripts for each select2 interface element
+//= require select2/wheel_select
+//= require select2/color_select
+//= require select2/bike_model_brand_select
+
 $(document).ready(function(){
+
     // hack to see if we are adding a new bike
 		      if ($('#colorInput').length) {
 			  $("input#colorInput").fewPicker();			  
