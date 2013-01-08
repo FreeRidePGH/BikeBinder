@@ -69,7 +69,7 @@ class BikesController < ApplicationController
 
   def index
     @title = "Bike Listing"
-    @brands = BikeBrand.all
+    @brands = nil
     @colors = ColorNameI18n::keys
     @statuses = Program.all_programs
     @sorts = Bike.sort_filters

@@ -14,19 +14,15 @@ FactoryGirl.define do
 
     sequence(:number){|n| Bike.format_number(10000+n)}
 
-    c = 'Red'
-
     val = 100
-    sh = 21
-    tl = 19
 
     n_bike_info = 1
+    
+    color 'FFFFFF'
+    seat_tube_height 21
+    top_tube_length  19
 
-    color c
-    seat_tube_height sh
-    top_tube_length  tl
-    mfg "Scwinn"
-    model  "Traveller"
+    bike_model_id 1
 
   end
 

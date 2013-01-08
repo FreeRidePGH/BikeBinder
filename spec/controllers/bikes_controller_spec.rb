@@ -41,7 +41,7 @@ describe BikesController do
         
       hook = FactoryGirl.create(:hook)
       bike = FactoryGirl.create(:bike)
-      bike.should be_shop
+      #bike.should be_shop
       bike.hook.should be_nil
 
       put :reserve_hook, {:id => bike, :hook_id => hook.id}
