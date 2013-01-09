@@ -95,7 +95,7 @@ label.colorFilter,label.statusFilter{
 .staticAttributes{
 	width:250px;
 }
-.staticAttributes tr,th{
+.staticAttributes tr,.staticAttributes th{
 	border:0;
 	color:black;
 }

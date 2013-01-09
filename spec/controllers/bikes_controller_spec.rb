@@ -47,7 +47,7 @@ describe BikesController do
 
     describe "with invalid paramaters" do
       it "should render edit" do
-        put :update, :id => @bike
+        put :update, :id => @bike, :number => 'BAD'
         expect(response).to render_template(:edit)
       end
     end
