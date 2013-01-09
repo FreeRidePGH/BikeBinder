@@ -47,7 +47,7 @@ describe BikesController do
 
     describe "with invalid paramaters" do
       it "should render edit" do
-        put :update, :id => @bike, :number => 'BAD'
+        put :update, :id => @bike, :bike_form=> {:number => 'BAD'}
         expect(response).to_not redirect_to(@bike)
         expect(response).to render_template(:edit)
       end

@@ -75,7 +75,7 @@ class BikesController < ApplicationController
   end
 
   def edit
-    @title = "Edit details for bike " + bike.number
+    @title = "Edit details for bike " + bike.number.to_s
     verify_bike
   end
 
