@@ -10,6 +10,16 @@ FactoryGirl.define do
     password_confirmation "testtest"
   end
 
+
+  factory :bike_brand do
+    name 'test brand'
+  end
+
+  factory :bike_model do
+    name 'test model series'
+    bike_brand_id 1
+  end
+
   factory :bike do
 
     sequence(:number){|n| Bike.format_number(10000+n)}
@@ -21,7 +31,7 @@ FactoryGirl.define do
     color 'FFFFFF'
     seat_tube_height 21
     top_tube_length  19
-
+    
     bike_model_id 1
 
   end

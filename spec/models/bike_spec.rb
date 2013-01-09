@@ -2,8 +2,11 @@ require 'spec_helper'
 
 describe Bike do
 
+
   describe "A new bike" do
     before :each do
+      @brand = FactoryGirl.create(:bike_brand)
+      @model = FactoryGirl.create(:bike_model)
       @bike = FactoryGirl.create(:bike)
     end
 
@@ -13,6 +16,7 @@ describe Bike do
     end
 
     it "Should have a model" do
+      puts @bike.bike_model
       expect(@bike.model).to_not be_nil
     end
 
@@ -32,7 +36,18 @@ describe Bike do
 
     end
 
-  end
+
+    describe "with invalid number" do
+      it "should not be valid" do
+        @bike.number = '123456'
+        is_valid = @bike.valid?
+        expect(@bike.errors.count).to_not eq 0
+        expect(@bike.errors.count>0).to be_true
+        expect(is_valid).to be_false
+      end
+    end
+
+  end # describe a new Bike
 
   describe "that is deleted" do
     before(:each) do

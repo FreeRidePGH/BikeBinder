@@ -87,13 +87,9 @@ class ApplicationController < ActionController::Base
     redirect_to(:id=>commentable, :action=>:show)
   end
 
-  # Checks if a bike record was found
-  def bike_found?
-    not (bike.nil? or  bike.id.nil?)
-  end 
-
-  def project_found?
-    not (project.nil? or project.id.nil?)
+  # Checks if a record was found
+  def record_found?(model)
+    not (model.nil? or model.id.nil?)
   end
 
 end

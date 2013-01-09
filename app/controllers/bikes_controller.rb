@@ -18,7 +18,7 @@ class BikesController < ApplicationController
   # Array of single bike when bike is found & fetched
   # All bikes
   expose(:bikes) do
-    @bikes ||= ([bike] if bike_found?)
+    @bikes ||= ([bike] if record_found?(bike))
     @bikes ||= Bike.all 
     @bikes
   end
@@ -204,7 +204,7 @@ class BikesController < ApplicationController
 
   # Helper method that redirects if a bike record is not found
   def verify_bike
-    if not bike_found?
+    if not record_found?(bike)
       redirect_to bikes_path and return
     end
   end

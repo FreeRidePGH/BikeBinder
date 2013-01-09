@@ -56,7 +56,7 @@ BikeBinder::Application.routes.draw do
   match '/mobile/home' => 'mobile#home'
   match '/mobile/find' => 'mobile#find'
   match '/mobile/add' => 'mobile#add'
-  match '/mobile/show/:id' => 'mobile#show', :id => Bike.number_pattern
+  match '/mobile/show/:id' => 'mobile#show', :id => BikeNumber.pattern
   match '/mobile/findsubmit' => 'mobile#find_submit'
   match '/mobile/generate_code/:id' => 'mobile#generate_code'
   match '/mobile/upload' => 'mobile#upload', :via => [:get,:post]
@@ -80,7 +80,7 @@ BikeBinder::Application.routes.draw do
   root :to => 'bikes#index', :via => [:get]
 
   # Map top level domain seach to bikes and hooks
-  match '/:id' => 'bikes#show', :id => Bike.number_pattern, :via => [:get]
+  match '/:id' => 'bikes#show', :id => BikeNumber.pattern, :via => [:get]
   match '/:id' => 'hooks#show', :id => Hook.number_pattern, :via => [:get]
 
   ####################################################

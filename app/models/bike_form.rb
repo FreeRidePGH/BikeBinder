@@ -1,3 +1,5 @@
+require 'bike_number'
+
 # Form object for entering and editing bike data
 class BikeForm
 
@@ -52,8 +54,8 @@ class BikeForm
   validates_presence_of :number, :color
   validates :seat_tube_height,:top_tube_length,:value, :numericality => true, :allow_nil => true
   # validates_uniqueness_of :number, :allow_nil => true
-  validates :number, :format => { :with => Bike.number_pattern, :message => "Must be 5 digits exactly"}
-
+  #validates :number, :format => { :with => Bike.number_pattern, :message => "Must be 5 digits exactly"}
+  validates :number, :bike_number => true
 
   # Forms are never themselves persisted
   def persisted?
