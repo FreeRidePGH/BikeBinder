@@ -13,7 +13,10 @@ select_init(sel2.ColorSelectBuilder,
 
 </script>
 
-<%= form_for bike_form, :html => {:class => "new_bike span4"}, :url => url_for(bike_form.bike), :method => bike_form.form_method(action_name) do |f| %>
+<%= form_for bike_form, 
+    :html => {:class => "new_bike span4"}, 
+    :url => url_for(bike_form.bike),
+    :method => bike_form.form_method(action_name) do |f| %>
   <%= render 'shared/error_messages', :object => f.object %>
 <div class = "span3">
 <%= f.label :number %>
@@ -23,7 +26,9 @@ select_init(sel2.ColorSelectBuilder,
 <%= f.label :color %>
 <% color_optns = {:multiple=>false, :param_key => 'color', :value=>bike.color.key} %>
 <%= render Select2BikeBinder::Builder::ColorSelect.new f, color_optns %>
-<% # f.text_field :color , :required => true, :id => "colorInput"  %>
+
+
+
 
 <%= f.label :brand_id, "BikeBrand" %>
 
@@ -33,7 +38,7 @@ select_init(sel2.ColorSelectBuilder,
 <%= f.label :value, "Value" %>
 <%= f.text_field :value, :maxlength => 10 %>
 </div>
-<div class = "span2">
+<div class = "span3">
 <%= f.label :quality, "Quality" %>
 <%= f.select :quality, Bike.qualities %>
 
@@ -43,7 +48,6 @@ select_init(sel2.ColorSelectBuilder,
 <%= f.label :wheel_size, "Wheel Size" %>
 <%=  render Select2BikeBinder::Builder::WheelDiameterSelect.new(f,
      :param_key=>'wheel_size', :multiple=>false, :value=>bike.wheel_size, :width=>"90%") %>
-<% #f.select :wheel_size, IsoBsdI18n::Rarity::default_division.common.sizes %>
 
 <%= f.label :seat_tube_height, "Seat tube height" %>
 <%= f.text_field :seat_tube_height, :maxlength => 7 %>
