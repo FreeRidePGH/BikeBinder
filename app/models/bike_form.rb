@@ -114,7 +114,7 @@ class BikeForm
     # Create the bike model
     new_model = brand.models.new(bike_model_params) if brand && brand.persisted?
     new_model.save if new_model && new_model.valid?
-    return new_model.id if new_model && new_model.persited?
+    return new_model.id if new_model && new_model.persisted?
   end
 
   def bike_brand_params

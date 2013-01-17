@@ -56,10 +56,10 @@ describe BikesController do
     describe "editing model and brand" do
       describe "on a bike that already has a model assigned" do
         before(:each) do
+          @brand = FactoryGirl.create(:bike_brand)
           @model = FactoryGirl.create(:bike_model)
           @bike  = FactoryGirl.create(:bike)
           @new_model = FactoryGirl.create(:bike_model)
-
         end
         it "should not be changed if the same model_id is given" do
           params = {:bike_model_id => @bike.model.id}
@@ -68,12 +68,32 @@ describe BikesController do
           expect(@bike.model.id).to eq(id0)
         end
 
-        it "should change model with a new model_id is given" do
+        it "should change model with a new model_id as given" do
           params = {:bike_model_id => @new_model.id}
           id0 = @bike.model.id
           put :update, :id=>@bike, :bike_form=> params
-          expect(@bike.model.id).to eq(id0)
+          expect(response).to be_success
+          expect(@bike.model.id).to_not eq(id0)
           expect(@bike.model.id).to eq(@new_model.id)
+        end
+
+        it "should change a model when new brand and model name are given" do
+          params = {
+            :bike_model_name => 'model',
+            :bike_brand_name => 'brand'
+          }          
+          put :update, :id=>@bike, :bike_form=> params
+          expect(response).to be_success
+        end
+
+        it "should change a model when brand_id and model name are given" do
+          brand = FactoryGirl.create(:bike_brand)
+          params = {
+            :bike_model_name => 'model',
+            :bike_brand_id => brand.id
+          }
+          put :update, :id=>@bike, :bike_form=> params
+          expect(response).to be_success
         end
       end
 
