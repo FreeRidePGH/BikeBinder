@@ -19,7 +19,6 @@ PATH
   remote: /home/william/rails_projects/bike_mfg
   specs:
     bike_mfg (0.0.1)
-      activesupport
       oj
       rabl (>= 0.6)
       squeel (~> 1.0.14)

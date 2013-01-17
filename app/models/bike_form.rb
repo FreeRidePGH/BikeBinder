@@ -7,12 +7,17 @@ class BikeForm
   include ActiveModel::Conversion
   include ActiveModel::Validations
 
+  # include BikeMfg::ActsAsManufacturable
+
   # Bike Attributes
   attr_reader :color, :value, :wheel_size, :seat_tube_height, 
   :top_tube_length, :bike_model_id, :number, :quality, :condition
 
-  # Bike objec, model and brand attributes
-  attr_reader :bike, :bike_brand_name, :bike_model_name, :bike_brand_id
+  # Bike object, model and brand attributes
+  attr_reader :bike
+
+  # BikeBrand and BikeModel attribues
+  attr_reader :bike_brand_name, :bike_model_name, :bike_brand_id
 
   def form_method( action )
     m = {:edit => :put, :new => :post}

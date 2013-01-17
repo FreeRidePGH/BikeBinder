@@ -52,6 +52,37 @@ describe BikesController do
         expect(response).to render_template(:edit)
       end
     end
+    
+    describe "editing model and brand" do
+      describe "on a bike that already has a model assigned" do
+        before(:each) do
+          @model = FactoryGirl.create(:bike_model)
+          @bike  = FactoryGirl.create(:bike)
+          @new_model = FactoryGirl.create(:bike_model)
+
+        end
+        it "should not be changed if the same model_id is given" do
+          params = {:bike_model_id => @bike.model.id}
+          id0 = @bike.model.id
+          put :update, :id=>@bike, :bike_form=> params
+          expect(@bike.model.id).to eq(id0)
+        end
+
+        it "should change model with a new model_id is given" do
+          params = {:bike_model_id => @new_model.id}
+          id0 = @bike.model.id
+          put :update, :id=>@bike, :bike_form=> params
+          expect(@bike.model.id).to eq(id0)
+          expect(@bike.model.id).to eq(@new_model.id)
+        end
+      end
+
+      describe "on a bike without a model assigned" do
+        
+        
+      end
+
+    end
   end
 
   describe "GET new while not signed in" do

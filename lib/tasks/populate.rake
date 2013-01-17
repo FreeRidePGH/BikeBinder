@@ -1,29 +1,10 @@
 namespace :db do
   
-  desc "Prepare test database structure"
-  task :test_setup => :environment do
-    #ENV['RAILS_ENV'] = 'test'
-    #Rake::Task['db:reset'].invoke
-
-    ENV['RAILS_ENV'] = 'test'
-    Rake::Task['db:test:load'].invoke
-
-    ENV['FILE'] = 'surveys/bike_overhaul_inspection.rb'    
-    ENV['RAILS_ENV'] = 'test'
-    Rake::Task['surveyor'].invoke
-  end
-  
-  desc "Fill database with test data"
+  desc "Setup the application and fill database with dummy data"
   task :populate => :environment do
-    # Preparte test db
-    # http://stackoverflow.com/questions/5264355/rspec-failure-could-not-find-table-after-migration
-    #Rake::Task['db:test:prepare'].invoke
 
-    Rake::Task['db:reset'].invoke
-    Rake::Task['db:seed'].invoke
-    
-    User.create!(:email=>"wwedler@riseup.net", :password=>"testtest")
-    User.create!(:email=>"demo@freeridepgh.org", :password=>"testdemo")
+    Rake::Task['db:drop'].invoke
+    Rake::Task['setup'].invoke
     
     Rake::Task['db:populate_hooks'].invoke
     Rake::Task['db:populate_programs'].invoke
@@ -32,6 +13,8 @@ namespace :db do
     # Pass rake argument using ENV hash
     ENV['FILE'] = 'surveys/bike_overhaul_inspection.rb'
     Rake::Task['surveyor'].invoke
+
+    Rake::Task['db:test_setup'].invoke
   end
 	  
   desc "Fill database with initial Hooks"

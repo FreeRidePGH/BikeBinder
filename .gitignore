@@ -16,4 +16,5 @@ tmp/*
 *#
 #*.lock
 config/database.yml
+config/application/secret_token.txt
 public/photos/*

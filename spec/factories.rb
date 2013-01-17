@@ -16,7 +16,7 @@ FactoryGirl.define do
   end
 
   factory :bike_model do
-    name 'test model series'
+    sequence(:name){|n| "test model series #{n}"}
     bike_brand_id 1
   end
 

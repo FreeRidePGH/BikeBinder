@@ -10,3 +10,7 @@
 if BikeBrand.count == 0
   Rake::Task['db:bike_mfg:seed'].invoke
 end
+
+if User.count == 0
+  User.create!(:email=>"demo@freeridepgh.org", :password=>"testdemo")
+end

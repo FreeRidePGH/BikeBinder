@@ -1,0 +1,170 @@
+
+
+<div class = "span7" style="display:none">
+<ul class="nav nav-tabs" id="myTab">
+        <li><a href="#PricingGuide" data-toggle="tab">Pricing Guide</a></li>
+    <li><a href="#QualityCondition" data-toggle="tab">Quality & Condition</a></li>
+    <li><a href="#SizeMeasurements" data-toggle="tab">Size Measurements</a></li>
+ 
+    
+    </ul>
+     
+    <div class="tab-pane" id="PricingGuide">
+
+                <table>
+                        <tr>
+                                <td class="PGC1">Pricing Guide:</td>
+                                <td>Sale Price = Base - (Damage) - (Labor) - (Missing Parts Cost)</td>
+                        </tr>
+                        <tr>
+                                <td class="PGC1">1. Base:</td>
+                                <td>What we would sell it for in mint condition</td>
+                        </tr>
+                        <tr>
+                                <td class="PGC1">2. Damage:</td>
+                                <td>Subtract $5 to $20 for rust and wear, if there is any</td>
+                        </tr>
+                        <tr>
+                                <td class="PGC1">3. Labor:</td>
+                                <td>Subtract needed labor = (number of hours of work needed) x ($8 per hour)</td>
+                        </tr>
+                        <tr>
+                                <td class="PGC1">4. Missing Parts:</td>
+                                <td>Subtract some discount for any stuff it is obvious they will have to buy new (example, 27" tires or a rear cassette). This does not apply to people who want to do single-speed or fixed gear conversions or other customizations since those customizations are not necessary for getting the bike up and running.</td>
+                        </tr>
+                </table>
+
+    </div>
+    </div>
+</div>
+
+
+
+
+<script type = "text/javascript">
+
+   
+	$(function(){ // Load jquery
+
+        // Load Tab Interface
+        $('#myTab a:first').tab('show');
+        $("li a").each(function(){
+            $(this).click(function(){
+                $(this).tab('show');
+            });
+        });
+
+        function attachGuideListeners(){
+            $("#bike_quality").focus(function(){
+                $($("#myTab li a")[1]).tab('show');
+            });
+            $("#bike_condition").focus(function(){
+                $($("#myTab li a")[1]).tab('show');
+            });
+            $("#bike_wheel_size").focus(function(){
+                $($("#myTab li a")[0]).tab('show');
+            });
+            $("#bike_seat_tube_height").focus(function(){
+                $($("#myTab li a")[2]).tab('show');
+            });
+            $("#bike_top_tube_length").focus(function(){
+                $($("#myTab li a")[2]).tab('show');
+            });
+            $("#bike_value").focus(function(){
+                $($("#myTab li a")[3]).tab('show');
+            });
+
+        }
+    
+        // Function to attach event listeners to form
+        function attachListeners(){
+            // Attach Brand Listener
+            $("#bike_brand_id").change(function(){
+                var brand = $("#bike_brand_id").val();
+                if (brand === undefined || brand === ""){
+                    brand = "-1";
+                }
+                // On select, get models based on this brand
+                $.ajax({
+                    url: "/bikes/get_models/" + brand,
+                    dataType: 'json'
+                }).done(function(response){
+                    var modelSelect = $("#bike_bike_model_id");
+                    modelSelect.html("");
+                    if(response.length === 0){
+                        var noneOpt = document.createElement("option");
+                        noneOpt.value = "";
+                        noneOpt.innerHTML = "None";
+                        modelSelect.append(noneOpt);
+                    }
+                    for(var i = 0; i < response.length; i++){
+                        var brandJson = response[i];
+                        var newModel = document.createElement("option");
+                        newModel.value = brandJson.id;
+                        newModel.innerHTML = brandJson.name;
+                        modelSelect.append(newModel);                   
+                    }
+                });
+            });
+           // Attach Click Add Listeners
+            var offBrandClick = function(){
+                // Hide select
+                $("#bike_brand_id").hide();
+                $("#bike_brand_id").val("");
+                $("#bike_new_brand_id").show();
+                $("#bike_new_brand_id").focus();
+                $(this).addClass("on");
+                $(this).html("Old brand");
+                $(this).removeClass("off");
+                $(this).unbind();
+                $(this).click(onBrandClick);
+            };
+
+            var offModelClick = function(){
+                $("#bike_bike_model_id").hide();
+                $("#bike_bike_model_id").val("");
+                $("#bike_new_bike_model_id").show();
+                $("#bike_new_bike_model_id").focus();
+                $(this).addClass("on");
+                $(this).html("Old model");
+                $(this).removeClass("off");
+                $(this).unbind();
+                $(this).click(onModelClick);
+            };    
+
+            var onBrandClick = function(){
+                // Hide select
+                $("#bike_new_brand_id").hide();
+                $("#bike_new_brand_id").val("");
+                $("#bike_brand_id").show();
+                $("#bike_brand_id").focus();
+                $(this).addClass("off");
+                $(this).html("New brand");
+                $(this).removeClass("on");
+                $(this).unbind();
+                $(this).click(offBrandClick);
+            };
+
+            var onModelClick = function(){
+                $("#bike_new_bike_model_id").hide();
+                $("#bike_new_bike_model_id").val("");
+                $("#bike_bike_model_id").show();
+                $("#bike_bike_model_id").focus();
+                $(this).addClass("off");
+                $(this).html("New model");
+                $(this).removeClass("on");
+                $(this).unbind();
+                $(this).click(offModelClick);
+            };
+
+            $("#add_brand.off").click(offBrandClick);
+            $("#add_model.off").click(offModelClick);
+
+            // Attach Guide Listeners
+            attachGuideListeners();
+        }
+        
+        
+        attachListeners(); 
+    });
+</script>
