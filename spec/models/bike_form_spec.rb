@@ -23,13 +23,18 @@ describe BikeForm do
       before :each do
         @params = {
           :bike_model_name => 'model',
-          :bike_brand_id => @brand.id
+          :bike_brand_id => @brand.id,
+          :bike_model_id => ''
         }
         @form = BikeForm.new(@bike, @params)
       end
         
       it "should have model name overriding model from the bike" do
         expect(@form.bike_model_name).to eq(@params[:bike_model_name])
+      end
+
+      it "should not have a model_id assigned" do
+        expect(@form.bike_model_id).to be_nil
       end
 
       it "should save the new model name to the bike" do

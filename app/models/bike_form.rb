@@ -51,6 +51,7 @@ class BikeForm
 
   def parse_params(data)
     data.each do |key, val|
+      val = nil if val.blank?
       set_val(key, val)
     end
   end
