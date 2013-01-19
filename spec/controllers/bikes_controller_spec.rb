@@ -79,12 +79,16 @@ describe BikesController do
 
         it "should change a model when new brand and model name are given" do
           params = {
-            :bike_model_name => 'model',
-            :bike_brand_name => 'brand'
-          }          
+            :bike_model_name => 'model235',
+            :bike_brand_name => 'brand5436',
+            :bike_brand_id => @bike.model.brand.id,
+            :bike_model_id => '',
+            :brand_action => 'create'
+          } 
           put :update, :id=>@bike, :bike_form=> params
-          # puts request.params
+          puts request.params
           expect(response).to be_success
+          expect(@bike.model.name).to eq(params[:bike_model_name])
         end
 
         it "should change a model when brand_id and model name are given" do
