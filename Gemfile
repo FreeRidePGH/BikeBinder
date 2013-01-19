@@ -69,21 +69,17 @@ gem 'jquery-rails', '~>2'
 group :production do
   # Use PostgreSQL for Heroku deployment
   gem 'pg'
-
-  # Include faker gem so that db:populate will work in the heroku deployment
-  gem 'faker', '~>1'
 end
-
-#require 'rubyXL'
 
 group :test do
   gem 'sqlite3', '~>1.3.6'
 
   # Pretty printed test output
   gem 'turn', :require => false
-  gem 'rspec-rails', '~>2'
-  gem 'capybara'
 
+  # Testing framework
+  gem 'rspec-rails', '~>2'
+  gem 'capybara', "~> 2.0.2"
   gem 'factory_girl_rails', '3.0'
   
   # Speed up testing with spork
@@ -98,11 +94,9 @@ end
 group :development do
   gem 'sqlite3', '~>1.3.6'
   #gem 'annotate', '~> 2.4.1.beta'
-  gem 'faker', '~>1'
   gem 'railroady', '~>1'
   gem 'rspec-rails', '~>2'
   gem 'guard-rspec', '0.5.5'
   gem 'nokogiri'
   gem 'rubyXL'
-
 end

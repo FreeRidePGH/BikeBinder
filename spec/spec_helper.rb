@@ -17,6 +17,7 @@ Spork.prefork do
   ENV["RAILS_ENV"] ||= 'test'
   require File.expand_path("../../config/environment", __FILE__)
   require 'rspec/rails'
+  require 'capybara/rspec'
   require 'rspec/autorun'
 
   ENGINE_RAILS_ROOT=File.join(File.dirname(__FILE__), '../')

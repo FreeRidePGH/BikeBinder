@@ -83,6 +83,8 @@ describe BikesController do
             :bike_brand_name => 'brand'
           }          
           put :update, :id=>@bike, :bike_form=> params
+          puts request.params
+          
           expect(response).to be_success
         end
 
