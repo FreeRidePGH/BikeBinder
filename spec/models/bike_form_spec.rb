@@ -1,6 +1,11 @@
 require 'spec_helper'
 
 describe BikeForm do
+
+  it "should have a params list with correct items" do
+    expect(BikeForm.form_params_list).to include(:bike_brand_name)
+  end
+
   before :each do
     @brand = FactoryGirl.create(:bike_brand)
     @model = FactoryGirl.create(:bike_model)
@@ -17,7 +22,26 @@ describe BikeForm do
     end
   end
 
-  describe "A form for an existing bike,and params" do
+  describe "For editing a bike" do
+
+    describe "creating a model and brand" do
+      it "should create and assign the new model with brand info" do
+        @params = {
+          :bike_model_name => @bike.model.name+'edit',
+          :bike_model_id => '',
+          :bike_brand_id => '',
+          :bike_brand_name => @bike.model.brand.name+"edit"
+        }
+        @form = BikeForm.new(@bike, @params)
+        saved = @form.save
+        expect(saved).to be_true
+        expect(@bike.model.name).to eq(@params[:bike_model_name])
+        expect(@bike.model.brand.name).to eq(@params[:bike_brand_name])
+        
+        expect(@bike.model.id).to_not  eq(@model.id)
+        expect(@bike.model.brand.id).to_not eq(@brand.id)
+      end
+    end
 
     describe "for a new model for an existing brand" do
       before :each do

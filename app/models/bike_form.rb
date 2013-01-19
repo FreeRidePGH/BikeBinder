@@ -84,7 +84,7 @@ class BikeForm
   end
 
   def self.form_params_list
-    bike_params_list + [:bike_brand_id]
+    bike_params_list + [:bike_brand_id, :bike_brand_name, :bike_model_name]
   end
 
   private
