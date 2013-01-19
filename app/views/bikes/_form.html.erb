@@ -66,7 +66,7 @@ $(document).ready(function(){
 </div>
 <div class = "span3">
 
-<% submit_text = (action_name == 'new') ? "Create new bike" : "Save changes" %>
+<% submit_text = I18n.translate('commit_btn')[action_name.to_sym] %>
 <%= f.submit submit_text, :class => "btn btn-primary" %>
 </div>
 </fieldset>
