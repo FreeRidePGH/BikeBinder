@@ -80,13 +80,15 @@ class BikesController < ApplicationController
   end
 
   def update
+    verify_bike
     if bike_form.save
+      @title = "Bike #{bike.number} Overview"
       flash.now[:success] = "Bike information updated."
-      redirect_to bike
-    else
-      @title = "Edit Bike"
-      render 'edit'
+      #redirect_to bike and return
     end
+
+    @title = "Edit Bike"
+    render 'edit'
   end
   
   def get_models
