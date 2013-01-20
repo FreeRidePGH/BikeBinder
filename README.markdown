@@ -5,25 +5,42 @@
 Reproduce all functionality that exists with the current paper bike binder and departed bikes binder system.
 
 
-## Install and configuration
+## Installation and configuration
 
-* Setup rake task
+* Runt Setup rake task
 
-     bundle exec rake setup
+
+        bundle exec rake setup
+
 
 * Edit the config/database.yml file with correct parameters
 
 ### Prepare the application for development 
 
-* After the first clone and after updates to the database or gems are pulled
+(After the first clone and after updates to the database or gems are pulled)
 
-	bundle exec rake populate
 
-* Running tests
+        bundle exec rake populate
 
-	bundle exec guard
 
-## Documentation Tasks
+### Running tests
+
+(After preparing the application for development)
+
+        bundle exec guard
+
+
+## Documentation
+
+### Project milestones, scope and general design approach
+
+Keep a summary in the README file
+
+### Diagrams and supporting files
+
+Keep these in the doc/ directory
+
+### Tasks for generating diagrams
 
 * Generating ERD images using railroady (http://railroady.prestonlee.com/)
 
@@ -52,7 +69,6 @@ Reproduce all functionality that exists with the current paper bike binder and d
 
         rake db:populate
 
-(See also http://guides.rubyonrails.org/testing.html#preparing-your-application-for-testing)
 
 
 --------------------------------------------
