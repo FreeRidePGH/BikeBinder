@@ -43,15 +43,15 @@ class BikeForm
     end
     bm = obj.model
     if bm
+      set_val(:bike_model_id, bm.id)
       set_val(:bike_model_name, bm.name)
       set_val(:bike_brand_name, bm.brand.name)
       set_val(:bike_brand_id, bm.brand.id)
     end
   end
-
+  
   def parse_params(data)
     data.each do |key, val|
-      val = nil if val.blank?
       set_val(key, val)
     end
   end
@@ -81,6 +81,10 @@ class BikeForm
     [:color, :value, :wheel_size, :seat_tube_height, 
      :top_tube_length, :bike_model_id, 
      :number, :quality, :condition]
+  end
+
+  def bike_params_list
+    self.class.bike_params_list
   end
 
   def self.form_params_list
@@ -115,6 +119,7 @@ class BikeForm
     # Create the bike model
     new_model = brand.models.new(bike_model_params) if brand && brand.persisted?
     new_model.save if new_model && new_model.valid?
+
     return new_model.id if new_model && new_model.persisted?
   end
 
@@ -126,12 +131,6 @@ class BikeForm
     {:name=>bike_model_name}
   end
 
-  def bike_params_list
-    self.class.bike_params_list
-  end
-
-  # Always create the bike record
-  # Create bike model and brand records if they are new
   def persist!
     m_id = bike_model_assignment!
 
@@ -145,11 +144,10 @@ class BikeForm
                          :bike_model_id => m_id
                      )
     bike.save!
-
   end
 
   def set_val(attrib, val)
-    val = nil if val.blank?
+    val = (val.blank?) ? nil : val.to_s
     instance_variable_set("@#{attrib}", val)
   end
 

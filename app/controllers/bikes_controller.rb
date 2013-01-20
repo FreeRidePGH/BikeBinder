@@ -84,7 +84,7 @@ class BikesController < ApplicationController
     if bike_form.save
       @title = "Bike #{bike.number} Overview"
       flash.now[:success] = "Bike information updated."
-      #redirect_to bike and return
+      redirect_to bike and return
     end
 
     @title = "Edit Bike"
@@ -201,7 +201,6 @@ class BikesController < ApplicationController
     
   end
   
-
   private
 
   # Helper method that redirects if a bike record is not found
@@ -229,7 +228,7 @@ class BikesController < ApplicationController
 
   end
 
-  # Project from mass assignment
+  # Protect from mass assignment
   # See https://gist.github.com/1975644
   # http://rubysource.com/rails-mass-assignment-issue-a-php-perspective/
   def bike_form_params

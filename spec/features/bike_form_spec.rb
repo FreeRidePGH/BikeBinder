@@ -42,6 +42,8 @@ describe "The bike form", :type => :feature do
           fill_in 'Brand', :with => @new_brand_name
           fill_in 'Model', :with => @new_model_name
           click_button I18n.translate('commit_btn')[:edit]
+          @bike.reload
+          expect(@bike.model.name).to eq(@new_model_name)
           expect(page).to have_content @new_brand_name
           expect(page).to have_content @new_model_name
         end
