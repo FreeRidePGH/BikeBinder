@@ -7,7 +7,7 @@ Reproduce all functionality that exists with the current paper bike binder and d
 
 ## Installation and configuration
 
-* Runt Setup rake task
+* Run setup rake task
 
 
         bundle exec rake setup
