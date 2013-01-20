@@ -6,8 +6,10 @@ dirs = []
 
 # config
 
+dirs << CONFIG_DIRECTORY_ROOT = "#{Rails.root}/config"
 dirs << APP_CONFIG_DIRECTORY = "#{Rails.root}/config/application"
 APP_SECRET_FILE              = "#{APP_CONFIG_DIRECTORY}/secret_token.txt"
+APP_DB_CONIG_FILE            = "#{CONFIG_DIRECTORY_ROOT}/database.yml"
 
 # tmp
 

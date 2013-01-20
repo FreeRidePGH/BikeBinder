@@ -1,11 +1,18 @@
+desc "Setup/installation script to prepare applction for develoment after each pull"
+task :populate => :environment do
+  Rake::Task['db:drop'].invoke
+  Rake::Task['setup'].invoke
+  
+  Rake::Task['db:populate'].invoke
+
+  Rake::Task['db:test_setup'].invoke
+end
+
 namespace :db do
   
-  desc "Setup the application and fill database with dummy data"
+  desc "Setup the application and fill database with demo data"
   task :populate => :environment do
 
-    Rake::Task['db:drop'].invoke
-    Rake::Task['setup'].invoke
-    
     Rake::Task['db:populate_hooks'].invoke
     Rake::Task['db:populate_programs'].invoke
     Rake::Task['db:populate_bikes'].invoke
@@ -13,8 +20,6 @@ namespace :db do
     # Pass rake argument using ENV hash
     ENV['FILE'] = 'surveys/bike_overhaul_inspection.rb'
     Rake::Task['surveyor'].invoke
-
-    Rake::Task['db:test_setup'].invoke
   end
 	  
   desc "Fill database with initial Hooks"

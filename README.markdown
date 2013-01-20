@@ -5,36 +5,23 @@
 Reproduce all functionality that exists with the current paper bike binder and departed bikes binder system.
 
 
-## Getting up and running for development
+## Install and configuration
 
-### After the first clone
+* Setup rake task
 
-Take the following actions to get a cloned/pulled version to run locally for development
+     bundle exec rake setup
 
-* Rename the database config file (remove ".sample")
-* Install gems
-* Initialize and populate the database 
+* Edit the config/database.yml file with correct parameters
 
-        cp config/database.yml.sample config/database.yml
-        bundle install
-        rake db:populate
+### Prepare the application for development 
 
+* After the first clone and after updates to the database or gems are pulled
 
-### After each time you pull updates
+	bundle exec rake populate
 
-* Install missing (or out of date) gems
-* Reinitialize and repopulate the database (see seeding approaches for details)
+* Running tests
 
-        bundle install
-        rake db:populate
-
-## Running tests
-
-* Create the test database
-* Start the autotest
-
-        rake db:test_setup
-        bundle exec guard
+	bundle exec guard
 
 ## Documentation Tasks
 

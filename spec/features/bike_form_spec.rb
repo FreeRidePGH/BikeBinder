@@ -37,6 +37,7 @@ describe "The bike form", :type => :feature do
           @new_model_name = 'test_model_123'
           @new_brand_name = 'test_brand_123'
         end
+
         it "should create and assign the model with correct model name and brand name" do
           page.choose('bike_form_brand_action_create')
           fill_in 'Brand', :with => @new_brand_name
@@ -47,6 +48,7 @@ describe "The bike form", :type => :feature do
           expect(page).to have_content @new_brand_name
           expect(page).to have_content @new_model_name
         end
+
       end # context "for editing an existing bike" do
       
       context "for creating a new bike" do
