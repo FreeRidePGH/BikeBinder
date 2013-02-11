@@ -15,13 +15,13 @@
   <% end %>
 <div id = "navOpts">
 <div id = "bikesNav">
-    <a href = "/bikes" class = "navLink">Home</a>
+    <a href = "/bikes" class = "navLink">Bikes</a>
     <a href = "/bikes/new" class = "navLink">Add a Bike</a>
 </div>
 <div id = "searchNav">
     <form action = "/searches" method = "get" class = "searchBox" id = "bikeSearch">
-        <input type = "text" id = "searchInput" name = "search" placeholder = "Ex. Black Schwinn" value = "<%= (@searchTerm.nil? == true ? "" : @searchTerm) %>" />
-        <input type = "submit" name = "submit" value = "Search" class = "searchButton btn btn-info" />
+        <input type = "text" id = "searchInput" name = "search" placeholder="<%= I18n.translate('main_search_placeholder') %>" value = "<%= (@searchTerm.nil? == true ? "" : @searchTerm) %>" />
+        <input type = "submit" name ="submit" value="<%= I18n.translate('main_search_btn') %>" class = "searchButton btn btn-info" />
     </form>
 </div>
 </div>

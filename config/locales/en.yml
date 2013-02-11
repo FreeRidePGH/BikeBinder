@@ -5,3 +5,5 @@ en:
   commit_btn:
     new: "Create"
     edit: "Save changes"
+  main_search_placeholder: "Search by keyword Bike # or Hook #"
+  main_search_btn: "Search"

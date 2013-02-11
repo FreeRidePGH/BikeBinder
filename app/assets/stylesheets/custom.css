@@ -65,13 +65,12 @@ label.colorFilter,label.statusFilter{
     margin-left: 10px;
 }
 #bikelisting{
-	float:left;
+    float:left;
     margin-top: 10px;
-    height: 500px;
     margin-left: 50px;
 }
 #results{
-	overflow-x: hidden;
+    overflow-x: hidden;
     overflow-y: auto;
 }
 #detailTable{
@@ -118,12 +117,7 @@ form.new_bike{
 #newBikeForm{
     margin-top: 20px;
 }
-#newBikeForm input{
-    width: 120px;
-}
-#newBikeForm select{
-    width: 140px;
-}
+
 #newBikeForm input[name='bike[seat_tube_height]']{
     width: 70px;
 }
@@ -180,7 +174,6 @@ form.new_bike{
 .table tbody#bikeList tr:hover td,
 .table tbody#bikeList tr:hover th {
   background-color: #DBEEF4 !important;
-  cursor: pointer;
 }
 .tab-content tr th{
     text-align: left;
@@ -247,7 +240,7 @@ form.new_bike{
 */
 }
 #searchInput{
-    width: 120px;
+    width: 320px;
 }
 .searchLabel{
     color: rgb(33,89,104);

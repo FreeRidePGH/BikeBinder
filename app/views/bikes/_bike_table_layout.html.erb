@@ -1,58 +1,40 @@
 <div id="bikelisting">
-	<div class="span11">
+  <div class="span11">
     <div class = "pull-right">        
-        <!--<div id = "paginationLabel">Page</div>-->
-        <div id = "pagination"></div>
+      <!--<div id = "paginationLabel">Page</div>-->
+      <div id = "pagination"></div>
     </div>
-	<div class="container-fluid">
-		<table class="bikes table table-bordered" id="results">
-			<thead>
-				<tr>
-					<th class = "btn-toolbar"><span class = "sorter" fieldname = "number">Number</span>
-                    <div class = "btn-group">
-                    <a class = "btn btn-mini sortup active"><i class = "icon-arrow-up"></i></a>
-                    <a class = "btn btn-mini sortdown"><i class = "icon-arrow-down"></i></a>
-                    </div>
-                    </th>
-					<th>
-                        <span class = "sorter">Status</span> 
-                    </th>
-                	<th class = "btn-toolbar"><span class = "sorter" fieldname = "hook_number">Hook</span><br />
-                    <div class = "btn-group">
-                    <a class = "btn btn-mini sortup"><i class = "icon-arrow-up"></i></a>
-                    <a class = "btn btn-mini sortdown"><i class = "icon-arrow-down"></i></a>
-                    </div>
-                    </th>
-                	<th class = "btn-toolbar"><span class = "sorter" fieldname = "color">Color</span><br />
-                    <div class = "btn-group">
-                    <a class = "btn btn-mini sortup"><i class = "icon-arrow-up"></i></a>
-                    <a class = "btn btn-mini sortdown"><i class = "icon-arrow-down"></i></a>
-                    </div>
-                    </th>
-                    <th class = "btn-toolbar"><span class = "sorter" fieldname = "brand_name">Brand</span><br />
-                    <div class = "btn-group">
-                    <a class = "btn btn-mini sortup"><i class = "icon-arrow-up"></i></a>
-                    <a class = "btn btn-mini sortdown"><i class = "icon-arrow-down"></i></a>
-                    </div>
-                    </th>
-                    <th class = "btn-toolbar"><span class = "sorter" fieldname = "seat_tube_height">Seat Tube</span><br />
-                    <div class = "btn-group">
-                    <a class = "btn btn-mini sortup"><i class = "icon-arrow-up"></i></a>
-                    <a class = "btn btn-mini sortdown"><i class = "icon-arrow-down"></i></a>
-                    </div>
-                    </th>
-                    <th class = "btn-toolbar"><span class = "sorter" fieldname = "wheel_size">Wheel Size</span><br />
-                    <div class = "btn-group">
-                    <a class = "btn btn-mini sortup"><i class = "icon-arrow-up"></i></a>
-                    <a class = "btn btn-mini sortdown"><i class = "icon-arrow-down"></i></a>
-                    </div>
-                    </th>
-				</tr>
-			</thead>
-			<tbody id = "bikeList">
-				<%= yield %>
-			</tbody>
-		</table>
-		</div>
-	</div>
+    <div class="container-fluid">
+      <table class="bikes table table-bordered" id="results">
+	<thead>
+	  <tr>
+	    <th class = "btn-toolbar">
+	      <span class = "sorter" fieldname = "number">Number</span>
+            </th>
+	    <th>
+              <span class = "sorter">Status</span> 
+            </th>
+            <th class = "btn-toolbar">
+	      <span class = "sorter" fieldname = "hook_number">Hook</span><br />
+            </th>
+            <th class = "btn-toolbar">
+	      <span class = "sorter" fieldname = "color">Color</span><br />
+            </th>
+            <th class = "btn-toolbar">
+	      <span class = "sorter" fieldname = "brand_name">Brand</span><br />
+            </th>
+            <th class = "btn-toolbar">
+	      <span class = "sorter" fieldname = "seat_tube_height">Seat Tube</span><br />
+            </th>
+            <th class = "btn-toolbar">
+	      <span class = "sorter" fieldname = "wheel_size">Wheel Size</span><br />
+            </th>
+	  </tr>
+	</thead>
+	<tbody id = "bikeList">
+	  <%= yield %>
+	</tbody>
+      </table>
+    </div>
+  </div>
 </div>

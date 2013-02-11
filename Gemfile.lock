@@ -1,71 +1,65 @@
 GIT
-  remote: git://github.com/zflat/iso_bsd-i18n.git
-  revision: 767f745fc586429206bff8f4473d91fdbe3a02aa
+  remote: git://github.com/zflat/bike_mfg.git
+  revision: ed08e60d34b2389faf84d8d4f66f2c98c018ec64
   specs:
-    iso_bsd-i18n (0.1.2)
-      bundler (~> 1.2)
-      i18n
-
-GIT
-  remote: git://github.com/zflat/time_sheet.git
-  revision: 0f1d9bd1e8112a863dba76baca6ca6644f1a786f
-  specs:
-    time_sheet (0.0.4)
-      activerecord (>= 3.0)
-      activesupport (~> 3.0)
-      awesome_nested_set (>= 2.0)
-
-PATH
-  remote: /home/william/rails_projects/bike_mfg
-  specs:
-    bike_mfg (0.0.1)
+    bike_mfg (0.1.1)
       oj
       rabl (>= 0.6)
       squeel (~> 1.0.14)
 
-PATH
-  remote: /home/william/rails_projects/color_name-i18n
+GIT
+  remote: git://github.com/zflat/color_name-i18n.git
+  revision: ad513ae1798d12759f2c12ba8508577702ee8b89
   specs:
-    color_name-i18n (0.1.2)
+    color_name-i18n (0.2.0)
       activemodel
       bundler (~> 1.2)
       i18n
 
-PATH
-  remote: /home/william/rails_projects/select2-bikebinder
+GIT
+  remote: git://github.com/zflat/iso_bsd-i18n.git
+  revision: ae2777fa9d774e0e724fe3d9c264023c83639aa6
   specs:
-    select2-bikebinder (0.1.1)
+    iso_bsd-i18n (0.2.0)
+      bundler (~> 1.2)
+      i18n
+
+GIT
+  remote: git://github.com/zflat/select2-bikebinder.git
+  revision: 7c17a6477fb12a0f6e593ed3abb0f398bf4b8ef1
+  specs:
+    select2-bikebinder (0.1.4)
       activesupport
       bundler (~> 1.2)
 
 GEM
   remote: http://rubygems.org/
   specs:
-    actionmailer (3.2.0)
-      actionpack (= 3.2.0)
-      mail (~> 2.4.0)
-    actionpack (3.2.0)
-      activemodel (= 3.2.0)
-      activesupport (= 3.2.0)
+    actionmailer (3.2.11)
+      actionpack (= 3.2.11)
+      mail (~> 2.4.4)
+    actionpack (3.2.11)
+      activemodel (= 3.2.11)
+      activesupport (= 3.2.11)
       builder (~> 3.0.0)
       erubis (~> 2.7.0)
-      journey (~> 1.0.0)
+      journey (~> 1.0.4)
       rack (~> 1.4.0)
-      rack-cache (~> 1.1)
+      rack-cache (~> 1.2)
       rack-test (~> 0.6.1)
-      sprockets (~> 2.1.2)
-    activemodel (3.2.0)
-      activesupport (= 3.2.0)
+      sprockets (~> 2.2.1)
+    activemodel (3.2.11)
+      activesupport (= 3.2.11)
       builder (~> 3.0.0)
-    activerecord (3.2.0)
-      activemodel (= 3.2.0)
-      activesupport (= 3.2.0)
-      arel (~> 3.0.0)
+    activerecord (3.2.11)
+      activemodel (= 3.2.11)
+      activesupport (= 3.2.11)
+      arel (~> 3.0.2)
       tzinfo (~> 0.3.29)
-    activeresource (3.2.0)
-      activemodel (= 3.2.0)
-      activesupport (= 3.2.0)
-    activesupport (3.2.0)
+    activeresource (3.2.11)
+      activemodel (= 3.2.11)
+      activesupport (= 3.2.11)
+    activesupport (3.2.11)
       i18n (~> 0.6)
       multi_json (~> 1.0)
     acts_as_commentable_with_threading (1.1.2)
@@ -145,7 +139,7 @@ GEM
       railties (>= 3.1.0)
     jquery-ui-themes (0.0.8)
       httparty
-    json (1.7.5)
+    json (1.7.6)
     libnotify (0.5.9)
     libv8 (3.3.10.4)
     libwebsocket (0.1.7.1)
@@ -158,14 +152,14 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     method_source (0.8.1)
-    mime-types (1.19)
+    mime-types (1.21)
     mini_magick (3.4)
       subexec (~> 0.2.1)
     multi_json (1.5.0)
     multi_xml (0.5.1)
     mustache (0.99.4)
     nokogiri (1.5.6)
-    oj (2.0.0)
+    oj (2.0.3)
     orm_adapter (0.4.0)
     paper_trail (2.7.0)
       activerecord (~> 3.0)
@@ -181,35 +175,33 @@ GEM
     rabl (0.6.14)
       activesupport (>= 2.3.14)
       multi_json (~> 1.0)
-    rack (1.4.1)
+    rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)
-    rack-cors (0.2.7)
-      rack
-    rack-ssl (1.3.2)
+    rack-ssl (1.3.3)
       rack
     rack-test (0.6.2)
       rack (>= 1.0)
     railroady (1.1.0)
-    rails (3.2.0)
-      actionmailer (= 3.2.0)
-      actionpack (= 3.2.0)
-      activerecord (= 3.2.0)
-      activeresource (= 3.2.0)
-      activesupport (= 3.2.0)
+    rails (3.2.11)
+      actionmailer (= 3.2.11)
+      actionpack (= 3.2.11)
+      activerecord (= 3.2.11)
+      activeresource (= 3.2.11)
+      activesupport (= 3.2.11)
       bundler (~> 1.0)
-      railties (= 3.2.0)
-    railties (3.2.0)
-      actionpack (= 3.2.0)
-      activesupport (= 3.2.0)
+      railties (= 3.2.11)
+    railties (3.2.11)
+      actionpack (= 3.2.11)
+      activesupport (= 3.2.11)
       rack-ssl (~> 1.3.2)
       rake (>= 0.8.7)
       rdoc (~> 3.4)
-      thor (~> 0.14.6)
+      thor (>= 0.14.6, < 2.0)
     rake (10.0.3)
     rb-inotify (0.8.8)
       ffi (>= 0.5.0)
-    rdoc (3.12)
+    rdoc (3.12.1)
       json (~> 1.4)
     rqrcode (0.4.2)
     rqrcode-rails3 (0.1.6)
@@ -226,7 +218,6 @@ GEM
       rspec-expectations (~> 2.12.0)
       rspec-mocks (~> 2.12.0)
     ruby-graphviz (1.0.8)
-    rubyXL (1.2.10)
     rubyzip (0.9.9)
     sass (3.2.4)
     sass-rails (3.2.5)
@@ -242,8 +233,9 @@ GEM
       rubyzip
     slop (3.3.3)
     spork (0.9.0)
-    sprockets (2.1.3)
+    sprockets (2.2.2)
       hike (~> 1.2)
+      multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
     sqlite3 (1.3.6)
@@ -268,7 +260,7 @@ GEM
       uuidtools (~> 2.1)
     therubyracer (0.10.2)
       libv8 (~> 3.3.10)
-    thor (0.14.6)
+    thor (0.17.0)
     tilt (1.3.3)
     treetop (1.4.12)
       polyglot
@@ -291,10 +283,10 @@ PLATFORMS
 
 DEPENDENCIES
   acts_as_commentable_with_threading (= 1.1.2)
-  bike_mfg!
+  bike_mfg (>= 0.1.1)!
   capybara (~> 2.0.2)
   coffee-rails (~> 3.2.1)
-  color_name-i18n!
+  color_name-i18n (>= 0.2)!
   decent_exposure (~> 1.0.2)
   devise (~> 2.1.0)
   factory_girl_rails (= 3.0)
@@ -302,25 +294,22 @@ DEPENDENCIES
   guard-rspec (= 0.5.5)
   guard-spork (= 0.3.2)
   i18n-js
-  iso_bsd-i18n!
+  iso_bsd-i18n (>= 0.2)!
   jquery-rails (~> 2)
   jquery-ui-rails
   jquery-ui-themes
   libnotify (= 0.5.9)
   mini_magick
-  nokogiri
   paper_trail (~> 2)
   pg
-  rack-cors
   railroady (~> 1)
-  rails (= 3.2.0)
+  rails (= 3.2.11)
   rb-inotify (= 0.8.8)
   rqrcode-rails3
   rspec-rails (~> 2)
   ruby-graphviz (~> 1.0.5)
-  rubyXL
   sass-rails (~> 3.2.3)
-  select2-bikebinder!
+  select2-bikebinder (>= 0.1.4)!
   select2-rails
   spork (= 0.9.0)
   sqlite3 (~> 1.3.6)
@@ -329,6 +318,5 @@ DEPENDENCIES
   strong_parameters
   surveyor (~> 0.22.0)
   therubyracer (~> 0.10.1)
-  time_sheet!
   turn
   uglifier (>= 1.0.3)
