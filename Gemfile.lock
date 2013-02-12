@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/zflat/bike_mfg.git
-  revision: ed08e60d34b2389faf84d8d4f66f2c98c018ec64
+  revision: 2baaf77aff933b3f693bea6b009027fb7bf24988
   specs:
-    bike_mfg (0.1.1)
+    bike_mfg (0.1.2)
       oj
       rabl (>= 0.6)
       squeel (~> 1.0.14)
@@ -26,9 +26,9 @@ GIT
 
 GIT
   remote: git://github.com/zflat/select2-bikebinder.git
-  revision: 7c17a6477fb12a0f6e593ed3abb0f398bf4b8ef1
+  revision: 4efff055f2b87c1e8b4ef1b63d63220d5893d502
   specs:
-    select2-bikebinder (0.1.4)
+    select2-bikebinder (0.1.5)
       activesupport
       bundler (~> 1.2)
 
@@ -159,7 +159,7 @@ GEM
     multi_xml (0.5.1)
     mustache (0.99.4)
     nokogiri (1.5.6)
-    oj (2.0.3)
+    oj (2.0.4)
     orm_adapter (0.4.0)
     paper_trail (2.7.0)
       activerecord (~> 3.0)
@@ -283,7 +283,7 @@ PLATFORMS
 
 DEPENDENCIES
   acts_as_commentable_with_threading (= 1.1.2)
-  bike_mfg (>= 0.1.1)!
+  bike_mfg (>= 0.1.2)!
   capybara (~> 2.0.2)
   coffee-rails (~> 3.2.1)
   color_name-i18n (>= 0.2)!
@@ -309,7 +309,7 @@ DEPENDENCIES
   rspec-rails (~> 2)
   ruby-graphviz (~> 1.0.5)
   sass-rails (~> 3.2.3)
-  select2-bikebinder (>= 0.1.4)!
+  select2-bikebinder (>= 0.1.5)!
   select2-rails
   spork (= 0.9.0)
   sqlite3 (~> 1.3.6)

@@ -20,8 +20,8 @@
 </div>
 <div id = "searchNav">
     <form action = "/searches" method = "get" class = "searchBox" id = "bikeSearch">
-        <input type = "text" id = "searchInput" name = "search" placeholder="<%= I18n.translate('main_search_placeholder') %>" value = "<%= (@searchTerm.nil? == true ? "" : @searchTerm) %>" />
-        <input type = "submit" name ="submit" value="<%= I18n.translate('main_search_btn') %>" class = "searchButton btn btn-info" />
+        <input type = "text" id = "searchInput" name = "search" placeholder="<%= I18n.translate('main_search.placeholder') %>" value = "<%= (@searchTerm.nil? == true ? "" : @searchTerm) %>" />
+        <input type = "submit" name ="submit" value="<%= I18n.translate('main_search.btn') %>" class = "searchButton btn btn-info" />
     </form>
 </div>
 </div>

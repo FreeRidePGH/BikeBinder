@@ -25,32 +25,7 @@
 //= require select2/wheel_select
 //= require select2/color_select
 //= require select2/bike_model_brand_select
+//
+//
+//= require init
 
-$(document).ready(function(){
-
-    // hack to see if we are adding a new bike
-		      if ($('#colorInput').length) {
-			  $("input#colorInput").fewPicker();			  
-		      }
-
-
-    if ($("[data-bike-color]").length) {
-	var colorSwatchDiv = $("[data-bike-color]");
-	colorSwatchDiv.css("backgroundColor", colorSwatchDiv.data("bike-color"));
-    }
-// show the notes textarea
-    $("button[data-role=toggle]").click(function(){
-	$("#newCommentWrap").toggle();
-    });
-
-   $('#alerts').delay(500).fadeIn('normal', function() {
-      $(this).delay(2500).fadeOut();
-   });
-});
-
-function inputFocus(i){
-    if(i.value==i.defaultValue){ i.value=""; i.style.color="#000"; }
-}
-function inputBlur(i){
-    if(i.value==""){ i.value=i.defaultValue; i.style.color="#888"; }
-}

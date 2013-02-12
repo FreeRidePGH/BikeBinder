@@ -1,0 +1,42 @@
+// run SOME initializers when doing a Rails assets:precompile
+// http://stackoverflow.com/questions/9235292/how-can-i-run-some-initializers-when-doing-a-rails-assetsprecompile
+<% require "#{Rails.root}/config/initializers/url_generator.rb" unless defined?(UrlGenerator) %>
+<% url_map = UrlGenerator.new %>
+
+$(document).ready(function(){
+    /////////////
+    // Initialize the Select2 Interface Elements
+    select_init(sel2.WheelSelectBuilder)
+    select_init(sel2.ColorSelectBuilder)
+    
+    select_init(sel2.ModelNestedBrandSelectBuilder, 
+		{optns:{api_url:"<%= url_map.search_api_v1_bike_mfg_queries_path  %>"}});
+    
+    select_init(sel2.BrandSelectBuilder, 
+		{optns:{api_url:"<%= url_map.search_brands_api_v1_bike_mfg_queries_path  %>"}});
+    
+    select_init(sel2.ModelSelectBuilder, 
+		{optns:{api_url:"<%= url_map.search_models_api_v1_bike_mfg_queries_path  %>"}});
+
+
+    //////////////////
+    // May be able to get rid of these initializations:    
+
+    // hack to see if we are adding a new bike
+    if ($('#colorInput').length) {
+	$("input#colorInput").fewPicker();			  
+    }
+    
+    if ($("[data-bike-color]").length) {
+	var colorSwatchDiv = $("[data-bike-color]");
+	colorSwatchDiv.css("backgroundColor", colorSwatchDiv.data("bike-color"));
+    }
+    // show the notes textarea
+    $("button[data-role=toggle]").click(function(){
+	$("#newCommentWrap").toggle();
+    });
+    
+    $('#alerts').delay(500).fadeIn('normal', function() {
+	$(this).delay(2500).fadeOut();
+   });
+});

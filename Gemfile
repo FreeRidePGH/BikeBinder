@@ -13,14 +13,14 @@ gem 'devise', '~>2.1.0'
 gem 'acts_as_commentable_with_threading', '1.1.2'
 
 # Modular bulding-blocks for the application
-gem 'bike_mfg','>=0.1.1', :git => 'git://github.com/zflat/bike_mfg.git'
+gem 'bike_mfg','>=0.1.2', :git => 'git://github.com/zflat/bike_mfg.git'
 gem 'color_name-i18n','>= 0.2', :git => 'git://github.com/zflat/color_name-i18n.git'
 gem 'iso_bsd-i18n','>= 0.2', :git => 'git://github.com/zflat/iso_bsd-i18n.git'
 
 # javascript user interface components
 gem 'i18n-js'
 gem 'select2-rails'
-gem 'select2-bikebinder', '>= 0.1.4', :git => 'git://github.com/zflat/select2-bikebinder.git'
+gem 'select2-bikebinder', '>= 0.1.5', :git => 'git://github.com/zflat/select2-bikebinder.git'
 #, :path => '/home/william/rails_projects/select2-bikebinder'
 
 

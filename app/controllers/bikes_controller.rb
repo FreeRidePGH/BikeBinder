@@ -48,7 +48,6 @@ class BikesController < ApplicationController
 
 
   def index
-    @title = "Bike Listing"
     @brands = nil
     @colors = ColorNameI18n::keys
     @statuses = Program.all_programs
