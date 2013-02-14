@@ -3,11 +3,13 @@
 <% require "#{Rails.root}/config/initializers/url_generator.rb" unless defined?(UrlGenerator) %>
 <% url_map = UrlGenerator.new %>
 
+<% require 'settings' %>
+
 $(document).ready(function(){
     /////////////
     // Initialize the Select2 Interface Elements
     select_init(sel2.WheelSelectBuilder)
-    select_init(sel2.ColorSelectBuilder)
+    select_init(sel2.ColorSelectBuilder, {optns:{color_keys:<%= ColorSettings.options.to_json.html_safe %>}})
     
     select_init(sel2.ModelNestedBrandSelectBuilder, 
 		{optns:{api_url:"<%= url_map.search_api_v1_bike_mfg_queries_path  %>"}});

@@ -20,8 +20,9 @@ gem 'iso_bsd-i18n','>= 0.2', :git => 'git://github.com/zflat/iso_bsd-i18n.git'
 # javascript user interface components
 gem 'i18n-js'
 gem 'select2-rails'
-gem 'select2-bikebinder', '>= 0.1.5', :git => 'git://github.com/zflat/select2-bikebinder.git'
-#, :path => '/home/william/rails_projects/select2-bikebinder'
+gem 'select2-bikebinder', '>= 0.1.6', 
+#:path => '/home/william/rails_projects/select2-bikebinder'
+:git => 'git://github.com/zflat/select2-bikebinder.git'
 
 
 gem 'friendly_id', '~>4.0.5'
@@ -87,7 +88,6 @@ end
 
 group :development do
   gem 'sqlite3', '~>1.3.6'
-  #gem 'annotate', '~> 2.4.1.beta'
   gem 'railroady', '~>1'
   gem 'rspec-rails', '~>2'
   gem 'guard-rspec', '0.5.5'

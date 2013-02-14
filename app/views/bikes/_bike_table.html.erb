@@ -17,7 +17,7 @@
   n/a
   <% end %>
   </td>
-  <td><div class="BT1"><%= b.color %></div></td>
+  <td><div class="BT1"><%= render Select2BikeBinder::Builder::ColorOption.new b.color %></div></td>
   <td><div class="BT2"><%= b.brand.name %></div></td>
   <td><div class="BT3"><%= b.seat_tube_height %></div></td>
   <td><div class="BT4"><%= b.wheel_size %></div></td>

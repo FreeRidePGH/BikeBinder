@@ -44,7 +44,7 @@ namespace :db do
   desc "Fill database with fake Bikes"
   task :populate_bikes => :environment do
 
-    arr_colors = ColorNameI18n::keys
+    arr_colors = Settings::Color.options #ColorNameI18n::keys
     arr_ratings = %w[A B C D]
 
     arr_bike_brands = BikeBrand.all
