@@ -7,8 +7,10 @@ if defined?(Bundler)
   Bundler.require *Rails.groups(:assets => %w(development test))
   # If you want your assets lazily compiled in production, use this line
   # Bundler.require(:default, :assets, Rails.env)
+  #
 end
-
+# http://stackoverflow.com/questions/7364593/using-rails-3-1-with-datatables-datatables-net
+config.assets.initialize_on_precompile = false
 module BikeBinder
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.

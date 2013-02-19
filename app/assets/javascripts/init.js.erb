@@ -20,7 +20,15 @@ $(document).ready(function(){
     select_init(sel2.ModelSelectBuilder, 
 		{optns:{api_url:"<%= url_map.search_models_api_v1_bike_mfg_queries_path  %>"}});
 
-
+        var bikesTable = $('.table.bikes').dataTable({
+            "sDom": "<'row-fluid'<'span12' l p i ><'span7'>r>t<'row-fluid'<'span7'>",
+            "sPaginationType": "bootstrap"
+        });
+        $('#bikeSearch').on('submit', function(e){
+            // just use JS submitting for proof of concept
+            e.preventDefault();
+            bikesTable.fnFilter($('#searchInput').val());
+        });
     //////////////////
     // May be able to get rid of these initializations:    
 

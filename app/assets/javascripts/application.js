@@ -11,7 +11,8 @@
 //= require jquery.ui.dialog
 //= require bootstrap.min
 //= require fewpicker.jquery
-//
+//= require dataTables/jquery.dataTables
+//= require dataTables/jquery.dataTables.bootstrap
 // 
 // Internationalization Library
 //= require i18n

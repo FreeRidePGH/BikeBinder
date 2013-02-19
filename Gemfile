@@ -23,6 +23,8 @@ gem 'select2-rails'
 gem 'select2-bikebinder', '>= 0.1.6', 
 #:path => '/home/william/rails_projects/select2-bikebinder'
 :git => 'git://github.com/zflat/select2-bikebinder.git'
+# simple paging, filtering for bikes table
+gem 'jquery-datatables-rails'
 
 
 gem 'friendly_id', '~>4.0.5'
