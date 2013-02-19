@@ -9,7 +9,13 @@ task :populate => :environment do
 end
 
 namespace :db do
-  
+
+  task :populate_staging => environment do
+    Rake::Task['db:drop'].invoke
+    Rake::Task['setup'].invoke
+    Rake::Task['db:populate'].invoke
+  end
+
   desc "Setup the application and fill database with demo data"
   task :populate => :environment do
 
