@@ -21,6 +21,7 @@ task :staging do
   
   `heroku maintenance:on`  
   `git push heroku heroku-deploy:master`
+  `heroku run bundle exec rake populate`
   `heroku maintenance:off`
 
   `git co master`
