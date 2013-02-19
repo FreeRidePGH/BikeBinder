@@ -10,7 +10,7 @@ end
 
 namespace :db do
 
-  task :populate_staging => environment do
+  task :populate_staging => :environment do
     Rake::Task['db:drop'].invoke
     Rake::Task['setup'].invoke
     Rake::Task['db:populate'].invoke
