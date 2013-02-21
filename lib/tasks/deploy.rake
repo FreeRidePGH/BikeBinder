@@ -20,7 +20,7 @@ namespace :deploy do
     
     `heroku maintenance:on`  
     `git push heroku heroku-deploy:master`
-    `heroku run rake db:populate_staging`
+    `heroku run bundle exec rake db:populate_staging`
     `heroku maintenance:off`
     
     `git co master`
