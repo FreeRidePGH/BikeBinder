@@ -20,6 +20,10 @@ namespace :deploy do
     
     `heroku maintenance:on`  
     `git push heroku heroku-deploy:master`
+
+    secret = `heroku run rake -s secret`.strip
+    `heroku config:add SECRET_TOKEN=#{secret}`
+
     `heroku run bundle exec rake db:populate_staging`
     `heroku maintenance:off`
     
