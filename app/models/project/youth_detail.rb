@@ -32,7 +32,7 @@ class Project::YouthDetail < ProjectDetail
     self.class_material?
   end
 
-  has_time_sheet
+#  has_time_sheet
 
   def work_log
     self.time_entries
