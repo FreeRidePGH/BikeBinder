@@ -8,13 +8,13 @@ task :populate => :environment do
   Rake::Task['db:test_setup'].invoke
 end
 
-namespace :db do
+task :populate_staging => :environment do
+  Rake::Task['db:drop'].invoke
+  Rake::Task['setup'].invoke
+  Rake::Task['db:populate'].invoke
+end
 
-  task :populate_staging => :environment do
-    Rake::Task['db:drop'].invoke
-    Rake::Task['setup'].invoke
-    Rake::Task['db:populate'].invoke
-  end
+namespace :db do
 
   desc "Setup the application and fill database with demo data"
   task :populate => :environment do
@@ -69,9 +69,11 @@ namespace :db do
       tl = sh+0.5
 
       available = (rand(2) != 1)
-      prog_id = (available) ? rand(n_progs+1) : nil
+      rand_prog_n = (available) ? rand(n_progs) : nil
+      prog_id = nil
+      prog_id = Program.all[rand_prog_n].id if rand_prog_n
 
-      bike_model_id = rand(n_models+1)
+      bike_model_id = BikeModel.all[rand(n_models)].id
 
       quality = arr_ratings[rand(arr_ratings.length)]
       condition = arr_ratings[rand(arr_ratings.length)]
