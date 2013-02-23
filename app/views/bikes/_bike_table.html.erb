@@ -5,7 +5,7 @@
     <% if b.available? %>
       <i class="icon-ok"></i> Available
     <% elsif b.departed? %>
-      <%= link_to program_path(b.program) do %><i class="icon-folder-close"></i> Departed as <%= "#{b.program.name}" %><% end %>
+      <i class="icon-folder-close"></i> Departed as <%= "#{b.program.name}" %>
     <% elsif b.program %>
       <%= link_to program_path(b.program) do %><i class="icon-folder-open"></i> <%= "#{b.program.name} Project" %><% end %>
     <% end # elsif %>
