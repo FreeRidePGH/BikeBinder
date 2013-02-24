@@ -26,9 +26,9 @@ GIT
 
 GIT
   remote: git://github.com/zflat/select2-bikebinder.git
-  revision: 6d2ca6231347b3d1e21022bb2cf3069d738af537
+  revision: eaf5e39f2bbacf064bac8bf3858414ec97dfd005
   specs:
-    select2-bikebinder (0.1.7)
+    select2-bikebinder (0.1.8)
       activesupport
       bundler (~> 1.2)
 
