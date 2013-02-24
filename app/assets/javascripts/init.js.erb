@@ -11,8 +11,15 @@ $(document).ready(function(){
     select_init(sel2.WheelSelectBuilder)
     select_init(sel2.ColorSelectBuilder, {optns:{color_keys:<%= Settings::Color.options.to_json.html_safe %>}})
     
+    //select_init(sel2.ModelNestedBrandSelectBuilder, 
+    //		{optns:{api_url:"<%= url_map.search_api_v1_bike_mfg_queries_path  %>"}});
+
     select_init(sel2.ModelNestedBrandSelectBuilder, 
-		{optns:{api_url:"<%= url_map.search_api_v1_bike_mfg_queries_path  %>"}});
+     {optns:{api_url:"<%= url_map.search_api_v1_bike_mfg_queries_path  %>",
+      brand_api_url:"<%= url_map.search_brands_api_v1_bike_mfg_queries_path  %>",
+      model_api_url:"<%= url_map.search_models_api_v1_bike_mfg_queries_path  %>"
+      }});
+
     
     select_init(sel2.BrandSelectBuilder, 
 		{optns:{api_url:"<%= url_map.search_brands_api_v1_bike_mfg_queries_path  %>"}});

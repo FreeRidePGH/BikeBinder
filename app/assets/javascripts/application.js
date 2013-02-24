@@ -9,6 +9,7 @@
 // require_tree .
 //= require jquery.ui.button
 //= require jquery.ui.dialog
+//= require jquery.ui.autocomplete
 //= require bootstrap.min
 //= require fewpicker.jquery
 //
