@@ -213,20 +213,6 @@ class BikesController < ApplicationController
   def convert_units
   end
 
-  # Method to create and or assign bike model
-  def verify_brandmodels
-
-    # Case 1 new brand and model
-    # Create new brands and models and assign this bike
-
-    # Case 2 new model and existing brand
-
-    # Case 3 new brand and no model
-
-    # Case 4 new model and no brand
-
-  end
-
   # Protect from mass assignment
   # See https://gist.github.com/1975644
   # http://rubysource.com/rails-mass-assignment-issue-a-php-perspective/
