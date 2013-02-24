@@ -30,30 +30,12 @@ class BikeForm
   
     # Populate data first from the supplied object
     parse_obj(bike)
-    # Then populate from the optional params
-    # Populating from params second
-    # allows supplied params to override persisted
-    # obj data
-    parse_params(params)
-  end
 
-  def parse_obj(obj)
-    bike_params_list.each do |p|
-      set_val(p, obj.send(p).to_s)
-    end
-    bm = obj.model
-    if bm
-      set_val(:bike_model_id, bm.id)
-      set_val(:bike_model_name, bm.name)
-      set_val(:bike_brand_name, bm.brand.name)
-      set_val(:bike_brand_id, bm.brand.id)
-    end
-  end
-  
-  def parse_params(data)
-    data.each do |key, val|
-      set_val(key, val)
-    end
+    # Then populate from the optional params
+    # Populating from params second allows
+    # the supplied params to override
+    # persisted obj data
+    parse_params(form_params_list, params) unless params.empty?
   end
 
   # Validations
@@ -65,7 +47,7 @@ class BikeForm
 
   # Forms are never themselves persisted
   def persisted?
-    false # || (bike.persisted? if bike)
+    false
   end
 
   def save
@@ -90,59 +72,73 @@ class BikeForm
   def self.form_params_list
     bike_params_list + [:bike_brand_id, :bike_brand_name, :bike_model_name]
   end
+  
+  def form_params_list
+    self.class.form_params_list
+  end
 
   private
 
-  # bike brand and model cases
-  #
-  # Case model exists:
-  #  then find create nothing
-  #  then find model by id
-  #
-  # Case brand exists, but not the model
-  #  then find brand by id
-  #  then create model and assign to brand
-  #
-  # Case neither exist
-  #  then create model and brand from given names
-  #
-  def bike_model_assignment!
-    if BikeModel.find_by_id(bike_model_id)
-      return bike_model_id
+  def parse_obj(obj)
+    bike_params_list.each do |p|
+      set_val(p, obj.send(p).to_s)
     end
-
-    # find or create the brand
-    brand = BikeBrand.find_by_id(bike_brand_id)
-    brand ||= BikeBrand.new(bike_brand_params)
-    brand.save if brand && brand.valid?
-    
-    # Create the bike model
-    new_model = brand.models.new(bike_model_params) if brand && brand.persisted?
-    new_model.save if new_model && new_model.valid?
-
-    return new_model.id if new_model && new_model.persisted?
+    bm = obj.model
+    if bm
+      set_val(:bike_model_id, bm.id)
+      set_val(:bike_model_name, bm.name)
+      
+      # Must check that a brand is assigned, since it
+      # may be unknown (nil)
+      unless bm.brand.nil?
+        set_val(:bike_brand_name, bm.brand.name)
+        set_val(:bike_brand_id, bm.brand.id)
+      end
+    end
+  end
+  
+  def parse_params(params_list, params_data)
+    params_list.each do |key|
+      set_val(key, params_data[key])
+    end
   end
 
-  def bike_brand_params
-    {:name=>bike_brand_name}
+  # Get the bike model assignment
+  # based on the BikeModelFactory for 
+  # the given bike brand and model cases
+  #
+  # Cache the assignment for consistency between calls
+  def bike_model_assignment
+    if @built_bike_model.nil?
+      factory = BikeModelFactory.new(model_factory_params)
+      @built_bike_model = factory.model unless factory.nil?
+    end
+    @built_bike_model
   end
 
-  def bike_model_params
-    {:name=>bike_model_name}
+  def model_factory_params
+    {
+      :model_id => bike_model_id,
+      :model_name => bike_model_name,
+      :brand_id => bike_brand_id,
+      :brand_name => bike_brand_name,
+      :brand_scope => BikeBrand,
+      :model_scope => BikeModel,
+      :param_prefix => :bike
+    }
   end
 
   def persist!
-    m_id = bike_model_assignment!
 
-    bike.update_attributes(
-                         :number => number,
-                         :color => color, 
-                         :value => value,
-                         :wheel_size => wheel_size,
-                         :seat_tube_height => seat_tube_height,
-                         :top_tube_length => top_tube_length,
-                         :bike_model_id => m_id
-                     )
+    # update attributes
+    bike.number = number
+    bike.color = color
+    bike.value = value
+    bike.wheel_size = wheel_size
+    bike.seat_tube_height = seat_tube_height
+    bike.top_tube_length = top_tube_length
+    bike.bike_model = bike_model_assignment
+
     bike.save!
   end
 
