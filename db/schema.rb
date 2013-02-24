@@ -46,13 +46,18 @@ ActiveRecord::Schema.define(:version => 20121229071221) do
   end
 
   create_table "bike_brands", :force => true do |t|
-    t.string "name"
+    t.string "name", :null => false
   end
+
+  add_index "bike_brands", ["name"], :name => "index_bike_brands_on_name"
 
   create_table "bike_models", :force => true do |t|
     t.string  "name",          :null => false
-    t.integer "bike_brand_id", :null => false
+    t.integer "bike_brand_id"
   end
+
+  add_index "bike_models", ["bike_brand_id"], :name => "index_bike_models_on_bike_brand_id"
+  add_index "bike_models", ["name"], :name => "index_bike_models_on_name"
 
   create_table "bikes", :force => true do |t|
     t.string   "color"
