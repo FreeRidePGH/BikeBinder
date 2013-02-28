@@ -261,33 +261,6 @@ ActiveRecord::Schema.define(:version => 20121229071221) do
 
   add_index "surveys", ["access_code"], :name => "surveys_ac_idx", :unique => true
 
-  create_table "time_entries", :force => true do |t|
-    t.integer  "time_trackable_id",   :default => 0
-    t.string   "time_trackable_type", :default => ""
-    t.string   "title",               :default => ""
-    t.text     "description",         :default => ""
-    t.string   "context_type",        :default => ""
-    t.integer  "context_id",          :default => 0
-    t.integer  "user_id",             :default => 0,  :null => false
-    t.integer  "parent_id"
-    t.integer  "lft"
-    t.integer  "rgt"
-    t.datetime "started_on",                          :null => false
-    t.datetime "ended_on",                            :null => false
-    t.datetime "created_at",                          :null => false
-    t.datetime "updated_at",                          :null => false
-  end
-
-  add_index "time_entries", ["context_id"], :name => "index_time_entries_on_context_id"
-  add_index "time_entries", ["time_trackable_id"], :name => "index_time_entries_on_time_trackable_id"
-  add_index "time_entries", ["user_id"], :name => "index_time_entries_on_user_id"
-
-  create_table "time_entry_categories", :force => true do |t|
-    t.string   "title",      :default => ""
-    t.datetime "created_at",                 :null => false
-    t.datetime "updated_at",                 :null => false
-  end
-
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
     t.string   "encrypted_password",     :default => "", :null => false
