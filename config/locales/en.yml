@@ -44,5 +44,21 @@ en:
       f:
         description: This bike would require significant work to function. Repairing it would be equivalent to starting from a frame if it is not at that point already.
         completeness: 50% or less
+    price_guide:
+      base:
+        term: base
+        definition: what we would sell it for in mint condition
+      damage:
+        term: damage
+        definition: subtract $5 to $20 for rust and wear, if there is any
+      labor:
+        term: labor
+        definition: subtract needed labor = (number of hours of work needed) x ($8 per hour)
+      missing_parts:
+        term: missing parts
+        definition: subtract some discount for any stuff it is obvious they will have to buy new (example, 27" tires or a rear cassette). This does not apply to people who want to do single-speed or fixed gear conversions or other customizations since those customizations are not necessary for getting the bike up and running.
+      sale_price:
+        term: sale price
+        definition: Sale Price = Base - (Damage) - (Labor) - (Missing Parts Cost)
 
     

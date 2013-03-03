@@ -16,8 +16,22 @@
 <%=  render :partial=>'select2_ui/brand_model_lookup_create', :locals =>{:form_builder =>f, :value=>bike.bike_model_id} %>  
 
 <%= f.label :value, "Value" %>
-<%= f.text_field :value, :maxlength => 10 %>
+<p><%= I18n.translate('bike.price_guide.sale_price.definition') %></p>
+<dl>
+  <dt><%= I18n.translate('bike.price_guide.base.term') %></dt>
+  <dd><%= I18n.translate('bike.price_guide.base.definition') %></dd>
+
+  <dt><%= I18n.translate('bike.price_guide.damage.term') %></dt>
+  <dd><%= I18n.translate('bike.price_guide.damage.definition') %></dd>
+
+  <dt><%= I18n.translate('bike.price_guide.labor.term') %></dt>
+  <dd><%= I18n.translate('bike.price_guide.labor.definition') %></dd>
+
+  <dt><%= I18n.translate('bike.price_guide.missing_parts.term') %></dt>
+  <dd><%= I18n.translate('bike.price_guide.missing_parts.definition') %></dd>
+</dl>
 </div>
+<%= f.text_field :value, :maxlength => 10 %>
 
 <div class = "">
 
