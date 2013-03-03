@@ -98,8 +98,16 @@
 	<dd class="value" ><%= bike.color.name.capitalize %></dd>
 	<span data-bike-color=<%=bike.color.name %> style="background-color:#<%= bike.color.key %>"></span>
 	<dd class="key">Wheel Size:</dd><dd class="value" ><%= "#{bike.wheel_size} mm" %></dd>
-	<dd class="key">Seat tube height:</dd><dd class="value" ><%= (bike.seat_tube_height ? "#{bike.seat_tube_height} inches" : "n/a") %></dd>
-	<dd class="key">Top tube length:</dd><dd class="value" ><%= (bike.top_tube_length ? "#{bike.top_tube_length} inches" :  "n/a") %></dd>
+	<dd class="key">Seat tube height:</dd>
+	<dd class="value" >
+	  <%= render :partial=>'show_measurement', 
+	  :locals => {:val => bike.seat_tube_height} %>
+	</dd>
+	<dd class="key">Top tube length:</dd>
+	<dd class="value" >
+	  <%= render :partial=>'show_measurement', 
+	  :locals => {:val => bike.top_tube_length} %>
+	</dd>
     <dd class="key">Quality:</dd><dd class="value" ><%= bike.quality %></dd>
     <dd class="key">Condition:</dd><dd class="value" ><%= bike.condition %></dd>
 

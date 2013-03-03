@@ -29,10 +29,7 @@ gem 'friendly_id', '~>4.0.5'
 gem 'decent_exposure', '~>1.0.2'
 gem 'squeel', '~>1.0.14'
 
-gem 'state_machine', '1.1.2'
-gem 'ruby-graphviz','~>1.0.5', :require => 'graphviz'
-
-gem 'paper_trail', '~>2'
+gem "ruby-units", "~> 1.4.2"
 
 gem 'surveyor', '~>0.22.0'
 gem 'jquery-ui-rails'

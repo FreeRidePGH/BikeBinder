@@ -1,0 +1,11 @@
+<% f = form_builder %>
+
+<% fields.each do |key, val| %>
+   
+<%= f.label key, key.to_s.humanize %>
+<%= f.text_field key, :maxlength => 7, 
+:value => "%.2f" % val.convert_to(Settings::LinearUnit.default_input).scalar.to_f %>
+<%= f.select "#{key.to_s}_units".to_sym, Settings::LinearUnit.options %>
+<%  end %>
+
+

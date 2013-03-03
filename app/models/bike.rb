@@ -24,11 +24,10 @@ class Bike < ActiveRecord::Base
 
   include BikeMfg::ActsAsManufacturable
   
-
-  # Override accessors with value objects
-  def color
-    ColorNameI18n::Color.new(super)
-  end
+  # Override with value objects
+  include Value::Color
+  include Value::Linear::SeatTubeHeight
+  include Value::Linear::TopTubeLength
   def wheel_size
     IsoBsdI18n::Size.new(super)
   end
@@ -40,7 +39,6 @@ class Bike < ActiveRecord::Base
   validates_presence_of :number,:color
   validates :seat_tube_height,:top_tube_length,:value, :numericality => true, :allow_nil => true
   validates_uniqueness_of :number, :allow_nil => true
-  #validates :number, :format => { :with => Bike.number_pattern, :message => "Must be 5 digits exactly"}
   validates :number, :bike_number => :true
 
   def self.filter_bikes(colors,status,sortBy,search,min,max,all)

@@ -10,10 +10,12 @@ class BikeForm
   # include BikeMfg::ActsAsManufacturable
 
   # Bike Attributes
-  attr_reader :color, :value, :wheel_size, :seat_tube_height, 
-  :top_tube_length, :bike_model_id, :number, :quality, :condition
+  attr_reader :color, :value, :wheel_size, 
+  :seat_tube_height, :seat_tube_height_units, 
+  :top_tube_length, :top_tube_length_units,
+  :bike_model_id, :number, :quality, :condition
 
-  # Bike object, model and brand attributes
+  # Bike object
   attr_reader :bike
 
   # BikeBrand and BikeModel attribues
@@ -70,7 +72,8 @@ class BikeForm
   end
 
   def self.form_params_list
-    bike_params_list + [:bike_brand_id, :bike_brand_name, :bike_model_name]
+    bike_params_list + [:bike_brand_id, :bike_brand_name, :bike_model_name,
+                       :seat_tube_height_units, :top_tube_length_units]
   end
   
   def form_params_list
@@ -116,6 +119,17 @@ class BikeForm
     @built_bike_model
   end
 
+  # Assign the value of the given attribute
+  # using the correct unit conversion
+  def length_assignment(attrib_name)
+    entered_val = self.send(attrib_name)
+    selected_units = self.send("#{attrib_name}_units")
+
+    given_unit = Unit.new(selected_units)
+    val = Unit.new(entered_val)*given_unit
+    Settings::LinearUnit.to_persistance_units(val).scalar.to_f
+  end
+
   def model_factory_params
     {
       :model_id => bike_model_id,
@@ -135,8 +149,8 @@ class BikeForm
     bike.color = color
     bike.value = value
     bike.wheel_size = wheel_size
-    bike.seat_tube_height = seat_tube_height
-    bike.top_tube_length = top_tube_length
+    bike.seat_tube_height = length_assignment(:seat_tube_height)
+    bike.top_tube_length = length_assignment(:top_tube_length)
     bike.bike_model = bike_model_assignment
 
     bike.save!

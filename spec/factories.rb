@@ -29,8 +29,8 @@ FactoryGirl.define do
     n_bike_info = 1
     
     color 'FFFFFF'
-    seat_tube_height 21
-    top_tube_length  19
+    seat_tube_height Unit.new('21')*Settings::LinearUnit.persistance.units
+    top_tube_length  Unit.new('19')*Settings::LinearUnit.persistance.units
     
     bike_model_id 1
 

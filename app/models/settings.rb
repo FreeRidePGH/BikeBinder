@@ -1,16 +1,36 @@
 module Settings
   class LinearUnit
-    def self.persistance_unit
-      'mm'
+    
+    def self.options
+      ['inch', 'cm']
+    end
+    
+    def self.persistance
+      Unit.new('mm')
+    end
+
+    def self.to_persistance_units(q)
+      units = self.persistance.units
+      val = (q.respond_to?(:units)) ?
+      q.convert_to(units) : Unit.new(q) * units
     end
 
     def self.default_display
-      'inch'
+      Unit.new('inch')
     end
 
     def self.default_input
-      'inch'
+      Unit.new('inch')
     end
+
+    def display
+      self.class.default_display
+    end
+
+    def input
+      self.class.default_input
+    end
+
   end
 
   class Color

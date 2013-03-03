@@ -65,8 +65,8 @@ namespace :db do
 
       c = arr_colors[rand(arr_colors.size)]
       val = rand(120-50)+50
-      sh = rand(25-14)+14
-      tl = sh+0.5
+      sh = Unit.new(rand(25-14)+14) * Unit.new('inch')
+      tl = sh+Unit.new('0.5 inch')
 
       available = (rand(2) != 1)
       rand_prog_n = (available) ? rand(n_progs) : nil
@@ -83,8 +83,10 @@ namespace :db do
       b = Bike.create!(
                        :program_id => prog_id,
                        :color=>c,
-                       :seat_tube_height=>sh, 
-                       :top_tube_length=>tl,
+                       :seat_tube_height=>
+                       Settings::LinearUnit.to_persistance_units(sh).scalar.to_f, 
+                       :top_tube_length=>
+                       Settings::LinearUnit.to_persistance_units(tl).scalar.to_f,
                        :wheel_size => wheel,
                        :bike_model_id => bike_model_id,
                        :quality => quality,

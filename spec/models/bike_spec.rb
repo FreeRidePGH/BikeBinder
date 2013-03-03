@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe Bike do
 
-
   describe "A new bike" do
     before :each do
       @brand = FactoryGirl.create(:bike_brand)
@@ -18,6 +17,25 @@ describe Bike do
     it "Should have a model" do
       puts @bike.bike_model
       expect(@bike.model).to_not be_nil
+    end
+
+    describe "Seat tube height" do
+      
+      it "should accept units" do
+        height = Unit.new('1 mm')
+        @bike.seat_tube_height = height
+        
+        expect(@bike.seat_tube_height).to eq height
+      end
+
+      it "should have the correct persistance units" do
+        expect(@bike.seat_tube_height.units).to eq Settings::LinearUnit.persistance.units
+      end
+
+      it "should have units" do
+        expect(@bike.seat_tube_height.respond_to?(:units)).to be_true
+      end
+
     end
 
     describe "Assigning a hook" do
@@ -51,11 +69,7 @@ describe Bike do
 
   describe "that is deleted" do
     before(:each) do
-      @proj_detail = FactoryGirl.create(:youth_detail)
-      @proj = @proj_detail.proj
-      @p_id = @proj.id
-      @pdet_id = @proj.detail.id
-      @bike = @proj.bike
+      @bike = FactoryGirl.create(:bike)
       @b_id = @bike.id
       @bike.destroy
     end
@@ -68,20 +82,6 @@ describe Bike do
       Bike.find_by_id(@b_id).should be_nil
     end
 
-    describe "with a project" do
-      describe ", the project" do
-        it "should be deleted" do
-          Project.find_by_id(@p_id).should be_nil
-        end
-      end
-
-      describe ", the project details" do
-        it "should be deleted" do
-          Project::YouthDetail.find_by_id(@pdet_id).should be_nil
-        end
-      end
-    end
-
     describe "its serial number" do
       it "the S/N object should not be edited"
     end
@@ -90,7 +90,6 @@ describe Bike do
   describe "without an assignment" do
     before(:each) do
       @bike2 = FactoryGirl.create(:bike)
-      @bike2.project = nil
     end
     describe "that is in the shop" do
       it "can not depart" do
@@ -106,11 +105,12 @@ describe Bike do
   describe "When the bike number is changed" do
     before(:each) do
       @bike = FactoryGirl.create(:bike)
+      @new_number = Bike.count+1
     end
+
     it "is allowed" do
-      @bike.number = (@bike.number.to_i+2000).to_s
-      @bike.save
-      @bike.errors.count.should == 0
+      @bike.number = @new_number
+      expect(@bike).to be_valid
     end
 
     it "should not delete S/N record"
@@ -143,32 +143,11 @@ describe Bike do
     
     describe "that is in the shop" do    
 
-      it "must have an open project"
-
-
-      it "must depart when the project closes"
-
-      it "must not depart if the project does not close"
-
-      it "can have its project canceled"
-      
       it "can have successful delete" do
         expect {@bike.destroy.to change(Bike, :count).by(-1)}
       end
     end
 
-    describe "with a closed project" do
-
-      it "can't have its project cancelled"
-
-      it "must have a closed project" 
-
-      it "must be departed"
-
-      it "can not be deleted" do
-        expect {@bike.destroy.to change(Bike, :count).by(0)}
-      end
-    end
   end
 
 
