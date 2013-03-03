@@ -19,12 +19,65 @@
 <%= f.text_field :value, :maxlength => 10 %>
 </div>
 
-<div class = "span3">
-<%= f.label :quality, "Quality" %>
-<%= f.select :quality, Bike.qualities %>
+<div class = "">
 
-<%= f.label :condition, "Condition" %>
-<%= f.select :condition, Bike.conditions %>
+<% f.label :quality, "Quality" %>
+<% f.select :quality, Bike.qualities %>
+
+<p>Quality</p>
+<table>
+<thead>
+<tr>
+  <th>Rating</th>
+  <th>Description</th>
+  <th>Ideal Price</th>
+</tr>
+</thead>
+<tbody>
+  <% I18n.translate('bike.quality').each do |rating, info|  %>
+  <tr>
+    <td>
+      <%= f.label "quality_#{rating}".to_sym do %>
+      <% is_checked = (rating.to_s == bike_form.quality) %>
+      <%= f.radio_button :quality, rating, :checked => is_checked %> <%= rating %>
+      <% end %>
+    </td>
+    <td><%= info[:description] %></td>
+    <td><%= info[:ideal_price] %></td>
+  </tr>
+  <% end %>
+</tbody>
+</table>
+
+
+<% f.label :condition, "Condition" %>
+<% f.select :condition, Bike.conditions %>
+
+<p>Condition</p>
+<table>
+<thead>
+<tr>
+  <th>Rating</th>
+  <th>Description</th>
+  <th>Completeness</th>
+</tr>
+</thead>
+<tbody>
+  <% I18n.translate('bike.condition').each do |rating, info|  %>
+  <tr>
+    <td>
+      <%= f.label "condition_#{rating}".to_sym do %>
+      <% is_checked = (rating.to_s == bike_form.condition) %>
+      <%= f.radio_button :condition, rating, :checked => is_checked %> <%= rating %>
+      <% end %>
+    </td>
+    <td><%= info[:description] %></td>
+    <td><%= info[:completeness] %></td>
+  </tr>
+  <% end %>
+</tbody>
+</table>
+
 
 <%= f.label :wheel_size, "Wheel Size" %>
 <%=  render Select2BikeBinder::Builder::WheelDiameterSelect.new(f,

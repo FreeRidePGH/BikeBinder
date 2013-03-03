@@ -35,11 +35,20 @@ class Bike < ActiveRecord::Base
     BikeNumber.new(super)
   end
 
+  def self.qualities
+    I18n.translate('bike.quality').keys.map{ |k| k.to_s }
+  end
+  def self.conditions
+    I18n.translate('bike.condition').keys.map{ |k| k.to_s }
+  end
+
   # Validations
   validates_presence_of :number,:color
   validates :seat_tube_height,:top_tube_length,:value, :numericality => true, :allow_nil => true
   validates_uniqueness_of :number, :allow_nil => true
   validates :number, :bike_number => :true
+  validates :quality, :inclusion => {:in => Bike.qualities}, :allow_nil => true
+  validates :condition, :inclusion => {:in => Bike.conditions}, :allow_nil => true
 
   def self.filter_bikes(colors,status,sortBy,search,min,max,all)
     statusSql = []
@@ -160,20 +169,9 @@ class Bike < ActiveRecord::Base
     Bike.where("number LIKE ?","%#{search}%").all
   end
 
-  def self.qualities
-    {"A" => "A","B" => "B","C" => "C","D" => "D"}
-  end
-
-  def self.conditions
-    {"A" => "A","B" => "B","C" => "C","D" => "D"}
-  end
 
   def entered_shop
     return self.created_at.strftime("%m/%d/%Y")
-  end
-
-  def self.all_statuses
-    return STATUSES
   end
 
   def self.sort_filters
@@ -181,7 +179,6 @@ class Bike < ActiveRecord::Base
             "Wheel Size" => "wheel_size", "Date Entered" => "created_at"}
   end
 
-  
   def create_assignment
     new_assignment = Assignment.new
     new_assignment.bike_id = self.id

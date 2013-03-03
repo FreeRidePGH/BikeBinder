@@ -51,7 +51,7 @@ namespace :db do
   task :populate_bikes => :environment do
 
     arr_colors = Settings::Color.options #ColorNameI18n::keys
-    arr_ratings = %w[A B C D]
+    arr_ratings = %w[a b c d f]
 
     arr_bike_brands = BikeBrand.all
     arr_bike_models = BikeModel.all

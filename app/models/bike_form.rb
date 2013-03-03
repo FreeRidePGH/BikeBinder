@@ -148,6 +148,8 @@ class BikeForm
     bike.number = number
     bike.color = color
     bike.value = value
+    bike.quality = quality
+    bike.condition = condition
     bike.wheel_size = wheel_size
     bike.seat_tube_height = length_assignment(:seat_tube_height)
     bike.top_tube_length = length_assignment(:top_tube_length)
