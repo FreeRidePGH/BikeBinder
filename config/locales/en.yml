@@ -47,7 +47,7 @@ en:
     price_guide:
       base:
         term: base
-        definition: what we would sell it for in mint condition
+        definition: what we would sell it for if it was in mint condition
       damage:
         term: damage
         definition: subtract $5 to $20 for rust and wear, if there is any
@@ -56,9 +56,9 @@ en:
         definition: subtract needed labor = (number of hours of work needed) x ($8 per hour)
       missing_parts:
         term: missing parts
-        definition: subtract some discount for any stuff it is obvious they will have to buy new (example, 27" tires or a rear cassette). This does not apply to people who want to do single-speed or fixed gear conversions or other customizations since those customizations are not necessary for getting the bike up and running.
+        definition: subtract some discount for anything missing that is necessary to get the bike safely working
       sale_price:
         term: sale price
-        definition: Sale Price = Base - (Damage) - (Labor) - (Missing Parts Cost)
+        definition: Sale Price = (Base) - (Damage) - (Labor) - (Missing Parts Cost)
 
     

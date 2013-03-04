@@ -2,10 +2,11 @@ body div.container-fluid{
     padding-left: 0px;
     padding-right: 0px;
 }
+
 .floatRight{
     float: right !important;
 }
-.searchBox input{
+.searchBox ninput{
     display: inline;
 }
 #add_brand,#add_model{
@@ -111,23 +112,27 @@ label.colorFilter,label.statusFilter{
     cursor: pointer;
 }
 */
-form.new_bike{
-    background-color: #DBEEF4;
-}
-#newBikeForm{
-    margin-top: 20px;
+
+form.bike_form{
+  border:1px solid #999;
+  text-align: left;
+  padding: 10px;
 }
 
-#newBikeForm input[name='bike[seat_tube_height]']{
-    width: 70px;
+form.bike_form dl dt{
+    float:left;
+    margin-right: 10px;
 }
-#newBikeForm input[name='bike[top_tube_length]']{
-    width: 70px;
+
+form.bike_form dl dd{
+    float:none;
 }
-#top_tube_unit,#seat_tube_unit{
-    display: inline;
-    width: 55px !important;
+
+*.radio_optn input, *.radio input{
+border-width: 0px;
+display: inline;
 }
+
 #user_login_status{
     top: -10px !important;
     right: 15px !important;

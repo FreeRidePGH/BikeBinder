@@ -1,12 +1,17 @@
 <% f = form_builder %>
 
 <% fields.each do |key, val| %>
-   
-<%= f.label key, key.to_s.humanize %>
+
+<div class="control-group">   
+<%= f.label key, key.to_s.humanize, :class=>"control-label" %>
 <% q = (val.nil?) ? '' : "%.2f" % val.convert_to(Settings::LinearUnit.default_input).scalar.to_f %>
+<div class="controls">
 <%= f.text_field key, :maxlength => 7, :value => q %>
-<%= f.select "#{key.to_s}_units".to_sym, Settings::LinearUnit.options,
-    :html=>{:class => "units"} %>
+<%= f.select "#{key.to_s}_units".to_sym, Settings::LinearUnit.options,{}, 
+    {:class => "units span1"} %>
+</div> <!-- /controls -->
+</div>
+
 <%  end %>
 
 

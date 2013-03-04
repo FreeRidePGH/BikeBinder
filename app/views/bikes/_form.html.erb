@@ -1,51 +1,87 @@
+<div class="row">
 <%= form_for bike_form, 
-    :html => {:class => "new_bike span4"}, 
+    :html => {:class => "bike_form span9 offset1 form-horizontal"}, 
     :url => url_for(bike_form.bike),
     :method => bike_form.form_method(action_name) do |f| %>
   <%= render 'shared/error_messages', :object => f.object %>
-<div class = "span3">
-<%= f.label :number %>
-<%= f.text_field :number, :required => true %>
 
+<h1>Bike Information</h1>
 
-<%= f.label :color %>
+<div class="control-group">
+  <%= f.label :number, :class=>"control-label" %>
+  <div class="controls">
+    <%= f.text_field :number, :required => true, :placeholder=>"12345" %>
+  </div>
+</div>
+
+<div class="control-group">
+  <%= f.label :color, :class=>"control-label" %>
+  <div class="controls">
 <% color_optns = {:multiple=>false, :param_key => 'color', :value=>bike.color.key} %>
 <%= render Select2BikeBinder::Builder::ColorSelect.new f, color_optns %>
+</div>
+</div>
 
-
+<h2>Brand and model information</h2>
 <%=  render :partial=>'select2_ui/brand_model_lookup_create', :locals =>{:form_builder =>f, :value=>bike.bike_model_id} %>  
 
-<%= f.label :value, "Value" %>
-<p><%= I18n.translate('bike.price_guide.sale_price.definition') %></p>
+
+<h2>Sales Price Value</h2>
+<p><%= I18n.translate('bike.price_guide.sale_price.definition').capitalize %></p>
 <dl>
-  <dt><%= I18n.translate('bike.price_guide.base.term') %></dt>
-  <dd><%= I18n.translate('bike.price_guide.base.definition') %></dd>
+  <dt><%= I18n.translate('bike.price_guide.base.term').capitalize %></dt>
+  <dd><%= I18n.translate('bike.price_guide.base.definition').capitalize %></dd>
 
-  <dt><%= I18n.translate('bike.price_guide.damage.term') %></dt>
-  <dd><%= I18n.translate('bike.price_guide.damage.definition') %></dd>
+  <dt><%= I18n.translate('bike.price_guide.damage.term').capitalize %></dt>
+  <dd><%= I18n.translate('bike.price_guide.damage.definition').capitalize %></dd>
 
-  <dt><%= I18n.translate('bike.price_guide.labor.term') %></dt>
-  <dd><%= I18n.translate('bike.price_guide.labor.definition') %></dd>
+  <dt><%= I18n.translate('bike.price_guide.labor.term').capitalize %></dt>
+  <dd><%= I18n.translate('bike.price_guide.labor.definition').capitalize %></dd>
 
-  <dt><%= I18n.translate('bike.price_guide.missing_parts.term') %></dt>
-  <dd><%= I18n.translate('bike.price_guide.missing_parts.definition') %></dd>
+  <dt><%= I18n.translate('bike.price_guide.missing_parts.term').capitalize %></dt>
+  <dd><%= I18n.translate('bike.price_guide.missing_parts.definition').capitalize %></dd>
 </dl>
+
+<div class="control-group">
+<%= f.label :value, "Value", :class=>"control-label" %>
+<div class="controls">
+  <div class="input-prepend">
+    <span class="add-on">$</span><%= f.text_field :value, 
+	:maxlength => 10, 
+    :value => ("%.2f" % bike_form.value if bike_form.value),
+    :placeholder=>"Sales Price" %>
+  </div>
 </div>
-<%= f.text_field :value, :maxlength => 10 %>
+</div>
 
-<div class = "">
 
-<% f.label :quality, "Quality" %>
-<% f.select :quality, Bike.qualities %>
+<h2>Size and measurements</h2>
+<div class="control-group">
+<%= f.label :wheel_size, "Wheel Size", :class=>"control-label" %>
+<div class="controls">
+<%=  render Select2BikeBinder::Builder::WheelDiameterSelect.new(f,
+     :param_key=>'wheel_size', :multiple=>false, :value=>bike.wheel_size, :width=>"90%") %>
+</div> <!-- /controls -->
+</div>
 
-<p>Quality</p>
-<table>
+<%= 
+render :partial=>'units/input', 
+:locals => {:form_builder => f, 
+:fields => {
+  :seat_tube_height => bike_form.seat_tube_height,
+  :top_tube_length => bike_form.top_tube_length
+}
+} 
+%>
+
+<h2>Quality</h2>
+<table class="radio_optn table table-striped table-hover table-condensed table-bordered">
 <thead>
-<tr>
-  <th>Rating</th>
-  <th>Description</th>
-  <th>Ideal Price</th>
-</tr>
+  <tr>
+    <th>Rating</th>
+    <th>Description</th>
+    <th>Ideal Price</th>
+  </tr>
 </thead>
 <tbody>
   <% I18n.translate('bike.quality').each do |rating, info|  %>
@@ -53,7 +89,7 @@
     <td>
       <%= f.label "quality_#{rating}".to_sym do %>
       <% is_checked = (rating.to_s == bike_form.quality) %>
-      <%= f.radio_button :quality, rating, :checked => is_checked %> <%= rating %>
+      <%= f.radio_button :quality, rating, :checked => is_checked, :class=>"radio" %> <%= rating.capitalize %>
       <% end %>
     </td>
     <td><%= info[:description] %></td>
@@ -64,11 +100,8 @@
 </table>
 
 
-<% f.label :condition, "Condition" %>
-<% f.select :condition, Bike.conditions %>
-
-<p>Condition</p>
-<table>
+<h2>Condition</h2>
+<table class="radio_optn table table-striped table-hover table-condensed table-bordered">
 <thead>
 <tr>
   <th>Rating</th>
@@ -82,7 +115,7 @@
     <td>
       <%= f.label "condition_#{rating}".to_sym do %>
       <% is_checked = (rating.to_s == bike_form.condition) %>
-      <%= f.radio_button :condition, rating, :checked => is_checked %> <%= rating %>
+      <%= f.radio_button :condition, rating, :checked => is_checked, :class=>"radio" %> <%= rating.capitalize %>
       <% end %>
     </td>
     <td><%= info[:description] %></td>
@@ -92,26 +125,9 @@
 </tbody>
 </table>
 
-
-<%= f.label :wheel_size, "Wheel Size" %>
-<%=  render Select2BikeBinder::Builder::WheelDiameterSelect.new(f,
-     :param_key=>'wheel_size', :multiple=>false, :value=>bike.wheel_size, :width=>"90%") %>
-<%= 
-render :partial=>'units/input', 
-:locals => {:form_builder => f, 
-:fields => {
-  :seat_tube_height => bike_form.seat_tube_height,
-  :top_tube_length => bike_form.top_tube_length
-}
-} 
-%>
-
-</div>
-<div class = "span3">
-
 <% submit_text = I18n.translate('commit_btn')[action_name.to_sym] %>
-<%= f.submit submit_text, :class => "btn btn-primary" %>
-</div>
-</fieldset>
+<%= f.submit submit_text, :class => "btn btn-primary offset7" %>
+
 <% end %>
 
+</div> <!-- class="row" -->
