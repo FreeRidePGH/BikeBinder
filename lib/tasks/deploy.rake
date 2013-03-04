@@ -11,6 +11,8 @@ namespace :deploy do
     `git co -b heroku-deploy`
     `git co heroku-deploy`
     `git merge master`
+    `git pull heroku master`
+    `git rm public/assets/manifest.yml`
     ENV['RAILS_ENV'] = 'production'
     `bundle exec rake assets:precompile`
     
