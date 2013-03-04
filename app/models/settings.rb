@@ -1,4 +1,4 @@
-module Settings
+pmodule Settings
   class LinearUnit
     
     def self.options

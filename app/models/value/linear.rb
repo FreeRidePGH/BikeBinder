@@ -11,6 +11,7 @@ module Value
       end
 
       def val_to_persist(val)
+        return nil if val.nil?
         Settings::LinearUnit.to_persistance_units(val).scalar.to_f
       end
     end

@@ -123,7 +123,10 @@ class BikeForm
   # using the correct unit conversion
   def length_assignment(attrib_name)
     entered_val = self.send(attrib_name)
+    return nil if entered_val.blank?
+
     selected_units = self.send("#{attrib_name}_units")
+    selected_units ||= Settings::LinearUnit.default_input.units
 
     given_unit = Unit.new(selected_units)
     val = Unit.new(entered_val)*given_unit
