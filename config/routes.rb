@@ -81,7 +81,7 @@ BikeBinder::Application.routes.draw do
 
   # Map top level domain seach to bikes and hooks
   match '/:id' => 'bikes#show', :id => BikeNumber.pattern, :via => [:get]
-  match '/:id' => 'hooks#show', :id => Hook.number_pattern, :via => [:get]
+  match '/:id' => 'hooks#show', :id => HookNumber.pattern, :via => [:get]
 
   ####################################################
   ####################################################

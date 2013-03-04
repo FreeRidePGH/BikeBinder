@@ -19,7 +19,6 @@ namespace :db do
   desc "Setup the application and fill database with demo data"
   task :populate => :environment do
 
-    Rake::Task['db:populate_hooks'].invoke
     Rake::Task['db:populate_programs'].invoke
     Rake::Task['db:populate_bikes'].invoke
 
@@ -28,14 +27,6 @@ namespace :db do
     Rake::Task['surveyor'].invoke
   end
 	  
-  desc "Fill database with initial Hooks"
-  task :populate_hooks => :environment do	
-    19.times do |n|
-      Hook.create!(:number=>(101+n))
-      Hook.create!(:number=>(201+n))
-    end
-  end
-
   desc "Fill databse with programs"
   task :populate_programs => :environment do
     Program.create!(:name=>"Earn a Bike", :label=>"Earn a Bike")
