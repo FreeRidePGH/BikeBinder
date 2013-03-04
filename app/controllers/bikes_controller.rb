@@ -68,7 +68,11 @@ class BikesController < ApplicationController
   def create     
     if bike_form.save
       flash[:success] = "New bike was added."
-      redirect_to bike_path(bike_form.bike) and return
+
+      path = (params[:commit].downcase == I18n.translate('commit_btn.new_plus').downcase) ?
+      new_bike_path : bike_path(bike_form.bike)
+
+      redirect_to path and return
     end
     render :new
   end
