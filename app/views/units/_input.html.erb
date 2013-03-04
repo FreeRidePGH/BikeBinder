@@ -1,15 +1,16 @@
 <% f = form_builder %>
-
+<% b = text_base %>
 <% fields.each do |key, val| %>
 
 <div class="control-group">   
-<%= f.label key, key.to_s.humanize, :class=>"control-label" %>
+
+<%= f.label key, I18n.translate("#{text_base}.label.#{key}").titleize, :class=>"control-label" %>
 <% q = (val.nil?) ? '' : "%.2f" % val.convert_to(Settings::LinearUnit.default_input).scalar.to_f %>
-<div class="controls">
+  <div class="controls">
 <%= f.text_field key, :maxlength => 7, :value => q %>
 <%= f.select "#{key.to_s}_units".to_sym, Settings::LinearUnit.options,{}, 
     {:class => "units span1"} %>
-</div> <!-- /controls -->
+  </div> <!-- /controls -->
 </div>
 
 <%  end %>

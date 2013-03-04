@@ -5,59 +5,67 @@
     :method => bike_form.form_method(action_name) do |f| %>
   <%= render 'shared/error_messages', :object => f.object %>
 
-<h1>Bike Information</h1>
+<h1><%= I18n.translate('bike.form.section.bikeinfo').titleize %></h1>
 
 <div class="control-group">
-  <%= f.label :number, :class=>"control-label" %>
+  <%= f.label :number,I18n.translate('bike.form.label.number').titleize, :class=>"control-label" %>
   <div class="controls">
     <%= f.text_field :number, :required => true, :placeholder=>"12345" %>
   </div>
 </div>
 
 <div class="control-group">
-  <%= f.label :color, :class=>"control-label" %>
+  <%= f.label :color, I18n.translate('bike.form.label.color').titleize, :class=>"control-label" %>
   <div class="controls">
 <% color_optns = {:multiple=>false, :param_key => 'color', :value=>bike.color.key} %>
 <%= render Select2BikeBinder::Builder::ColorSelect.new f, color_optns %>
 </div>
 </div>
 
-<h2>Brand and model information</h2>
+<h2><%= I18n.translate('bike.form.section.brandmodel').titleize %></h2>
 <%=  render :partial=>'select2_ui/brand_model_lookup_create', :locals =>{:form_builder =>f, :value=>bike.bike_model_id} %>  
 
 
-<h2>Sales Price Value</h2>
-<p><%= I18n.translate('bike.price_guide.sale_price.definition').capitalize %></p>
-<dl>
-  <dt><%= I18n.translate('bike.price_guide.base.term').capitalize %></dt>
+<h2><%= I18n.translate('bike.form.section.value').titleize %></h2>
+
+<div class="accordion-group">
+<div class="accordion-heading">
+  <a href="#bike_price_guide" class="accordion-toggle" data-toggle="collapse"><%= I18n.translate('bike.price_guide.sale_price.definition') %></a>
+</div>
+<div class="accordion-body collapse" id="bike_price_guide">
+<dl class="accordion-inner">
+  <dt><%= I18n.translate('bike.price_guide.base.term').titleize %></dt>
   <dd><%= I18n.translate('bike.price_guide.base.definition').capitalize %></dd>
 
-  <dt><%= I18n.translate('bike.price_guide.damage.term').capitalize %></dt>
+  <dt><%= I18n.translate('bike.price_guide.damage.term').titleize %></dt>
   <dd><%= I18n.translate('bike.price_guide.damage.definition').capitalize %></dd>
 
-  <dt><%= I18n.translate('bike.price_guide.labor.term').capitalize %></dt>
+  <dt><%= I18n.translate('bike.price_guide.labor.term').titleize %></dt>
   <dd><%= I18n.translate('bike.price_guide.labor.definition').capitalize %></dd>
 
-  <dt><%= I18n.translate('bike.price_guide.missing_parts.term').capitalize %></dt>
+  <dt><%= I18n.translate('bike.price_guide.missing_parts.term').titleize %></dt>
   <dd><%= I18n.translate('bike.price_guide.missing_parts.definition').capitalize %></dd>
 </dl>
+</div>
+</div> <!-- accordion-group -->
 
 <div class="control-group">
-<%= f.label :value, "Value", :class=>"control-label" %>
+<%= f.label :value, I18n.translate('bike.form.label.value').titleize, :class=>"control-label" %>
 <div class="controls">
   <div class="input-prepend">
     <span class="add-on">$</span><%= f.text_field :value, 
 	:maxlength => 10, 
     :value => ("%.2f" % bike_form.value if bike_form.value),
-    :placeholder=>"Sales Price" %>
+    :placeholder=> I18n.translate('bike.form.placeholder.value').titleize %>
   </div>
 </div>
 </div>
 
 
-<h2>Size and measurements</h2>
+<h2><%= I18n.translate('bike.form.section.measurements').titleize %></h2>
 <div class="control-group">
-<%= f.label :wheel_size, "Wheel Size", :class=>"control-label" %>
+<%= f.label :wheel_size, I18n.translate('bike.form.label.wheel_size').titleize,
+    :class=>"control-label" %>
 <div class="controls">
 <%=  render Select2BikeBinder::Builder::WheelDiameterSelect.new(f,
      :param_key=>'wheel_size', :multiple=>false, :value=>bike.wheel_size, :width=>"90%") %>
@@ -66,7 +74,7 @@
 
 <%= 
 render :partial=>'units/input', 
-:locals => {:form_builder => f, 
+:locals => {:form_builder => f, :text_base => 'bike.form',
 :fields => {
   :seat_tube_height => bike_form.seat_tube_height,
   :top_tube_length => bike_form.top_tube_length
@@ -74,13 +82,13 @@ render :partial=>'units/input',
 } 
 %>
 
-<h2>Quality</h2>
+<h2><%= I18n.translate('bike.form.section.quality').titleize %></h2>
 <table class="radio_optn table table-striped table-hover table-condensed table-bordered">
 <thead>
   <tr>
-    <th>Rating</th>
-    <th>Description</th>
-    <th>Ideal Price</th>
+    <th><%= I18n.translate('bike.quality_header.rating').titleize %></th>
+    <th><%= I18n.translate('bike.quality_header.description').titleize %></th>
+    <th><%= I18n.translate('bike.quality_header.price').titleize %></th>
   </tr>
 </thead>
 <tbody>
@@ -100,13 +108,13 @@ render :partial=>'units/input',
 </table>
 
 
-<h2>Condition</h2>
+<h2><%= I18n.translate('bike.form.section.condition').titleize %></h2>
 <table class="radio_optn table table-striped table-hover table-condensed table-bordered">
 <thead>
 <tr>
-  <th>Rating</th>
-  <th>Description</th>
-  <th>Completeness</th>
+  <th><%= I18n.translate('bike.condition_header.rating').titleize %></th>
+  <th><%= I18n.translate('bike.condition_header.description').titleize %></th>
+  <th><%= I18n.translate('bike.condition_header.completeness').titleize %></th>
 </tr>
 </thead>
 <tbody>
@@ -125,9 +133,14 @@ render :partial=>'units/input',
 </tbody>
 </table>
 
+<div class="btn-group">
 <% submit_text = I18n.translate('commit_btn')[action_name.to_sym] %>
-<%= f.submit submit_text, :class => "btn btn-primary offset7" %>
+<%= f.submit submit_text, :class => "btn btn-primary" %>
+<% if bike.id.nil? %>
+<%= f.submit I18n.translate('commit_btn.new_plus'), :class => "btn" %>
+<% end # action_name == 'create' %>
+</div>
 
-<% end %>
+<% end # form %>
 
 </div> <!-- class="row" -->

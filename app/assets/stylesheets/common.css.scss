@@ -50,12 +50,12 @@ header p.demoHelp {
     z-index: -5;
     
 }
-
+/*
 input[type="submit"],
 button[type="submit"] {
     display: block;
 }
-
+*/
 footer {
     margin-top: 3em;
 }
@@ -187,10 +187,7 @@ table tr:nth-child(2n+1) {
     /*background: #f1f1f1;*/
 
 }
-input[type="submit"],
-button[type="submit"] {
-    display: block;
-}
+
 /* Generic comments styling */
 #newCommentWrap,  form#new_comment {
     margin-top: 0;

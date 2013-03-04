@@ -119,6 +119,10 @@ form.bike_form{
   padding: 10px;
 }
 
+form.bike_form h2, form.bike_form h1{
+    font-size: 1.5em;
+}
+
 form.bike_form dl dt{
     float:left;
     margin-right: 10px;
