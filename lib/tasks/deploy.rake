@@ -24,7 +24,7 @@ namespace :deploy do
     secret = `heroku run rake -s secret`.strip
     `heroku config:add SECRET_TOKEN=#{secret}`
 
-    `heroku run bundle exec rake db:populate_staging`
+    `heroku run bundle exec rake populate_staging`
     `heroku maintenance:off`
     
     `git co master`
