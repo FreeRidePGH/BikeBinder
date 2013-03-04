@@ -1,11 +1,20 @@
+<% submit_text = I18n.translate('commit_btn')[action_name.to_sym] %>
 <div class="row">
+  <div class="section-sidebar span2">
+    <ul class="nav nav-list">
+      <% I18n.translate('bike.form.section').each do |key, text| %>
+      <li><a href="#<%= "#{key}" %>"><%= text.titleize %></a></li>
+      <% end # each section %>
+      <li><a href="#submit_form"><%= submit_text.titleize %></a></li>
+    </ul>
+  </div>
 <%= form_for bike_form, 
-    :html => {:class => "bike_form span9 offset1 form-horizontal"}, 
+    :html => {:class => "bike_form span9 form-horizontal"},
     :url => url_for(bike_form.bike),
     :method => bike_form.form_method(action_name) do |f| %>
   <%= render 'shared/error_messages', :object => f.object %>
 
-<h1><%= I18n.translate('bike.form.section.bikeinfo').titleize %></h1>
+<h2 id="bikeinfo"><%= I18n.translate('bike.form.section.bikeinfo').titleize %></h2>
 
 <div class="control-group">
   <%= f.label :number,I18n.translate('bike.form.label.number').titleize, :class=>"control-label" %>
@@ -22,11 +31,11 @@
 </div>
 </div>
 
-<h2><%= I18n.translate('bike.form.section.brandmodel').titleize %></h2>
+<h2 id="brandmodel"><%= I18n.translate('bike.form.section.brandmodel').titleize %></h2>
 <%=  render :partial=>'select2_ui/brand_model_lookup_create', :locals =>{:form_builder =>f, :value=>bike.bike_model_id} %>  
 
 
-<h2><%= I18n.translate('bike.form.section.value').titleize %></h2>
+<h2 id="value"><%= I18n.translate('bike.form.section.value').titleize %></h2>
 
 <div class="accordion-group">
 <div class="accordion-heading">
@@ -62,7 +71,7 @@
 </div>
 
 
-<h2><%= I18n.translate('bike.form.section.measurements').titleize %></h2>
+<h2 id="measurements"><%= I18n.translate('bike.form.section.measurements').titleize %></h2>
 <div class="control-group">
 <%= f.label :wheel_size, I18n.translate('bike.form.label.wheel_size').titleize,
     :class=>"control-label" %>
@@ -82,7 +91,7 @@ render :partial=>'units/input',
 } 
 %>
 
-<h2><%= I18n.translate('bike.form.section.quality').titleize %></h2>
+<h2 id="quality"><%= I18n.translate('bike.form.section.quality').titleize %></h2>
 <table class="radio_optn table table-striped table-hover table-condensed table-bordered">
 <thead>
   <tr>
@@ -108,7 +117,7 @@ render :partial=>'units/input',
 </table>
 
 
-<h2><%= I18n.translate('bike.form.section.condition').titleize %></h2>
+<h2 id="condition"><%= I18n.translate('bike.form.section.condition').titleize %></h2>
 <table class="radio_optn table table-striped table-hover table-condensed table-bordered">
 <thead>
 <tr>
@@ -133,8 +142,7 @@ render :partial=>'units/input',
 </tbody>
 </table>
 
-<div class="btn-group">
-<% submit_text = I18n.translate('commit_btn')[action_name.to_sym] %>
+<div class="btn-group" id="submit_form">
 <%= f.submit submit_text, :class => "btn btn-primary" %>
 <% if bike.id.nil? %>
 <%= f.submit I18n.translate('commit_btn.new_plus'), :class => "btn" %>
@@ -143,4 +151,5 @@ render :partial=>'units/input',
 
 <% end # form %>
 
-</div> <!-- class="row" -->
+</div> <!-- /row -->
+
