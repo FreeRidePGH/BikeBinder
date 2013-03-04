@@ -3,6 +3,7 @@ module Value
   module Linear
     module InstanceMethods
       def get_linear_val(val, optns={})
+        return nil if val.nil?
         units = Settings::LinearUnit.persistance.units
         target_units = optns[:units]
         target_units ||= units

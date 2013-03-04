@@ -3,9 +3,10 @@
 <% fields.each do |key, val| %>
    
 <%= f.label key, key.to_s.humanize %>
-<%= f.text_field key, :maxlength => 7, 
-:value => "%.2f" % val.convert_to(Settings::LinearUnit.default_input).scalar.to_f %>
-<%= f.select "#{key.to_s}_units".to_sym, Settings::LinearUnit.options %>
+<% q = (val.nil?) ? '' : "%.2f" % val.convert_to(Settings::LinearUnit.default_input).scalar.to_f %>
+<%= f.text_field key, :maxlength => 7, :value => q %>
+<%= f.select "#{key.to_s}_units".to_sym, Settings::LinearUnit.options,
+    :html=>{:class => "units"} %>
 <%  end %>
 
 
