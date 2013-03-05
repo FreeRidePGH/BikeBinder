@@ -9,8 +9,10 @@ task :populate => :environment do
 end
 
 task :populate_staging => :environment do
-  Rake::Task['db:drop'].invoke
+  #Rake::Task['db:drop'].invoke
+  `heroku pg:reset OLIVE --confirm bikebinder`
   Rake::Task['setup'].invoke
+  Rake::Task['db:bike_mfg:index_repair'].invoke
   Rake::Task['db:populate'].invoke
 end
 
