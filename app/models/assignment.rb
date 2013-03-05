@@ -19,5 +19,4 @@ class Assignment < ActiveRecord::Base
         a.bike_id = bike_id
         a.save!
     end
-    
 end

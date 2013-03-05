@@ -38,23 +38,6 @@ describe Bike do
 
     end
 
-    describe "Assigning a hook" do
-
-      it "should be assigned to an available hook" do
-        @bike.should be_can_reserve_hook
-
-        @hook = FactoryGirl.create(:hook)
-        @hook.should_not be_nil
-
-        @bike.reserve_hook!(@hook)
-
-        @bike.should_not be_can_reserve_hook
-        @bike.hook.should_not be_nil
-      end
-
-    end
-
-
     describe "with invalid number" do
       it "should not be valid" do
         @bike.number = '123456'
@@ -149,7 +132,6 @@ describe Bike do
     end
 
   end
-
 
 end
 

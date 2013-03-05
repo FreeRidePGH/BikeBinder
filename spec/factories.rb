@@ -1,7 +1,7 @@
 FactoryGirl.define do
   
   factory :hook do
-    sequence(:number){|n| (100+n).to_s}
+    sequence(:number){|n| "#{(10+n)}H"}
   end
 
   factory :user do

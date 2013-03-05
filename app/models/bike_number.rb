@@ -22,6 +22,10 @@ class BikeNumber
     return /\d{5}/
   end
 
+  def self.format_number(num)
+    return sprintf("%05d", num.to_i) if num
+  end
+
   def self.anchored_pattern
     return Regexp.new('\A'+self.pattern.source+'\z')
   end
