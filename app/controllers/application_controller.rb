@@ -30,8 +30,8 @@ class ApplicationController < ActionController::Base
   # Create never
   expose(:bike) do
     unless params[:bike_id].blank?
-      bike_id = id_from_label(params[:bike_id])
-      @bike ||= Bike.find_by_number(bike_id) unless bike_id.nil?
+      slug = params[:bike_id]
+      @bike ||= Bike.find_by_slug(slug) unless slug.blank?
     end
   end
   

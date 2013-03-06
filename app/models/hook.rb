@@ -1,8 +1,12 @@
 require 'hook_number'
+require 'number_slug'
 
 class Hook < ActiveRecord::Base
   extend FriendlyId
-  friendly_id :label
+  extend NumberSlug
+
+  friendly_id :slug
+  number_slug :prefix => 'sn', :delimiter => '-'
 
   attr_accessible :number
 

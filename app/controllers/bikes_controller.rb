@@ -7,9 +7,8 @@ class BikesController < ApplicationController
   expose(:bike) do
     id_param = params[:id]||params[:bike_id]
     if id_param.present?
-      label = id_param
-      @bike ||= Bike.find_by_label(label) unless label.nil?
-      @bike ||= Bike.find_by_number(id_param)
+      slug = id_param
+      @bike ||= Bike.find_by_slug(slug) unless slug.blank?
     end    
     @bike ||= Bike.new
     @bike
@@ -46,12 +45,10 @@ class BikesController < ApplicationController
     @commentable ||= bike
   end
 
-
   def index
     @brands = nil
     @colors = ColorNameI18n::keys
     @statuses = Program.all_programs
-    @sorts = Bike.sort_filters
     @searchTerm = params[:search]
   end
 
@@ -94,50 +91,6 @@ class BikesController < ApplicationController
     render 'edit'
   end
   
-  def get_models
-    @brand_id = params[:brand_id]
-    @bike_models = []
-    if @brand_id.nil? || @brand_id == ""
-        @bike_models = []
-    else
-        @bike_models = BikeModel.find_all_by_brand_id(@brand_id)
-    end
-    render :json => @bike_models
-  end
-
-  def get_brands
-    @model_id = params[:bike_model_id]
-    @brands = []
-    if @model_id.nil? || @model_id == ""
-        @brands = []
-    else
-        @brands = BikeBrand.find_all_for_models(@model_id)
-    end
-    render :json => @brands
-  end
-
-  def filter_bikes
-    #@brand = params[:brands]
-    @color = params[:colors]
-    @status = params[:statuses]
-    @sortBy = params[:sortBy]
-    @search = params[:searchDesc]
-    @min = params[:min]
-    @max = params[:max]
-    @all = params[:all]
-    @bikes = Bike.filter_bikes(@color,@status,@sortBy,@search,@min,@max,@all)
-    @bikes["bikes"].each do |bike|
-        bikeDate = bike.created_at
-        bike.created_at = bikeDate.utc.to_i * 1000
-    end
-    render :json => @bikes
-  end
-
-  def get_details
-    bike = Bike.get_bike_details(params[:id])
-    render :json => @bike
-  end
-
 
   # Case the project is done, but not closed:
   #   Confirmation to close the project (FINISH project)

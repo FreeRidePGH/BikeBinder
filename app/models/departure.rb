@@ -1,4 +1,4 @@
-class Bike < ActiveRecord::Base
+class Departure < ActiveRecord::Base
   attr_accessible :bike, :method, :value
-  att_reader :date
+  attr_reader :date
 end

@@ -2,6 +2,31 @@ require 'spec_helper'
 
 describe Bike do
 
+  describe "url slugging" do
+    
+    before :each do
+      @bike = FactoryGirl.create(:bike)
+      @slug = @bike.slug
+    end
+    
+    it "should be able to extract number from slug" do
+      n = Bike.number_from_slug(@slug)
+      expect(n).to_not be_nil
+      expect(n).to eq @bike.number.to_s
+    end
+
+    describe "a valid bike" do
+
+      it "should have a slug" do
+        expect(@slug).to_not be_nil
+      end
+
+      it "should be able to find by slug" do
+        expect(Bike.find_by_slug(@slug)).to eq @bike
+      end
+    end      
+  end
+
   describe "A new bike" do
     before :each do
       @brand = FactoryGirl.create(:bike_brand)
@@ -88,7 +113,7 @@ describe Bike do
   describe "When the bike number is changed" do
     before(:each) do
       @bike = FactoryGirl.create(:bike)
-      @new_number = Bike.count+1
+      @new_number = BikeNumber.format_number(10000+Bike.count+1)
     end
 
     it "is allowed" do

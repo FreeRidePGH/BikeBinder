@@ -1,16 +1,17 @@
-require "has_one_soft_delete"
 require 'bike_mfg'
 require 'color_name-i18n'
 require 'bike_number'
+require 'number_slug'
 
 class Bike < ActiveRecord::Base
 
   include ActiveModel::ForbiddenAttributesProtection
 
-  include HasOneSoftDelete
   extend FriendlyId
+  extend NumberSlug
 
-  friendly_id :label
+  friendly_id :slug
+  number_slug :prefix => 'sn', :delimiter => '-'
 
   acts_as_commentable
 
@@ -53,26 +54,19 @@ class Bike < ActiveRecord::Base
   validates :condition, 
   :inclusion => {:in => Bike.conditions}, :allow_nil => true
 
-  def label
-    "sn-#{self.number}"
-  end
-  
-  def self.id_from_label(label, delimiter='-')
-    arr = label.split(delimiter) if label
-    id = arr[-1] if arr.count > 1
-    return id
-  end
-
-  def self.find_by_label(label, delimiter='-')
-    id = Bike.id_from_label(label, delimiter)
-    Bike.find_by_number(id)
-  end
 
   def departed?
     !!departure.nil?
   end
-  
 
+  def available?
+    assignments.blank?
+  end
+
+  def shop?
+    departure.nil?
+  end
+  
   def self.simple_search(search)
     Bike.where("number LIKE ?","%#{search}%").all
   end

@@ -22,7 +22,7 @@ FactoryGirl.define do
 
   factory :bike do
 
-    sequence(:number){|n| Bike.format_number(10000+n)}
+    sequence(:number){|n| BikeNumber.format_number(10000+n)}
 
     val = 100
 
