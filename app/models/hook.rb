@@ -6,13 +6,14 @@ class Hook < ActiveRecord::Base
   extend NumberSlug
 
   friendly_id :slug
-  number_slug :prefix => 'sn', :delimiter => '-'
+  number_slug :prefix => 'location', :delimiter => '-'
 
   attr_accessible :number
 
-  belongs_to :bike, :inverse_of => :hook
+  has_one :reservation, :class_name => "HookReservation"
+  has_one :bike, :through => :reservation
 
-  scope :available, :conditions => {:bike_id => nil}
+  scope :available, :conditions => {:hook_reservation_id => nil}
 
   # Override with value object
   def number
@@ -28,20 +29,6 @@ class Hook < ActiveRecord::Base
   # hooks reserved only for FFS.
   def self.next_available(bike=nil)
     return Hook.where{bike_id == nil}.first
-  end
-
-  def label
-    "location-#{self.number}"
-  end
-
-  def self.id_from_label(label, delimiter='-')
-    arr = label.split(delimiter) if label
-    arr[-1] if arr
-  end
-
-  def self.find_by_label(label, delimiter='-')
-    id = Hook.id_from_label(label, delimiter)
-    Hook.where{number == my{id}}.first
   end
 
   def self.simple_search(search)

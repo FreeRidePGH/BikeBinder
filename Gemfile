@@ -31,7 +31,11 @@ gem 'squeel', '~>1.0.14'
 
 gem "ruby-units", "~> 1.4.2"
 
+gem 'state_machine', '~>1.1.2'
+gem 'ruby-graphviz', :require => 'graphviz'
+
 gem 'surveyor', '~>0.22.0'
+
 gem 'jquery-ui-rails'
 gem 'jquery-ui-themes'
 

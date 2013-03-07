@@ -84,10 +84,10 @@ namespace :db do
                        :bike_model_id => bike_model_id,
                        :quality => quality,
                        :condition => condition,
-                       :number => Bike.format_number(n+1001))
+                       :number => BikeNumber.format_number(n+1001))
 
       if rand(3)>0
-        b.reserve_hook
+        # b.reserve_hook
       end
     end  # 30.times do
 

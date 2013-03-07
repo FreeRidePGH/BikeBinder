@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 #Departure
-# id | user_id | bike_id | value | method_id | | method_type |datetime_departed (would just be created_at)
+# id | user_id | bike_id | value | method_id | method_type |datetime_departed (would just be created_at)
 
  #Transaction
  #id | subtotal_value | payment_method_id  | departure_id
@@ -12,10 +12,17 @@ require 'spec_helper'
 # One nice thing about this is it could allow for a sale to be paid for in a combination of partial cash and partial volunteer credit. At Free Ride, people doing the earn-a-bike sometimes just fix the bike, do some of the required volunteering and then just pay the difference in cash. We also allow as-is purchases to be with volunteer credit or with cash. But we way that fix for sales need to be with cash.
 
 describe Departure do
+  before :each do
+    @d = FactoryGirl.create(:departure)
+  end
+  it "with valid arguments should be valid" do
+    expect(@d).to be_valid
+  end
+  
   describe "a new departure" do
     before :each do
       @bike = FactoryGirl.create(:bike)
-      @d = Departure.new(@bike)
+      @d = Departure.create(:bike=>@bike)
     end
 
     it "should depart the bike" do
@@ -23,6 +30,7 @@ describe Departure do
     end
 
     it "should have a departed at" do
+      puts @d.created_at.nil?
       expect(@d.departed_at).to_not be_nil
     end
 

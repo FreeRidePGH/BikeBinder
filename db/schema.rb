@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121229071221) do
+ActiveRecord::Schema.define(:version => 20130307191047) do
 
   create_table "answers", :force => true do |t|
     t.integer  "question_id"
@@ -95,6 +95,18 @@ ActiveRecord::Schema.define(:version => 20121229071221) do
   add_index "comments", ["commentable_id"], :name => "index_comments_on_commentable_id"
   add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
 
+  create_table "departures", :force => true do |t|
+    t.float    "value"
+    t.integer  "bike_id"
+    t.integer  "method_id"
+    t.string   "method_type"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "departures", ["bike_id"], :name => "index_departures_on_bike_id"
+  add_index "departures", ["method_id"], :name => "index_departures_on_method_id"
+
   create_table "dependencies", :force => true do |t|
     t.integer  "question_id"
     t.integer  "question_group_id"
@@ -131,14 +143,24 @@ ActiveRecord::Schema.define(:version => 20121229071221) do
   add_index "friendly_id_slugs", ["sluggable_id"], :name => "index_friendly_id_slugs_on_sluggable_id"
   add_index "friendly_id_slugs", ["sluggable_type"], :name => "index_friendly_id_slugs_on_sluggable_type"
 
+  create_table "hook_reservations", :force => true do |t|
+    t.integer  "bike_id"
+    t.integer  "hook_id"
+    t.string   "bike_state"
+    t.string   "hook_state"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "hook_reservations", ["bike_id"], :name => "index_hook_reservations_on_bike_id"
+  add_index "hook_reservations", ["hook_id"], :name => "index_hook_reservations_on_hook_id"
+
   create_table "hooks", :force => true do |t|
     t.string   "number"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "bike_id"
   end
 
-  add_index "hooks", ["bike_id"], :name => "index_hooks_on_bike_id"
   add_index "hooks", ["number"], :name => "index_hooks_on_number"
 
   create_table "programs", :force => true do |t|

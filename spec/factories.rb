@@ -36,6 +36,16 @@ FactoryGirl.define do
 
   end
 
+  factory :departure do
+    bike
+    value 0
+  end
+
+  factory :hook_reservation do
+    bike
+    hook
+  end
+
   factory :project_category do
     sequence(:name){|n| "Category#{n}"}
     project_type "Project::Eab"

@@ -18,10 +18,11 @@ class Bike < ActiveRecord::Base
   # Program ID is denormalized, referencing the active assignment for this bike
   attr_accessible :color, :value, :wheel_size, :seat_tube_height, :top_tube_length,
   :number, :quality, :condition, :program_id
-  
-  has_one :hook, :dependent => :nullify, :inverse_of => :bike
+
+  has_one :hook_reservation
+  has_one :hook, :through => :hook_reservation
   has_one :departure
-  has_many :assignments
+  has_many :assignments, :as=> :assignable
   belongs_to :program
 
   include BikeMfg::ActsAsManufacturable
@@ -64,7 +65,7 @@ class Bike < ActiveRecord::Base
   end
 
   def shop?
-    departure.nil?
+    !departed?
   end
   
   def self.simple_search(search)

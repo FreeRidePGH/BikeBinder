@@ -100,13 +100,8 @@ describe Bike do
       @bike2 = FactoryGirl.create(:bike)
     end
     describe "that is in the shop" do
-      it "can not depart" do
-        @bike2.should be_shop
-        expect{@bike2.depart}.to be{false}
-      end
-      it "can be assigned" do
-        @bike2.should be_available
-      end
+      it "can not depart"
+      it "can be assigned"
     end
   end
 
