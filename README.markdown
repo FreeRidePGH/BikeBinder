@@ -44,7 +44,7 @@ Keep these in the doc/ directory
 
 * Generating ERD images using railroady (http://railroady.prestonlee.com/)
 
-        rake diagram:all
+	bundle exec erd --polymorphism=true --filename=doc/erd
 
 * Diagram state machines
 

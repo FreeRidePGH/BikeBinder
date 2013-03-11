@@ -2,61 +2,40 @@ require 'spec_helper'
 
 describe Hook do
 
-  describe "A new hook" do
-    it "should be found by label" do
-      @hook = FactoryGirl.create(:hook)
-      @hook2 = FactoryGirl.create(:hook)
-      label = @hook.label
-      
-      found = Hook.find_by_label(label)
-      found.should == @hook
+  subject(:hook){FactoryGirl.create(:hook)}
+  let(:hook2){FactoryGirl.create(:hook)}
+
+  context "new" do
+    it "finds by slug" do
+      expect(Hook.find_by_slug(hook.slug)).to eq hook
+    end
+
+    it "does not find by the wrong slug" do
+      expect(Hook.find_by_slug(hook2.slug)).to_not eq hook
+    end
+
+    it "is available" do
+      expect(hook).to be_available
+    end
+
+    it "does not have a bike" do
+      expect(hook.bike).to be_nil
     end
   end
 
-  describe "Hooks with an assigned bike" do
+  context "with an assigned bike" do
+    let(:reservation){FactoryGirl.create(:hook_reservation)}
+    subject(:hook_from_res){reservation.hook}
+    let(:bike_from_res){reservation.bike}
 
-    before(:each) do
-      @hook = FactoryGirl.create(:hook)
-      @bike = FactoryGirl.create(:bike)
-      @bike.reserve_hook!(@hook)      
+    it "is not available" do
+      expect(hook_from_res).to_not be_available
     end
 
-    it "should not be available" do
-      @hook.bike.should_not be_nil
+    it "references the correct bike" do
+      expect(hook_from_res.bike).to_not be_nil
+      expect(hook_from_res.bike).to eq bike_from_res
     end
-
-    it "should reference the correct bike" do
-      @hook.reload
-      @hook.bike.should == @bike
-    end
-
-  end
-
-
-  describe "Hooks without an assigned bike" do
-
-    before(:each) do
-      @hook = FactoryGirl.create(:hook)
-    end
-
-    it "should not reference a bike" do
-      @hook.bike.should be_nil
-    end
-
   end
 
 end
-
-
-
-# == Schema Information
-#
-# Table name: hooks
-#
-#  id         :integer         not null, primary key
-#  number     :string(255)
-#  created_at :datetime
-#  updated_at :datetime
-#  bike_id    :integer
-#
-

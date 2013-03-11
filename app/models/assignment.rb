@@ -1,22 +1,26 @@
 class Assignment < ActiveRecord::Base
-    attr_accessible :program_id,:bike_id,:active,:closed_at
-    belongs_to :program
-    belongs_to :bike
+  
+  attr_accessible :application, :bike
+  attr_accessible :state
+  
+  has_one :bike, :as => :allotment
+  # application specifies program
+  belongs_to :application, :polymorphic => true
 
-    def self.active_assignment(bike)
-        Assignment.find_by_bike_id(bike).first
-    end
+  validates_presence_of :bike, :application
 
-    def depart
-       self.active = false
-       self.closed_at = Date.now
+  # Constructor
+  # @params Hash with
+  #  :bike and :program
+  # 
+  def self.build(params)
+    if (bike = params[:bike])
+      bike.allotment = 
+        self.new(:bike => bike,
+                 :application => params[:program])
+    else
+      self.new(:application => params[:program])
     end
-
-    def self.create_assignment(prog_id,bike_id)
-        a = Assignment.new
-        a.active = true
-        a.program_id = prog_id
-        a.bike_id = bike_id
-        a.save!
-    end
+  end # self.build
+  
 end

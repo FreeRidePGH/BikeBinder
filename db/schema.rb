@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130307191047) do
+ActiveRecord::Schema.define(:version => 20130307213843) do
 
   create_table "answers", :force => true do |t|
     t.integer  "question_id"
@@ -37,13 +37,13 @@ ActiveRecord::Schema.define(:version => 20130307191047) do
   end
 
   create_table "assignments", :force => true do |t|
-    t.integer  "program_id"
-    t.integer  "bike_id"
-    t.boolean  "active"
+    t.integer  "application_id"
+    t.string   "application_type"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.datetime "closed_at"
   end
+
+  add_index "assignments", ["application_id", "application_type"], :name => "index_assignments_on_application"
 
   create_table "bike_brands", :force => true do |t|
     t.string "name", :null => false
@@ -67,16 +67,18 @@ ActiveRecord::Schema.define(:version => 20130307191047) do
     t.integer  "wheel_size"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.datetime "departed_at"
+    # t.datetime "departed_at"
+    t.integer  "allotment_id"
+    t.string   "allotment_type"
     t.integer  "bike_model_id"
     t.string   "number"
     t.string   "quality"
     t.string   "condition"
-    t.integer  "program_id"
   end
 
   add_index "bikes", ["number"], :name => "index_bikes_on_number"
-  add_index "bikes", ["program_id"], :name => "index_bikes_on_program_id"
+  add_index "bikes", ["quality"], :name => "index_bikes_on_quality"
+  add_index "bikes", ["condition"], :name => "index_bikes_on_condition"
 
   create_table "comments", :force => true do |t|
     t.integer  "commentable_id",   :default => 0
@@ -97,15 +99,13 @@ ActiveRecord::Schema.define(:version => 20130307191047) do
 
   create_table "departures", :force => true do |t|
     t.float    "value"
-    t.integer  "bike_id"
-    t.integer  "method_id"
-    t.string   "method_type"
+    t.integer  "application_id"
+    t.string   "application_type"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
 
-  add_index "departures", ["bike_id"], :name => "index_departures_on_bike_id"
-  add_index "departures", ["method_id"], :name => "index_departures_on_method_id"
+  add_index "departures", ["application_id", "application_type"], :name => "index_departures_on_application"
 
   create_table "dependencies", :force => true do |t|
     t.integer  "question_id"
@@ -130,6 +130,13 @@ ActiveRecord::Schema.define(:version => 20130307191047) do
     t.string   "response_other"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
+  end
+
+  create_table "destinations", :force => true do |t|
+    t.string   "name"
+    t.string   "label"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "friendly_id_slugs", :force => true do |t|

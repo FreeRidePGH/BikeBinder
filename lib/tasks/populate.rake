@@ -74,7 +74,7 @@ namespace :db do
       wheel = arr_wheels[rand(arr_wheels.count)]
 
       b = Bike.create!(
-                       :program_id => prog_id,
+                       #:program_id => prog_id,
                        :color=>c,
                        :seat_tube_height=>
                        Settings::LinearUnit.to_persistance_units(sh).scalar.to_f, 

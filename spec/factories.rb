@@ -1,8 +1,4 @@
 FactoryGirl.define do
-  
-  factory :hook do
-    sequence(:number){|n| "#{(10+n)}H"}
-  end
 
   factory :user do
     email "test@freeridepgh.org"
@@ -10,22 +6,52 @@ FactoryGirl.define do
     password_confirmation "testtest"
   end
 
-
-  factory :bike_brand do
-    name 'test brand'
+  sequence(:program_name){|n| "TestProgram#{n}"}
+  sequence(:program_label){|n| "TProg#{n}"}
+  factory :program, :aliases => [:prog] do
+    name {generate :program_name}
+    label{generate :program_label}
+  end
+  factory :associated_program, :class => :program do
+    name {generate :program_name}
+    label{generate :program_label}
   end
 
+  sequence(:dest_name){|n| "TestProgram#{n}"}
+  sequence(:dest_label){|n| "TProg#{n}"}
+  factory :destination, :aliases => [:dest] do
+    name {generate :dest_name}
+    label {generate :dest_label}
+  end
+
+  sequence :bike_brand_name do |n|
+    "test brand #{n}"
+  end
+  factory :bike_brand do
+    name {generate :bike_brand_name}
+  end
+
+  sequence :bike_model_name do |n|
+    "test model series #{n}"
+  end
   factory :bike_model do
-    sequence(:name){|n| "test model series #{n}"}
+    name {generate :bike_model_name}
     bike_brand_id 1
   end
 
+  factory :assignment do
+    bike
+    association :application, :factory => :program
+  end
+
+  sequence :bike_number, 1000 do |n|
+    BikeNumber.format_number(n)
+  end
   factory :bike do
 
-    sequence(:number){|n| BikeNumber.format_number(10000+n)}
+    number {generate :bike_number}
 
     val = 100
-
     n_bike_info = 1
     
     color 'FFFFFF'
@@ -33,54 +59,25 @@ FactoryGirl.define do
     top_tube_length  Unit.new('19')*Settings::LinearUnit.persistance.units
     
     bike_model_id 1
-
+  end
+  sequence :hook_number do |n|
+    "#{n+10}H"
+  end
+  factory :hook do
+    number {generate :hook_number}
   end
 
-  factory :departure do
-    bike
-    value 0
+  factory :associated_hook, :class => :hook do
+    number {generate :hook_number}
+  end
+  factory :associated_bike, :class => :bike do
+    number {generate :bike_number}
+    color 'FFFFFF'
   end
 
   factory :hook_reservation do
-    bike
-    hook
-  end
-
-  factory :project_category do
-    sequence(:name){|n| "Category#{n}"}
-    project_type "Project::Eab"
-    max_programs 3
-  end
-
-  factory :program, :aliases => [:prog] do
-    sequence(:title){|n| "TestProgram#{n}"}
-    project_category
-  end
-
-  factory :youth_detail, :class => "Project::YouthDetail" do
-    association :proj, :factory => :youth_project
-  end
-
-  factory :youth_project, :class => "Project::Youth" do
-    prog
-    bike
-    project_category
-    #factory :youth_project_with_detail do
-    #  after(:build) do |proj_instance|
-    #    detail FactoryGirl.build(:youth_detail)
-    #  end
-    #end
-    #association :detail, :factory => :youth_detail
-  end
-
-  factory :eab_project, :class => "Project::Eab" do
-    prog
-    bike
-    project_category
-  end
-
-  factory :eab_detail, :class => "Project::EabDetail" do
-    association :proj, :factory => :eab_project
+    association :hook, :factory => :associated_hook
+    association :bike, :factory => :associated_bike
   end
 
 end

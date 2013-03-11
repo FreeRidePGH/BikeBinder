@@ -5,6 +5,9 @@ require 'number_slug'
 
 class Bike < ActiveRecord::Base
 
+  #############
+  # Attributes
+
   include ActiveModel::ForbiddenAttributesProtection
 
   extend FriendlyId
@@ -15,17 +18,8 @@ class Bike < ActiveRecord::Base
 
   acts_as_commentable
 
-  # Program ID is denormalized, referencing the active assignment for this bike
   attr_accessible :color, :value, :wheel_size, :seat_tube_height, :top_tube_length,
-  :number, :quality, :condition, :program_id
-
-  has_one :hook_reservation
-  has_one :hook, :through => :hook_reservation
-  has_one :departure
-  has_many :assignments, :as=> :assignable
-  belongs_to :program
-
-  include BikeMfg::ActsAsManufacturable
+  :number, :quality, :condition
   
   # Override with value objects
   include Value::Color
@@ -45,35 +39,52 @@ class Bike < ActiveRecord::Base
     I18n.translate('bike.condition').keys.map{ |k| k.to_s }
   end
 
-  # Validations
-  validates_presence_of :number,:color
-  validates :seat_tube_height,:top_tube_length,:value, :numericality => true, :allow_nil => true
-  validates_uniqueness_of :number, :allow_nil => true
-  validates :number, :bike_number => :true
-  validates :quality, 
-  :inclusion => {:in => Bike.qualities}, :allow_nil => true
-  validates :condition, 
-  :inclusion => {:in => Bike.conditions}, :allow_nil => true
+  ##############
+  # Associations
 
+  include BikeMfg::ActsAsManufacturable
+
+  has_one :hook_reservation
+  has_one :hook, :through => :hook_reservation
+
+  belongs_to :allotment, :polymorphic => true
+
+  ############
+  # Properties
 
   def departed?
-    !!departure.nil?
+    allotment && allotment.respond_to?(:departed_at)
   end
 
   def available?
-    assignments.blank?
+    assignment.blank?
   end
 
   def shop?
     !departed?
   end
   
-  def self.simple_search(search)
-    Bike.where("number LIKE ?","%#{search}%").all
-  end
-
   def entered_shop
     return self.created_at
+  end
+
+  #############
+  # Validations
+
+  validates_presence_of :number,:color
+  validates :seat_tube_height,:top_tube_length,:value, :numericality => true, :allow_nil => true
+  validates_uniqueness_of :number, :allow_nil => true, :message => "Number is not unique"
+  validates :number, :bike_number => :true
+  validates :quality, 
+  :inclusion => {:in => Bike.qualities}, :allow_nil => true
+  validates :condition, 
+  :inclusion => {:in => Bike.conditions}, :allow_nil => true
+
+  ##########
+  # Actions
+
+  def self.simple_search(search)
+    Bike.where("number LIKE ?","%#{search}%").all
   end
 
   def assign_program(program_id)

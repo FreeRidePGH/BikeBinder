@@ -2,6 +2,10 @@ require 'hook_number'
 require 'number_slug'
 
 class Hook < ActiveRecord::Base
+
+  #############
+  # Attributes
+
   extend FriendlyId
   extend NumberSlug
 
@@ -10,18 +14,26 @@ class Hook < ActiveRecord::Base
 
   attr_accessible :number
 
-  has_one :reservation, :class_name => "HookReservation"
-  has_one :bike, :through => :reservation
-
-  scope :available, :conditions => {:hook_reservation_id => nil}
 
   # Override with value object
   def number
     HookNumber.new(super)
   end
 
-  validates :number, :hook_number => true
-  validates_uniqueness_of :number, :allow_nil => false
+  ##############
+  # Associations
+
+  has_one :reservation, :class_name => "HookReservation"
+  has_one :bike, :through => :reservation
+
+  scope :available, :conditions => {:hook_reservation_id => nil}
+
+  ############
+  # Properties
+
+  def available?
+    !!reservation.nil?
+  end
 
   # May want to select available condinionally on the bike
   # or bike relations, like projects
@@ -35,4 +47,11 @@ class Hook < ActiveRecord::Base
     hooks = Hook.where("number LIKE ?","%#{search}%")
     return hooks
   end
+
+  #############
+  # Validations
+
+  validates :number, :hook_number => true
+  validates_uniqueness_of :number, :allow_nil => false
+
 end

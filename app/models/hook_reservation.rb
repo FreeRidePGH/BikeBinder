@@ -1,11 +1,18 @@
 class HookReservation < ActiveRecord::Base
 
-  attr_accessible :bike_id, :hook_id, :bike_state, :hook_state
+  #############
+  # Attributes
+
+  attr_accessible :bike, :hook, :bike_state, :hook_state
+
+  ##############
+  # Associations
 
   belongs_to :bike
   belongs_to :hook
 
-  validates_presence_of :bike_id, :hook_id
+  ############
+  # Properties
 
   state_machine :bike_state, :initial => :present, :namespace => 'bike'  do
     event :lose do
@@ -20,7 +27,6 @@ class HookReservation < ActiveRecord::Base
   end
 
   state_machine :hook_state, :initial => :resolved, :namespace => 'hook' do
-
     event :raise_issue do
       transition all => :unresolved
     end
@@ -33,4 +39,17 @@ class HookReservation < ActiveRecord::Base
     state :unresolved
   end
 
+  #############
+  # Validations
+
+  validates_presence_of :bike, :hook
+  validate :bike_can_not_be_departed
+
+  private 
+
+  def bike_can_not_be_departed
+    if bike && bike.departed?
+      errors.add(:bike, "Can not reserve a hook after it has departed")
+    end
+  end
 end # class HookReservation

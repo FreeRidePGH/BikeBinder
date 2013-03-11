@@ -76,7 +76,8 @@ group :test do
   # Testing framework
   gem 'rspec-rails', '~>2'
   gem 'capybara', "~> 2.0.2"
-  gem 'factory_girl_rails', '3.0'
+  gem 'factory_girl_rails', '~>4.0'
+  
   
   # Speed up testing with spork
   gem 'guard-spork', '0.3.2'
@@ -90,6 +91,7 @@ end
 group :development do
   gem 'sqlite3', '~>1.3.6'
   gem 'railroady', '~>1'
+  gem 'rails-erd'
   gem 'rspec-rails', '~>2'
   gem 'guard-rspec', '0.5.5'
 end
