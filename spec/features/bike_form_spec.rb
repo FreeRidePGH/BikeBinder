@@ -1,12 +1,6 @@
 require 'spec_helper'
 
 describe "The bike form", :type => :feature do
-  before(:each) do
-    @brand = FactoryGirl.create(:bike_brand)
-    @model = FactoryGirl.create(:bike_model)
-    @bike  = FactoryGirl.create(:bike)
-    @new_model = FactoryGirl.create(:bike_model)
-  end
 
   context "for a new bike" do
     it "has required inputs" do
@@ -32,21 +26,23 @@ describe "The bike form", :type => :feature do
     
     describe "creating the brand and model" do
       context "while editing an existing bike" do
+        let(:new_model_name){FactoryGirl.generate(:bike_model_name)}
+        let(:new_brand_name){FactoryGirl.generate(:bike_brand_name)}
+        let(:bike){FactoryGirl.create(:bike)}
+
         before :each do
-          visit edit_bike_path(@bike)
-          @new_model_name = 'test_model_123'
-          @new_brand_name = 'test_brand_123'
+          visit edit_bike_path(bike)
         end
 
         it "should create and assign the model with correct model name and brand name" do
           page.choose('bike_form_brand_action_create')
-          fill_in 'Brand', :with => @new_brand_name
-          fill_in 'Model', :with => @new_model_name
+          fill_in 'Brand', :with => new_brand_name
+          fill_in 'Model', :with => new_model_name
           click_button I18n.translate('commit_btn')[:edit]
-          @bike.reload
-          expect(@bike.model.name).to eq(@new_model_name)
-          expect(page).to have_content @new_brand_name
-          expect(page).to have_content @new_model_name
+          bike.reload
+          expect(bike.model.name).to eq(new_model_name)
+          expect(page).to have_content new_brand_name
+          expect(page).to have_content new_model_name
         end
 
       end # context "for editing an existing bike" do

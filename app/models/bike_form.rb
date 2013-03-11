@@ -183,7 +183,8 @@ class BikeForm
   # set the form instance variables for the given measurement
   # unit and set the associated units instance variable
   def set_measurement(attrib, val)
-    val = (val.blank?) ? nil: Unit.new(val)
+    val = (val.blank?) ? OpenStruct.new(:scalar => nil, :units => nil) : Unit.new(val)
+
     instance_variable_set("@#{attrib}", val.scalar)
     instance_variable_set("@#{attrib}_units", val.units)
   end

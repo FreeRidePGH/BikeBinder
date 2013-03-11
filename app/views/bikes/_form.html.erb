@@ -85,8 +85,10 @@
 render :partial=>'units/input', 
 :locals => {:form_builder => f, :text_base => 'bike.form',
 :fields => {
-  :seat_tube_height => bike_form.seat_tube_height,
-  :top_tube_length => bike_form.top_tube_length
+  :seat_tube_height => (bike_form.seat_tube_height.blank?)? nil :
+    Unit.new("#{bike_form.seat_tube_height} #{bike_form.seat_tube_height_units}"),
+  :top_tube_length => (bike_form.top_tube_length.blank?)? nil :
+    Unit.new("#{bike_form.top_tube_length} #{bike_form.top_tube_length_units}")
 }
 } 
 %>

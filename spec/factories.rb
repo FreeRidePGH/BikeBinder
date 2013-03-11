@@ -53,8 +53,8 @@ FactoryGirl.define do
     n_bike_info = 1
     
     color 'FFFFFF'
-    seat_tube_height Unit.new('21')*Settings::LinearUnit.persistance.units
-    top_tube_length  Unit.new('19')*Settings::LinearUnit.persistance.units
+    seat_tube_height Unit.new("540 #{Settings::LinearUnit.persistance.units}")
+    top_tube_length  Unit.new("560 #{Settings::LinearUnit.persistance.units}")
     
     factory :bike_with_model do
       association :model, :factory => :bike_model_with_brand
