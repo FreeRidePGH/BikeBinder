@@ -28,9 +28,9 @@ describe BikesController do
     end
 
     it "should expose the correct bike" do
-      expect(Bike.find(@bike)).to_not be_nil
+      expect(Bike.find(bike)).to_not be_nil
       expect(controller.bike).to_not be_nil
-      expect(controller.bike.id).to eq(@bike.id)
+      expect(controller.bike.id).to eq(bike.id)
     end
   end
 
@@ -43,9 +43,8 @@ describe BikesController do
       end
       
       it "should redirect to the bike" do
-      expect(controller.bike_form.bike.id).to eq(@bike.id)
-        expect(controller.bike_form.bike_model_id).to eq(@bike.bike_model_id.to_s)
-        expect(response).to redirect_to(@bike)
+        expect(controller.bike_form.bike.id).to eq(bike.id)
+        expect(response).to redirect_to(bike)
       end
     end
     
@@ -71,22 +70,33 @@ describe BikesController do
         let(:bike_with_model){FactoryGirl.create(:bike_with_model)}
 
         context "the same model_id is given" do
-          let(:model_id){bike.model.id}
-          let(:params){{:bike_model_id => model_id} }
+          let(:model_id){bike_with_model.model.id}
+          let(:params) do 
+            {
+              :bike_model_id => model_id,
+              :bike_brand_id => nil,
+              :bike_model_name => '',
+              :bike_brand_name => ''
+            }
+          end
           before :each do
-            put :update, :id=>bike, :bike_form=> params            
+            put :update, :id=>bike_with_model, :bike_form=> params            
             bike.reload
           end
 
           it "does not change the model" do
-            expect(bike.model.id).to eq(model_id)
+            expect(bike_with_model.model.id).to eq(model_id)
           end
         end
 
         context "a different model_id is given" do
           let(:initial_model){model0}
           let(:given_model){model1}
-          let(:params){ {:bike_model_id => given_model.id} }
+          let(:params) do
+            {
+              :bike_model_id => given_model.id
+            }
+          end
           before :each do
             bike.model = initial_model
             put :update, :id=>bike, :bike_form=> params
@@ -117,9 +127,10 @@ describe BikesController do
           end
           subject(:bike){FactoryGirl.create(:bike_with_model)}
           let(:initial_model){bike.model}
+          let(:initial_brand){initial_model.brand}
           
           before :each do
-            initial_model.touch
+            initial_brand
             put :update, :id=>bike, :bike_form=> params
             bike.reload
           end
@@ -141,7 +152,9 @@ describe BikesController do
             expect(controller.bike_form.bike_brand_name).to eq(params[:bike_brand_name])
           end
 
-          it "creates the brand"
+          it "creates the brand" do
+            expect(bike.model.brand).to_not eq(initial_brand)
+          end
 
           it "creates the model" do
             expect(bike.bike_model_id).to_not eq(initial_model.id)
@@ -151,6 +164,31 @@ describe BikesController do
             expect(bike.model.name).to eq(params[:bike_model_name])
           end
         end # context "new brand and model names are given" 
+
+        context "when brand_id and model_name are given" do
+          let(:brand){FactoryGirl.create(:bike_brand)}
+          let(:new_model_name){FactoryGirl.generate(:bike_model_name)}
+          let(:params) do
+            {
+            :bike_model_name => new_model_name,
+            :bike_brand_id => brand.id
+            }
+          end
+          
+          before :each do
+            put :update, :id=>bike, :bike_form=> params
+            bike.reload
+          end
+
+          it "assigns the brand to the model" do
+            expect(bike.model.brand).to eq brand            
+          end
+
+          it "associates the a new model with the given name with the bike" do
+            expect(bike.model.name).to eq(new_model_name)
+          end
+
+        end
         
       end # context "when a model is pre-assigned"
 
@@ -159,42 +197,6 @@ describe BikesController do
     end # describe "editing model and brand"
 
   end # "Put update"  
-
-
-        it "should change a model when new brand and model name are given" do
-          params = {
-            :bike_model_name => @bike.model.name+' edit',
-            :bike_brand_name => @bike.model.brand.name+' edit',
-            :bike_brand_id => '',
-            :bike_model_id => '',
-            :brand_action => 'create'
-          } 
-          put :update, :id=>@bike, :bike_form=> params
-          # expect(response).to be_success
-          @bike.reload
-          # puts request.params
-          expect(controller.bike.id).to eq(@bike.id)
-          expect(controller.bike_form.bike_model_id).to_not eq(@model.id)
-          expect(controller.bike_form.bike_model_id).to be_nil
-          expect(controller.bike_form.bike_brand_id).to be_nil
-          expect(controller.bike_form.bike_brand_name).to eq(params[:bike_brand_name])
-          
-          expect(@bike.bike_model_id).to_not eq(@model.id)
-          expect(@bike.model.name).to eq(params[:bike_model_name])
-        end
-
-        it "should change a model when brand_id and model name are given" do
-          brand = FactoryGirl.create(:bike_brand)
-          params = {
-            :bike_model_name => 'model',
-            :bike_brand_id => brand.id
-          }
-          put :update, :id=>@bike, :bike_form=> params
-          @bike.reload
-          expect(@bike.model.brand.id).to eq(params[:bike_brand_id])
-          expect(@bike.model.name).to eq(params[:bike_model_name])
-        end
-
 
 
   describe "GET new while not signed in" do
