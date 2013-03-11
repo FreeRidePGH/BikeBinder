@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe BikeForm do
-
-  it "should have a params list with correct items" do
+  
+  it "has a params list with correct items" do
     expect(BikeForm.form_params_list).to include(:bike_brand_name)
   end
 
@@ -11,66 +11,106 @@ describe BikeForm do
     @model = FactoryGirl.create(:bike_model)
     @bike = FactoryGirl.create(:bike)
   end
+  
+  context "existing bike, blank params" do
+    let(:bike){FactoryGirl.create(:bike)}
+    subject(:form){BikeForm.new(bike)}
 
-  describe "A form for an existing bike, blank params" do
-    before :each do
-      @form = BikeForm.new(@bike)
-    end
-    
-    it "should have the correct bike assigned" do
-      expect(@form.bike).to eq(@bike)
+    it "has the correct bike assigned" do
+      expect(form.bike).to eq bike
     end
   end
 
-  describe "For editing a bike" do
+  context "for creating a model and brand" do
+    let(:bike){FactoryGirl.create(:bike_with_model)}
+    let(:new_model_name){FactoryGirl.generate(:bike_model_name)}
+    let(:new_brand_name){FactoryGirl.generate(:bike_brand_name)}
+    let(:params) do
+      {
+        :bike_model_name => new_model_name,
+        :bike_model_id => '',
+        :bike_brand_id => '',
+        :bike_brand_name => new_brand_name
+        }
+    end
+    subject(:form){BikeForm.new(bike, params)}
 
-    describe "creating a model and brand" do
-      it "should create and assign the new model with brand info" do
-        @params = {
-          :bike_model_name => @bike.model.name+'edit',
+    before :each do
+      @model0 = bike.model
+      @brand0 = bike.model.brand
+      @saved = form.save
+    end
+
+    it "saved successfully" do
+      expect(@saved).to be_true
+    end
+
+    it "is valid" do
+      expect(form).to be_valid
+    end
+
+    it "overrides the model name" do
+      expect(form.bike_model_name).to eq new_model_name
+    end
+
+    it "overrides the brand name" do
+      expect(form.bike_brand_name).to eq new_brand_name
+    end
+
+    it "assigns the model name" do
+      expect(form.bike.model.name).to eq(new_model_name)
+    end
+
+    it "assigns the brand name" do
+        expect(bike.model.brand.name).to eq(new_brand_name)
+    end
+        
+    it "creates a new model" do
+      expect(bike.model).to_not be_nil
+      expect(bike.model).to_not eq @model0
+    end
+
+    it "creates a new brand" do
+      expect(bike.model.brand).to_not be_nil
+      expect(bike.model.brand).to_not eq @brand0
+    end
+
+  end # context "for creating a new model and new brand" do
+
+  context "for creating a new model with an existing brand" do
+    let(:bike){FactoryGirl.create(:bike_with_model)}    
+    let(:brand){bike.model.brand}    
+    let(:new_model_name){FactoryGirl.generate(:bike_model_name)}    
+    let(:params) do
+      {
+          :bike_model_name => new_model_name,
           :bike_model_id => '',
           :bike_brand_id => '',
-          :bike_brand_name => @bike.model.brand.name+"edit"
+          :bike_brand_name => brand.name
         }
-        @form = BikeForm.new(@bike, @params)
-        saved = @form.save
-        expect(saved).to be_true
-        expect(@bike.model.name).to eq(@params[:bike_model_name])
-        expect(@bike.model.brand.name).to eq(@params[:bike_brand_name])
-        
-        expect(@bike.model.id).to_not  eq(@model.id)
-        expect(@bike.model.brand.id).to_not eq(@brand.id)
-      end
+    end
+    subject(:form){BikeForm.new(bike, params)}    
+    before :each do
+      form.save
     end
 
-    describe "for a new model for an existing brand" do
-      before :each do
-        @params = {
-          :bike_model_name => 'model',
-          :bike_brand_id => @brand.id,
-          :bike_model_id => ''
-        }
-        @form = BikeForm.new(@bike, @params)
-      end
-        
-      it "should have model name overriding model from the bike" do
-        expect(@form.bike_model_name).to eq(@params[:bike_model_name])
-      end
-
-      it "should not have a model_id assigned" do
-        expect(@form.bike_model_id).to be_nil
-      end
-
-      it "should save the new model name to the bike" do
-        saved = @form.save
-        expect(saved).to be_true
-        expect(@bike.model.name).to eq(@params[:bike_model_name])
-      end
+    it "is valid" do
+      expect(form).to be_valid
     end
-  end
 
-  
-  
+    it "keeps the same brand name" do
+      expect(form.bike_brand_name).to eq brand.name
+    end
 
-end
+    it "overrides the model name in the form" do
+      expect(form.bike_model_name).to eq new_model_name
+    end
+
+    it "associates the new model with the bike" do
+        expect(bike.model.name).to eq(new_model_name)
+    end    
+    
+  end # context "for creating a new model with an existing brand"
+
+end # describe BikeForm do
 

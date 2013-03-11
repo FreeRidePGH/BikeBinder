@@ -44,7 +44,6 @@ class BikeForm
   validates_presence_of :number, :color
   validates :seat_tube_height,:top_tube_length,:value, :numericality => true, :allow_nil => true
   # validates_uniqueness_of :number, :allow_nil => true
-  #validates :number, :format => { :with => Bike.number_pattern, :message => "Must be 5 digits exactly"}
   validates :number, :bike_number => true
 
   # Forms are never themselves persisted
@@ -53,6 +52,7 @@ class BikeForm
   end
 
   def save
+    update_bike
     if valid?
       persist!
       true
@@ -61,10 +61,19 @@ class BikeForm
     end
   end
 
+  def self.bike_measurements_list
+    [:seat_tube_height, :top_tube_length]
+  end
+
+  def bike_measurements_list
+    self.class.bike_measurements_list
+  end
+
   def self.bike_params_list
-    [:color, :value, :wheel_size, :seat_tube_height, 
-     :top_tube_length, :bike_model_id, 
-     :number, :quality, :condition]
+    bike_measurements_list +
+    [:color, :value, :wheel_size, 
+     :bike_model_id, :number,
+     :quality, :condition]
   end
 
   def bike_params_list
@@ -86,6 +95,9 @@ class BikeForm
     bike_params_list.each do |p|
       set_val(p, obj.send(p).to_s)
     end
+    bike_measurements_list.each do |p|
+      set_measurement(p, obj.send(p).to_s)
+    end
     bm = obj.model
     if bm
       set_val(:bike_model_id, bm.id)
@@ -102,7 +114,7 @@ class BikeForm
   
   def parse_params(params_list, params_data)
     params_list.each do |key|
-      set_val(key, params_data[key])
+      set_val(key, params_data[key]) if params_data.has_key? key
     end
   end
 
@@ -145,8 +157,7 @@ class BikeForm
     }
   end
 
-  def persist!
-
+  def update_bike
     # update attributes
     bike.number = number
     bike.color = color
@@ -157,13 +168,24 @@ class BikeForm
     bike.seat_tube_height = length_assignment(:seat_tube_height)
     bike.top_tube_length = length_assignment(:top_tube_length)
     bike.bike_model = bike_model_assignment
+  end
 
+  def persist!
     bike.save!
   end
 
+  # set the form instance variable with the given attribute and value
   def set_val(attrib, val)
     val = (val.blank?) ? nil : val.to_s
     instance_variable_set("@#{attrib}", val)
+  end
+  
+  # set the form instance variables for the given measurement
+  # unit and set the associated units instance variable
+  def set_measurement(attrib, val)
+    val = (val.blank?) ? nil: Unit.new(val)
+    instance_variable_set("@#{attrib}", val.scalar)
+    instance_variable_set("@#{attrib}_units", val.units)
   end
 
 end

@@ -48,7 +48,6 @@ class BikesController < ApplicationController
   def index
     @brands = nil
     @colors = ColorNameI18n::keys
-    @statuses = Program.all_programs
     @searchTerm = params[:search]
   end
 

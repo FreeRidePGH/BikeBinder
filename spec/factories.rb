@@ -24,19 +24,19 @@ FactoryGirl.define do
     label {generate :dest_label}
   end
 
-  sequence :bike_brand_name do |n|
-    "test brand #{n}"
-  end
+  sequence(:bike_brand_name){|n|"test brand #{n}"}
   factory :bike_brand do
     name {generate :bike_brand_name}
   end
 
-  sequence :bike_model_name do |n|
-    "test model series #{n}"
-  end
+  sequence(:bike_model_name){|n|"test model series #{n}"}
   factory :bike_model do
     name {generate :bike_model_name}
-    bike_brand_id 1
+  end
+  
+  factory :bike_model_with_brand, :class => :bike_model do
+    name {generate :bike_model_name}
+    association :brand, :factory => :bike_brand
   end
 
   factory :assignment do
@@ -44,9 +44,7 @@ FactoryGirl.define do
     association :application, :factory => :program
   end
 
-  sequence :bike_number, 1000 do |n|
-    BikeNumber.format_number(n)
-  end
+  sequence(:bike_number, 1000){|n| BikeNumber.format_number(n)}
   factory :bike do
 
     number {generate :bike_number}
@@ -58,11 +56,14 @@ FactoryGirl.define do
     seat_tube_height Unit.new('21')*Settings::LinearUnit.persistance.units
     top_tube_length  Unit.new('19')*Settings::LinearUnit.persistance.units
     
-    bike_model_id 1
+    factory :bike_with_model do
+      association :model, :factory => :bike_model_with_brand
+      number {generate :bike_number}      
+      color '00FF00'
+    end
   end
-  sequence :hook_number do |n|
-    "#{n+10}H"
-  end
+
+  sequence(:hook_number){|n| "#{n+10}H"}
   factory :hook do
     number {generate :hook_number}
   end

@@ -14,7 +14,6 @@ class Hook < ActiveRecord::Base
 
   attr_accessible :number
 
-
   # Override with value object
   def number
     HookNumber.new(super)
@@ -26,8 +25,6 @@ class Hook < ActiveRecord::Base
   has_one :reservation, :class_name => "HookReservation"
   has_one :bike, :through => :reservation
 
-  scope :available, :conditions => {:hook_reservation_id => nil}
-
   ############
   # Properties
 
@@ -35,12 +32,20 @@ class Hook < ActiveRecord::Base
     !!reservation.nil?
   end
 
+  def self.reserved
+    return Hook.joins{:reservation}
+  end
+  
+  def self.available
+    Hook.where{id.not_in(my{self.reserved}.select{id})}
+  end
+  
   # May want to select available condinionally on the bike
   # or bike relations, like projects
   # For example, FFS projects may have a certain set of 
   # hooks reserved only for FFS.
   def self.next_available(bike=nil)
-    return Hook.where{bike_id == nil}.first
+    self.available.first
   end
 
   def self.simple_search(search)

@@ -43,6 +43,7 @@ class Bike < ActiveRecord::Base
   # Associations
 
   include BikeMfg::ActsAsManufacturable
+  alias_attribute :model, :bike_model
 
   has_one :hook_reservation
   has_one :hook, :through => :hook_reservation
@@ -57,7 +58,7 @@ class Bike < ActiveRecord::Base
   end
 
   def available?
-    assignment.blank?
+    allotment.blank?
   end
 
   def shop?
