@@ -91,6 +91,14 @@ describe Departure do
       expect(departure.method).to_not be_nil            
     end
 
+    it "departs the bike" do
+      expect(bike).to be_departed
+    end
+
+    it "makes the bike unavailable" do
+      expect(bike).to_not be_available
+    end
+
   end # context "with program"
 
   context "bike with program on a hook" do
@@ -140,8 +148,24 @@ describe Departure do
     let(:bike){FactoryGirl.create(:bike)}
     subject(:departure){Departure.build(:bike => bike, :destination => dest, :value => 0)}
 
+    before :each do
+      departure.save
+    end
+
     it "is valid" do
       expect(departure).to be_valid
+    end
+
+    it "departs the bike" do
+      expect(bike).to be_departed
+    end
+
+    it "makes the bike unavailable" do
+      expect(bike).to_not be_available
+    end
+
+    it "assigns the destination to the bike as allotment method" do
+      expect(bike.allotment.method).to eq dest
     end
   end
 
