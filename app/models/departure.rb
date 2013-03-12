@@ -41,40 +41,23 @@ class Departure < ActiveRecord::Base
   #  :bike and optional :destination
   # 
   def self.build(params)
-    
     if (bike = params[:bike])
       # vacate the hook if applicable
       bike.hook_reservation.delete if bike.hook_reservation
-
+      
       if bike.departed?
-        return bike.application
+        bike.application
       else
-        
-        departure = 
-          self.new(
-                   :value => params[:value], 
-                   :application => build_destination(bike, params[:destination])
-                   )
-        
-        departure.assignment = bike.assignment ?
-        bike.assignment : Assignment.build(:bike => bike, 
-                                           :application => departure)
-        
-        return (departure.assignment.application = departure)
-      end
-    else
-      return self.new(params)
-    end
-    return
-
-    if (bike = apply_destination!(params[:bike], params[:destination]) )
-      bike.assignment.application = 
-        bike.application.respond_to?(:departed_at) ? bike.application :
-        self.new(:bike =>bike, 
-                 :value => params[:value], 
-                 :application => bike.application)
-    else
-      self.new(:bike => params[:bike])
+        bridge_destination(
+                           bike,
+                           self.new(
+                                    :value => params[:value], 
+                                    :application =>build_destination(bike, params[:destination])
+                                    )
+                           )
+      end # if bike.departed?
+    else # bike
+      self.new(params)
     end
   end
 
@@ -87,40 +70,27 @@ class Departure < ActiveRecord::Base
     (bike.application || destination) unless bike.departed?
   end
 
-  # Assign the given destination as the application
-  # for the departure assigned to the bike
-  # 
-  def self.apply_destination!(bike, destination)
+  # The departure acts as an intermediate
+  # node (like a linked list) when an application
+  # already exists for the bike.
+  #
+  # When theh application does not exist, then
+  # the given destination is used
+  def self.build_assignment(bike, departure)
     return nil if bike.nil?
 
-    if bike.application && bike.application.respond_to?(:departed_at)
-      # bike already has a departure application
-      return bike
+    if bike.assignment
+      bike.assignment
+    else
+      Assignment.build(:bike => bike, :application => departure)
     end
-
-    if destination_conflict?(bike, destination)
-      raise "Conflict specifying destination when assignment already assigned"
-    end
-    
-    if destination && bike.assignment
-      bike.assignment.application = destination
-    elsif bike.application && !bike.application.respond_to?(:departed_at)
-      # The bike already has an application, but it is not a departure
-      # 
-      # Move the application to the departure method
-      
-      bike.assignment = bike.allotment.application
-    end
-
-    bike
   end
-
-  def self.destination_conflict?(bike, destination)
-    allotment_conflict = 
-      !bike.nil? &&
-      !bike.application.nil? &&
-      !destination.nil? &&
-      !(bike.application == destination)
+  
+  # Make sure the current assignment (if any) for the bike
+  # becomes associated to the departure
+  def self.bridge_destination(bike, departure)
+    departure.assignment = build_assignment(bike, departure)
+    departure.assignment.application = departure
   end
 
 end # class Departure
