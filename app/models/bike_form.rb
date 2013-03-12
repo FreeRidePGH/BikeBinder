@@ -112,9 +112,16 @@ class BikeForm
     end
   end
   
+  
+  # @params_list allowable params
+  # @params_data data to assign
+  # If data is not given for a parameter
+  # in the list, then a value of nil is assigned.
+  # This is necessary to make sure all parameters
+  # are present.
   def parse_params(params_list, params_data)
     params_list.each do |key|
-      set_val(key, params_data[key]) if params_data.has_key? key
+      set_val(key, params_data[key])
     end
   end
 

@@ -41,7 +41,7 @@ describe Assignment do
     end
 
     it "assigns the bike to the program" do
-      expect(bike.allotment.application).to_not be_nil
+      expect(bike.application).to_not be_nil
     end
   end # context "with a bike and program"
 
@@ -63,7 +63,7 @@ describe Assignment do
     end
 
     it "assigns the bike to the program" do
-      expect(bike.allotment.application).to eq(program)
+      expect(bike.application).to eq(program)
     end
 
     describe "assigned bike" do
@@ -95,18 +95,18 @@ describe Assignment do
       end
 
       it "does not associate a new assignment with the bike" do
-        expect(bike.allotment).to_not eq assignment
+        expect(bike.assignment).to_not eq assignment
       end
       
       it "keeps the old program" do
-        expect(bike.allotment.application).to_not eq program
+        expect(bike.application).to_not eq program
       end
 
       it "does not dissassociate the original assignment" do
         assignment0.reload
         expect(assignment0.bike).to_not be_nil
         expect(assignment0.bike).to eq bike
-        expec(bike.allotment).to eq assignment0
+        expect(bike.assignment).to eq assignment0
       end
     end
 

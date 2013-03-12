@@ -42,10 +42,14 @@ describe Departure do
     let(:assignment){FactoryGirl.create(:assignment)}
     let(:bike){assignment.bike}
     let(:departure0){Departure.build(:bike => bike, :value => 0)}
-    subject(:departure){Departure.build(:bike => bike, :value => 0)}
+    subject(:departure){Departure.build(:bike => bike, :value => 10)}
 
     before :each do
       departure0.save
+    end
+
+    it "already is departed" do
+      expect(bike).to be_departed
     end
 
     it "is not new" do
@@ -101,13 +105,30 @@ describe Departure do
 
   end # context "with program"
 
-  context "bike with program on a hook" do
+  context "of bike with program on a hook" do
+
     let(:hook_reservation){FactoryGirl.create(:hook_reservation)}
     let(:bike){hook_reservation.bike}
     let(:hook){hook_reservation.hook}
     let(:program){FactoryGirl.create(:program)}
     subject(:departure) do
-      Departure.build(:bike => Assignment.build(:bike => bike, :program => program).bike, :value => 0)
+      assignment = Assignment.build(:bike => bike, :program => program)
+      assignment.save
+      Departure.build(:bike => assignment.bike.reload, :value => 0)
+    end
+
+    it "takes valid steps" do
+      b = FactoryGirl.create(:bike)
+      a = Assignment.new(:bike => b, :application => program)
+      a.save
+      bike.reload
+      
+      expect(a).to be_valid
+      expect(a.bike).to eq b
+      expect(b.assignment).to eq a
+
+      d = Departure.build(:bike => b, :value => 0)
+      expect(d).to be_valid
     end
 
     before :each do
@@ -150,6 +171,8 @@ describe Departure do
 
     before :each do
       departure.save
+      departure.reload
+      bike.reload
     end
 
     it "is valid" do
@@ -165,7 +188,7 @@ describe Departure do
     end
 
     it "assigns the destination to the bike as allotment method" do
-      expect(bike.allotment.method).to eq dest
+      expect(bike.assignment.application.method).to eq dest
     end
   end
 

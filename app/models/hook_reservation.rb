@@ -44,6 +44,7 @@ class HookReservation < ActiveRecord::Base
 
   validates_presence_of :bike, :hook
   validate :bike_can_not_be_departed
+  # Forces a bike and hook to only have 1 reservation 
   validates_uniqueness_of :bike_id, :hook_id
 
   private 

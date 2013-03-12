@@ -47,18 +47,22 @@ class Bike < ActiveRecord::Base
 
   has_one :hook_reservation
   has_one :hook, :through => :hook_reservation
-
-  belongs_to :allotment, :polymorphic => true
+  
+  has_one :assignment
 
   ############
   # Properties
 
+  def application
+    assignment.application if assignment
+  end
+
   def departed?
-    allotment && allotment.respond_to?(:departed_at)
+    application && application.respond_to?(:departed_at)
   end
 
   def available?
-    allotment.blank?
+    assignment.blank?
   end
 
   def shop?

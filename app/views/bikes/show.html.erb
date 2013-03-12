@@ -34,8 +34,8 @@
     </div> <!-- end of location wrapper -->
     <div class="projInfo">
       <h3>Assignment</h3>
-      <% if bike.allotment %>
-        <p>Assigned to: <%= link_to bike.allotment.label, bike.allotment %></p>
+      <% if bike.application %>
+        <p>Assigned to: <%= link_to bike.application.label, bike.application %></p>
         <% if bike.departed_at.nil?%>
         <div>
             <%= link_to "Depart Bike", depart_bike_path(bike), :class => "btn btn-primary" %>
@@ -66,7 +66,7 @@
 
     <div class="departInfo">
       <% if bike.departed? %>
-        <p>Departed: <%= bike.allotment.departed_at.strftime("%Y-%m-%d") %></p>
+        <p>Departed: <%= bike.application.departed_at.strftime("%Y-%m-%d") %></p>
       <% end %>
     </div> <!-- end of depart info wrapper -->
     <div>

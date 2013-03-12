@@ -21,12 +21,14 @@ describe BikeForm do
     end
   end
 
-  context "for creating a model and brand" do
+  context "with full params creating a model and brand" do
     let(:bike){FactoryGirl.create(:bike_with_model)}
     let(:new_model_name){FactoryGirl.generate(:bike_model_name)}
     let(:new_brand_name){FactoryGirl.generate(:bike_brand_name)}
     let(:params) do
       {
+        :number => bike.number,
+        :color => bike.color,
         :bike_model_name => new_model_name,
         :bike_model_id => '',
         :bike_brand_id => '',
@@ -41,7 +43,7 @@ describe BikeForm do
       @saved = form.save
     end
 
-    it "saved successfully" do
+    it "saves successfully" do
       expect(@saved).to be_true
     end
 
@@ -75,7 +77,70 @@ describe BikeForm do
       expect(bike.model.brand).to_not eq @brand0
     end
 
-  end # context "for creating a new model and new brand" do
+  end # context "with full params creating a new model and new brand" do
+
+  context "with partial params for creating a model and brand" do
+    let(:bike){FactoryGirl.create(:bike_with_model)}
+    let(:new_model_name){FactoryGirl.generate(:bike_model_name)}
+    let(:new_brand_name){FactoryGirl.generate(:bike_brand_name)}
+    let(:params) do
+      {
+        :number => bike.number,
+        :color => bike.color,
+        :bike_model_name => new_model_name,
+        :bike_brand_id => '',
+        :bike_brand_name => new_brand_name
+      }
+    end
+    subject(:form){BikeForm.new(bike, params)}
+
+    before :each do
+      @model0 = bike.model
+      @brand0 = bike.model.brand
+      @saved = form.save
+    end
+    
+    it "has valid parameters" do
+      expect(form.bike_model_id).to be_nil
+      expect(form.bike_model_id).to be_blank
+      expect(form.bike_brand_id).to be_blank
+    end
+
+    it "is valid" do
+      expect(form).to be_valid
+    end
+
+    it "saves successfully" do
+      expect(@saved).to be_true
+    end
+
+    it "overrides the model name" do
+      expect(form.bike_model_name).to eq new_model_name
+    end
+
+    it "overrides the brand name" do
+      expect(form.bike_brand_name).to eq new_brand_name
+    end
+
+    it "assigns the model name" do
+      expect(form.bike.model.name).to eq(new_model_name)
+    end
+
+    it "assigns the brand name" do
+        expect(bike.model.brand.name).to eq(new_brand_name)
+    end
+        
+    it "creates a new model" do
+      expect(bike.model).to_not be_nil
+      expect(bike.model).to_not eq @model0
+    end
+
+    it "creates a new brand" do
+      expect(bike.model.brand).to_not be_nil
+      expect(bike.model.brand).to_not eq @brand0
+    end
+  end # context "with partial params for creating a model and brand"
+
 
   context "for creating a new model with an existing brand" do
     let(:bike){FactoryGirl.create(:bike_with_model)}    
@@ -83,11 +148,13 @@ describe BikeForm do
     let(:new_model_name){FactoryGirl.generate(:bike_model_name)}    
     let(:params) do
       {
-          :bike_model_name => new_model_name,
-          :bike_model_id => '',
-          :bike_brand_id => '',
-          :bike_brand_name => brand.name
-        }
+        :number => bike.number,
+        :color => bike.color,
+        :bike_model_name => new_model_name,
+        :bike_model_id => '',
+        :bike_brand_id => '',
+        :bike_brand_name => brand.name
+      }
     end
     subject(:form){BikeForm.new(bike, params)}    
     before :each do

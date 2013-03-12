@@ -64,6 +64,11 @@ describe HookReservation do
         
     before :each do
       departure.save
+      bike.reload
+    end
+
+    it "has a departed bike" do
+      expect(bike).to be_departed
     end
 
     it "vacates the hook" do
@@ -72,7 +77,7 @@ describe HookReservation do
       expect(bike.hook).to be_nil
     end
 
-    context "reserves a hook" do
+    describe "reserving a hook" do
       let(:reservation_new){HookReservation.new(:bike => bike, :hook => hook)}
       before :each do
         reservation_new.save

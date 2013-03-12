@@ -73,6 +73,8 @@ describe BikesController do
           let(:model_id){bike_with_model.model.id}
           let(:params) do 
             {
+              :number => bike_with_model.number,
+              :color => bike_with_model.color,
               :bike_model_id => model_id,
               :bike_brand_id => nil,
               :bike_model_name => '',
@@ -94,6 +96,8 @@ describe BikesController do
           let(:given_model){model1}
           let(:params) do
             {
+              :number => bike.number,
+              :color => bike.color,
               :bike_model_id => given_model.id
             }
           end
@@ -118,6 +122,8 @@ describe BikesController do
           let(:model_name){FactoryGirl.generate(:bike_model_name)}
           let(:params) do
             {
+              :number => bike.number,
+              :color => bike.color,
               :bike_model_name => model_name,
               :bike_brand_name => brand_name,
               :bike_brand_id => '',
@@ -170,8 +176,10 @@ describe BikesController do
           let(:new_model_name){FactoryGirl.generate(:bike_model_name)}
           let(:params) do
             {
-            :bike_model_name => new_model_name,
-            :bike_brand_id => brand.id
+              :number => bike.number,
+              :color => bike.color,
+              :bike_model_name => new_model_name,
+              :bike_brand_id => brand.id
             }
           end
           
