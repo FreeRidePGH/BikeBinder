@@ -8,8 +8,13 @@ describe HookReservation do
     subject(:reservation) {HookReservation.new(:bike => bike, :hook => hook)} 
 
     before :each do
-      bike.hook_reservation = reservation
-      hook.reservation = reservation
+      @saved = reservation.save!
+      bike.reload
+      hook.reload
+    end
+
+    it "saved sucessfully" do
+      expect(@saved).to be_true
     end
 
     it "is valid" do
@@ -49,7 +54,7 @@ describe HookReservation do
       end
     end
   end # created with hook and bike
-
+  
   context "when bike departs" do
     subject(:reservation){FactoryGirl.build(:hook_reservation)}
     let(:bike){reservation.bike}
@@ -80,10 +85,9 @@ describe HookReservation do
         expect(bike.hook).to be_nil
       end
     end
-  end
+  end # context "when bike departs"
 
   context "without a hook" do 
-
     subject(:reservation){FactoryGirl.build(:hook_reservation)}
     before :each do
       reservation.hook = nil
@@ -103,6 +107,57 @@ describe HookReservation do
       expect(reservation).to_not be_valid
     end
   end # reserve without a bike
+
+  context "with a hook that is already reserved" do
+    let(:initial_reservation){FactoryGirl.create(:hook_reservation)}
+    let(:hook){initial_reservation.hook}
+    
+    describe "reservation for a new bike and the taken hook" do
+      let(:bike){FactoryGirl.create(:bike)}
+      subject(:overriding_reservation){HookReservation.new(:hook => hook, :bike => bike)}
+      
+      before :each do
+        overriding_reservation.save
+      end
+      
+      it "should not be valid" do
+        expect(overriding_reservation).to_not be_valid
+      end
+
+      it "does not assign the hook to the new bike" do
+        expect(bike.hook).to be_nil
+        expect(bike.hook).to_not eq hook
+      end
+    end # describe "reservation for a new bike and the taken hook"
+
+    describe "reservation for the same bike already reserving the hook" do
+      let(:bike){initial_reservation.bike}
+      subject(:over_reservation){HookReservation.new(:hook => hook, :bike => bike)}
+      
+      before(:each) do
+        over_reservation.save
+      end
+
+      it "should not be valid" do
+        expect(over_reservation).to_not be_valid
+      end
+
+      it "is not saved" do
+        expect(over_reservation).to_not be_persisted
+      end
+
+      it "keeps the association between bike and hook" do
+        expect(bike.hook).to eq hook
+        expect(hook.bike).to eq bike
+      end
+      
+    end
+  end
+
+
+  context "with a bike already on a hook" do
+    
+  end
 
   describe "a hook has a conflict or issue" do
     before :each do

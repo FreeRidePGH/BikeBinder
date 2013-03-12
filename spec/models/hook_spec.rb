@@ -21,7 +21,44 @@ describe Hook do
     it "does not have a bike" do
       expect(hook.bike).to be_nil
     end
+
+    it "is in the list of available hooks" do
+      expect(Hook.available.include?(hook)).to be_true
+    end
+
   end
+
+  describe "::next_available" do
+    context "at least 1 hook is available" do
+      let(:hook){FactoryGirl.create(:hook)}
+      subject(:next_avail){Hook.next_available}
+
+      before :each do
+        hook.save
+      end
+
+      it "is an available hook" do 
+        expect(next_avail).to_not be_nil
+        expect(next_avail).to be_available
+      end
+    end
+
+    context "all hooks are reserved" do
+      
+      before :each do
+        Hook.available.each do |h|
+          HookReservation.new(
+                              :bike => FactoryGirl.create(:bike),
+                              :hook => h).save
+        end
+      end
+
+      it "has no available hooks" do
+        expect(Hook.available).to be_empty
+        expect(Hook.next_available).to be_nil
+      end
+    end
+  end # context "next available"
 
   context "with an assigned bike" do
     let(:reservation){FactoryGirl.create(:hook_reservation)}
