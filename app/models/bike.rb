@@ -88,20 +88,4 @@ class Bike < ActiveRecord::Base
     Bike.where("number LIKE ?","%#{search}%").all
   end
 
-  def assign_program(program_id)
-    current_assignment = self.assignments.where("active = ?",true).first
-    if(current_assignment)
-        current_assignment.active = false
-        current_assignment.closed_at = DateTime.now()
-        current_assignment.save
-    end
-    new_assignment = Assignment.new
-    new_assignment.bike_id = self.id
-    new_assignment.program_id = program_id
-    new_assignment.active = true
-    new_assignment.save
-    self.program_id = program_id
-    self.save
-  end
-
 end
