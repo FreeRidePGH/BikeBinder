@@ -4,10 +4,12 @@ class Assignment < ActiveRecord::Base
   attr_accessible :state
   
   has_one :bike, :as => :allotment
+  
   # application specifies program
   belongs_to :application, :polymorphic => true
 
   validates_presence_of :bike, :application
+  validate :bike_is_not_allotted
 
   # Constructor
   # @params Hash with
@@ -22,5 +24,15 @@ class Assignment < ActiveRecord::Base
       self.new(:application => params[:program])
     end
   end # self.build
+
+  private
+
+  def bike_is_not_allotted
+    return if bike.nil?
+    conflicting_allotment = !bike.allotment_id.nil? && bike.allotment_id != id
+    if conflicting_allotment
+      errors.add(:bike, "Already is allotted")
+    end
+  end
   
 end

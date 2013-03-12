@@ -65,6 +65,51 @@ describe Assignment do
     it "assigns the bike to the program" do
       expect(bike.allotment.application).to eq(program)
     end
+
+    describe "assigned bike" do
+      it "is not available" do
+        expect(bike).to_not be_available
+      end
+
+      it "is not departed" do
+        expect(bike).to_not be_departed
+      end
+    end
+  end # describe "assigning a bike to a program"
+
+  context "when a bike already assigned to a program" do
+    let(:assignment0){FactoryGirl.create(:assignment)}
+    let(:bike){assignment0.bike}
+
+    describe "assigns the bike to a new program" do
+      let(:program){FactoryGirl.create(:program)}
+      subject(:assignment){Assignment.build(:bike => bike, :program => program)}
+
+      before :each do
+        assignment.save
+        bike.reload
+      end
+
+      it "is not valid" do
+        expect(assignment).to_not be_valid
+      end
+
+      it "does not associate a new assignment with the bike" do
+        expect(bike.allotment).to_not eq assignment
+      end
+      
+      it "keeps the old program" do
+        expect(bike.allotment.application).to_not eq program
+      end
+
+      it "does not dissassociate the original assignment" do
+        assignment0.reload
+        expect(assignment0.bike).to_not be_nil
+        expect(assignment0.bike).to eq bike
+        expec(bike.allotment).to eq assignment0
+      end
+    end
+
   end
   
 end
