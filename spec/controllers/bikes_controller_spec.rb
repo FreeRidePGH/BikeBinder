@@ -206,6 +206,20 @@ describe BikesController do
 
   end # "Put update"  
 
+  describe "POST create" do
+
+    context "with valid parameters" do
+      
+      it "should create a bike"
+      
+    end
+
+
+    context "with invalid parameters" do
+      it "should redirect to edit"
+
+    end
+  end
 
   describe "GET new while not signed in" do
     it "should be successful" do

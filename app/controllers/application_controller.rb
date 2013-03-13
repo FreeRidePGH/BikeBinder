@@ -89,7 +89,28 @@ class ApplicationController < ActionController::Base
 
   # Checks if a record was found
   def record_found?(model)
-    not (model.nil? or model.id.nil?)
+    !model.nil? && !model.id.nil?
+  end
+  
+  # Checks the given record is fetched and redirects if not 
+  #
+  # @params record (ActiveModel, #id) object to check if it is found
+  # @params optns[:fallback_path] if the record is not found
+  #
+  # If no fallback url is given, then
+  # the default is root_path
+  def fetch_failed?(record)
+    # Coerce records into enumerable
+    arr_records = record.respond_to?(:each) ? record : [record]
+
+    failed = false
+    arr_records.each do |r|
+      if ! record_found?(r)
+        failed = true
+      end
+    end
+
+    return failed
   end
 
 end

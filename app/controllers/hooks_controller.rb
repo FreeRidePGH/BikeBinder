@@ -7,6 +7,11 @@ class HooksController < ApplicationController
   end
 
   def show
+    (redirect_to root_path and return) if fetch_failed?(hook)
+  end
+
+  def index
+    redirect_to root_path and return
   end
 
 end

@@ -54,7 +54,7 @@ class BikesController < ApplicationController
   def show
     @title = "Bike #{bike.number} Overview"
     @program = Program.new
-    verify_bike
+    (redirect_to bikes_path and return) if fetch_failed?(bike)
   end
 
   def new
@@ -75,11 +75,12 @@ class BikesController < ApplicationController
 
   def edit
     @title = "Edit details for bike " + bike.number.to_s
-    verify_bike
+    (redirect_to bikes_path and return) if fetch_failed?(bike)
   end
 
   def update
-    verify_bike
+    (redirect_to bikes_path and return) if fetch_failed?(bike)
+
     if bike_form.save
       @title = "Bike #{bike.number} Overview"
       flash.now[:success] = "Bike information updated."
@@ -124,50 +125,12 @@ class BikesController < ApplicationController
     redirect_to bike and return
  end
 
-  def vacate_hook
-    if bike.vacate_hook
-      flash[:success] = "Hook vacated"
-    else
-      flash[:error] = "Could not vacate hook"
-    end
-
-    redirect_to bike
-  end
-
-  def reserve_hook
-    if params[:hook_id]
-      hook = params[:hook_id]
-    end
-    if bike.reserve_hook_by_id(hook)
-      flash[:success] = "Hook #{bike.hook.number} reserved successfully"
-    else
-      flash[:error] = "Could not reserve the hook."
-    end
-    
-    redirect_to bike
-  end
-
   def assign_program
     bike.assign_program(params[:program_id])
     redirect_to bike
   end
 
-  def change_hook
-    
-  end
-  
   private
-
-  # Helper method that redirects if a bike record is not found
-  def verify_bike
-    if not record_found?(bike)
-      redirect_to bikes_path and return
-    end
-  end
-
-  # Method to convert cm to inches
-  def convert_units
-  end
 
   # Protect from mass assignment
   # See https://gist.github.com/1975644
