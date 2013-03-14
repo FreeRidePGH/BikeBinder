@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 describe HookReservationsController do
-
+  
+  # POST is the RESERVE action
   describe "POST 'create'" do
     context "with valid bike and hook" do
       let(:bike){FactoryGirl.create(:bike)}
@@ -124,15 +125,50 @@ describe HookReservationsController do
 
   end # describe "POST 'create'"
 
+
+  # DELETE is the VACATE action
   describe "DELETE destroy" do
+
+    context "when a given reservation is found" do
+      subject(:reservation){FactoryGirl.create(:hook_reservation)}
+      let(:bike){reservation.bike}
+      let(:hook){reservation.hook}
+      
+      before :each do
+        delete :destroy, :id => reservation
+      end
+
+      it "removes the reservation record" do
+        expect(HookReservation.where{id =my{reservation.id}}.first).to be_nil
+      end
+
+      it "removes the hook from the bike" do
+        expect(bike.hook).to be_nil
+      end
+
+      it "removes the bike from the hook" do
+        expect(hook.bike).to be_nil
+      end
+      
+    end
+
+    context "when an unknown reservation is specified" do
+      before :each do
+        delete :destroy, :id => 0
+      end
+
+      it "redirects" do
+        expect(response).to be_redirect
+      end
+    end
     
-  end
+  end # describe "DELETE destroy"
+
+
+
   
-  describe "GET change" do
-    
-  end
+  describe "GET change"
 
-  describe "PUT update" do
+  describe "PUT update"
 
-  end
 end

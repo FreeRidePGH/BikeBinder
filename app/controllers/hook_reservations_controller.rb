@@ -4,6 +4,14 @@ class HookReservationsController < ApplicationController
     unless params[:hook_id].blank?
       @hook ||= Hook.find_by_slug(params[:hook_id])
     end
+    @hook
+  end
+
+  expose(:reservation) do
+    unless params[:id].blank?
+      @reservation ||= HookReservation.where{id=my{params[:id]}}.first
+    end
+    @reservation
   end
 
   # Post
@@ -22,7 +30,10 @@ class HookReservationsController < ApplicationController
 
   # Delete
   def destroy
-    if bike.vacate_hook
+    bike = reservation.bike if reservation
+    (redirect_to root_path and return) if fetch_failed?([reservation, bike])
+    
+    if reservation.delete
       flash[:success] = "Hook vacated"
     else
       flash[:error] = "Could not vacate hook"
