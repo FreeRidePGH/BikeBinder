@@ -44,6 +44,26 @@ FactoryGirl.define do
     association :application, :factory => :program
   end
 
+  factory :assignment_departed_prog, :class => :assignment do
+    bike
+    association :application, :factory => :departure_with_prog
+  end
+
+  factory :assignment_departed_dest, :class => :assignment do
+    bike
+    association :application, :factory => :departure_with_dest
+  end
+
+  factory :departure_with_prog, :class => :departure do
+    value 0
+    association :application, :factory => :program    
+  end
+
+  factory :departure_with_dest do
+    value 0
+    association :application, :factory => :destination
+  end
+
   sequence(:bike_number, 1000){|n| BikeNumber.format_number(n)}
   factory :bike do
 

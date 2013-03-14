@@ -161,7 +161,6 @@ describe HookReservationsController do
         expect(response).to be_redirect
       end
     end
-    
   end # describe "DELETE destroy"
 
 

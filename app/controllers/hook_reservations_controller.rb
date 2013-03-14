@@ -6,7 +6,7 @@ class HookReservationsController < ApplicationController
     end
     @hook
   end
-
+  
   expose(:reservation) do
     unless params[:id].blank?
       @reservation ||= HookReservation.where{id=my{params[:id]}}.first

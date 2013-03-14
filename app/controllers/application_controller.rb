@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
   # Fetch by:
   # * program ID
   expose(:program) do
-    @prog ||= (Program.find(params[:program_id]) unless params[:program_id].blank?)
+    @prog ||= (Program.where{id=my{params[:program_id]}}.first unless params[:program_id].blank?)
   end
 
   # Default behavior
