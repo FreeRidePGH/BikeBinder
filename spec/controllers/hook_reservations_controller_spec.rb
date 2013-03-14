@@ -165,10 +165,69 @@ describe HookReservationsController do
   end # describe "DELETE destroy"
 
 
+  describe "GET new" do
 
+    it "Renders a hook reservation form"
+
+  end
   
-  describe "GET change"
+  describe "Post 'Create'" do
+    context "via form" do
+      
+      context "when array of trades given"
 
-  describe "PUT update"
+      context "when array of assignments given"
+
+      context "when array of trades and assignments given"
+
+    end
+  end
+
+
+  describe "PUT update" do
+
+    context "when a present bike goes missing" do
+      it "changes bike_state"
+    end # context "when a found bike goes missing"
+
+    context "when a missing bike is found" do
+      it "changes the bike state"
+    end # context "when a bike is found"
+
+    context "when a present bike is found" do
+      it "does not change bike state"
+    end # context "when a present bike is found"
+
+    context "when a missing bike is lost" do
+      it "does not change the bike state"
+    end # context "when a missing bike is lost"
+    
+    context "when a resolved hook has a conflict" do
+      it "changes the hook state"
+    end # context "when a hook has a conflict"
+    
+    context "when an unresolved hook has a conflict" do
+      it "does not change hook state"
+    end # context "when an unresolved hook has a conflict"
+    
+    context "when a hook with a conflict" do
+      describe "is resolved" do
+        it "changes the hook state"
+      end
+    end # context "when a hook with a conflict"
+
+    context "the bike is lost and hook has conflict" do
+    end # context "the bike is lost and hook has conflict"
+
+    context "the bike is found and hook resolved" do
+    end # context "the bike is found and hook resolved"
+
+    context "the bike is lost and hook is resolved" do
+    end #context "the bike is lost and hook is resolved"
+
+    context "the bike is found and the hook has conflict" do
+    end # context "the bike is found and the hook has conflict"
+
+  end # describe "PUT update"
 
 end
