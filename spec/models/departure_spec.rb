@@ -190,10 +190,42 @@ describe Departure do
     it "assigns the destination to the bike as allotment method" do
       expect(bike.assignment.application.method).to eq dest
     end
+  end # context "of a bike with a destination"
+
+  context "of a bike and destination id parameter" do
+    let(:dest){FactoryGirl.create(:destination)}
+    let(:bike){FactoryGirl.create(:bike)}
+    subject(:departure) do
+      Departure.build(:bike => bike, 
+                      :destination => dest.id,
+                      :value => 0)
+    end
+
+    before :each do
+      departure.save
+      departure.reload
+      bike.reload
+    end
+
+    it "is valid" do
+      expect(departure).to be_valid
+    end
+
+    it "departs the bike" do
+      expect(bike).to be_departed
+    end
+
+    it "makes the bike unavailable" do
+      expect(bike).to_not be_available
+    end
+
+    it "assigns the destination to the bike as allotment method" do
+      expect(bike.assignment.application.method.id).to eq dest.id
+    end
   end
 
   context "of a scrapped bike" do
-    it "assigns bike.value=0"
+    # it "assigns bike.value=0"
   end # context "of a scrapped bike" do
 
 end # describe Departure

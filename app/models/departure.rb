@@ -66,8 +66,15 @@ class Departure < ActiveRecord::Base
   # Determine the destination to assign
   # when building a departure
   # 
+  # @param bike that the destination is build for
+  # @param (Destination, Integer) destination is a destination
+  # or destination id that can be found
   def self.build_destination(bike, destination)
-    (bike.application || destination) unless bike.departed?
+    return nil if bike.departed?
+    dest = bike.application
+    dest ||= destination if destination.respond_to?(:departures)
+    dest ||= Destination.where{id=my{destination.to_i}}.first if destination.respond_to?(:to_i)
+    return dest
   end
 
   # The departure acts as an intermediate
