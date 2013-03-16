@@ -5,7 +5,7 @@ describe AssignmentsController do
   # POST is the ASSIGN action
   describe "POST 'create'" do
 
-    context "with an unknown bike" do
+    context "with an unknown program" do
       let(:bike){FactoryGirl.create(:bike)}
       let(:program){0}
       
@@ -16,9 +16,9 @@ describe AssignmentsController do
       it "redirects to root" do
         expect(response).to redirect_to('/')
       end
-    end # context "with an unknown bike"
+    end # context "with an unknown"
 
-    context "with an unknown program" do
+    context "with an unknown bike" do
       let(:bike){0}
       let(:program){FactoryGirl.create(:program)}
       
@@ -29,7 +29,7 @@ describe AssignmentsController do
       it "redirects to root" do
         expect(response).to redirect_to('/')
       end
-    end # context "with an unknown program"
+    end # context "with an unknown"
 
     context "with valid bike and program" do
       let(:bike){FactoryGirl.create(:bike)}

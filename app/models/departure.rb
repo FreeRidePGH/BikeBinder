@@ -61,7 +61,23 @@ class Departure < ActiveRecord::Base
     end
   end
 
+  before_destroy :unchain_application
+
   private
+  
+  # A returned item gets its original
+  # assignment restored.
+  # 
+  # When the departure method is a destination
+  # then the item is assumed to not be assigned.
+  def unchain_application
+    if self.application_type == "Destination"
+      !! self.assignment.destroy
+    else
+      self.assignment.application = self.application
+      !! self.assignment.save!
+    end
+  end
 
   # Determine the destination to assign
   # when building a departure

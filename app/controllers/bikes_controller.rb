@@ -39,7 +39,7 @@ class BikesController < ApplicationController
     @hook ||= (Hook.find_by_id(params[:hook_id]) if params[:hook_id])
     @hook ||= Hook.next_available
   end
-
+  
   # Exposed to speciy object to build new comments on
   expose(:commentable) do
     @commentable ||= bike
@@ -92,22 +92,6 @@ class BikesController < ApplicationController
   end
   
 
-  # Case the project is done, but not closed:
-  #   Confirmation to close the project (FINISH project)
-  #   Note: a project is done but not closed if it meets all
-  #   project requirements, but it has just not been closed yet
-  #
-  # Case the project is not done, render page with options:
-  #   Go to project to finish it (SHOW project) 
-  #   - or -
-  #   Close anyway (FINISH project)
-  #
-  # Case there is no project:
-  #   Options & form to start a new project (render page with depart form)
-  #
-  # Case the bike is already departed:
-  #   Notify error (SHOW bike)
-  #
   # via GET
   def depart
     if bike.nil?
@@ -123,12 +107,8 @@ class BikesController < ApplicationController
     bike.save!
     flash[:success] = "Bike departed"
     redirect_to bike and return
- end
-
-  def assign_program
-    bike.assign_program(params[:program_id])
-    redirect_to bike
   end
+
 
   private
 

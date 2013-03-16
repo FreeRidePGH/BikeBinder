@@ -76,6 +76,8 @@ describe Departure do
 
     it "associates the bike" do
       expect(departure.bike).to_not be_nil
+      expect(bike.assignment).to_not be_nil
+      expect(bike.application).to eq departure
     end
     
     it "departs the bike" do

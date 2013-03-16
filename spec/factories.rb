@@ -59,7 +59,7 @@ FactoryGirl.define do
     association :application, :factory => :program    
   end
 
-  factory :departure_with_dest do
+  factory :departure_with_dest, :class=> :departure do
     value 0
     association :application, :factory => :destination
   end

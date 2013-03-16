@@ -99,18 +99,26 @@ class ApplicationController < ActionController::Base
   #
   # If no fallback url is given, then
   # the default is root_path
-  def fetch_failed?(record)
+  def fetch_failed?(record, optns={})
+    conditional = optns[:on] || :any
+    
     # Coerce records into enumerable
     arr_records = record.respond_to?(:each) ? record : [record]
-
-    failed = false
+    
+    # initialize the found flag
+    found = (conditional == :any)
     arr_records.each do |r|
-      if ! record_found?(r)
-        failed = true
+      case conditional
+        when :any
+        # AND
+        found &&= record_found?(r)
+        when :all
+        # OR
+        found ||= record_found?(r)
       end
     end
 
-    return failed
+    return !found
   end
 
 end

@@ -53,7 +53,8 @@
         <% end %>
       <% elsif bike.available? %>
         <p>This bike is available</p>
-	<%= form_for(bike, :url => assign_program_bike_path(bike), :method => :put) do |f| %>
+	<%= form_for(bike, :url => assignments_path, :method => :put) do |f| %>
+	  <%= f.hidden_field :bike_id, :value => bike.id %>
 	  <%= select_tag(:program_id, options_from_collection_for_select(Program.all, :id, :label)) %>
 	  <%= f.submit "Assign", :class => "btn btn-primary" %>
 	<% end # bike.available? %>

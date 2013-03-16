@@ -16,11 +16,8 @@ BikeBinder::Application.routes.draw do
   resources :bikes,:except => [:destroy] do
     member do
       post 'new_comment'
-      put 'assign_program'
-      put 'change_hook'
-      get 'depart'
-      get 'get_models'
     end
+    resources :departure, :only => [:new]
   end
 
   resources :hooks, :only =>[:index, :show]
@@ -28,6 +25,8 @@ BikeBinder::Application.routes.draw do
   resources :hook_reservations, :except => [:index, :show, :new]
              
   resources :assignments, :only => [:create, :update, :destroy]
+
+  resources :departures, :only => [:new, :create, :destroy]
             
 
   # Search routes

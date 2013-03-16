@@ -8,4 +8,7 @@ class Destination < ActiveRecord::Base
   has_many :allotments, :as => :application
   has_many :bikes, :through => :allotments
 
+  has_many :departures, :as => :application
+  has_many :bikes, :through => :departures
+
 end
