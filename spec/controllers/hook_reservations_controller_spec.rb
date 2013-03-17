@@ -164,20 +164,26 @@ describe HookReservationsController do
   end # describe "DELETE destroy"
 
 
-  describe "GET new" do
-
-    it "Renders a hook reservation form"
+  describe "GET 'new'" do
+    
+    before :each do
+      get :new
+    end
+    
+    it "Renders a hook reservation form" do
+      expect(response).to render_template(:new)
+    end
 
   end
   
   describe "Post 'Create'" do
     context "via form" do
       
-      context "when array of trades given"
+      context "with array of trades given"
 
-      context "when array of assignments given"
+      context "with array of assignments given"
 
-      context "when array of trades and assignments given"
+      context "with array of trades and assignments given"
 
     end
   end

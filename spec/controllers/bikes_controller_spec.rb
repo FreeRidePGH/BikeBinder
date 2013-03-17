@@ -17,7 +17,7 @@ describe BikesController do
   describe "GET index" do
     it "should be successful" do
       get :index
-      response.should be_success
+      expect(response).to be_success
     end
   end
 
@@ -245,32 +245,94 @@ describe BikesController do
     
   end
 
-  describe "DELETE" do
-    before(:each) do
-      @proj = FactoryGirl.create(:youth_project)
-      @p_id = @proj.id
-      @pdet_id = @proj.detail.id
-      @bike = @proj.bike
-      @b_id = @bike.id
-      @bike.destroy
-      @bike.reload
+  describe "DELETE 'destroy'" do
+    context "A bike without a project" do
+      subject(:bike){FactoryGirl.create(:bike)}
+      before(:each) do
+        delete :destroy, :id => bike
+      end
+
+      it "should redirect" do
+        expect(response).to redirect_to(bikes_path)
+      end
+
+      it "should delete the bike" do
+        expect(Bike.where{id=my{bike.id.to_i}}.first).to be_nil
+      end
+
+    end
+
+    context "A bike with a project" do
+      let(:assignment){FactoryGirl.create(:assignment)}
+      subject(:bike){assignment.bike}
+
+      before(:each) do
+        delete :destroy, :id => bike
+      end
+
+      it "should redirect" do
+        expect(response).to redirect_to(bikes_path)
+      end
+
+      it "should delete the bike" do
+        expect(Bike.where{id=my{bike.id.to_i}}.first).to be_nil
+      end
+
+      it "should delete the assignment" do
+        expect(Assignment.where{id=my{assignment.id.to_i}}.first).to be_nil
+      end
+    end
+
+    context "a departed bike with a project" do
+      let(:assignment){FactoryGirl.create(:assignment_departed_prog)}
+      subject(:bike){assignment.bike}
+      before(:each) do
+        delete :destroy, :id => bike
+      end
+
+      it "should redirect" do
+        expect(response).to redirect_to(bikes_path)
+      end
+
+      it "should delete the bike" do
+        expect(Bike.where{id=my{bike.id.to_i}}.first).to be_nil
+      end
+
+      it "should delete the assignment" do
+        expect(Assignment.where{id=my{assignment.id.to_i}}.first).to be_nil
+      end
+
+      it "should delete the departure" do
+        expect(Departure.where{bike_id=my{bike.id.to_i}}.first).to be_nil        
+      end
+
+    end
+
+    context "a departed bike with a destination" do
+      let(:assignment){FactoryGirl.create(:assignment_departed_dest)}
+      subject(:bike){assignment.bike}
+      before(:each) do
+        delete :destroy, :id => bike
+      end
+
+      it "should redirect" do
+        expect(response).to redirect_to(bikes_path)
+      end
+
+      it "should delete the bike" do
+        expect(Bike.where{id=my{bike.id.to_i}}.first).to be_nil
+      end
+
+      it "should delete the assignment" do
+        expect(Assignment.where{id=my{assignment.id.to_i}}.first).to be_nil        
+      end
+
+      it "should delete the departure" do
+        expect(Departure.where{bike_id=my{bike.id.to_i}}.first).to be_nil        
+      end
+
     end
     
-    it "should be successful"
-
-    describe "A bike without a project" do
-      before(:each) do
-        @bike = FactoryGirl.create(:bike)
-      end
-      it "should be succssful"
-    end
-
-    describe "A bike without a project" do
-      before(:each) do
-      @bike = FactoryGirl.create(:bike)
-      end
-      it "should be succssful"
-    end
-  end
+  end # describe "DELETE 'destroy'"
   
 end
