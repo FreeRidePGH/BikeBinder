@@ -45,10 +45,10 @@ class Bike < ActiveRecord::Base
   include BikeMfg::ActsAsManufacturable
   alias_attribute :model, :bike_model
 
-  has_one :hook_reservation
+  has_one :hook_reservation, :dependent => :destroy
   has_one :hook, :through => :hook_reservation
   
-  has_one :assignment
+  has_one :assignment, :dependent => :destroy
 
   ############
   # Properties

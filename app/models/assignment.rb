@@ -23,7 +23,18 @@ class Assignment < ActiveRecord::Base
     end
   end # self.build
 
+  before_destroy :destroy_chain
+
   private
+
+  # When the application is another assignment
+  # then that assignment needs to be destroyed.
+  # 
+  def destroy_chain
+    if application.respond_to?(:application)
+      application.destroy
+    end
+  end
   
   def bike_is_not_allotted
     return if bike.nil?

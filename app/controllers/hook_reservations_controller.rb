@@ -31,9 +31,9 @@ class HookReservationsController < ApplicationController
   # Delete
   def destroy
     bike = reservation.bike if reservation
-    (redirect_to root_path and return) if fetch_failed?([reservation, bike])
+    redirect_to root_path and return if fetch_failed?([reservation, bike])
     
-    if reservation.delete
+    if reservation.destroy
       flash[:success] = "Hook vacated"
     else
       flash[:error] = "Could not vacate hook"

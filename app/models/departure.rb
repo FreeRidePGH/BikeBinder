@@ -1,7 +1,7 @@
 # require 'active_support/core_ext/module/aliasing'
 
 class Departure < ActiveRecord::Base
-
+  
   ############
   # Attributes
 
@@ -11,7 +11,7 @@ class Departure < ActiveRecord::Base
   ##############
   # Associations
 
-  has_one :assignment, :as => :application
+  has_one :assignment, :as => :application, :dependent => :nullify
   has_one :bike, :through => :assignment
 
   # application specifies a 

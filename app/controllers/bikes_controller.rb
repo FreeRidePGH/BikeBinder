@@ -91,22 +91,17 @@ class BikesController < ApplicationController
     render 'edit'
   end
   
+  def destroy
+    redirect_to bikes_path and return if fetch_failed?(bike)
 
-  # via GET
-  def depart
-    if bike.nil?
-      redirect_to root and return
-    end
-
-    if bike.departed?
-      flash[:error] = "Bike has already departed"
+    if bike.destroy
+      flash[:success] = "Bike deleted"
+    else
+      flash[:error] = "Could not delete the bike"
       redirect_to bike and return
     end
 
-    bike.departed_at = DateTime.now
-    bike.save!
-    flash[:success] = "Bike departed"
-    redirect_to bike and return
+    redirect_to bikes_path
   end
 
 

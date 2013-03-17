@@ -13,7 +13,7 @@ BikeBinder::Application.routes.draw do
 
   devise_for :users
 
-  resources :bikes,:except => [:destroy] do
+  resources :bikes do
     member do
       post 'new_comment'
     end
@@ -22,7 +22,7 @@ BikeBinder::Application.routes.draw do
 
   resources :hooks, :only =>[:index, :show]
 
-  resources :hook_reservations, :except => [:index, :show, :new]
+  resources :hook_reservations, :except => [:index, :show]
              
   resources :assignments, :only => [:create, :update, :destroy]
 
