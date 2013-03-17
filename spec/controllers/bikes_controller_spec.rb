@@ -207,18 +207,38 @@ describe BikesController do
   end # "Put update"  
 
   describe "POST create" do
+    context "with valid parameters" do    
+      let(:params){{:number => FactoryGirl.generate(:bike_number), :color => "ffffff"}}
 
-    context "with valid parameters" do
-      
-      it "should create a bike"
-      
-    end
+      before :each do
+        post :create, :bike_form => params, :commit => I18n.translate('commit_btn.new')
+        @bike = Bike.where{number == my{params[:number]}}.first 
+      end
 
+      it "redirects to bike" do
+        expect(response).to redirect_to(@bike)
+      end
+      
+      it "creates a bike" do
+        expect(@bike).to_not be_nil
+      end
+    end # context "with valid parameters"
 
     context "with invalid parameters" do
-      it "should redirect to edit"
+      let(:params){{:number => FactoryGirl.generate(:bike_number)}}
 
-    end
+      before :each do
+        post :create, :bike_form => params, :commit => I18n.translate('commit_btn.new')
+      end
+      
+      it "renders the new bike page" do
+        expect(response).to render_template(:new)        
+      end
+
+      it "does not creates a bike" do
+        expect(Bike.where{number == my{params[:number]}}.first).to be_nil
+      end
+    end # context "with invalid parameters"
   end
 
   describe "GET new while not signed in" do

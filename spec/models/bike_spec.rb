@@ -87,7 +87,7 @@ describe Bike do
     end
   end
 
-  context "is deleted" do
+  context "is destroyed" do
     subject(:bike){FactoryGirl.create(:bike)}
     let(:b_id){bike.id}
     let(:b_sn){bike.id}
@@ -203,7 +203,7 @@ describe Bike do
     context "which is canceled" do
 
       before :each do
-        bike.assignment.delete
+        bike.assignment.destroy
         bike.reload
       end
 
@@ -220,7 +220,7 @@ describe Bike do
     end # context "which is canceled" do
     
     context "in the shop" do    
-      it "can be deleted" do
+      it "can be destroyed" do
         expect {bike.destroy.to change(Bike, :count).by(-1)}
       end
     end # context "in the shop" do
@@ -236,7 +236,7 @@ describe Bike do
       departure.save
     end
 
-    describe "deleting assignment" do
+    describe "destroying assignment" do
 
       before :each do
         bike.assignment.destroy
