@@ -4,8 +4,9 @@ rvm:
   - "1.9.3"
   - "2.0.0"
   - rbx-19mode
-#  uncomment this line if your project needs to run something other than `rake`:
 before_script: 
-  - bundle exec rake setup
-  - bundle exec rake populate   
+  - cp config/database.yml.sample config/database.yml
+  - bundle exec rake create_a_secret
+  - bundle exec db:setup
+  - bundle exec rake db:test_setup   
 script: bundle exec rspec spec
