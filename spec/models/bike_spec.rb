@@ -215,7 +215,7 @@ describe Bike do
         expect(bike.assignment).to be_nil
       end
 
-      it "has a record of the canceled assignment"
+      # it "has a record of the canceled assignment"
       
     end # context "which is canceled" do
     
