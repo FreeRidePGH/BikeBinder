@@ -11,6 +11,10 @@ BikeBinder::Application.routes.draw do
     resources :bikes, :only => [:index]
   end
 
+  resources :destinations, :except => [:destroy] do
+    resources :bikes, :only => [:index]
+  end
+
   devise_for :users
 
   resources :bikes do

@@ -83,7 +83,7 @@ FactoryGirl.define do
     end
   end
 
-  sequence(:hook_number){|n| "#{n+10}H"}
+  sequence(:hook_number){|n| "#{(n%90+10)}H"}
   factory :hook do
     number {generate :hook_number}
   end

@@ -2,9 +2,22 @@ module ApplicationHelper
   # trying out a dynamic assignment of a title for the header element
   def header_title
     title_key = "page_titles.#{controller_name.to_s}.#{action_name}"
-    @title ||= I18n.translate(title_key)
+    @title ||= I18n.translate(title_key, title_data)
     @title ||= "BikeBinder"
     @title 
+  end
+
+  # Use different button text for forms
+  # based on new vs. edit actions
+  def submit_text
+    case action_name.to_sym
+    when :new, :create
+      I18n.translate('commit_btn')[:new]
+    when :edit, :update
+      I18n.translate('commit_btn')[:edit]
+    else
+      I18n.translate('commit_btn')[:submit]      
+    end
   end
 
   # Converts the value to target_units and rounds the

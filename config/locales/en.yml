@@ -6,12 +6,27 @@ en:
     new: "Create"
     new_plus: "Create and add another"
     edit: "Save changes"
+    submit: "Submit"
   main_search:
     placeholder: "Search by keyword Bike # or Hook #"
     btn: "Search"
+  controller:
+    bikes:
+      create:
+        success: "New bike was added"
+      update:
+        success: "Bike information was updated"
+      destroy:
+        success: "Bike deleted"
+        fail: "Could not delete the bike"
   page_titles:
     bikes:
       index: "Bike listing"
+      new: "Add a new bike"
+      create: "Add a new bike"
+      show: "Bike %{bike_number} Overview"
+      edit: "Edit details for bike %{bike_number}"
+      update: "Edit details for bike %{bike_number}"
   bike:
     form:
       section:

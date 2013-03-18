@@ -8,6 +8,38 @@ describe "The bike form", :type => :feature do
       expect(page).to have_content "Color"
       expect(page).to have_content "Number"
     end
+
+    describe "submitting a blank form" do
+      before :each do
+        visit new_bike_path
+        click_button 'commit' #I18n.translate('commit_btn')[:new]
+      end
+
+      it "indicates errors" do
+        expect(page).to_not have_text I18n.translate('controller.bikes.create.success')
+        expect(page).to have_text "Errors"
+      end
+    end
+
+    context "with valid params" do
+      let(:bike_number){FactoryGirl.generate(:bike_number)}
+      let(:color){ColorNameI18n::Color.new(Settings::Color.options.first)}
+
+      before :each do
+        visit new_bike_path
+        fill_in 'Number', :with => bike_number
+        select color.name.capitalize, :from => 'Color'
+        click_button 'commit' #I18n.translate('commit_btn')[:new]
+      end
+
+      it "indicates success" do
+        expect(page).to have_text I18n.translate('controller.bikes.create.success')
+      end
+
+      it "shows the bike number" do
+        expect(page).to have_content bike_number
+      end
+    end #  context "with valid params"
   end
 
   describe "brand and model use case" do
@@ -32,14 +64,14 @@ describe "The bike form", :type => :feature do
 
         before :each do
           visit edit_bike_path(bike)
-        end
-
-        it "should create and assign the model with correct model name and brand name" do
           page.choose('bike_form_brand_action_create')
           fill_in 'Brand', :with => new_brand_name
           fill_in 'Model', :with => new_model_name
-          click_button I18n.translate('commit_btn')[:edit]
+          click_button 'commit'
           bike.reload
+        end
+
+        it "should create and assign the model with correct model name and brand name" do
           expect(bike.model.name).to eq(new_model_name)
           expect(page).to have_content new_brand_name
           expect(page).to have_content new_model_name

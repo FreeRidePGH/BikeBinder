@@ -249,21 +249,27 @@ describe BikesController do
     end
   end
 
-  describe "Show bike" do
-    before(:each) do
-      @bike  = FactoryGirl.create(:bike)
-      get :show, :id => @bike
+  describe "GET 'show'" do
+    context "bike without a hook when one is available" do
+      let(:hook){FactoryGirl.create(:hook)}
+      let(:bike){FactoryGirl.create(:bike)}
+      before(:each) do
+        hook
+        get :show, :id => bike
+      end
+      
+      it "show the bike page with success" do
+        expect(response).to be_success
+      end
+      
+      it "exposes the correct bike" do
+        expect(controller.bike).to_not be_nil
+        expect(controller.bike.id).to eq(bike.id)
+      end
+      it "exposes an available hook" do
+        expect(controller.hook).to_not be_nil
+      end
     end
-    
-    it "should show bike page with success" do
-      expect(response).to be_success
-    end
-
-    it "should expose the correct bike" do
-      expect(controller.bike).to_not be_nil
-      expect(controller.bike.id).to eq(@bike.id)
-    end
-    
   end
 
   describe "DELETE 'destroy'" do

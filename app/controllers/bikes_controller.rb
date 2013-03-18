@@ -40,9 +40,15 @@ class BikesController < ApplicationController
     @hook ||= Hook.next_available
   end
   
-  # Exposed to speciy object to build new comments on
+  # Exposed to specify object to build new comments on
   expose(:commentable) do
     @commentable ||= bike
+  end
+
+  # Provide data that can be interpolated
+  # into page title strings
+  expose :title_data do
+    {:bike_number => bike.number.to_s}
   end
 
   def index
@@ -52,19 +58,17 @@ class BikesController < ApplicationController
   end
 
   def show
-    @title = "Bike #{bike.number} Overview"
     @program = Program.new
-    (redirect_to bikes_path and return) if fetch_failed?(bike)
+    redirect_to bikes_path and return if fetch_failed?bike
   end
 
   def new
-    @title = "Add a new bike"
   end
 
   def create     
     if bike_form.save
-      flash[:success] = "New bike was added."
-      
+      flash[:success] = I18n.translate('controller.bikes.create.success')
+
       if params[:commit]
         path = (params[:commit].downcase == I18n.translate('commit_btn.new_plus').downcase) ?
         new_bike_path : bike_path(bike_form.bike)
@@ -77,20 +81,17 @@ class BikesController < ApplicationController
   end
 
   def edit
-    @title = "Edit details for bike " + bike.number.to_s
-    (redirect_to bikes_path and return) if fetch_failed?(bike)
+    redirect_to bikes_path and return if fetch_failed?(bike)
   end
 
   def update
-    (redirect_to bikes_path and return) if fetch_failed?(bike)
+    redirect_to bikes_path and return if fetch_failed?(bike)
 
     if bike_form.save
-      @title = "Bike #{bike.number} Overview"
-      flash.now[:success] = "Bike information updated."
+      flash.now[:success] = I18n.translate('controller.bikes.update.success')
       redirect_to bike and return
     end
 
-    @title = "Edit Bike"
     render 'edit'
   end
   
@@ -98,9 +99,9 @@ class BikesController < ApplicationController
     redirect_to bikes_path and return if fetch_failed?(bike)
 
     if bike.destroy
-      flash[:success] = "Bike deleted"
+      flash[:success] = I18n.translate('controller.bikes.destroy.success')
     else
-      flash[:error] = "Could not delete the bike"
+      flash[:error] = I18n.translate('controller.bikes.destroy.fail')
       redirect_to bike and return
     end
 

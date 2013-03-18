@@ -19,6 +19,16 @@ class Departure < ActiveRecord::Base
   belongs_to :application, :polymorphic => true
   alias_attribute :method, :application
 
+  ############
+  # Properties
+  def label
+    application.label
+  end
+
+  def name
+    application.name
+  end
+
   #############
   # Validations
 

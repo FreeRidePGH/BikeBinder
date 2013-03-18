@@ -1,4 +1,3 @@
-<% submit_text = I18n.translate('commit_btn')[action_name.to_sym] %>
 <div class="row">
   <div class="section-sidebar span2">
     <ul class="nav nav-list">
@@ -145,9 +144,9 @@ render :partial=>'units/input',
 </table>
 
 <div class="btn-group" id="submit_form">
-<%= f.submit submit_text, :class => "btn btn-primary" %>
+<%= f.submit submit_text, :class => "btn btn-primary", :id => "commit" %>
 <% if bike.id.nil? %>
-<%= f.submit I18n.translate('commit_btn.new_plus'), :class => "btn" %>
+<%= f.submit I18n.translate('commit_btn.new_plus'), :class => "btn", :id =>"commit_plus" %>
 <% end # action_name == 'create' %>
 </div>
 

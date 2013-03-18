@@ -16,13 +16,14 @@
       <% else %>
         <% if bike.hook %>
           <p>Bike <%= bike.number %> is on hook: <%= bike.hook.number %>.</p>
-          <%= form_for(hook, :url => vacate_hook_bike_path(bike), :method=>:put) do |f| %>
+          <%= form_for(hook, :url => hook_reservation_path(bike), :method=>:delete) do |f| %>
           <%= f.submit "Free hook" ,  :class => "btn btn-primary", :title=>"Choose Free Hook to remove this bike from its hook" %>
 	  <% end %>
 	<% else #not bike.hook %>
           <% if hook %>
-	    <%= form_for(hook, :url => reserve_hook_bike_path(bike), :method=>:put) do |f| %>
+	    <%= form_for(hook, :url => hook_reservations_path, :method=>:post) do |f| %>
 	      <%= label_tag(:hook_id, "Select an available hook:") %>
+	      <%= f.hidden_field :bike_id, :value => bike.id %>
 	      <%= select_tag(:hook_id, options_from_collection_for_select(Hook.available.order(:number), :id, :number)) %>
 	      <%= f.submit "Reserve hook", :class=>"btn btn-primary" %>
             <% end %>
@@ -36,16 +37,20 @@
       <h3>Assignment</h3>
       <% if bike.application %>
         <p>Assigned to: <%= link_to bike.application.label, bike.application %></p>
-        <% if bike.departed_at.nil?%>
+        <% if !bike.departed?%>
         <div>
-            <%= link_to "Depart Bike", depart_bike_path(bike), :class => "btn btn-primary" %>
+	    <%= form_tag(departures_path, :method=>:post) do |f| %>
+	      <%= hidden_field_tag :bike_id, :value => bike.id %>
+	      <%= submit_tag "Depart Bike", :class=>"btn btn-primary" %>
+	    <% end %>
         </div>
         <div>
             <br />
             <button class = "btn btn-info" id = "changeProgram">Change programs</button>
             <div id = "changeProgramForm" style = "display:none;">
-            <%= form_for(bike, :url => assign_program_bike_path(bike), :method => :put) do |f| %>
+              <%= form_for(bike, :url => assignments_path(bike), :method => :post) do |f| %>
                 <%= select_tag(:program_id, options_from_collection_for_select(Program.all, :id, :label)) %>
+		<%= f.hidden_field :bike_id, :value => bike.id %>
                 <%= f.submit "Change program", :class => "btn btn-success" %>
             <% end%>
             </div>
@@ -111,10 +116,9 @@
 	  <% if bike.available? %>
 	  Available
 	  <% elsif bike.departed? %>
-	  Departed as <%= link_to "#{bike.program.name}",program_path(bike.program) %>
-	  <% elsif bike.program %>
-	  <%= link_to "#{bike.program.name}",
-	      program_path(bike.program) %>
+	  Departed as <%= link_to "#{bike.application.name}", url_for(bike.application.application) %>
+	  <% elsif bike.application %>
+	    <%= link_to "#{bike.application.name}",url_for(bike.application) %>
 	  <% end %>
 	</dd>
 
