@@ -20,9 +20,9 @@ gem 'iso_bsd-i18n','>= 0.2', :git => 'git://github.com/zflat/iso_bsd-i18n.git'
 # javascript user interface components
 gem 'i18n-js'
 gem 'select2-rails'
-gem 'select2-bikebinder', '>= 0.1.8' #, 
+gem 'select2-bikebinder', '>= 0.1.9' , 
 #:path => '/home/william/rails_projects/select2-bikebinder'
-#:git => 'git://github.com/zflat/select2-bikebinder.git'
+:git => 'git://github.com/zflat/select2-bikebinder.git'
 
 
 gem 'friendly_id', '~>4.0.5'
