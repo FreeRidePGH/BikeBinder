@@ -24,7 +24,7 @@ namespace :deploy do
     `git push heroku heroku-deploy:master`
 
     secret = `heroku run rake -s secret`.strip
-    `heroku config:add SECRET_TOKEN=#{secret}`
+    `heroku config:add BIKE_BINDER_SECRET_TOKEN=#{secret}`
 
     `heroku run bundle exec rake populate_staging`
     `heroku maintenance:off`
