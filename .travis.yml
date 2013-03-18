@@ -7,6 +7,6 @@ rvm:
 before_script: 
   - cp config/database.yml.sample config/database.yml
   - bundle exec rake create_a_secret
-  - bundle exec db:setup
+  - bundle exec rake db:setup
   - bundle exec rake db:test_setup   
 script: bundle exec rspec spec
