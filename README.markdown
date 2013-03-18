@@ -1,5 +1,7 @@
 # BikeBinder for Free Ride
 
+[![Build Status](https://travis-ci.org/FreeRidePGH/BikeBinder.png?branch=master)](https://travis-ci.org/FreeRidePGH/BikeBinder)
+
 ## Objective
 
 Reproduce all functionality that exists with the current paper bike binder and departed bikes binder system.
