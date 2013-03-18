@@ -2,8 +2,9 @@ require 'spec_helper'
 
 describe BikesController do
   describe "GET new" do
-    it "should be successful" do
+    it "is successful" do
       get :new
+      expect(response).to be_success
       response.should be_success
     end
 

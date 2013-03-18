@@ -43,11 +43,40 @@ class HookReservationsController < ApplicationController
   end
 
   # Get 
-  def change
+  def new
   end
 
   # Put
   def update
+    bike = reservation.bike if reservation
+    redirect_to root_path and return if fetch_failed?([reservation, bike])
+    
+    call_events(reservation, [:bike, :hook], params)
+    if reservation.save
+      flash[:success] = "Hook reservation updated"
+    else
+      flash[:error] = "Could not update the hook reservation"
+    end
+    
+    redirect_to bike
+  end
+
+  private
+  
+  # For the given object that implements a state machine,
+  # call the given events if they apply to the states listed
+  # 
+  def call_events(obj, states, events)
+    states.each do |state|
+      event_action = events["#{state}_event".to_sym]
+      if event_action.present?
+        event = "#{event_action}_#{state}"
+        event_test = "can_#{event}?"
+        if obj.respond_to?(event_test) && obj.send(event_test)
+            obj.send("#{event}")
+        end
+      end
+    end
   end
 
 end

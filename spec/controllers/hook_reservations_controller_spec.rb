@@ -1,6 +1,12 @@
 require 'spec_helper'
 
 describe HookReservationsController do
+  describe "GET new" do
+    it "should be successful" do
+      get :new
+      expect(response).to be_success
+    end
+  end
   
   # POST is the RESERVE action
   describe "POST 'create'" do
@@ -190,49 +196,174 @@ describe HookReservationsController do
 
 
   describe "PUT update" do
+    subject(:reservation){FactoryGirl.create(:hook_reservation)}
 
+    context "with a new reservation" do
+      context "given garbage state" do
+        it "does not change state" do
+          expect{
+            put :update, :id => reservation, :garbage_event => :lose            
+          }.to_not change{reservation.bike_state+reservation.hook_state}
+        end
+      end
+      
+      context "given garbage action for bike state" do
+        it "does not change state" do
+          expect{
+            put :update, :id => reservation, :bike_event => :garbage
+          }.to_not change{reservation.bike_state+reservation.hook_state}
+        end
+      end
+      
+      context "given garbage action for hook_state" do
+        it "does not change state" do
+          expect{
+            put :update, :id => reservation, :hook_event => :garbage
+          }.to_not change{reservation.bike_state+reservation.hook_state}
+        end
+      end
+      context "given garbage action for hook_state and bike_state" do
+        it "does not change state" do
+          expect{
+            put :update, :id => reservation, :hook_event => :garbage, :bike_event => :garbage
+          }.to_not change{reservation.bike_state+reservation.hook_state}
+        end
+      end
+    end
+    
     context "when a present bike goes missing" do
-      it "changes bike_state"
+      before :each do
+        reservation.find_bike
+        put :update, :id => reservation, :bike_event => :lose
+        reservation.reload
+      end
+
+      it "is valid" do
+        expect(reservation).to be_valid
+      end
+
+      it "redirects to the bike" do
+        expect(response).to redirect_to reservation.bike
+      end
+      
+      it "changes bike_state to missing" do
+        expect(reservation.bike_state).to eq 'missing'
+      end
     end # context "when a found bike goes missing"
 
     context "when a missing bike is found" do
-      it "changes the bike state"
+      before :each do
+        reservation.lose_bike
+        put :update, :id => reservation, :bike_event => :find
+        reservation.reload
+      end
+
+      it "changes bike_state to present" do
+        expect(reservation.bike_state).to eq 'present'
+      end
+
+      it "redirects to the bike" do
+        expect(response).to redirect_to reservation.bike
+      end
     end # context "when a bike is found"
 
     context "when a present bike is found" do
-      it "does not change bike state"
+      before :each do
+        reservation.find_bike
+        put :update, :id => reservation, :bike_event => :find
+        reservation.reload
+      end
+
+      it "keeps the bike_state as present" do
+        expect(reservation.bike_state).to eq 'present'
+      end
     end # context "when a present bike is found"
 
     context "when a missing bike is lost" do
-      it "does not change the bike state"
+      before :each do
+        reservation.lose_bike
+        put :update, :id => reservation, :bike_event => :lose
+        reservation.reload
+      end
+
+      it "keeps the bike_state as missing" do
+        expect(reservation.bike_state).to eq 'missing'
+      end
     end # context "when a missing bike is lost"
     
     context "when a resolved hook has a conflict" do
-      it "changes the hook state"
+      before :each do
+        reservation.resolve_hook
+        put :update, :id => reservation, :hook_event => :raise_issue
+        reservation.reload
+      end
+
+      it "changes the hook state to unresolved" do
+        expect(reservation.hook_state).to eq "unresolved"
+      end
     end # context "when a hook has a conflict"
     
     context "when an unresolved hook has a conflict" do
-      it "does not change hook state"
+      before :each do
+        reservation.raise_issue_hook
+        put :update, :id => reservation, :hook_event => :raise_issue
+        reservation.reload
+      end
+
+      it "keeps the hook state to unresolved" do
+        expect(reservation.hook_state).to eq "unresolved"
+      end
     end # context "when an unresolved hook has a conflict"
     
     context "when a hook with a conflict" do
       describe "is resolved" do
-        it "changes the hook state"
+        before :each do
+          reservation.raise_issue_hook
+          put :update, :id => reservation, :hook_event => :resolve
+          reservation.reload
+        end
+
+        it "changes the hook state to resolved" do
+          expect(reservation.hook_state).to eq "resolved"
+        end
       end
     end # context "when a hook with a conflict"
 
-    context "the bike is lost and hook has conflict" do
-    end # context "the bike is lost and hook has conflict"
+    context "when the bike is missing and hook is unresolved" do
+      describe "the bike is found and the hook issue is resolved" do
+        before :each do
+          reservation.raise_issue_hook
+          reservation.lose_bike
+          put :update, :id => reservation, :bike_event => :find, :hook_event => :resolve
+          reservation.reload
+        end
 
-    context "the bike is found and hook resolved" do
+        it "changes the hook state to resolved" do
+          expect(reservation.hook_state).to eq "resolved"          
+        end
+        it "changes bike_state to present" do
+          expect(reservation.bike_state).to eq 'present'
+        end
+      end      
+    end # context "when the bike is missing and hook is unresolved" do
+
+    context "the bike is present and hook resolved" do
+      describe "the bike is lost and the hook has issues" do
+        before :each do
+          reservation.find_bike
+          reservation.resolve_hook
+          put :update, :id => reservation, :bike_event => :lose, :hook_event => :raise_issue
+          reservation.reload
+        end
+
+        it "changes the hook state to unresolved" do
+          expect(reservation.hook_state).to eq "unresolved"
+        end
+        it "changes bike_state to missing" do
+          expect(reservation.bike_state).to eq 'missing'
+        end
+      end
     end # context "the bike is found and hook resolved"
-
-    context "the bike is lost and hook is resolved" do
-    end #context "the bike is lost and hook is resolved"
-
-    context "the bike is found and the hook has conflict" do
-    end # context "the bike is found and the hook has conflict"
-
   end # describe "PUT update"
 
 end
