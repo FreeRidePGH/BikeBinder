@@ -95,3 +95,5 @@ group :development do
   gem 'rspec-rails', '~>2'
   gem 'guard-rspec', '0.5.5'
 end
+
+gem 'heroku'
