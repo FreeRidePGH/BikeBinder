@@ -32,14 +32,6 @@ $(document).ready(function(){
     // jQuery("*.collapse").collapse()
     
 
-    //////////////////
-    // May be able to get rid of these initializations:    
-
-    // hack to see if we are adding a new bike
-    if ($('#colorInput').length) {
-	$("input#colorInput").fewPicker();			  
-    }
-    
     if ($("[data-bike-color]").length) {
 	var colorSwatchDiv = $("[data-bike-color]");
 	colorSwatchDiv.css("backgroundColor", colorSwatchDiv.data("bike-color"));
@@ -48,8 +40,10 @@ $(document).ready(function(){
     $("button[data-role=toggle]").click(function(){
 	$("#newCommentWrap").toggle();
     });
-    
+
+    //////////////////
+    // Fade the alerts messages
     $('#alerts').delay(500).fadeIn('normal', function() {
-	$(this).delay(2500).fadeOut();
-   });
+	$(this).delay(5000).fadeOut();
+    });
 });

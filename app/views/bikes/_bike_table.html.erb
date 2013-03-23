@@ -3,7 +3,7 @@
   <td class="BT5"><%= link_to b.number, bike_path(b) %></td>
   <td class="BT6"> 
     <% if b.available? %>
-      <i class="icon-ok"></i> Available
+      <i class="icon-share"></i> Available
     <% elsif b.departed? %>
       <i class="icon-folder-close"></i> Departed as <%= "#{b.allotment.application.name}" %>
     <% elsif b.allotment %>

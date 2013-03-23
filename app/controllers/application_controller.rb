@@ -1,10 +1,10 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  #def id_from_label(label, delimiter='-')
-  #  Bike.id_from_label(labe, delimiter)
-  #end
-  
+  expose :search_term do
+      @search_term  ||= params[:q].to_s.strip
+  end
+
   # Scope from collection of all categories
   expose(:project_categories) {ProjectCategory.all}
   # Fetch category by:

@@ -52,9 +52,7 @@ class BikesController < ApplicationController
   end
 
   def index
-    @brands = nil
-    @colors = ColorNameI18n::keys
-    @searchTerm = params[:search]
+    @searchTerm = params[:q]
   end
 
   def show

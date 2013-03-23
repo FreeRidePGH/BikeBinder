@@ -35,7 +35,6 @@ BikeBinder::Application.routes.draw do
 
   # Search routes
   resources :searches, :only => [:index]
-  match '/searches/browse' => 'searches#browse', :as => :browse
 
   # Mobile routes
   resources :mobile, :only => [:index]

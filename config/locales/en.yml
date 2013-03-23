@@ -11,6 +11,9 @@ en:
     placeholder: "Search by Bike # or Hook #"
     btn: "Search"
   controller:
+    searches:
+      index:
+        fail: "No results found for: '%{term}'"
     bikes:
       create:
         success: "New bike was added"

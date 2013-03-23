@@ -122,11 +122,24 @@ border-width: 0px;
 display: inline;
 }
 
-#user_login_status p{
-  padding: 6px 10px 0px 0px;    
-  margin: 0px;
+#user_login_status{
+margin: 0px;
 }
 
+#user_login_status *.navbar-inner{
+  padding-bottom: 0px 10px;
+}
+
+#user_login_status *.navbar-inner p{
+margin: 0px;
+margin-top: 8px;
+padding: 0px;
+}
+
+#user_login_status p a{
+/*    color: #ccf;
+    font-weight: bold;*/
+}
 
 .navLink{
     color: white;
@@ -198,6 +211,7 @@ header a img{
     margin-top: 20px;
     margin-left: 20px;
 }
+
 
 #bikeFilters{
     text-align: left;
