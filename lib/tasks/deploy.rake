@@ -28,7 +28,7 @@ namespace :deploy do
       `heroku config:add BIKE_BINDER_SECRET_TOKEN=#{secret}`
     end
 
-    `heroku run bundle exec rake populate_staging`
+    `heroku run rake populate_staging`
     `heroku maintenance:off`
     
     `git co master`
