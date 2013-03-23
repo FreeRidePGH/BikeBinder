@@ -22,24 +22,42 @@
 </head>
 
 <body>
-  <% if user_signed_in? %>
-  <div class="container-fluid">
-    <% else %>
-    <div class="container-fluid no-user">
-      <div class="navbar-fixed-top navbar overlay">
-	<p class="demoHelp" >You can sign in with username "demo@freeridepgh.org" and password "testdemo"</p>
+  <div class="container-fluid<%= ' no-user' if !user_signed_in? %>">
+      <% if !user_signed_in? %>
+      <div class="overlay">
+	<p class="demoHelp" >
+	  You can sign in with username "demo@freeridepgh.org" and password "testdemo"
+	</p>
       </div>
-      
       <% end %>
-      <div class="row-fluid" id = "pageHeader">
-	<header class="span12" id = "pageHeaderContainer">
-	  
-	  <%= link_to image_tag("free_ride_logo_smaller.jpg"),bikes_path %>
-          <%= render 'shared/menu' %>
+
+      <div class="row-fluid span12" id = "pageHeader">
+	<header>
+	  <%= link_to image_tag("free_ride_logo_smaller.jpg"), bikes_path, 
+	      :class=> "pull-left span3" %>
+	  <div class="row span6 pull-right">
+	    <div class="row span12">  
+            <section id="user_login_status<%= " no-user" if !user_signed_in? %>" class="pull-right">
+		<p>
+		<% if user_signed_in? %>
+		Signed in as <%= current_user.email %>.
+		<%= link_to "Sign out", destroy_user_session_path , :method=>:delete%></p>
+		<% else %>
+		 <!-- %= link_to "Sign up", new_user_registration_path %> or -->
+		 <%= link_to "Sign in", new_user_session_path %>
+		 <% end # if user_signed_in? %>
+		</p>
+	    </section>
+	    </div>
+	    
+	    <div class="row span12 pull-right">
+              <%= render 'shared/menu' %>
+	    </div>
+	  </div>
 	</header>
-	
-	<%= render 'shared/alerts' %>
       </div>
+
+      <%= render 'shared/alerts' %>
       <div class="container">
       <%= yield %>
       </div>

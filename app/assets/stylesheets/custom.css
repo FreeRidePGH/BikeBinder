@@ -6,9 +6,7 @@ body div.container-fluid{
 .floatRight{
     float: right !important;
 }
-.searchBox ninput{
-    display: inline;
-}
+
 #add_brand,#add_model{
     cursor: pointer;
     color: red;
@@ -99,19 +97,6 @@ label.colorFilter,label.statusFilter{
 	border:0;
 	color:black;
 }
-/*
-.allFilter{
-    color: green;
-    margin-left: 15px;
-    padding-right: 5px;
-    cursor: pointer;
-}
-.noFilter{
-    color: red;
-    margin-left: 5px;
-    cursor: pointer;
-}
-*/
 
 form.bike_form{
   border:1px solid #999;
@@ -137,40 +122,18 @@ border-width: 0px;
 display: inline;
 }
 
-#user_login_status{
-    top: -10px !important;
-    right: 15px !important;
-    position: relative;
+#user_login_status p{
+  padding: 6px 10px 0px 0px;    
+  margin: 0px;
 }
-#user_login_status.no-user p{
-	margin-top:20px;
-    right: 5px;
-    width: 120px;
-}
-#navOpts{
-    bottom: 0px;
-    right: 15px;
-    position: absolute;
-    float: right;
-}
-#navOpts div{
-    display: inline;
-}
-#navOpts form{
-    display: inline;
-}
+
+
 .navLink{
     color: white;
-    padding-right: 14px;
-    margin-right: 12px !important;
     font-weight: bold;
 }
-.navLink:first-child{
-    border-right: 1px solid #0099FE;
-}
-.navLink:nth-child(2){
-    padding-right: 8px;
-}
+
+
 #bikesNav{
     margin-left: 20px;
 }
@@ -225,40 +188,17 @@ display: inline;
 #pageHeader{
     position: relative;
     background-color: rgb(147,205,221);
-    border-bottom: 4px solid LightGray;
+    border-bottom: 4px solid #999;
+    margin: 0px;
     margin-bottom: 25px;
-    height: 130px;
+    padding: 0px;
 }
 
-#pageHeaderContainer{
-    position: relative;
-}
-#pageHeaderContainer a img{
-    margin-top: 30px;
+header a img{
+    margin-top: 20px;
     margin-left: 20px;
 }
-.searchBox{
-    margin-left: 0px;
-}
-.searchBox{
- /*   position: absolute;
-    float: right;
-    bottom: 0px;
-    right: 10px;
-    height: 15px;
-*/
-}
-#searchInput{
-    width: 320px;
-}
-.searchLabel{
-    color: rgb(33,89,104);
-    margin-right: 5px;
-}
-.searchButton{
-    margin-top: -9px;
-    background-color: white;
-}
+
 #bikeFilters{
     text-align: left;
     color: rgb(33,89,104);

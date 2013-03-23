@@ -1,44 +1,16 @@
-
-  <% if user_signed_in? %>
-  <section id="user_login_status" class="pull-right">
-  <p>Signed in as <%= current_user.email %>.
-    <%= link_to "Sign out", destroy_user_session_path , :method=>:delete%></p>
-  </section>
-  <% else %>
-  <section id="user_login_status" class="no-user pull-right">
-    <p>
-    <!-- %= link_to "Sign up", new_user_registration_path %> or -->
-    <%= link_to "Sign in", new_user_session_path %>
-    </p>
-  </section>
-  
+<div class="navbar" id="shared_menu">
+  <div class="navbar-inner">
+  <%= form_tag searches_path, :method => :get, :class => "navbar-form pull-right span8" do  %>
+    <%= submit_tag I18n.translate('main_search.btn'), 
+	    :class => "btn btn-info span3 pull-right"%>
+    <%= text_field_tag :q, (@searchTerm || ""), :class => "span7 pull-right", :placeholder => I18n.translate('main_search.placeholder')%>
   <% end %>
-<div id = "navOpts">
-<div id = "bikesNav">
-    <a href = "/bikes" class = "navLink">Bikes</a>
-    <a href = "/bikes/new" class = "navLink">Add a Bike</a>
-</div>
-<div id = "searchNav">
-    <form action = "/searches" method = "get" class = "searchBox" id = "bikeSearch">
-        <input type = "text" id = "searchInput" name = "search" placeholder="<%= I18n.translate('main_search.placeholder') %>" value = "<%= (@searchTerm.nil? == true ? "" : @searchTerm) %>" />
-        <input type = "submit" name ="submit" value="<%= I18n.translate('main_search.btn') %>" class = "searchButton btn btn-info" />
-    </form>
-</div>
-</div>
-<% if false %>
-<div class="span12" id="shared_menu">
-  <ul class="nav">
+  
+  <ul class="nav nav-pills span4">
     <li><%= link_to bikes_path do %><i class=""></i>Bikes<% end %></li>
-    <% if user_signed_in? %>
-    <!-- have a visual divider here like | -->
-    <li class="signed-in-action-1"><%= link_to "Add a bike", new_bike_path %></li>
-    <% end %>
-    <li class="floatRight">
-        <form action = '/searches' method = 'get' class = 'searchBox'>
-            <input type = "text" name = "search" value = "Search by Bike/Hook Number" onfocus="inputFocus(this)" onblur="inputBlur(this)" style = "color:#888"/>
-            <input type = "submit" name = "submit" value = "Search" />
-        </form>
-    </li>
+    <li><%= link_to "Add a bike", new_bike_path %></li>
   </ul>
+  </div>
 </div>
-<% end %>
+
+
