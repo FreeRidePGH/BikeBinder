@@ -22,7 +22,7 @@ namespace :deploy do
 
     if `heroku config:get BIKE_BINDER_SECRET_TOKEN`.length<30
       puts "Configuring the secret token on the staging deployment"
-      secret = `heroku run rake -s secret`.strip
+      secret = `rake -s secret`.strip
       `heroku config:set BIKE_BINDER_SECRET_TOKEN=#{secret}`
     end
     
