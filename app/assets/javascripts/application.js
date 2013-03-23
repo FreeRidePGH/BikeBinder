@@ -10,7 +10,7 @@
 //= require jquery.ui.button
 //= require jquery.ui.dialog
 //= require jquery.ui.autocomplete
-//= require bootstrap.min
+//= require bootstrap
 //= require fewpicker.jquery
 //
 // 

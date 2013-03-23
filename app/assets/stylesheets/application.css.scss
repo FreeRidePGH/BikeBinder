@@ -10,7 +10,7 @@
  *
  *= require custom
  *= require common
- *= require bootstrap
+ * //require bootstrap
  *
  *= require select2
  *= require select2/wheel_select
@@ -18,3 +18,5 @@
  *
  */
 
+ @import "bootstrap";
+ @import "bootstrap-responsive";

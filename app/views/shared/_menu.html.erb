@@ -1,13 +1,13 @@
 
   <% if user_signed_in? %>
   <section id="user_login_status" class="pull-right">
-  <p>Signed in as <%= current_user.email %>. Not you?
+  <p>Signed in as <%= current_user.email %>.
     <%= link_to "Sign out", destroy_user_session_path , :method=>:delete%></p>
   </section>
   <% else %>
   <section id="user_login_status" class="no-user pull-right">
     <p>
-    <%= link_to "Sign up", new_user_registration_path %> or
+    <!-- %= link_to "Sign up", new_user_registration_path %> or -->
     <%= link_to "Sign in", new_user_session_path %>
     </p>
   </section>
