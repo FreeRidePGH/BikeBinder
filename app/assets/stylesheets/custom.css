@@ -126,14 +126,11 @@ display: inline;
 margin: 0px;
 }
 
-#user_login_status *.navbar-inner{
-  padding-bottom: 0px 10px;
-}
-
-#user_login_status *.navbar-inner p{
+#user_login_status p{
 margin: 0px;
-margin-top: 8px;
+margin-top: 3px;
 padding: 0px;
+padding-right: 10px;
 }
 
 #user_login_status p a{
@@ -203,12 +200,11 @@ padding: 0px;
     background-color: rgb(147,205,221);
     border-bottom: 4px solid #999;
     margin: 0px;
-    margin-bottom: 25px;
     padding: 0px;
 }
 
 header a img{
-    margin-top: 20px;
+    margin-top: 15px;
     margin-left: 20px;
 }
 

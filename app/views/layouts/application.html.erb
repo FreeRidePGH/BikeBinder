@@ -31,33 +31,26 @@
       </div>
       <% end %>
 
-      <div class="row-fluid span12" id = "pageHeader">
+      <div class="row-fluid span12" id="pageHeader">
 	<header>
 	  <%= link_to image_tag("free_ride_logo_smaller.jpg"), bikes_path, 
 	      :class=> "pull-left span3" %>
-	  <div class="row span6 pull-right ctrls">
-	    <div class="row span12">  
-            <section id="user_login_status" class="navbar pull-left<%= " no-user" if !user_signed_in? %>">
-	      <div class="navbar-inner">
-		<p>
-		<% if user_signed_in? %>
-		Signed in as <%= current_user.email %>.
-		<%= link_to "Sign out", destroy_user_session_path , :method=>:delete%></p>
-		<% else %>
-		 <!-- %= link_to "Sign up", new_user_registration_path %> or -->
-		 <%= link_to "Sign in", new_user_session_path , :class=> "" %>
-		 <% end # if user_signed_in? %>
-		</p>
-              </div>
-	    </section>
-	    </div>
-	    
-	    <div class="row span12 pull-right">
+	  <div class="row span6 pull-right">
               <%= render 'shared/menu' %>
-	    </div>
 	  </div>
 	</header>
       </div>
+     <section id="user_login_status" class="pull-right row span12 text-right">
+	<p>
+	<% if user_signed_in? %>
+	Signed in as <%= current_user.email %>.
+	<%= link_to "Sign out", destroy_user_session_path , :method=>:delete%></p>
+	<% else %>
+	 <!-- %= link_to "Sign up", new_user_registration_path %> or -->
+	 <%= link_to "Sign in", new_user_session_path , :class=> "" %>
+	 <% end # if user_signed_in? %>
+	</p>
+    </section>
 
       <%= render 'shared/alerts' %>
       <div class="container">
