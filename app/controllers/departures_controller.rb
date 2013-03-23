@@ -38,9 +38,12 @@ class DeparturesController < ApplicationController
                       :value => params[:value], 
                       :destination => destination)
     if departure.save
-      flash[:success] = "Bike #{bike.number} assigned successfully departed as #{departure.method.name}"
+      flash[:success] = I18n.translate('controller.departures.create.success', 
+                                       :bike_number => bike.number,
+                                       :method => departure.method.name)
     else
-      flash[:error] = "Could not assign bike #{bike.number}."
+      flash[:error] = I18n.translate('controller.departures.create.fail', 
+                                       :bike_number => bike.number)
     end
     
     redirect_to bike
@@ -52,9 +55,9 @@ class DeparturesController < ApplicationController
     bike = departure.bike
     
     if departure.destroy
-      flash[:success] = "Bike returned"
+      flash[:success] = I18n.translate('controller.departures.destroy.success')
     else
-      flash[:error] = "Could not return the bike"
+      flash[:error] = I18n.translate('controller.departures.destroy.fail')
     end
 
     redirect_to bike || root_path

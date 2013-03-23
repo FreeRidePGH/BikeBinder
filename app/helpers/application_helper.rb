@@ -1,10 +1,12 @@
 module ApplicationHelper
-  # trying out a dynamic assignment of a title for the header element
+  # Dynamic assignment of a title for the header element
   def header_title
     title_key = "page_titles.#{controller_name.to_s}.#{action_name}"
-    @title ||= I18n.translate(title_key, title_data)
-    @title ||= "BikeBinder"
-    @title 
+    optns = {:default => I18n.translate("page_titles.site")}
+    if self.respond_to?(:title_data)
+      optns.merge! title_data 
+    end
+    @title ||= I18n.translate(title_key, optns)
   end
 
   # Use different button text for forms

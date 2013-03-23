@@ -12,9 +12,11 @@ class AssignmentsController < ApplicationController
     (redirect_to root_path and return) if fetch_failed?([bike, program])
     
     if Assignment.build(:bike => bike, :program => program).save
-      flash[:success] = "Bike #{bike.number} assigned successfully to #{program.name}"
+      flash[:success] = I18n.translate('controller.assignments.create.success',
+                                       :bike => bike.number,
+                                       :program => program.name)
     else
-      flash[:error] = "Could not assign bike #{bike.number}."
+      flash[:error] = I18n.translate('controller.assignments.create.fail', :bike => bike.number)
     end
 
     redirect_to bike
@@ -33,9 +35,9 @@ class AssignmentsController < ApplicationController
     (redirect_to root_path and return) if fetch_failed?([assignment, bike])
     
     if !bike.departed? && assignment.delete
-      flash[:success] = "Assignment canceled"
+      flash[:success] = I18n.translate('controller.assignments.destroy.success', :bike => bike.number)
     else
-      flash[:error] = "Could not cancel the assignment"
+      flash[:error] = I18n.translate('controller.assignments.destroy.fail', :bike => bike.number)
     end
 
     redirect_to bike

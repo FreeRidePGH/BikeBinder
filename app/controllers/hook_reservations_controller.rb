@@ -20,9 +20,9 @@ class HookReservationsController < ApplicationController
     
     reservation = HookReservation.new(:bike => bike, :hook => hook)
     if reservation.save
-      flash[:success] = "Hook #{bike.hook.number} reserved successfully"
+      flash[:success] = I18n.translate('controller.hook_reservations.create.success', :hook_number => bike.hook.number)
     else
-      flash[:error] = "Could not reserve the hook."
+      flash[:error] = I18n.translate('controller.hook_reservations.create.fail')
     end
     
     redirect_to bike
@@ -34,9 +34,9 @@ class HookReservationsController < ApplicationController
     redirect_to root_path and return if fetch_failed?([reservation, bike])
     
     if reservation.destroy
-      flash[:success] = "Hook vacated"
+      flash[:success] = I18n.translate('controller.hook_reservations.destroy.success')
     else
-      flash[:error] = "Could not vacate hook"
+      flash[:error] = I18n.translate('controller.hook_reservations.destroy.fail')
     end
 
     redirect_to bike
@@ -53,9 +53,9 @@ class HookReservationsController < ApplicationController
     
     call_events(reservation, [:bike, :hook], params)
     if reservation.save
-      flash[:success] = "Hook reservation updated"
+      flash[:success] = I18n.translate('controller.hook_reservations.update.success')
     else
-      flash[:error] = "Could not update the hook reservation"
+      flash[:error] = I18n.translate('controller.hook_reservations.update.fail')
     end
     
     redirect_to bike

@@ -63,19 +63,13 @@ class BikesController < ApplicationController
   end
 
   def new
+    # Intentionally blank
   end
 
   def create     
     if bike_form.save
       flash[:success] = I18n.translate('controller.bikes.create.success')
-
-      if params[:commit]
-        path = (params[:commit].downcase == I18n.translate('commit_btn.new_plus').downcase) ?
-        new_bike_path : bike_path(bike_form.bike)
-      end
-      path ||= root_path
-      
-      redirect_to path and return
+      redirect_to bike_post_created_path and return
     end
     render :new
   end
@@ -116,6 +110,17 @@ class BikesController < ApplicationController
   # http://rubysource.com/rails-mass-assignment-issue-a-php-perspective/
   def bike_form_params
     params[:bike_form].slice(*BikeForm.form_params_list) if params[:bike_form]
+  end
+
+  # Allow for the option to "Creat and add another" 
+  # record by redirecting to the new page instead of
+  # the show page for the record
+  def bike_post_created_path
+    if params[:commit]
+      path = (params[:commit].downcase == I18n.translate('commit_btn.new_plus').downcase) ?
+      new_bike_path : bike_path(bike_form.bike)
+    end
+    path || root_path
   end
 
 end

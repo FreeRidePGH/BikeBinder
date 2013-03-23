@@ -8,7 +8,7 @@ en:
     edit: "Save changes"
     submit: "Submit"
   main_search:
-    placeholder: "Search by keyword Bike # or Hook #"
+    placeholder: "Search by Bike # or Hook #"
     btn: "Search"
   controller:
     bikes:
@@ -19,7 +19,38 @@ en:
       destroy:
         success: "Bike deleted"
         fail: "Could not delete the bike"
+    hook_reservations:
+      create:
+        success: "Hook %{hook_number} reserved successfully"
+        fail: "Could not reserve the hook."
+      update:
+        success: "Hook reservation updated"
+        fail: "Could not update the hook reservation"
+      destroy:
+        success: "Hook vacated"
+        fail: "Could not vacate hook"
+    departures:
+      create: 
+        success: "Bike %{bike_number} assigned successfully departed as %{method}"
+        fail: "Could not depart bike #{bike_number}"
+      update:
+        success: ""
+        fail: ""
+      destroy:
+        success: "Bike returned"
+        fail: "Could not return the bike"
+    assignments:
+      create: 
+        success: "Bike %{bike} assigned successfully to %{program}"
+        fail: "Could not assign bike #{bike}"
+      update:
+        success: ""
+        fail: ""
+      destroy:
+        success: "Assignment canceled"
+        fail: "Could not cancel the assignment"
   page_titles:
+    site: "BikeBinder"
     bikes:
       index: "Bike listing"
       new: "Add a new bike"
