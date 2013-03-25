@@ -75,14 +75,15 @@
         <p>Departed: <%= bike.application.departed_at.strftime("%Y-%m-%d") %></p>
       <% end %>
     </div> <!-- end of depart info wrapper -->
-    <div>
-        <a class = "btn btn-info" style = "margin-top: 10px;" href = "/mobile/generate_code/<%=bike.number%>">Get QR Code</a>
-    <div>
+
     </section> <!-- end of bikes meta -->
 
   <section id="bikeInfo" class="span8 noteCard noLeftMarg">
     <div class="block1 span8">
-      <h2>Bike <%=bike.number %> </h2>
+      <h2>
+	Bike <%=bike.number %> 
+	<%= link_to qr_bike_path(bike) do %><i class="icon-qrcode"></i><% end %> 
+      </h2>
         <%= link_to(edit_bike_path(bike), :class=> "editLink",   :title => "Edit this bike's information") do %>
 	<i class="icon-pencil"></i>Edit Bike
 	<% end %>

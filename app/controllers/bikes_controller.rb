@@ -1,4 +1,6 @@
 class BikesController < ApplicationController
+
+  layout false, :only => :qr
   
   # Fetch by:
   # * id or bike_id
@@ -58,6 +60,14 @@ class BikesController < ApplicationController
   def show
     @program = Program.new
     redirect_to bikes_path and return if fetch_failed?bike
+  end
+
+  def qr
+    respond_to do |format|
+      qrurl = url_for bike
+      @qr = RQRCode::QRCode.new(qrurl, :size => 7)
+      format.html
+    end
   end
 
   def new
