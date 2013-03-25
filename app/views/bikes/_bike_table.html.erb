@@ -5,9 +5,9 @@
     <% if b.available? %>
       <i class="icon-share"></i> Available
     <% elsif b.departed? %>
-      <i class="icon-folder-close"></i> Departed as <%= "#{b.allotment.application.name}" %>
-    <% elsif b.allotment %>
-      <%= link_to b.allotment.application do %><i class="icon-folder-open"></i> <%= "#{b.allotment.application.name} Project" %><% end %>
+      <i class="icon-folder-close"></i> Departed as <%= "#{b.assignment.application.name}" %>
+    <% elsif b.assignment %>
+      <%= link_to b.assignment.application do %><i class="icon-folder-open"></i> <%= "#{b.assignment.application.name} Project" %><% end %>
     <% end # elsif %>
   </td>
   <td class="BT7">

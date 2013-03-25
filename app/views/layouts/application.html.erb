@@ -26,7 +26,7 @@
       <% if !user_signed_in? %>
       <div class="overlay">
 	<p class="demoHelp" >
-	  You can sign in with username "demo@freeridepgh.org" and password "testdemo"
+	  You can <%= link_to "sign in", new_user_session_path , :class=> "" %> with username "demo@freeridepgh.org" and password "testdemo"
 	</p>
       </div>
       <% end %>

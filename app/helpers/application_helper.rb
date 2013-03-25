@@ -39,5 +39,30 @@ module ApplicationHelper
       content_tag(:div, value, :class=>"alert alert-#{key}")
     end
   end
+
+  # Creates a link and sets the class based on
+  # if the link is the current conroller & action
+  #
+  # See the source for link_to for the basis on
+  # how arguments are parsed and the block is used
+  def nav_bar_item(*args, &block)
+    optns = (block_given?) ? args.first : args[1] || {}
+    
+    controller = optns[:controller].to_s
+    action = optns[:action].to_s
+    current = (action_name.to_s == action &&
+        controller_name.to_s == controller)
+    curr_class = (current) ? "active" : nil
+
+    content_tag :li, :class => curr_class do
+      if block_given?
+        link_to capture(&block), 
+        {:controller => controller, :action => action}, {:class => curr_class}
+      elsif name = args[0]
+        link_to name, 
+        {:controller => controller, :action => action}, {:class => curr_class}
+      end
+    end #content_tag :li
+  end # nav_bar_item
   
 end
