@@ -20,6 +20,7 @@
  td.white { background-color: #fff; }
 </style>
 <!-- End head -->
+<%= link_to bike do %>
 <table>
  <% @qr.modules.each_index do |x| -%>
    <tr>
@@ -33,3 +34,4 @@
    </tr>
  <% end -%>
 </table>
+<% end #link_to bike %>
