@@ -21,7 +21,19 @@ describe "Showing a bike", :type => :feature do
       end
       
       it "has a form to reserve a hook" do
-        expect(page).to have_content "available hook"
+        expect(page).to have_button I18n.translate('commit_btn.new_hook_reservation')
+      end
+
+      describe "reserving the hook" do
+        before :each do
+          visit bike_path(bike)
+          click_button I18n.translate('commit_btn.new_hook_reservation')
+          bike.reload
+        end        
+        
+        it "assigns the hook to the bike" do
+          expect(bike.hook).to_not be_nil
+        end
       end
     end #  context "that is new"
     
@@ -34,6 +46,21 @@ describe "Showing a bike", :type => :feature do
       
       it "lists the bike number" do
         expect(page).to have_text bike.number
+      end
+
+      it "has a form to free the hook" do
+        expect(page).to have_button I18n.translate('commit_btn.delete_hook_reservation')
+      end
+
+      describe "freeing the hook" do
+        before :each do
+          visit bike_path(bike)
+          click_button I18n.translate('commit_btn.delete_hook_reservation')
+          bike.reload
+        end
+        it "removes the hook from the bike" do
+          expect(bike.hook).to be_nil
+        end
       end
     end #  context "with a hook"
     

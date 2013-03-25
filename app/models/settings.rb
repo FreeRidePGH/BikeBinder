@@ -40,4 +40,19 @@ module Settings
       Select2BikeBinder.configuration.color_option_keys
     end
   end
+
+  class Date
+    
+    def initialize(date)
+      @date = date
+    end
+
+    def default_s
+      @date.strftime(Date.default_format)
+    end
+
+    def self.default_format
+      I18n.translate(:default, :scope => 'date.formats')
+    end
+  end
 end # module Settings

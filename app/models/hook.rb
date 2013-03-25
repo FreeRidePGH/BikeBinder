@@ -25,15 +25,15 @@ class Hook < ActiveRecord::Base
   has_one :reservation, :class_name => "HookReservation"
   has_one :bike, :through => :reservation
 
-  ############
-  # Properties
+  #######################
+  # Properties and Scopes
 
   def available?
     !!reservation.nil?
   end
 
   def self.reserved
-    return Hook.joins{:reservation}
+    return Hook.joins{:reservation}.where{reservation.hook_id != nil}
   end
   
   def self.available

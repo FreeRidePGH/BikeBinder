@@ -7,6 +7,8 @@ en:
     new_plus: "Create and add another"
     edit: "Save changes"
     submit: "Submit"
+    new_hook_reservation: "Reserve"
+    delete_hook_reservation: "Free hook"
   main_search:
     placeholder: "Search by Bike # or Hook #"
     btn: "Search"

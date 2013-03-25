@@ -1,13 +1,16 @@
 <!-- http://stackoverflow.com/questions/6393464/form-for-nested-resource -->
 <!-- quick hack to prevent non-authenticated users from adding comments, probably should do this in another area,like a controller-->
   <% if user_signed_in? %> 
-<div id="newCommentWrap" class="span3">
-
+  <div id="newCommentWrap_X" class="span8 clearfix">
+    
   <%= form_for(comment, :url=> url) do |f| %>
-
-  <!-- adding a max length for now to prevent overflow -->
-  <%= f.text_area :body,  :cols=>80, :rows=>10 , :required => true, :maxlength => 200 %>
-  <%= button_tag "Submit note", :class=> "btn btn-primary" %>
+  <div class="row">
+    <%= f.text_area :body,  :cols=>80, :rows=>10 , :required => true,
+    :maxlength => 200, :class=>"span8"%>
+  </div>
+  <div class="row">
+    <%= f.submit "Submit note", :class=> "btn btn-primary clearfix" %>
+  </div>
   <% end %>
   
 </div>

@@ -9,7 +9,7 @@ class HookReservationsController < ApplicationController
   
   expose(:reservation) do
     unless params[:id].blank?
-      @reservation ||= HookReservation.where{id=my{params[:id]}}.first
+      @reservation ||= HookReservation.where(:id => params[:id]).first
     end
     @reservation
   end
@@ -39,7 +39,7 @@ class HookReservationsController < ApplicationController
       flash[:error] = I18n.translate('controller.hook_reservations.destroy.fail')
     end
 
-    redirect_to bike
+    redirect_to bike.reload
   end
 
   # Get 

@@ -35,11 +35,17 @@ class BikesController < ApplicationController
   # Fetch by
   # * bike's hook if bike is fetched
   # * hook_id if specified
-  # * next available from the Hook model
   expose(:hook) do
     @hook ||= (bike.hook if bike)
     @hook ||= (Hook.find_by_id(params[:hook_id]) if params[:hook_id])
-    @hook ||= Hook.next_available
+  end
+  
+  # Fetch by:
+  # * bike's reservation
+  # * New with the next available hook
+  expose :hook_reservation do
+    @hook_reservation = bike.hook_reservation if bike
+    @hook_reservation ||= HookReservation.new(:bike => bike, :hook => Hook.next_available)
   end
   
   # Exposed to specify object to build new comments on

@@ -266,9 +266,6 @@ describe BikesController do
         expect(controller.bike).to_not be_nil
         expect(controller.bike.id).to eq(bike.id)
       end
-      it "exposes an available hook" do
-        expect(controller.hook).to_not be_nil
-      end
     end
   end
 
