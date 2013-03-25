@@ -7,10 +7,10 @@
   <% end %>
   
   <ul class="nav nav-pills span4">
-    <%= nav_bar_item({:controller => :bikes, :action => :index} ) do %>
+    <%= nav_bar_item :rout => bikes_path, :controller => 'bikes', :action => :index do %>
       <i class=""></i>Bikes
       <%  end %>
-    <%= nav_bar_item "Add a bike", :controller => :bikes, :action =>:new %>
+    <%= nav_bar_item "Add a bike", :rout => new_bike_path, :controller => :bikes, :action =>:new %>
   </ul>
   </div>
 </div>

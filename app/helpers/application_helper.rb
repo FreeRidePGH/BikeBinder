@@ -46,21 +46,20 @@ module ApplicationHelper
   # See the source for link_to for the basis on
   # how arguments are parsed and the block is used
   def nav_bar_item(*args, &block)
-    optns = (block_given?) ? args.first : args[1] || {}
+    optns = (block_given?) ? args.first : args[1]
     
-    controller = optns[:controller].to_s
-    action = optns[:action].to_s
-    current = (action_name.to_s == action &&
-        controller_name.to_s == controller)
+    optn_cont = optns[:controller].to_s
+    optn_act = optns[:action].to_s
+    rout = optns[:rout]
+    current = (action_name.to_s == optn_act &&
+        controller_name.to_s == optn_cont)
     curr_class = (current) ? "active" : nil
 
     content_tag :li, :class => curr_class do
       if block_given?
-        link_to capture(&block), 
-        {:controller => controller, :action => action}, {:class => curr_class}
+        link_to capture(&block), rout
       elsif name = args[0]
-        link_to name, 
-        {:controller => controller, :action => action}, {:class => curr_class}
+        link_to name, rout
       end
     end #content_tag :li
   end # nav_bar_item
