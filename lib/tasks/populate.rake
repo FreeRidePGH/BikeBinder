@@ -22,6 +22,7 @@ namespace :db do
   task :populate => :environment do
 
     Rake::Task['db:populate_programs'].invoke
+    Rake::Task['db:populate_destinations'].invoke
     Rake::Task['db:populate_bikes'].invoke
 
     # Pass rake argument using ENV hash
@@ -34,10 +35,13 @@ namespace :db do
     Program.create!(:name=>"Earn a Bike", :label=>"Earn a Bike")
     Program.create!(:name=>"Fix for Sale", :label=>"Fix for Sale")
     Program.create!(:name=>"Youth", :label=>"Youth")
-    Program.create!(:name=>"Scrap", :label=>"Scrap")
     Program.create!(:name=>"Buildathon", :label=>"Buildathon")
-    Program.create!(:name=>"As-Is", :label=>"As-Is")
-    Program.create!(:name=>"Northview", :label=>"Northview")
+  end
+
+  desc "Fill the database with destinations" 
+  task :populate_destinations => :environment do
+    Destination.create!(:name=>"Scrap", :label=>"Scrap")
+    Destination.create!(:name=>"As-Is", :label=>"As-Is")
   end
 
   desc "Fill database with fake Bikes"
@@ -52,7 +56,11 @@ namespace :db do
     arr_wheels = IsoBsdI18n::Rarity::default_division.common.sizes
 
     n_progs = Program.count
+    n_dest = Destination.count
     n_models = BikeModel.count
+
+    all_program = Program.all
+    all_dest = Destination.all
 
     30.times do |n|
 
@@ -63,8 +71,11 @@ namespace :db do
 
       available = (rand(2) != 1)
       rand_prog_n = (available) ? rand(n_progs) : nil
-      prog_id = nil
-      prog_id = Program.all[rand_prog_n].id if rand_prog_n
+      prog = nil || all_program[rand_prog_n] if rand_prog_n
+
+      depart = (rand(3) != 1)
+      rand_depart_n = (depart)? rand(n_dest) : nil
+      dest = nil || all_dest[rand_depart_n] if rand_depart_n
 
       bike_model_id = BikeModel.all[rand(n_models)].id
 
@@ -73,8 +84,9 @@ namespace :db do
 
       wheel = arr_wheels[rand(arr_wheels.count)]
 
+      val = rand(120)+25
+
       b = Bike.create!(
-                       #:program_id => prog_id,
                        :color=>c,
                        :seat_tube_height=>
                        Settings::LinearUnit.to_persistance_units(sh).scalar.to_f, 
@@ -84,11 +96,26 @@ namespace :db do
                        :bike_model_id => bike_model_id,
                        :quality => quality,
                        :condition => condition,
+                       :value => val,
                        :number => BikeNumber.format_number(n+1001))
 
+      
+      # Reserve hook
       if rand(3)>0
-        # b.reserve_hook
+        HookReservation.new(:bike => b, :hook => Hook.next_available).save
       end
+
+      # Assign program
+      if (prog)
+        Assignment.build(:bike => b, :program => prog).save
+      end
+
+      # Depart
+      if (dest)
+        dest = nil unless prog.nil?
+        Departure.build(:bike => b, :destination => dest, :value => val)
+      end
+
     end  # 30.times do
 
   end 
