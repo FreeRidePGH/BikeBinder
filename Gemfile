@@ -1,4 +1,4 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
 gem 'rails', '3.2.12'
 gem 'strong_parameters'
@@ -13,14 +13,14 @@ gem 'devise', '~>2.1.0'
 gem 'acts_as_commentable_with_threading', '1.1.2'
 
 # Modular bulding-blocks for the application
-gem 'bike_mfg','>=0.1.2', :git => 'git://github.com/zflat/bike_mfg.git'
+gem 'bike_mfg','>=0.1.4', :git => 'git://github.com/zflat/bike_mfg.git'
 gem 'color_name-i18n','>= 0.2', :git => 'git://github.com/zflat/color_name-i18n.git'
 gem 'iso_bsd-i18n','>= 0.2', :git => 'git://github.com/zflat/iso_bsd-i18n.git'
 
 # javascript user interface components
 gem 'i18n-js'
 gem 'select2-rails'
-gem 'select2-bikebinder', '>= 0.1.6', 
+gem 'select2-bikebinder', '>= 0.1.9' , 
 #:path => '/home/william/rails_projects/select2-bikebinder'
 :git => 'git://github.com/zflat/select2-bikebinder.git'
 # simple paging, filtering for bikes table
@@ -31,12 +31,13 @@ gem 'friendly_id', '~>4.0.5'
 gem 'decent_exposure', '~>1.0.2'
 gem 'squeel', '~>1.0.14'
 
-gem 'state_machine', '1.1.2'
-gem 'ruby-graphviz','~>1.0.5', :require => 'graphviz'
+gem "ruby-units", "~> 1.4.2"
 
-gem 'paper_trail', '~>2'
+gem 'state_machine', '~>1.1.2'
+gem 'ruby-graphviz', :require => 'graphviz'
 
 gem 'surveyor', '~>0.22.0'
+
 gem 'jquery-ui-rails'
 gem 'jquery-ui-themes'
 
@@ -50,6 +51,7 @@ group :assets do
   gem 'sass-rails', "~> 3.2.3"
   gem 'coffee-rails', "~> 3.2.1"
   gem 'uglifier', ">= 1.0.3"
+  gem 'bootstrap-sass', '~> 2.3.1.0'
 end
 
 gem 'jquery-rails', '~>2'
@@ -77,7 +79,8 @@ group :test do
   # Testing framework
   gem 'rspec-rails', '~>2'
   gem 'capybara', "~> 2.0.2"
-  gem 'factory_girl_rails', '3.0'
+  gem 'factory_girl_rails', '~>4.0'
+  
   
   # Speed up testing with spork
   gem 'guard-spork', '0.3.2'
@@ -91,6 +94,9 @@ end
 group :development do
   gem 'sqlite3', '~>1.3.6'
   gem 'railroady', '~>1'
+  gem 'rails-erd'
   gem 'rspec-rails', '~>2'
   gem 'guard-rspec', '0.5.5'
 end
+
+gem 'heroku'

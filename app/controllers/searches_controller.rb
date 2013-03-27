@@ -1,38 +1,32 @@
 class SearchesController < ApplicationController
 
-    # Method to search.
-    # Length of 5 will go to bikes page
-    # Length of 3 will go to hooks page
-    def index
-        @search = params[:search]
-        if @search.size == 3
-            @hook = Hook.find_by_label(@search)
-            if @hook.nil? == false
-                if @hook.bike.nil? == false
-                    redirect_to(@hook.bike)
-                else
-                    redirect_to(@hook)
-                end
-                return
-            end
-        else
-            @bikes = Bike.find_by_number(@search)
-            if @bikes.nil? == false
-                redirect_to(@bikes)
-                return
-            end
-        end
+  expose :bikes do
+    @bikes = Bike.simple_search(search_term)
+  end
 
-        # Nothing found. Render browse page
-        redirect_to :controller => 'bikes', :action => 'index', :search => @search
+  expose :hooks do
+    @hooks = Hook.simple_search(search_term)
+  end
+  
+  # Method to search.
+  # Queries in the form of a hook number search for a hook
+  # Queries in the form of a bike number search for a bike
+  def index
+    if search_term =~ HookNumber.anchored_pattern
+      @hook = Hook.find_by_slug(search_term)
+      @bike = @hook.bike if @hook
+    elsif search_term =~ BikeNumber.anchored_pattern
+      @bike = Bike.find_by_slug(search_term)
     end
 
-    def browse
-        @search = params[:search]
-        puts @search
-        # Get bikes with search param
-        @bikes = Bike.simple_search(@search)
-        @hooks = Hook.simple_search(@search)
-    end
+    redirect_to(@bike) and return unless @bike.nil?
+    redirect_to(@hook) and return unless @hook.nil?    
+    
+    # Nothing found. Render browse page
+    # render :browse
 
+    flash[:error] = I18n.translate('controller.searches.index.fail', :term => search_term)
+    redirect_to :controller => 'bikes', :action => 'index', :q => search_term
+  end
+  
 end

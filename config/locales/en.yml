@@ -4,11 +4,142 @@
 en:
   commit_btn:
     new: "Create"
+    new_plus: "Create and add another"
     edit: "Save changes"
+    submit: "Submit"
+    new_hook_reservation: "Reserve"
+    delete_hook_reservation: "Free hook"
   main_search:
-    placeholder: "Search by keyword Bike # or Hook #"
+    placeholder: "Search by Bike # or Hook #"
     btn: "Search"
+  controller:
+    searches:
+      index:
+        fail: "No results found for: '%{term}'"
+    bikes:
+      create:
+        success: "New bike was added"
+      update:
+        success: "Bike information was updated"
+      destroy:
+        success: "Bike deleted"
+        fail: "Could not delete the bike"
+    hook_reservations:
+      create:
+        success: "Hook %{hook_number} reserved successfully"
+        fail: "Could not reserve the hook."
+      update:
+        success: "Hook reservation updated"
+        fail: "Could not update the hook reservation"
+      destroy:
+        success: "Hook vacated"
+        fail: "Could not vacate hook"
+    departures:
+      create: 
+        success: "Bike %{bike_number} assigned successfully departed as %{method}"
+        fail: "Could not depart bike #{bike_number}"
+      update:
+        success: ""
+        fail: ""
+      destroy:
+        success: "Bike returned"
+        fail: "Could not return the bike"
+    assignments:
+      create: 
+        success: "Bike %{bike} assigned successfully to %{program}"
+        fail: "Could not assign bike #{bike}"
+      update:
+        success: ""
+        fail: ""
+      destroy:
+        success: "Assignment canceled"
+        fail: "Could not cancel the assignment"
   page_titles:
+    site: "BikeBinder"
     bikes:
       index: "Bike listing"
+      new: "Add a new bike"
+      create: "Add a new bike"
+      show: "Bike %{bike_number} Overview"
+      edit: "Edit details for bike %{bike_number}"
+      update: "Edit details for bike %{bike_number}"
+  bike:
+    form:
+      section:
+        bikeinfo: bike information
+        brandmodel: brand and model
+        value: sales price value
+        measurements: size and measurements
+        quality: quality
+        condition: condition
+      placeholder:
+        value: sales price
+      label:
+        number: number
+        color: color
+        value: value
+        wheel_size: wheel size
+        seat_tube_height: seat tube height
+        top_tube_length: top tube length
+    quality_header:
+      rating: rating
+      description: description
+      price: ideal price
+    quality:
+      a:
+        description: Frames of Good Material(chromoly, aluminum). Mid to high end components, even if some are missing.
+        ideal_price: $120 or more.
+      b:
+        description: Start bikes in a bike shop. The frame accepts 3-piece cranks and has other good features. All of the parts are low-end to mid-range. Older bikes that were high-end of their time.
+        ideal_price: $70-119
+      c:
+        description: Department store bikes with modern features and no gimmicks. Older bikes that were mid-range of their time.
+        ideal_price: $40-69
+      d:
+        description: Department store bikes with rear suspension or other gimmicks. Outdated department bikes from the 80s or earlier.
+        ideal_price: $39 or less
+      f:
+        description: Failure. No reason to keep this bicycle and not expected to be sold in any condition.
+        ideal_price: $0
+    condition_header:
+      rating: rating
+      description: description
+      completeness: completeness
+    condition:
+      a:
+        description: Passes the fix for sale completion checklist and would be ready to sell
+        completeness: 100%
+      b:
+        description: The bicycle is complete, and it satisfies at least half of the fix for sale completion checklist.
+        completeness: 100%
+      c:
+        description: The bicycle is complete but it meets less than half of the fix for sale completion checklist. Or, the bicycle is missing important parts, but what is there is working well.
+        completeness: 75%-100%
+      d:
+        description: The bicycle is missing components. The present components are in need of major repair.
+        completeness: 50%-75%
+      f:
+        description: This bike would require significant work to function. Repairing it would be equivalent to starting from a frame if it is not at that point already.
+        completeness: 50% or less
+    price_guide_header:
+      rating: rating
+      description: description
+      completeness: completeness
+    price_guide:
+      base:
+        term: base
+        definition: what we would sell it for if it was in mint condition
+      damage:
+        term: damage
+        definition: subtract $5 to $20 for rust and wear, if there is any
+      labor:
+        term: labor
+        definition: subtract needed labor = (number of hours of work needed) x ($8 per hour)
+      missing_parts:
+        term: missing parts
+        definition: subtract some discount for anything missing that is necessary to get the bike safely working
+      sale_price:
+        term: sale price
+        definition: Sale Price = (Base) - (Damage) - (Labor) - (Missing Parts Cost)
+
     

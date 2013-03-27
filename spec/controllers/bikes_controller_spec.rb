@@ -2,12 +2,13 @@ require 'spec_helper'
 
 describe BikesController do
   describe "GET new" do
-    it "should be successful" do
+    it "is successful" do
       get :new
+      expect(response).to be_success
       response.should be_success
     end
 
-    it "should expose a new bike" do
+    it "exposes a new bike" do
       expect(controller.bike).to_not be_nil
       expect(controller.bike).to_not be_persisted
     end
@@ -17,113 +18,228 @@ describe BikesController do
   describe "GET index" do
     it "should be successful" do
       get :index
-      response.should be_success
+      expect(response).to be_success
     end
   end
 
   describe "Get edit a bike" do
+    let(:bike){FactoryGirl.create(:bike)}
     before(:each) do
-      @bike  = FactoryGirl.create(:bike)
-      get :edit, :id => @bike
+      get :edit, :id => bike
     end
+
     it "should expose the correct bike" do
-      expect(Bike.find(@bike)).to_not be_nil
+      expect(Bike.find(bike)).to_not be_nil
       expect(controller.bike).to_not be_nil
-      expect(controller.bike.id).to eq(@bike.id)
+      expect(controller.bike.id).to eq(bike.id)
     end
   end
 
-  describe "Put update a bike" do
-    before(:each) do
-      @bike  = FactoryGirl.create(:bike)
-    end
-    
-    describe "with valid parameters" do
+  describe "Put update" do
+    let(:bike){FactoryGirl.create(:bike)}
+    context "with valid parameters" do
+      
+      before(:each) do
+        put :update, :id => bike
+      end
+      
       it "should redirect to the bike" do
-        put :update, :id => @bike
-        expect(controller.bike_form.bike.id).to eq(@bike.id)
-        expect(controller.bike_form.bike_model_id).to eq(@bike.bike_model_id.to_s)
-        expect(response).to redirect_to(@bike)
+        expect(controller.bike_form.bike.id).to eq(bike.id)
+        expect(response).to redirect_to(bike)
       end
     end
-
-    describe "with invalid paramaters" do
+    
+    context "with invalid paramaters" do
+      before :each do
+        put :update, :id => bike, :bike_form=> {:number => 'BAD'}
+      end
       it "should render edit" do
-        put :update, :id => @bike, :bike_form=> {:number => 'BAD'}
         expect(response).to_not redirect_to(@bike)
         expect(response).to render_template(:edit)
       end
     end
-    
-    describe "editing model and brand" do
-      describe "on a bike that already has a model assigned" do
-        before(:each) do
-          @brand = FactoryGirl.create(:bike_brand)
-          @model = FactoryGirl.create(:bike_model)
-          @bike  = FactoryGirl.create(:bike)
-          @new_model = FactoryGirl.create(:bike_model)
+
+    describe "model and brand" do
+
+      let(:brand){FactoryGirl.create(:bike_brand)}
+      let(:model0){FactoryGirl.create(:bike_model)}
+      let(:bike){FactoryGirl.create(:bike)}
+      let(:model1){FactoryGirl.create(:bike_model)}
+
+      context "when a model is already assigned" do
+
+        let(:bike_with_model){FactoryGirl.create(:bike_with_model)}
+
+        context "the same model_id is given" do
+          let(:model_id){bike_with_model.model.id}
+          let(:params) do 
+            {
+              :number => bike_with_model.number,
+              :color => bike_with_model.color,
+              :bike_model_id => model_id,
+              :bike_brand_id => nil,
+              :bike_model_name => '',
+              :bike_brand_name => ''
+            }
+          end
+          before :each do
+            put :update, :id=>bike_with_model, :bike_form=> params            
+            bike.reload
+          end
+
+          it "does not change the model" do
+            expect(bike_with_model.model.id).to eq(model_id)
+          end
         end
 
-        it "should not be changed if the same model_id is given" do
-          params = {:bike_model_id => @bike.model.id}
-          id0 = @bike.model.id
-          put :update, :id=>@bike, :bike_form=> params
-          expect(@bike.model.id).to eq(id0)
-        end
+        context "a different model_id is given" do
+          let(:initial_model){model0}
+          let(:given_model){model1}
+          let(:params) do
+            {
+              :number => bike.number,
+              :color => bike.color,
+              :bike_model_id => given_model.id
+            }
+          end
+          before :each do
+            bike.model = initial_model
+            put :update, :id=>bike, :bike_form=> params
+            bike.reload
+          end
 
-        it "should change model when a model_id as given" do
-          params = {:bike_model_id => @new_model.id}
-          id0 = @bike.model.id
-          put :update, :id=>@bike, :bike_form=> params
-          @bike.reload
+          it "changes the model" do
+            expect(bike.model.id).to_not eq(initial_model.id)            
+          end
 
-          #expect(response).to be_success
-          expect(controller.bike_form.bike_model_id.to_s).to eq(@new_model.id.to_s)
-          expect(@bike.model.id).to eq(@new_model.id)
-          expect(@bike.model.id).to_not eq(id0)
-        end
+          it "updates the model to the given model" do
+            expect(controller.bike_form.bike_model_id.to_s).to eq(given_model.id.to_s)
+            expect(bike.model.id).to eq(given_model.id)
+          end
+        end # context "new model_id is given"
 
-        it "should change a model when new brand and model name are given" do
-          params = {
-            :bike_model_name => @bike.model.name+' edit',
-            :bike_brand_name => @bike.model.brand.name+' edit',
-            :bike_brand_id => '',
-            :bike_model_id => '',
-            :brand_action => 'create'
-          } 
-          put :update, :id=>@bike, :bike_form=> params
-          # expect(response).to be_success
-          @bike.reload
-          # puts request.params
-          expect(controller.bike.id).to eq(@bike.id)
-          expect(controller.bike_form.bike_model_id).to_not eq(@model.id)
-          expect(controller.bike_form.bike_model_id).to be_nil
-          expect(controller.bike_form.bike_brand_id).to be_nil
-          expect(controller.bike_form.bike_brand_name).to eq(params[:bike_brand_name])
+        context "new brand and model names are given" do
+          let(:brand_name){FactoryGirl.generate(:bike_brand_name)}
+          let(:model_name){FactoryGirl.generate(:bike_model_name)}
+          let(:params) do
+            {
+              :number => bike.number,
+              :color => bike.color,
+              :bike_model_name => model_name,
+              :bike_brand_name => brand_name,
+              :bike_brand_id => '',
+              :bike_model_id => '',
+              :brand_action => 'create'
+            } 
+          end
+          subject(:bike){FactoryGirl.create(:bike_with_model)}
+          let(:initial_model){bike.model}
+          let(:initial_brand){initial_model.brand}
           
-          expect(@bike.bike_model_id).to_not eq(@model.id)
-          expect(@bike.model.name).to eq(params[:bike_model_name])
-        end
+          before :each do
+            initial_brand
+            put :update, :id=>bike, :bike_form=> params
+            bike.reload
+          end
 
-        it "should change a model when brand_id and model name are given" do
-          brand = FactoryGirl.create(:bike_brand)
-          params = {
-            :bike_model_name => 'model',
-            :bike_brand_id => brand.id
-          }
-          put :update, :id=>@bike, :bike_form=> params
-          @bike.reload
-          expect(@bike.model.brand.id).to eq(params[:bike_brand_id])
-          expect(@bike.model.name).to eq(params[:bike_model_name])
+          it "updates the bike" do
+            expect(controller.bike.id).to eq(bike.id)
+          end
+
+          it "updates the model" do
+            expect(controller.bike_form.bike_model_id).to_not eq(initial_model.id)
+          end
+
+          it "does not assigne ids to the form" do
+            expect(controller.bike_form.bike_model_id).to be_nil
+            expect(controller.bike_form.bike_brand_id).to be_nil
+          end
+
+          it "assigns the name to the form" do
+            expect(controller.bike_form.bike_brand_name).to eq(params[:bike_brand_name])
+          end
+
+          it "creates the brand" do
+            expect(bike.model.brand).to_not eq(initial_brand)
+          end
+
+          it "creates the model" do
+            expect(bike.bike_model_id).to_not eq(initial_model.id)
+          end
+
+          it "assigns the correct name to the created model" do
+            expect(bike.model.name).to eq(params[:bike_model_name])
+          end
+        end # context "new brand and model names are given" 
+
+        context "when brand_id and model_name are given" do
+          let(:brand){FactoryGirl.create(:bike_brand)}
+          let(:new_model_name){FactoryGirl.generate(:bike_model_name)}
+          let(:params) do
+            {
+              :number => bike.number,
+              :color => bike.color,
+              :bike_model_name => new_model_name,
+              :bike_brand_id => brand.id
+            }
+          end
+          
+          before :each do
+            put :update, :id=>bike, :bike_form=> params
+            bike.reload
+          end
+
+          it "assigns the brand to the model" do
+            expect(bike.model.brand).to eq brand            
+          end
+
+          it "associates the a new model with the given name with the bike" do
+            expect(bike.model.name).to eq(new_model_name)
+          end
+
         end
+        
+      end # context "when a model is pre-assigned"
+
+     context "when a model is not pre-assigned"
+
+    end # describe "editing model and brand"
+
+  end # "Put update"  
+
+  describe "POST create" do
+    context "with valid parameters" do    
+      let(:params){{:number => FactoryGirl.generate(:bike_number), :color => "ffffff"}}
+
+      before :each do
+        post :create, :bike_form => params, :commit => I18n.translate('commit_btn.new')
+        @bike = Bike.where{number == my{params[:number]}}.first 
       end
 
-      describe "on a bike without a model assigned" do
-        
-        
+      it "redirects to bike" do
+        expect(response).to redirect_to(@bike)
+      end
+      
+      it "creates a bike" do
+        expect(@bike).to_not be_nil
+      end
+    end # context "with valid parameters"
+
+    context "with invalid parameters" do
+      let(:params){{:number => FactoryGirl.generate(:bike_number)}}
+
+      before :each do
+        post :create, :bike_form => params, :commit => I18n.translate('commit_btn.new')
+      end
+      
+      it "renders the new bike page" do
+        expect(response).to render_template(:new)        
       end
 
-    end
+      it "does not creates a bike" do
+        expect(Bike.where{number == my{params[:number]}}.first).to be_nil
+      end
+    end # context "with invalid parameters"
   end
 
   describe "GET new while not signed in" do
@@ -133,123 +249,114 @@ describe BikesController do
     end
   end
 
-  describe "Show bike" do
-    before(:each) do
-      @bike  = FactoryGirl.create(:bike)
-      get :show, :id => @bike
-    end
-    
-    it "should show bike page with success" do
-      expect(response).to be_success
-    end
-
-    it "should expose the correct bike" do
-      expect(controller.bike).to_not be_nil
-      expect(controller.bike.id).to eq(@bike.id)
-    end
-    
-  end
-
-  describe "A bike reserving a hook" do
-
-    it "should reserve the requested aviailable hook"
-    if false # not implemented
-        
-      hook = FactoryGirl.create(:hook)
-      bike = FactoryGirl.create(:bike)
-      #bike.should be_shop
-      bike.hook.should be_nil
-
-      put :reserve_hook, {:id => bike, :hook_id => hook.id}
-      flash[:success].should == "Hook #{hook.number} reserved successfully"
-      flash[:error].should_not == "Could not reserve the hook."
-
-      bike.reload
-      bike.hook.should_not be_nil
-      bike.hook.should == hook
-
-    end
-
-    it "Should not have a bike after vacating"
-    if false # not implemented
-      hook = FactoryGirl.create(:hook)
-      bike = FactoryGirl.create(:bike)
-      bike.should be_shop
-      bike.hook.should be_nil
-      put :reserve_hook, {:id => bike, :hook_id => hook.id}
-      bike.reload
-      bike.hook.should_not be_nil
-
-      put :vacate_hook, {:id => bike}
-      bike.reload
-      bike.hook.should be_nil
-    end
-    
-  end
-
-
-  describe "DELETE" do
-    before(:each) do
-      @proj = FactoryGirl.create(:youth_project)
-      @p_id = @proj.id
-      @pdet_id = @proj.detail.id
-      @bike = @proj.bike
-      @b_id = @bike.id
-      @bike.destroy
-      @bike.reload
-    end
-    
-    it "should be successful"
-
-    describe "A bike without a project" do
+  describe "GET 'show'" do
+    context "bike without a hook when one is available" do
+      let(:hook){FactoryGirl.create(:hook)}
+      let(:bike){FactoryGirl.create(:bike)}
       before(:each) do
-        @bike = FactoryGirl.create(:bike)
-      end
-      it "should be succssful"
-    end
-
-    describe "A bike without a project" do
-      before(:each) do
-      @bike = FactoryGirl.create(:bike)
-      end
-      it "should be succssful"
-    end
-  end
-
-  describe "DEPART" do
-
-    describe "that is not in the shop" do
-      it "should redirect to SHOW bike"
-      it "should FLASH message that bike has already departed"
-    end
-
-    describe "A bike without a project" do
-      before(:each) do
-        @bike = FactoryGirl.create(:bike)
-      end
-
-      it "should render depart page"
-    end
-
-    describe "with a done project" do
-      before(:each) do
-        @proj = FactoryGirl.create(:done_youth_project)
-        @bike = @proj.bike
+        hook
+        get :show, :id => bike
       end
       
-      it "should redirect to to FINISH project"
+      it "show the bike page with success" do
+        expect(response).to be_success
+      end
+      
+      it "exposes the correct bike" do
+        expect(controller.bike).to_not be_nil
+        expect(controller.bike.id).to eq(bike.id)
+      end
     end
+  end
 
-    describe "with an incomplete project" do
+  describe "DELETE 'destroy'" do
+    context "A bike without a project" do
+      subject(:bike){FactoryGirl.create(:bike)}
       before(:each) do
-        @proj = FactoryGirl.create(:youth_project)
-        @bike = @proj.bike
+        delete :destroy, :id => bike
       end
 
-      it "should render depart page"
-      
+      it "should redirect" do
+        expect(response).to redirect_to(bikes_path)
+      end
+
+      it "should delete the bike" do
+        expect(Bike.where{id=my{bike.id.to_i}}.first).to be_nil
+      end
+
+    end
+
+    context "A bike with a project" do
+      let(:assignment){FactoryGirl.create(:assignment)}
+      subject(:bike){assignment.bike}
+
+      before(:each) do
+        delete :destroy, :id => bike
+      end
+
+      it "should redirect" do
+        expect(response).to redirect_to(bikes_path)
+      end
+
+      it "should delete the bike" do
+        expect(Bike.where{id=my{bike.id.to_i}}.first).to be_nil
+      end
+
+      it "should delete the assignment" do
+        expect(Assignment.where{id=my{assignment.id.to_i}}.first).to be_nil
+      end
+    end
+
+    context "a departed bike with a project" do
+      let(:assignment){FactoryGirl.create(:assignment_departed_prog)}
+      subject(:bike){assignment.bike}
+      before(:each) do
+        delete :destroy, :id => bike
+      end
+
+      it "should redirect" do
+        expect(response).to redirect_to(bikes_path)
+      end
+
+      it "should delete the bike" do
+        expect(Bike.where{id=my{bike.id.to_i}}.first).to be_nil
+      end
+
+      it "should delete the assignment" do
+        expect(Assignment.where{id=my{assignment.id.to_i}}.first).to be_nil
+      end
+
+      it "should delete the departure" do
+        expect(Departure.where{bike_id=my{bike.id.to_i}}.first).to be_nil        
+      end
+
+    end
+
+    context "a departed bike with a destination" do
+      let(:assignment){FactoryGirl.create(:assignment_departed_dest)}
+      subject(:bike){assignment.bike}
+      before(:each) do
+        delete :destroy, :id => bike
+      end
+
+      it "should redirect" do
+        expect(response).to redirect_to(bikes_path)
+      end
+
+      it "should delete the bike" do
+        expect(Bike.where{id=my{bike.id.to_i}}.first).to be_nil
+      end
+
+      it "should delete the assignment" do
+        expect(Assignment.where{id=my{assignment.id.to_i}}.first).to be_nil        
+      end
+
+      it "should delete the departure" do
+        expect(Departure.where{bike_id=my{bike.id.to_i}}.first).to be_nil        
+      end
+
     end
     
-  end # describe "DEPART"
-
+  end # describe "DELETE 'destroy'"
+  
 end

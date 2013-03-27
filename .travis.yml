@@ -1,0 +1,11 @@
+language: ruby
+rvm:
+  - "1.9.2"
+  - "1.9.3"
+  - "2.0.0"
+before_script: 
+  - cp config/database.yml.sample config/database.yml
+  - bundle exec rake create_a_secret
+  - bundle exec rake db:setup > /dev/null
+  - bundle exec rake db:test_setup
+script: bundle exec rspec spec

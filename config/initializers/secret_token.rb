@@ -6,7 +6,9 @@
 # no regular words or you'll be exposed to dictionary attacks.
 require 'fileutils'
 require File.dirname(__FILE__) + "/../../config/directories.rb"
-if File.exists?(APP_SECRET_FILE)
+if ENV["BIKE_BINDER_SECRET_TOKEN"]
+  BikeBinder::Application.config.secret_token = ENV["BIKE_BINDER_SECRET_TOKEN"]
+elsif File.exists?(APP_SECRET_FILE)
   BikeBinder::Application.config.secret_token = File.read(APP_SECRET_FILE)
   #raise "ERROR: secret file #{APP_SECRET_FILE} must be generated. Run setup as require."
 end

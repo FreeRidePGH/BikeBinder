@@ -1,55 +1,62 @@
-# == Schema Information
-#
-# Table name: hooks
-#
-#  id         :integer         not null, primary key
-#  number     :string(255)
-#  created_at :datetime
-#  updated_at :datetime
-#  bike_id    :integer
-#
+require 'hook_number'
+require 'number_slug'
 
 class Hook < ActiveRecord::Base
+
+  #############
+  # Attributes
+
   extend FriendlyId
-  friendly_id :label
+  extend NumberSlug
+
+  friendly_id :slug
+  number_slug :prefix => 'location', :delimiter => '-'
 
   attr_accessible :number
 
-  validates_presence_of :number
-  validates_uniqueness_of :number
-
-  belongs_to :bike, :inverse_of => :hook
-
-  scope :available, :conditions => {:bike_id => nil}
-
-  def self.number_pattern
-    return /\d{3}/
+  # Override with value object
+  def number
+    HookNumber.new(super)
   end
 
+  ##############
+  # Associations
+
+  has_one :reservation, :class_name => "HookReservation"
+  has_one :bike, :through => :reservation
+
+  #######################
+  # Properties and Scopes
+
+  def available?
+    !!reservation.nil?
+  end
+
+  def self.reserved
+    return Hook.joins{:reservation}.where{reservation.hook_id != nil}
+  end
+  
+  def self.available
+    Hook.where{id.not_in(my{self.reserved}.select{id})}
+  end
+  
   # May want to select available condinionally on the bike
   # or bike relations, like projects
   # For example, FFS projects may have a certain set of 
   # hooks reserved only for FFS.
   def self.next_available(bike=nil)
-    return Hook.find_by_bike_id(nil)
-  end
-
-  def label
-    "location-#{self.number}"
-  end
-
-  def self.id_from_label(label, delimiter='-')
-    arr = label.split(delimiter) if label
-    arr[-1] if arr
-  end
-
-  def self.find_by_label(label, delimiter='-')
-    id = Hook.id_from_label(label, delimiter)
-    Hook.find_by_number(id)
+    self.available.first
   end
 
   def self.simple_search(search)
     hooks = Hook.where("number LIKE ?","%#{search}%")
     return hooks
   end
+
+  #############
+  # Validations
+
+  validates :number, :hook_number => true
+  validates_uniqueness_of :number, :allow_nil => false
+
 end

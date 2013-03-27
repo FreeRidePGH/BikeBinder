@@ -2,61 +2,77 @@ require 'spec_helper'
 
 describe Hook do
 
-  describe "A new hook" do
-    it "should be found by label" do
-      @hook = FactoryGirl.create(:hook)
-      @hook2 = FactoryGirl.create(:hook)
-      label = @hook.label
+  subject(:hook){FactoryGirl.create(:hook)}
+  let(:hook2){FactoryGirl.create(:hook)}
+
+  context "new" do
+    it "finds by slug" do
+      expect(Hook.find_by_slug(hook.slug)).to eq hook
+    end
+
+    it "does not find by the wrong slug" do
+      expect(Hook.find_by_slug(hook2.slug)).to_not eq hook
+    end
+
+    it "is available" do
+      expect(hook).to be_available
+    end
+
+    it "does not have a bike" do
+      expect(hook.bike).to be_nil
+    end
+
+    it "is in the list of available hooks" do
+      expect(Hook.available.include?(hook)).to be_true
+    end
+
+  end
+
+  describe "::next_available" do
+    context "at least 1 hook is available" do
+      let(:hook){FactoryGirl.create(:hook)}
+      subject(:next_avail){Hook.next_available}
+
+      before :each do
+        hook.save
+      end
+
+      it "is an available hook" do 
+        expect(next_avail).to_not be_nil
+        expect(next_avail).to be_available
+      end
+    end
+
+    context "all hooks are reserved" do
       
-      found = Hook.find_by_label(label)
-      found.should == @hook
+      before :each do
+        Hook.available.each do |h|
+          HookReservation.new(
+                              :bike => FactoryGirl.create(:bike),
+                              :hook => h).save
+        end
+      end
+
+      it "has no available hooks" do
+        expect(Hook.available).to be_empty
+        expect(Hook.next_available).to be_nil
+      end
     end
-  end
+  end # context "next available"
 
-  describe "Hooks with an assigned bike" do
+  context "with an assigned bike" do
+    let(:reservation){FactoryGirl.create(:hook_reservation)}
+    subject(:hook_from_res){reservation.hook}
+    let(:bike_from_res){reservation.bike}
 
-    before(:each) do
-      @hook = FactoryGirl.create(:hook)
-      @bike = FactoryGirl.create(:bike)
-      @bike.reserve_hook!(@hook)      
-    end
-
-    it "should not be available" do
-      @hook.bike.should_not be_nil
-    end
-
-    it "should reference the correct bike" do
-      @hook.reload
-      @hook.bike.should == @bike
-    end
-
-  end
-
-
-  describe "Hooks without an assigned bike" do
-
-    before(:each) do
-      @hook = FactoryGirl.create(:hook)
+    it "is not available" do
+      expect(hook_from_res).to_not be_available
     end
 
-    it "should not reference a bike" do
-      @hook.bike.should be_nil
+    it "references the correct bike" do
+      expect(hook_from_res.bike).to_not be_nil
+      expect(hook_from_res.bike).to eq bike_from_res
     end
-
   end
 
 end
-
-
-
-# == Schema Information
-#
-# Table name: hooks
-#
-#  id         :integer         not null, primary key
-#  number     :string(255)
-#  created_at :datetime
-#  updated_at :datetime
-#  bike_id    :integer
-#
-

@@ -10,7 +10,7 @@
  *
  *= require custom
  *= require common
- *= require bootstrap
+ * //require bootstrap
  *
  *= require dataTables/jquery.dataTables
  * require dataTables/jquery.dataTables.bootstrap
@@ -20,3 +20,5 @@
  *
  */
 
+ @import "bootstrap";
+ @import "bootstrap-responsive";

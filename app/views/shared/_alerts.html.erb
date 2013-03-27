@@ -1,6 +1,7 @@
 <% flash.each do |key, value| %>
 <!-- bootstrap uses alert as a warning class, lets make the classes match the messages -->
   <section id="alerts" class=" alert alert-success row span12 alert-<%= key %>">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
   <% if value.is_a? Hash %>
     <p><%= value.delete :description %></p>
     <ul>
@@ -19,7 +20,5 @@
     <%= content_tag(:p, value) %>
   <% end %>
   </section>
-  <% content_tag :script, :type => "text/javascript" do %>
-    setTimeout("new Effect.Fade('<%= key %>');", 2000);
-  <% end %>
+
 <% end %>

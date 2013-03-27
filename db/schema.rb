@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121229071221) do
+ActiveRecord::Schema.define(:version => 20130307213843) do
 
   create_table "answers", :force => true do |t|
     t.integer  "question_id"
@@ -37,22 +37,28 @@ ActiveRecord::Schema.define(:version => 20121229071221) do
   end
 
   create_table "assignments", :force => true do |t|
-    t.integer  "program_id"
     t.integer  "bike_id"
-    t.boolean  "active"
+    t.integer  "application_id"
+    t.string   "application_type"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.datetime "closed_at"
   end
 
+  add_index "assignments", ["application_id", "application_type"], :name => "index_assignments_on_application"
+
   create_table "bike_brands", :force => true do |t|
-    t.string "name"
+    t.string "name", :null => false
   end
+
+  add_index "bike_brands", ["name"], :name => "index_bike_brands_on_name"
 
   create_table "bike_models", :force => true do |t|
     t.string  "name",          :null => false
-    t.integer "bike_brand_id", :null => false
+    t.integer "bike_brand_id"
   end
+
+  add_index "bike_models", ["bike_brand_id"], :name => "index_bike_models_on_bike_brand_id"
+  add_index "bike_models", ["name"], :name => "index_bike_models_on_name"
 
   create_table "bikes", :force => true do |t|
     t.string   "color"
@@ -60,18 +66,17 @@ ActiveRecord::Schema.define(:version => 20121229071221) do
     t.float    "seat_tube_height"
     t.float    "top_tube_length"
     t.integer  "wheel_size"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "departed_at"
     t.integer  "bike_model_id"
     t.string   "number"
     t.string   "quality"
     t.string   "condition"
-    t.integer  "program_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "bikes", ["number"], :name => "index_bikes_on_number"
-  add_index "bikes", ["program_id"], :name => "index_bikes_on_program_id"
+  add_index "bikes", ["quality"], :name => "index_bikes_on_quality"
+  add_index "bikes", ["condition"], :name => "index_bikes_on_condition"
 
   create_table "comments", :force => true do |t|
     t.integer  "commentable_id",   :default => 0
@@ -89,6 +94,16 @@ ActiveRecord::Schema.define(:version => 20121229071221) do
 
   add_index "comments", ["commentable_id"], :name => "index_comments_on_commentable_id"
   add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
+
+  create_table "departures", :force => true do |t|
+    t.float    "value"
+    t.integer  "application_id"
+    t.string   "application_type"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "departures", ["application_id", "application_type"], :name => "index_departures_on_application"
 
   create_table "dependencies", :force => true do |t|
     t.integer  "question_id"
@@ -115,6 +130,13 @@ ActiveRecord::Schema.define(:version => 20121229071221) do
     t.datetime "updated_at",     :null => false
   end
 
+  create_table "destinations", :force => true do |t|
+    t.string   "name"
+    t.string   "label"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "friendly_id_slugs", :force => true do |t|
     t.string   "slug",                         :null => false
     t.integer  "sluggable_id",                 :null => false
@@ -126,14 +148,24 @@ ActiveRecord::Schema.define(:version => 20121229071221) do
   add_index "friendly_id_slugs", ["sluggable_id"], :name => "index_friendly_id_slugs_on_sluggable_id"
   add_index "friendly_id_slugs", ["sluggable_type"], :name => "index_friendly_id_slugs_on_sluggable_type"
 
+  create_table "hook_reservations", :force => true do |t|
+    t.integer  "bike_id"
+    t.integer  "hook_id"
+    t.string   "bike_state"
+    t.string   "hook_state"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "hook_reservations", ["bike_id"], :name => "index_hook_reservations_on_bike_id"
+  add_index "hook_reservations", ["hook_id"], :name => "index_hook_reservations_on_hook_id"
+
   create_table "hooks", :force => true do |t|
     t.string   "number"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "bike_id"
   end
 
-  add_index "hooks", ["bike_id"], :name => "index_hooks_on_bike_id"
   add_index "hooks", ["number"], :name => "index_hooks_on_number"
 
   create_table "programs", :force => true do |t|
@@ -255,33 +287,6 @@ ActiveRecord::Schema.define(:version => 20121229071221) do
   end
 
   add_index "surveys", ["access_code"], :name => "surveys_ac_idx", :unique => true
-
-  create_table "time_entries", :force => true do |t|
-    t.integer  "time_trackable_id",   :default => 0
-    t.string   "time_trackable_type", :default => ""
-    t.string   "title",               :default => ""
-    t.text     "description",         :default => ""
-    t.string   "context_type",        :default => ""
-    t.integer  "context_id",          :default => 0
-    t.integer  "user_id",             :default => 0,  :null => false
-    t.integer  "parent_id"
-    t.integer  "lft"
-    t.integer  "rgt"
-    t.datetime "started_on",                          :null => false
-    t.datetime "ended_on",                            :null => false
-    t.datetime "created_at",                          :null => false
-    t.datetime "updated_at",                          :null => false
-  end
-
-  add_index "time_entries", ["context_id"], :name => "index_time_entries_on_context_id"
-  add_index "time_entries", ["time_trackable_id"], :name => "index_time_entries_on_time_trackable_id"
-  add_index "time_entries", ["user_id"], :name => "index_time_entries_on_user_id"
-
-  create_table "time_entry_categories", :force => true do |t|
-    t.string   "title",      :default => ""
-    t.datetime "created_at",                 :null => false
-    t.datetime "updated_at",                 :null => false
-  end
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false

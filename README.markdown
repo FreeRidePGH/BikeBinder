@@ -1,5 +1,7 @@
 # BikeBinder for Free Ride
 
+[![Build Status](https://travis-ci.org/FreeRidePGH/BikeBinder.png?branch=master)](https://travis-ci.org/FreeRidePGH/BikeBinder)
+
 ## Objective
 
 Reproduce all functionality that exists with the current paper bike binder and departed bikes binder system.
@@ -44,7 +46,7 @@ Keep these in the doc/ directory
 
 * Generating ERD images using railroady (http://railroady.prestonlee.com/)
 
-        rake diagram:all
+	bundle exec erd --polymorphism=true --filename=doc/erd
 
 * Diagram state machines
 

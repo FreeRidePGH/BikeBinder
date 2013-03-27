@@ -6,86 +6,97 @@
         });
     });
 </script>
-<section class="show-bike">
+
+<section class="show-bike row">
 
   <section class="bikesMeta span3">
-    <div id="" class="locationWrap">
+
+    <div class="locationWrap">
       <h3>Location</h3>
       <% if bike.departed? %>
         <p>Bike has departed.</p>
       <% else %>
         <% if bike.hook %>
           <p>Bike <%= bike.number %> is on hook: <%= bike.hook.number %>.</p>
-          <%= form_for(hook, :url => vacate_hook_bike_path(bike), :method=>:put) do |f| %>
-          <%= f.submit "Free hook" ,  :class => "btn btn-primary", :title=>"Choose Free Hook to remove this bike from its hook" %>
+          <%= form_for bike.hook_reservation, :method=>:delete do |f| %>
+          <%= f.submit I18n.translate('commit_btn.delete_hook_reservation'),  :class => "btn btn-primary", :title=>"Choose Free Hook to remove this bike from its hook" %>
 	  <% end %>
 	<% else #not bike.hook %>
-          <% if hook %>
-	    <%= form_for(hook, :url => reserve_hook_bike_path(bike), :method=>:put) do |f| %>
-	      <%= label_tag(:hook_id, "Select an available hook:") %>
-	      <%= select_tag(:hook_id, options_from_collection_for_select(Hook.available.order(:number), :id, :number)) %>
-	      <%= f.submit "Reserve hook", :class=>"btn btn-primary" %>
-            <% end %>
+          <% if Hook.available.count > 0  %>
+	   <%= form_tag hook_reservations_path, :metod => :post, :action => :create do %>
+	   <%= select_tag(:hook_id, options_from_collection_for_select(Hook.available.order(:id), :number, :number)) %>
+	   <%= hidden_field_tag :bike_id, bike.number %>
+	   <%= submit_tag I18n.translate('commit_btn.new_hook_reservation'), :class => "btn btn-primary"%>
+	   <% end %>
           <% else #no hook %>
            <p>No hooks are available.</p>
 	  <% end #hook %>
         <% end #bike.hook %>
       <% end #bike.departed? %>
     </div> <!-- end of location wrapper -->
+
     <div class="projInfo">
       <h3>Assignment</h3>
-      <% if bike.program %>
-        <p>Assigned to: <%= link_to bike.program.label, bike.program %></p>
-        <% if bike.departed_at.nil?%>
+      <% if bike.application %>
+        <p>Assigned to: <%= link_to bike.application.label, bike.application %></p>
         <div>
-            <%= link_to "Depart Bike", depart_bike_path(bike), :class => "btn btn-primary" %>
-        </div>
-        <div>
-            <br />
-            <button class = "btn btn-info" id = "changeProgram">Change programs</button>
-            <div id = "changeProgramForm" style = "display:none;">
-            <%= form_for(bike, :url => assign_program_bike_path(bike), :method => :put) do |f| %>
-                <%= select_tag(:program_id, options_from_collection_for_select(Program.all, :id, :label)) %>
-                <%= f.submit "Change program", :class => "btn btn-success" %>
-            <% end%>
-            </div>
-        </div>
-        <% end %>
-      <% elsif bike.available? %>
-        <p>This bike is available</p>
-	<%= form_for(bike, :url => assign_program_bike_path(bike), :method => :put) do |f| %>
-	  <%= select_tag(:program_id, options_from_collection_for_select(Program.all, :id, :label)) %>
-	  <%= f.submit "Assign", :class => "btn btn-primary" %>
-	<% end # bike.available? %>
+          <%= form_for bike.assignment, :method => :delete do |f| %>
+          <%= f.submit "Unassign bike", :class => "btn btn-danger" %>
+          <% end%>
 
-      <% else %>
-        <p>Bike is unavailable.</p>
+          <button class = "btn btn-info" id = "changeProgram">Change programs</button>
+          <div id = "changeProgramForm" style = "display:none;">
+            <%= form_for(bike, :url => assignments_path(bike), :method => :post) do |f| %>
+            <%= select_tag(:program_id, 
+		options_from_collection_for_select(Program.all, :id, :label)) %>
+	    <%= f.hidden_field :bike_id, :value => bike.id %>
+            <%= f.submit "Change program", :class => "btn btn-success" %>
+	    <% end%>
+          </div>
+        </div>
       <% end %>
-
+      <% if bike.available? %>
+        <p>This bike is available</p>
+	<%= form_tag assignments_path, :method => :post do %>
+	  <%= hidden_field_tag :bike_id, bike.number %>
+	  <%= select_tag(
+	      :program_id, options_from_collection_for_select(Program.all, :id, :label)) %>
+	  <%= submit_tag "Assign", :class => "btn btn-primary" %>
+	<% end # bike.available? %>
+      <% end %>
     </div> <!-- end of proj info wrapper -->
 
     <div class="departInfo">
-      <h3>History</h3>
-      <% bike.assignments.each do |a| %>
-            <br />
-            <p><b><%= (a.program ? a.program.name : "Available In Shop") %></b></p>
-            <p>From: <%= a.created_at.strftime('%Y-%m-%d') %></p>
-            <% if !a.active %>
-                <p>To: <%= a.closed_at.strftime('%Y-%m-%d') %></p>
-            <% end %>
-      <% end %>
-      <% if bike.departed_at %>
-        <p>Departed: <%= bike.departed_at.strftime("%Y-%m-%d") %></p>
+      <h3>Arrival/Departure</h3>
+      <h4>Arrived</h4>
+      <p><%= Settings::Date.new(bike.created_at).default_s %></p>
+      <h4><%= (bike.departed?)? "Departed" : "Depart Bike" %>
+	<% if bike.departed? %>
+	<p><%= bike.application.departed_at.strftime("%Y-%m-%d") %></p>	
+	<% else %>
+	<div>
+	<%= form_tag(departures_path, :method=>:post) do |f| %>
+	    <%= hidden_field_tag :bike_id, :value => bike.id %>
+	    <% if bike.available? %>
+	  <%= select_tag(
+	      :destination_id, options_from_collection_for_select(Destination.all, :id, :label)) %>
+	  <% end %>
+	    <%= submit_tag "Depart Bike", :class=>"btn btn-primary" %>
+	<% end %>
+	</div>
       <% end %>
     </div> <!-- end of depart info wrapper -->
-    <div>
-        <a class = "btn btn-info" style = "margin-top: 10px;" href = "/mobile/generate_code/<%=bike.number%>">Get QR Code</a>
-    <div>
+
     </section> <!-- end of bikes meta -->
 
-  <section id="bikeInfo" class="span8 noteCard noLeftMarg">
+  <div class="span8">
+
+  <section id="bikeInfo" class="span8 noteCard noLeftMarg row">
     <div class="block1 span8">
-      <h2>Bike <%=bike.number %> </h2>
+      <h2>
+	Bike <%=bike.number %> 
+	<%= link_to qr_bike_path(bike) do %><i class="icon-qrcode"></i><% end %> 
+      </h2>
         <%= link_to(edit_bike_path(bike), :class=> "editLink",   :title => "Edit this bike's information") do %>
 	<i class="icon-pencil"></i>Edit Bike
 	<% end %>
@@ -98,8 +109,16 @@
 	<dd class="value" ><%= bike.color.name.capitalize %></dd>
 	<span data-bike-color=<%=bike.color.name %> style="background-color:#<%= bike.color.key %>"></span>
 	<dd class="key">Wheel Size:</dd><dd class="value" ><%= "#{bike.wheel_size} mm" %></dd>
-	<dd class="key">Seat tube height:</dd><dd class="value" ><%= (bike.seat_tube_height ? "#{bike.seat_tube_height} inches" : "n/a") %></dd>
-	<dd class="key">Top tube length:</dd><dd class="value" ><%= (bike.top_tube_length ? "#{bike.top_tube_length} inches" :  "n/a") %></dd>
+	<dd class="key">Seat tube height:</dd>
+	<dd class="value" >
+	  <%= render :partial=>'show_measurement', 
+	  :locals => {:val => bike.seat_tube_height} %>
+	</dd>
+	<dd class="key">Top tube length:</dd>
+	<dd class="value" >
+	  <%= render :partial=>'show_measurement', 
+	  :locals => {:val => bike.top_tube_length} %>
+	</dd>
     <dd class="key">Quality:</dd><dd class="value" ><%= bike.quality %></dd>
     <dd class="key">Condition:</dd><dd class="value" ><%= bike.condition %></dd>
 
@@ -111,10 +130,9 @@
 	  <% if bike.available? %>
 	  Available
 	  <% elsif bike.departed? %>
-	  Departed as <%= link_to "#{bike.program.name}",program_path(bike.program) %>
-	  <% elsif bike.program %>
-	  <%= link_to "#{bike.program.name}",
-	      program_path(bike.program) %>
+	  Departed as <%= link_to "#{bike.application.name}", url_for(bike.application.application) %>
+	  <% elsif bike.application %>
+	    <%= link_to "#{bike.application.name}",url_for(bike.application) %>
 	  <% end %>
 	</dd>
 
@@ -127,21 +145,18 @@
     <% end %>
 
   </section>
-  <section class="notesWrapper span3" >
-  <div id="existingNotes" class=" span3">
 
-    <h3><%= pluralize(bike.comment_threads.length, 'Note') %></h3>
-   <%= render :partial=>"comments/form",
-   :locals=>{:commentable=>programs, :url => new_comment_bike_path(bike)} %>
+  <section class="notesWrapper">
+    <div  class="span8">
+      <h3><%= pluralize(bike.comment_threads.length, 'Note') %></h3>
+   
+      <%= render :partial=>"comments/index", :locals=>{:comments => bike.comment_threads} %> 
+      <%= render :partial=>"comments/form",
+      :locals=>{:commentable=>programs, :url => new_comment_bike_path(bike)} %>
+    </div>
+  </section> <!-- end notesWrap -->
 
-
-    <%= render :partial=>"comments/index", :locals=>{:comments => bike.comment_threads} %> 
-
-  </div> <!-- end of notes wrapper -->
-  <div id="newNote" class="span3 noLeftMarg">
-
-  </div>
-</section> <!-- end notesWrap -->
+</div>
 
 
 </section> <!-- end of main wrapper -->

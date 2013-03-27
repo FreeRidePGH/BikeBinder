@@ -11,14 +11,22 @@ $(document).ready(function(){
     select_init(sel2.WheelSelectBuilder)
     select_init(sel2.ColorSelectBuilder, {optns:{color_keys:<%= Settings::Color.options.to_json.html_safe %>}})
     
+    //select_init(sel2.ModelNestedBrandSelectBuilder, 
+    //		{optns:{api_url:"<%= url_map.search_api_v1_bike_mfg_queries_path  %>"}});
+
     select_init(sel2.ModelNestedBrandSelectBuilder, 
-		{optns:{api_url:"<%= url_map.search_api_v1_bike_mfg_queries_path  %>"}});
+     {optns:{api_url:"<%= url_map.search_api_v1_bike_mfg_queries_path  %>",
+      brand_api_url:"<%= url_map.search_brands_api_v1_bike_mfg_queries_path  %>",
+      model_api_url:"<%= url_map.search_models_api_v1_bike_mfg_queries_path  %>"
+      }});
+
     
     select_init(sel2.BrandSelectBuilder, 
 		{optns:{api_url:"<%= url_map.search_brands_api_v1_bike_mfg_queries_path  %>"}});
     
     select_init(sel2.ModelSelectBuilder, 
 		{optns:{api_url:"<%= url_map.search_models_api_v1_bike_mfg_queries_path  %>"}});
+
 
         var bikesTable = $('.table.bikes').dataTable({
             "sDom": "<'row-fluid'<'span12' l p i ><'span7'>r>t<'row-fluid'<'span7'>",
@@ -29,6 +37,8 @@ $(document).ready(function(){
             e.preventDefault();
             bikesTable.fnFilter($('#searchInput').val());
         });
+
+
     //////////////////
     // May be able to get rid of these initializations:    
 
@@ -36,7 +46,13 @@ $(document).ready(function(){
     if ($('#colorInput').length) {
 	$("input#colorInput").fewPicker();			  
     }
+
+    ///////////
+    // Initialize Accordian Elements
+    // jQuery("*.collapse").collapse()
+
     
+
     if ($("[data-bike-color]").length) {
 	var colorSwatchDiv = $("[data-bike-color]");
 	colorSwatchDiv.css("backgroundColor", colorSwatchDiv.data("bike-color"));
@@ -45,8 +61,10 @@ $(document).ready(function(){
     $("button[data-role=toggle]").click(function(){
 	$("#newCommentWrap").toggle();
     });
-    
+
+    //////////////////
+    // Fade the alerts messages
     $('#alerts').delay(500).fadeIn('normal', function() {
-	$(this).delay(2500).fadeOut();
-   });
+	$(this).delay(5000).fadeOut();
+    });
 });

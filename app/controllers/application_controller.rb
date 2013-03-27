@@ -1,10 +1,10 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  #def id_from_label(label, delimiter='-')
-  #  Bike.id_from_label(labe, delimiter)
-  #end
-  
+  expose :search_term do
+      @search_term  ||= params[:q].to_s.strip
+  end
+
   # Scope from collection of all categories
   expose(:project_categories) {ProjectCategory.all}
   # Fetch category by:
@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
   # Fetch by:
   # * program ID
   expose(:program) do
-    @prog ||= (Program.find(params[:program_id]) unless params[:program_id].blank?)
+    @prog ||= (Program.where(:id => params[:program_id]).first unless params[:program_id].blank?)
   end
 
   # Default behavior
@@ -30,8 +30,8 @@ class ApplicationController < ActionController::Base
   # Create never
   expose(:bike) do
     unless params[:bike_id].blank?
-      bike_id = id_from_label(params[:bike_id])
-      @bike ||= Bike.find_by_number(bike_id) unless bike_id.nil?
+      slug = params[:bike_id]
+      @bike ||= Bike.find_by_slug(slug) unless slug.blank?
     end
   end
   
@@ -89,7 +89,36 @@ class ApplicationController < ActionController::Base
 
   # Checks if a record was found
   def record_found?(model)
-    not (model.nil? or model.id.nil?)
+    !model.nil? && !model.id.nil?
+  end
+  
+  # Checks the given record is fetched and redirects if not 
+  #
+  # @params record (ActiveModel, #id) object to check if it is found
+  # @params optns[:fallback_path] if the record is not found
+  #
+  # If no fallback url is given, then
+  # the default is root_path
+  def fetch_failed?(record, optns={})
+    conditional = optns[:on] || :any
+    
+    # Coerce records into enumerable
+    arr_records = record.respond_to?(:each) ? record : [record]
+    
+    # initialize the found flag
+    found = (conditional == :any)
+    arr_records.each do |r|
+      case conditional
+        when :any
+        # AND
+        found &&= record_found?(r)
+        when :all
+        # OR
+        found ||= record_found?(r)
+      end
+    end
+
+    return !found
   end
 
 end

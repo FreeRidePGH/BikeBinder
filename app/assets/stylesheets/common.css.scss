@@ -1,59 +1,56 @@
-
 /* header provides a common label to rest above each part of the site */
-
 header {
+    margin: 0px;
+}
 
-}
-.no-user header h1 {
-    margin-top: 15px;
-}
 header h1 {
      border-bottom-width:2px;
      border-bottom-style:solid;
      border-color: #999;
      margin-bottom: .6em;
+
+color: #333;
+/* override these here but think about recompiling bootstrap for consistency */
+line-height: 30px;
+font-size: 25px;
 }
 
 #shared_menu {
-    border-color: #ddd;
-    border-width: 1px;
-    border-style: solid;
+border: 1px solid #ddd;	     
+background-color: #003;
+padding: 0px;		  
+margin: 0px;
+margin-top: 15px;
+border-radius: 5px;
 }
-#shared_menu ul {
-    list-style-type: none; 
-    margin: .25em;
+
+/*
+*.navbar-inner {
+background: #003;
 }
-#shared_menu li {
-    padding: .25em;
-
-} 
-#shared_menu p {
-    text-align: center;
-
-
+#shared_menu a {
+color: rgb(143,149,163);
 }
+#shared_menu a:hover {
+color: #ccf;
+}
+*/
+
+#shared_menu ul{
+margin: 0px;
+}
+
 div.overlay {
     text-align: center;
-    background: #D3D3D3;
-    margin-bottom: 15px;
+    background: #CCC;
+    margin: 0px;	
+    padding: 0px;
+    border: 1px solid #999;
 }
 p.demoHelp {
-    font-size: 12px;
-    color: #31859C;
-    padding-top: 3px;
-}
-header p.demoHelp {
-    top: 3%;
-    width: 40%;
-    position: absolute;
-    right: 20%;
-    z-index: -5;
-    
-}
-
-input[type="submit"],
-button[type="submit"] {
-    display: block;
+    font-size: 14px;
+    color: #000;
+    padding: 6px;
 }
 
 footer {
@@ -70,42 +67,17 @@ a.editLink {
     font-size: 14px;
     font-family: Helvetica Neue, sans-serif;
 }
-header {
 
-    margin: 1.5em 0 5px 0;
-    h1 {
-	color: #333;
-	/* override these here but think about recompiling bootstrap for consistency */
-	line-height: 30px;
-	font-size: 25px;
-
-    }
-
-}
 
 section#alerts {
     padding: .25em;
     clear: both;
     height: 50px;
-    p {
-	margin: .15em;
-    }
 }
-section#user_login_status {
-    position: absolute;
-    top: 3%;
-    right: 15%;
+section#alerts p{
+margin: .15em;
 }
 
-section#user_login_status.no-user {
-    top: 5%;
-    right: 20%;
-    width: 9%;
-    p {
-	float: right;
-	margin-right: 10px;
-    }
-}
 .grad-blue-extra-gray {
     background: rgb(143,149,163);
     background: -moz-linear-gradient(top, rgba(143,149,163,1) 0%, rgba(81,104,137,1) 100%);
@@ -157,28 +129,6 @@ section#user_login_status.no-user {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a8a8a8', endColorstr='#8c8c8c',GradientType=0 );
 
 } 
-#shared_menu {
-    margin-left: 0;
-    border-radius: 5px;
-    clear: both;
-    float: left;
-    height: 45px;
-    ul {
-	list-style-type: none; 
-	li.signed-in-action-1 {
-	/* adding border is ugly and unhelpful */
-	}
-	a {
-	    color: #fff;
-	}
-	a:hover {
-	    color: #003;
-	}
-    }
-    p {
-        text-align: right;
-    }
-}
 
 
 
@@ -187,17 +137,13 @@ table tr:nth-child(2n+1) {
     /*background: #f1f1f1;*/
 
 }
-input[type="submit"],
-button[type="submit"] {
-    display: block;
-}
+
 /* Generic comments styling */
 #newCommentWrap,  form#new_comment {
     margin-top: 0;
 }
 form#new_comment #comment_body {
-height: 100px;
-    width: 200px;
+    height: 60px;
 }
 
 div.comments {
