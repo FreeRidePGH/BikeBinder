@@ -60,12 +60,11 @@ class BikesController < ApplicationController
   end
 
   def index
-    @searchTerm = params[:q]
+    # Intentionally blank
   end
 
   def show
-    @program = Program.new
-    redirect_to bikes_path and return if fetch_failed?bike
+    redirect_to bikes_path and return if fetch_failed? bike
   end
 
   def qr

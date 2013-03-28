@@ -18,3 +18,5 @@ tmp/*
 config/database.yml
 config/application/secret_token.txt
 public/photos/*
+spec/tmp
+spec/tmp/*

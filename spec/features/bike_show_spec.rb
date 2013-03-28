@@ -12,6 +12,7 @@ describe "Showing a bike", :type => :feature do
     
     context "that is new" do
       let(:bike){FactoryGirl.create(:bike)}
+
       before :each do
         visit bike_path(bike)
       end
@@ -19,7 +20,7 @@ describe "Showing a bike", :type => :feature do
       it "lists the bike number" do
         expect(page).to have_text bike.number
       end
-      
+
       it "has a form to reserve a hook" do
         expect(page).to have_button I18n.translate('commit_btn.new_hook_reservation')
       end

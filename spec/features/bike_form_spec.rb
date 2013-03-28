@@ -56,6 +56,42 @@ describe "The bike form", :type => :feature do
     #  * The brand already exists
     #  * The brand does not exist
     
+    describe "selecting a model" do
+      context "while editing a new bike" do      
+        let(:model){FactoryGirl.create(:bike_model)}
+        
+        before :each do
+          model
+          visit new_bike_path
+        end
+
+        it "has a select2 selection", :js => true do
+          within "#s2id_bike_form_bike_model_id" do
+            expect(first('a').click).to_not be_nil
+          end
+        end
+
+        it "creates and assigns the model that is selected", :js => true do
+          css_drop = Select2BikeBinder::Builder::ModelNestedBrandSelect::Selector[]
+          within "#s2id_bike_form_bike_model_id" do
+            expect(first('a').click).to_not be_nil
+          end
+          first("div.#{css_drop} div.select2-search input").set model.name+"\r\n"          
+          sleep(1.5)
+          save_screenshot(File.join(SPEC_TEMP_PATH, 'screen0.png'), :full => true)
+
+          first("div.#{css_drop} ul.select2-results li ul li").click
+          #click_on model.name
+          sleep(0.25)
+          save_screenshot(File.join(SPEC_TEMP_PATH, 'screen1.png'), :full => true)
+          first('#commit').click
+          expect(page).to have_content model.name
+          expect(BikeModel.where(:name => model.name).first).to_not be_nil
+        end
+
+      end # context "while editing a new bike"
+    end # describe "selecting a model"
+    
     describe "creating the brand and model" do
       context "while editing an existing bike" do
         let(:new_model_name){FactoryGirl.generate(:bike_model_name)}
