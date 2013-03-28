@@ -51,19 +51,14 @@ Spork.prefork do
   # Requires supporting ruby files with custom matchers and macros, etc,
   # in spec/support/ and its subdirectories.
   Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
-
-  # This setting may not be needed, it was used as an attempt to
-  # get poltergeist to work with the database
-  Capybara.app_host = 'http://127.0.1:3003'
-  Capybara.server_port = 3003
-
+  
   Capybara.register_driver :poltergeist do |app|
     Capybara::Poltergeist::Driver.new(app, :debug => false)
   end
   Capybara.javascript_driver = :poltergeist
-
+  
   RSpec.configure do |config|
-
+    
     config.mock_with :rspec
 
     # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
