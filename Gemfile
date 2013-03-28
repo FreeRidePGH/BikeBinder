@@ -20,9 +20,7 @@ gem 'iso_bsd-i18n','>= 0.2', :git => 'git://github.com/zflat/iso_bsd-i18n.git'
 # javascript user interface components
 gem 'i18n-js'
 gem 'select2-rails'
-gem 'select2-bikebinder', '>= 0.1.9' , 
-:path => '/home/william/rails_projects/select2-bikebinder'
-#:git => 'git://github.com/zflat/select2-bikebinder.git'
+gem 'select2-bikebinder', '>= 0.1.10', :git => 'git://github.com/zflat/select2-bikebinder.git'
 # simple paging, filtering for bikes table
 gem 'jquery-datatables-rails'
 

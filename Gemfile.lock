@@ -24,10 +24,11 @@ GIT
       bundler (~> 1.2)
       i18n
 
-PATH
-  remote: /home/william/rails_projects/select2-bikebinder
+GIT
+  remote: git://github.com/zflat/select2-bikebinder.git
+  revision: e173d556aba27bc9a60c1bcafe106b3c4c3394e6
   specs:
-    select2-bikebinder (0.1.9)
+    select2-bikebinder (0.1.10)
       activesupport
       bundler (~> 1.2)
 
@@ -343,7 +344,7 @@ DEPENDENCIES
   ruby-graphviz
   ruby-units (~> 1.4.2)
   sass-rails (~> 3.2.3)
-  select2-bikebinder (>= 0.1.9)!
+  select2-bikebinder (>= 0.1.10)!
   select2-rails
   spork (= 0.9.0)
   sqlite3 (~> 1.3.6)
