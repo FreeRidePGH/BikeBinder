@@ -9,14 +9,14 @@ class HookReservationsController < ApplicationController
   
   expose(:reservation) do
     unless params[:id].blank?
-      @reservation ||= HookReservation.where(:id => params[:id]).first
+      @reservation ||= HookReservation.where(:id => params[:id].to_i).first
     end
     @reservation
   end
 
   # Post
   def create
-    (redirect_to root_path and return) if fetch_failed?([bike, hook])
+    redirect_to root_path and return if fetch_failed? bike
     
     reservation = HookReservation.new(:bike => bike, :hook => hook)
     if reservation.save

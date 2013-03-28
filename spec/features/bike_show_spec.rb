@@ -27,6 +27,7 @@ describe "Showing a bike", :type => :feature do
       describe "reserving an available hook" do
         let(:hook){FactoryGirl.create(:hook)}
         before :each do
+          hook
           visit bike_path(bike)
           select hook.number, :from => :hook_id              
           click_button I18n.translate('commit_btn.new_hook_reservation')
@@ -36,6 +37,26 @@ describe "Showing a bike", :type => :feature do
         it "assigns the hook to the bike" do
           expect(bike.hook).to_not be_nil
         end
+      end # describe "reserving an available hook"
+
+      describe "reserving an available hook" do        
+        let(:hook){FactoryGirl.create(:hook)}
+        context "when no hook is specified" do
+          before :each do
+            hook
+            visit bike_path(bike)
+            click_button I18n.translate('commit_btn.new_hook_reservation')
+            bike.reload
+          end        
+          
+          it "does not assign a hook to the bike" do
+            expect(bike.hook).to be_nil
+          end
+
+          it "does not depart the bike" do
+            expect(bike).to_not be_departed
+          end
+        end # context "when no hook is specified"
       end # describe "reserving the hook"
 
       describe "being assigned to a program" do
@@ -110,8 +131,8 @@ describe "Showing a bike", :type => :feature do
             visit bike_path assigned_bike
             click_button I18n.translate('commit_btn.new_departure')
           end
-        end
-      end
+        end # context "with an assignment"
+      end # describe "being departed"
 
 
     end #  context "that is new"
