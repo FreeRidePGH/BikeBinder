@@ -17,8 +17,8 @@ FactoryGirl.define do
     label{generate :program_label}
   end
 
-  sequence(:dest_name){|n| "TestProgram#{n}"}
-  sequence(:dest_label){|n| "TProg#{n}"}
+  sequence(:dest_name){|n| "TestDestination#{n}"}
+  sequence(:dest_label){|n| "TDest#{n}"}
   factory :destination, :aliases => [:dest] do
     name {generate :dest_name}
     label {generate :dest_label}

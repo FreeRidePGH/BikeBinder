@@ -3,19 +3,19 @@ class DeparturesController < ApplicationController
   expose(:departure) do
     if @dep.nil? && params[:id]
       id = params[:id]
-      @dep ||= Departure.where{id=my{id.to_i}}.first
+      @dep ||= Departure.where(:id => id.to_i).first
     end
     @dep
   end
 
   expose(:destination) do
-    @dest ||= params[:destination] if params[:destination]
-    if @dest.nil?
+    # @dest ||= params[:destination] if params[:destination]
+    if @dest.nil? && params[:destination_id]
       id = params[:destination_id]
       id = id.id if id.respond_to?(:id)
       
       @dest ||= Destination.
-        where{id=my{id.to_i}}.first unless id.nil?
+        where(:id => id.to_i).first unless id.nil?
     end
     @dest
   end
@@ -35,7 +35,7 @@ class DeparturesController < ApplicationController
 
     departure = 
       Departure.build(:bike => bike, 
-                      :value => params[:value], 
+                      :value => params[:value].to_f, 
                       :destination => destination)
     if departure.save
       flash[:success] = I18n.translate('controller.departures.create.success', 

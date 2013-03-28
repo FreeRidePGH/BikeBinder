@@ -24,7 +24,11 @@
 	<% else #not bike.hook %>
           <% if Hook.available.count > 0  %>
 	   <%= form_tag hook_reservations_path, :metod => :post, :action => :create do %>
-	   <%= select_tag(:hook_id, options_from_collection_for_select(Hook.available.order(:id), :number, :number)) %>
+	   <%= select_tag(:hook_id, 
+	       options_from_collection_for_select(
+	       [OpenStruct.new(:number => nil, 
+	   :number => I18n.translate('placeholder.hook_options'))]+	       
+	       Hook.available.order(:id), :number, :number)) %>
 	   <%= hidden_field_tag :bike_id, bike.number %>
 	   <%= submit_tag I18n.translate('commit_btn.new_hook_reservation'), :class => "btn btn-primary"%>
 	   <% end %>
@@ -43,16 +47,6 @@
           <%= form_for bike.assignment, :method => :delete do |f| %>
           <%= f.submit "Unassign bike", :class => "btn btn-danger" %>
           <% end%>
-
-          <button class = "btn btn-info" id = "changeProgram">Change programs</button>
-          <div id = "changeProgramForm" style = "display:none;">
-            <%= form_for(bike, :url => assignments_path(bike), :method => :post) do |f| %>
-            <%= select_tag(:program_id, 
-		options_from_collection_for_select(Program.all, :id, :label)) %>
-	    <%= f.hidden_field :bike_id, :value => bike.id %>
-            <%= f.submit "Change program", :class => "btn btn-success" %>
-	    <% end%>
-          </div>
         </div>
       <% end %>
       <% if bike.available? %>
@@ -60,8 +54,12 @@
 	<%= form_tag assignments_path, :method => :post do %>
 	  <%= hidden_field_tag :bike_id, bike.number %>
 	  <%= select_tag(
-	      :program_id, options_from_collection_for_select(Program.all, :id, :label)) %>
-	  <%= submit_tag "Assign", :class => "btn btn-primary" %>
+	      :program_id, 
+	      options_from_collection_for_select(
+	      [OpenStruct.new(:id => nil, 
+	  :label => I18n.translate('placeholder.prog_options'))]+
+	      Program.all, :id, :label)) %>
+	  <%= submit_tag I18n.translate('commit_btn.new_assignment'), :class => "btn btn-primary" %>
 	<% end # bike.available? %>
       <% end %>
     </div> <!-- end of proj info wrapper -->
@@ -70,18 +68,24 @@
       <h3>Arrival/Departure</h3>
       <h4>Arrived</h4>
       <p><%= Settings::Date.new(bike.created_at).default_s %></p>
-      <h4><%= (bike.departed?)? "Departed" : "Depart Bike" %>
+      <h4><%= (bike.departed?)? "Departed" : "Depart Bike" %></h4>
 	<% if bike.departed? %>
 	<p><%= bike.application.departed_at.strftime("%Y-%m-%d") %></p>	
 	<% else %>
 	<div>
-	<%= form_tag(departures_path, :method=>:post) do |f| %>
-	    <%= hidden_field_tag :bike_id, :value => bike.id %>
-	    <% if bike.available? %>
+	<%= form_tag departures_path, :method=>:post do %>
+	  <%= hidden_field_tag :bike_id, bike.number %>
+	  <% if bike.available? %>
 	  <%= select_tag(
-	      :destination_id, options_from_collection_for_select(Destination.all, :id, :label)) %>
+	      :destination_id, 
+	      options_from_collection_for_select(
+	      [OpenStruct.new(:id => nil, 
+	  :label => I18n.translate('placeholder.departure_destination'))]+
+	  Destination.all, :id, :label)) %>
+	  <%= label_tag :value, "Final Value" %> 
+	  <%= text_field_tag :value, bike.value %>
 	  <% end %>
-	    <%= submit_tag "Depart Bike", :class=>"btn btn-primary" %>
+	  <%= submit_tag I18n.translate('commit_btn.new_departure'), :class=>"btn btn-primary" %>
 	<% end %>
 	</div>
       <% end %>

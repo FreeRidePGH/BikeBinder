@@ -85,7 +85,9 @@ module NumberSlug
     def find_by_slug(slug)
       slug = slug.to_s
       number_slug_config.scope.
-        where{(number != nil) & (number.in [my{number_from_slug(slug)}, my{slug}])}.first
+        where{(number != nil) & 
+        (number.in [my{number_from_slug(slug)}, my{slug}]) | 
+        (id == my{slug})}.first
     end
   end
 

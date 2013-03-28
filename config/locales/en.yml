@@ -9,6 +9,12 @@ en:
     submit: "Submit"
     new_hook_reservation: "Reserve"
     delete_hook_reservation: "Free hook"
+    new_assignment: "Assign"
+    new_departure: "Depart Bike"
+  placeholder:
+    departure_destination: "Select destination..."
+    prog_options: "Select program..."
+    hook_options: "Select hook..."
   main_search:
     placeholder: "Search by Bike # or Hook #"
     btn: "Search"

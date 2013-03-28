@@ -56,7 +56,7 @@ describe DeparturesController do
       let(:destination){FactoryGirl.create(:destination)}
       
       before :each do
-        post :create, :bike_id => bike, :destination_id => destination.id, :value => 99
+        post :create, :bike_id => bike.id, :destination_id => destination.id, :value => 99
         bike.reload
       end
       

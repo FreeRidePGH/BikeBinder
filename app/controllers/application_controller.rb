@@ -33,6 +33,7 @@ class ApplicationController < ActionController::Base
       slug = params[:bike_id]
       @bike ||= Bike.find_by_slug(slug) unless slug.blank?
     end
+    @bike
   end
   
 
