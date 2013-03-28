@@ -33,8 +33,24 @@ describe DeparturesController do
       # to select a destination or assign to a program
       it "redirects to the depart page" do
         expect(response).to redirect_to(new_bike_departure_path(bike))
+        expect(response).to render_template(nil)
       end
     end # context "with an unknown destination"
+
+    context "with an unassigned bike and unspecified destination" do
+      let(:bike){FactoryGirl.create(:bike)}
+      let(:destination_id){""}
+      
+      before :each do
+        post :create, :bike_id => bike.number, :destination_id => destination_id
+      end
+      
+      # In this case, the depart page gives the user the chance
+      # to select a destination or assign to a program
+      it "redirects to the depart page" do
+        expect(response).to redirect_to(new_bike_departure_path(bike))
+      end
+    end # context "with an unspecified destination"
 
     context "with an unknown bike" do
       let(:bike){0}

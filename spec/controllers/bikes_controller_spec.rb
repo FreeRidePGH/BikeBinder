@@ -233,7 +233,7 @@ describe BikesController do
       end
       
       it "renders the new bike page" do
-        expect(response).to render_template(:new)        
+        expect(response).to render_template(:new)
       end
 
       it "does not creates a bike" do

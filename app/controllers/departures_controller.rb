@@ -27,6 +27,7 @@ class DeparturesController < ApplicationController
 
   # POST
   def create
+
     (redirect_to root_path and return) if fetch_failed?(bike)
     
     if fetch_failed?([bike.assignment, destination], :on => :all)

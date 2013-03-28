@@ -22,7 +22,7 @@ BikeBinder::Application.routes.draw do
       post 'new_comment'
       get 'qr'
     end
-    resources :departure, :only => [:new]
+    resources :departures, :only => [:new]
   end
 
   resources :hooks, :only =>[:index, :show]
