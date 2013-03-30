@@ -20,18 +20,13 @@ class DeparturesController < ApplicationController
     @dest
   end
 
-  # GET
-  def new
-    
-  end
-
   # POST
   def create
 
     (redirect_to root_path and return) if fetch_failed?(bike)
     
     if fetch_failed?([bike.assignment, destination], :on => :all)
-      redirect_to new_bike_departure_path(bike) and return 
+      redirect_to bike_path(bike) and return 
     end
 
     departure = 

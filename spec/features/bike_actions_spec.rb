@@ -17,6 +17,10 @@ describe "Action" do
       it "assigns the hook to the bike" do
         expect(bike.hook).to_not be_nil
       end
+
+      it "lists the bike number" do
+        expect(page).to have_text bike.number
+      end
     end # context "with an available hook specified"
 
     context "when no hook is specified" do
@@ -33,6 +37,10 @@ describe "Action" do
       it "does not depart the bike" do
         expect(bike).to_not be_departed
       end
+
+      it "lists the bike number" do
+        expect(page).to have_text bike.number
+      end
     end # context "when no hook is specified"
   end # describe "reserving an available hook"
 
@@ -47,6 +55,9 @@ describe "Action" do
     end
     it "removes the hook from the bike" do
       expect(bike.hook).to be_nil
+    end
+    it "lists the bike number" do
+      expect(page).to have_text bike.number
     end
   end # describe "vacating a reserved hook"
   
@@ -66,7 +77,34 @@ describe "Action" do
     it "assigns the bike to the program" do
       expect(bike.application).to eq program
     end
+
+    it "lists the bike number" do
+      expect(page).to have_text bike.number
+    end
   end # describe "being assigned to a program"
+
+  describe "canceling an assignment" do
+    let(:assignment){FactoryGirl.create(:assignment)}
+    let(:bike){assignment.bike}
+    let!(:program){assignment.application}
+    
+    before :each do
+      visit bike_path bike
+      click_button I18n.translate('commit_btn.del_assignment')
+    end
+    
+    it "removes the bike from the program" do
+      expect(bike.application).to_not eq program
+    end
+
+    it "makes the bike available" do
+      expect(bike.application).to be_nil
+    end
+
+    it "lists the bike number" do
+      expect(page).to have_text bike.number
+    end
+  end
   
   describe "departing" do
     context "without an assignment" do
@@ -91,6 +129,11 @@ describe "Action" do
         it "does not assign the bike" do
           expect(bike.application).to be_nil
         end
+
+        it "lists the bike number" do
+          expect(page).to have_text bike.number
+        end
+
       end # context "without speficifying destination"
       
       context "with specifying destination" do
@@ -110,6 +153,9 @@ describe "Action" do
           expect(bike.application).to_not be_nil
           expect(bike.application.method).to eq destination
         end
+        it "lists the bike number" do
+          expect(page).to have_text bike.number
+        end
       end # context "with specifying destination"
     end # context "without an assignment"
     
@@ -124,7 +170,43 @@ describe "Action" do
       it "departs the bike" do
         expect(assigned_bike).to be_departed
       end
+
+      it "lists the bike number" do
+        expect(page).to have_text assigned_bike.number
+      end
     end # context "with an assignment"
   end # describe "departing"
 
+  describe "returning" do
+
+    context "when departed with assigned program" do
+      let(:assignment){FactoryGirl.create(:assignment_departed_prog)}
+      let(:assigned_bike){assignment.bike}
+
+      before :each do
+        visit bike_path assigned_bike
+        click_button I18n.translate('commit_btn.del_departure')
+      end
+
+      it "lists the bike number" do
+        expect(page).to have_text assigned_bike.number
+      end
+
+    end # context "when departed with assigned program"
+    
+    context "when departed with assigned destination" do
+      let(:assignment){FactoryGirl.create(:assignment_departed_dest)}
+      let(:assigned_bike){assignment.bike}
+
+      before :each do
+        visit bike_path assigned_bike
+        click_button I18n.translate('commit_btn.del_departure')
+      end
+
+      it "lists the bike number" do
+        expect(page).to have_text assigned_bike.number
+      end
+    end # context "when departed with assigned destination"
+
+  end # describe "returning from departure"
 end # describe "Action"

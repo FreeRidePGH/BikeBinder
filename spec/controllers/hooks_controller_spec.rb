@@ -12,34 +12,44 @@ describe HooksController do
         expect(request.path).to eq ''
       end
     end
-  end
-
-  it "redirects to index" do
-    put 'index' do
-      expect(response).to redirect_to root_path
-    end
-  end
+  end # describe "Post 'new'"
 
   describe "Get 'show'" do
-
-    context "with a valid hook" do
+    context "with a valid unassigned hook" do
       subject(:hook){FactoryGirl.create(:hook)}
-      
-      it "is successful" do
-        put 'show', :id => hook
-        response.should be_success
+
+      before :each do
+        get :show, :id => hook.number
       end
-    end # context "with a valid hook"
+
+      it "exposes the correct hook" do
+        expect(controller.hook).to eq hook
+      end
+    end # context "with a valid unreserved hook"
+
+    context "with a reserved hook" do
+      let(:reservation){FactoryGirl.create(:hook_reservation)}
+      subject(:hook){reservation.hook}
+      
+      before :each do
+        get :show, :id => hook.number
+      end
+
+      it "exposes the correct hook" do
+        expect(controller.hook).to eq hook
+      end
+    end # context "with a reserved hook"
 
     context "without a hook" do
+      let(:hook_number){FactortyGirl.create(:hook_number)}
+      it "redirects to root" do
+        begin
+          get :show, :id => hook_number
+        rescue
+          expect(request.path).to eq ''
+        end
+      end # it "redirects to root"
+    end # context "without a hook"
 
-      it "redirects" do
-        put 'show', :id => 'test'
-        expect(response).to redirect_to root_path
-        # expect(response).to_not be_success
-      end
-    end
-
-  end
-
-end
+  end # describe "Get 'show'"
+end # describe HooksController

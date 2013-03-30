@@ -32,7 +32,7 @@ describe DeparturesController do
       # In this case, the depart page gives the user the chance
       # to select a destination or assign to a program
       it "redirects to the depart page" do
-        expect(response).to redirect_to(new_bike_departure_path(bike))
+        expect(response).to redirect_to(bike_path(bike))
         expect(response).to render_template(nil)
       end
     end # context "with an unknown destination"
@@ -48,7 +48,7 @@ describe DeparturesController do
       # In this case, the depart page gives the user the chance
       # to select a destination or assign to a program
       it "redirects to the depart page" do
-        expect(response).to redirect_to(new_bike_departure_path(bike))
+        expect(response).to redirect_to(bike_path(bike))
       end
     end # context "with an unspecified destination"
 

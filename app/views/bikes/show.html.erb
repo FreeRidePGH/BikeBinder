@@ -42,10 +42,10 @@
     <div class="projInfo">
       <h3>Assignment</h3>
       <% if bike.application %>
-        <p>Assigned to: <%= link_to bike.application.label, bike.application %></p>
+        <p>Assigned to: <%= bike.application.label %></p>
         <div>
           <%= form_for bike.assignment, :method => :delete do |f| %>
-          <%= f.submit "Unassign bike", :class => "btn btn-danger" %>
+          <%= f.submit I18n.translate('commit_btn.del_assignment'), :class => "btn btn-danger" %>
           <% end%>
         </div>
       <% end %>
@@ -71,6 +71,11 @@
       <h4><%= (bike.departed?)? "Departed" : "Depart Bike" %></h4>
 	<% if bike.departed? %>
 	<p><%= bike.application.departed_at.strftime("%Y-%m-%d") %></p>	
+
+	<%= form_for bike.application, :method=>:delete do |f| %>
+	  <%= f.submit I18n.translate('commit_btn.del_departure'), :class=>"btn btn-primary" %>
+	<% end %>
+	
 	<% else %>
 	<div>
 	<%= form_tag departures_path, :method=>:post do %>
@@ -134,19 +139,15 @@
 	  <% if bike.available? %>
 	  Available
 	  <% elsif bike.departed? %>
-	  Departed as <%= link_to "#{bike.application.name}", url_for(bike.application.application) %>
+	  Departed as <%= bike.application.method %>
 	  <% elsif bike.application %>
-	    <%= link_to "#{bike.application.name}",url_for(bike.application) %>
+	    <%= bike.application.name %>
 	  <% end %>
 	</dd>
 
       </dl>
     </div>
-      <% if @bikePhoto %>
-        <div class = "pull-right bikePhotoContainer">
-        <%= image_tag root_path+"photos/bike-#{bike.number}.jpeg", :class => "bikePhoto" %>
-        </div>  
-    <% end %>
+
 
   </section>
 

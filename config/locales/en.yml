@@ -10,7 +10,9 @@ en:
     new_hook_reservation: "Reserve"
     delete_hook_reservation: "Free hook"
     new_assignment: "Assign"
+    del_assignment: "Unassign"
     new_departure: "Depart Bike"
+    del_departure: "Return Bike"
   placeholder:
     departure_destination: "Select destination..."
     prog_options: "Select program..."
