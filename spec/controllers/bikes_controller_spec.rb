@@ -384,5 +384,16 @@ describe BikesController do
     end
     
   end # describe "DELETE 'destroy'"
-  
+
+  describe "GET 'qr'" do
+    let(:bike){FactoryGirl.create(:bike)}
+    before(:each) do
+      get :qr, :id => bike
+    end
+      
+    it "renders the qr with success" do
+        expect(response).to be_success
+    end
+  end # describe "GET 'qr'"
+
 end

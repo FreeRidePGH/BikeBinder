@@ -69,7 +69,7 @@ class BikesController < ApplicationController
 
   def qr
     respond_to do |format|
-      @qr = RQRCode::QRCode.new(url_for bike, :size => 7)
+      @qr = RQRCode::QRCode.new(url_for(bike), :size => 7)
       format.html
     end
   end

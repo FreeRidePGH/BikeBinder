@@ -178,3 +178,38 @@
 
 </section> <!-- end of main wrapper -->
 
+<section id="action_history">
+  <h2>Action History</h2>
+  <ul>
+  <% bike.actions.each do |a| %>
+  <li>
+    <%= a.action.humanize %> on <%= Settings::Date.new(a.created_at).default_s %> by <%= (a.user.uname  if a.user) || "unknown user" %>
+
+
+  <% unless a.changeset.empty? %>
+    <table>
+      <thead>
+	<tr>
+	  <th>Attribute</th>
+	  <th>Was</th>
+	  <th>Became</th>
+	</tr>
+      </thead>
+      <tbody>
+      <% a.changeset.
+	 delete_if{|k, v| 
+	 [:created_at, :updated_at, :id].include? k.to_sym
+	 }.each do |name, val|%>
+      <tr>
+	<td><%= name %></td>
+	<td><%= val[0] || "-" %></td>
+	<td><%= val[1] || "-" %></td>
+      </tr>
+      <% end # .changeset.each %>
+      </tbody>
+    </table>
+  <% end # unless .changeset.empty?%>
+  </li>
+  <% end # actions.each %>
+  </ul>
+</section>
