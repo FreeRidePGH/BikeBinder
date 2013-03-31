@@ -86,8 +86,8 @@ module NumberSlug
       slug = slug.to_s
       number_slug_config.scope.
         where{(number != nil) & 
-        (number.in [my{number_from_slug(slug)}, my{slug}]) | 
-        (id == my{slug})}.first
+        (number.in [my{number_from_slug(slug)}, my{slug}])}.
+        first
     end
   end
 

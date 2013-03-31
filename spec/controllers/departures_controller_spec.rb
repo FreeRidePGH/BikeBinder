@@ -28,7 +28,7 @@ describe DeparturesController do
       let(:destination){FactoryGirl.create(:destination)}
           
       before :each do
-        post :create, :bike_id => bike, :destination_id => destination, :sig => nil
+        post :create, :bike_id => bike.number, :destination_id => destination, :sig => nil
       end
 
       it "redirects to the bike" do
@@ -91,7 +91,7 @@ describe DeparturesController do
       let(:destination){FactoryGirl.create(:destination)}
       
       before :each do
-        post :create, :bike_id => bike.id, :destination_id => destination.id, 
+        post :create, :bike_id => bike.number, :destination_id => destination.id, 
         :value => 99, :sig => sig
         bike.reload
       end

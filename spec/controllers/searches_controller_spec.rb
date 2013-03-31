@@ -76,7 +76,7 @@ describe SearchesController do
       end
     end # context "with formatted but unmatching bike number term"
 
-    context "with formatted but unmatching hook number term" do
+    context "with formatted but unmatching bike number term" do
       let(:term){FactoryGirl.generate(:bike_number)}
       let(:err_msg){I18n.translate('controller.searches.index.fail', :term => term)}
       
