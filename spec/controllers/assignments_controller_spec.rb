@@ -1,16 +1,34 @@
 require 'spec_helper'
 
 describe AssignmentsController do
+  let(:sig){"Signature"}
 
   # POST is the ASSIGN action
   describe "POST 'create'" do
+
+    context "without a signatory" do
+      let(:bike){FactoryGirl.create(:bike)}
+      let(:program){FactoryGirl.create(:program)}
+      
+      before :each do
+        post :create, :bike_id => bike, :program_id => program, :sig => nil
+      end
+
+      it "redirects to the bike" do
+        expect(response).to redirect_to(bike)
+      end      
+
+      it "does not assign the bike" do
+        expect(bike.assignment).to be_nil
+      end
+    end
 
     context "with an unknown program" do
       let(:bike){FactoryGirl.create(:bike)}
       let(:program){0}
       
       before :each do
-        post :create, :bike_id => bike, :program_id => program
+        post :create, :bike_id => bike, :program_id => program, :sig => sig
       end
       
       it "redirects to root" do
@@ -23,7 +41,7 @@ describe AssignmentsController do
       let(:program){FactoryGirl.create(:program)}
       
       before :each do
-        post :create, :bike_id => bike, :program_id => program
+        post :create, :bike_id => bike, :program_id => program, :sig => sig
       end
       
       it "redirects to root" do
@@ -36,7 +54,7 @@ describe AssignmentsController do
       let(:program){FactoryGirl.create(:program)}
       
       before :each do
-        post :create, :bike_id => bike, :program_id => program
+        post :create, :bike_id => bike, :program_id => program, :sig => sig
       end
       
       it "redirects to the bike" do
@@ -59,7 +77,7 @@ describe AssignmentsController do
       let(:program){FactoryGirl.create(:program)}
       
       before :each do
-        post :create, :bike_id => bike, :program_id => program
+        post :create, :bike_id => bike, :program_id => program, :sig => sig
         bike.reload
       end
       
@@ -84,7 +102,7 @@ describe AssignmentsController do
       let(:program){pre_assignment.application}
       
       before :each do
-        post :create, :bike_id => bike, :program_id => program
+        post :create, :bike_id => bike, :program_id => program, :sig => sig
         bike.reload
       end
 
@@ -106,12 +124,31 @@ describe AssignmentsController do
 
   # DELETE is the CANCEL action
   describe "DELETE 'destroy'" do
+
+    context "without a signatory" do
+      subject(:assignment){FactoryGirl.create(:assignment)}
+      let(:bike){assignment.bike}
+      
+      before :each do
+        delete :destroy, :id => bike.assignment, :sig => nil
+        bike.reload
+      end
+
+      it "redirects to the bike" do
+        expect(response).to redirect_to(bike)
+      end      
+
+      it "does not remove the assignment " do
+        expect(bike.assignment).to_not be_nil
+      end
+    end
+
     context "with a valid assignment" do
       subject(:assignment){FactoryGirl.create(:assignment)}
       let(:bike){assignment.bike}
       
       before :each do
-        delete :destroy, :id => bike.assignment
+        delete :destroy, :id => bike.assignment, :sig => sig
         bike.reload
       end
 
@@ -132,7 +169,7 @@ describe AssignmentsController do
       subject(:assignment){0}
 
       before :each do
-        delete :destroy, :id => assignment
+        delete :destroy, :id => assignment, :sig => sig
       end
       
       it "redirects to root" do
@@ -145,7 +182,7 @@ describe AssignmentsController do
       let(:bike){assignment.bike}
       
       before :each do
-        delete :destroy, :id => bike.assignment
+        delete :destroy, :id => bike.assignment, :sig => sig
         bike.reload
       end
 

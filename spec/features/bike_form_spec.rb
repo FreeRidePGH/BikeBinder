@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe "The bike form", :type => :feature do
+  let(:sig){"ABC"}
 
   context "for a new bike" do
     it "has required inputs" do
@@ -12,6 +13,7 @@ describe "The bike form", :type => :feature do
     describe "submitting a blank form" do
       before :each do
         visit new_bike_path
+        fill_in "sig", :with => sig
         click_button 'commit' #I18n.translate('commit_btn')[:new]
       end
 
@@ -29,6 +31,7 @@ describe "The bike form", :type => :feature do
         visit new_bike_path
         fill_in 'Number', :with => bike_number
         select color.name.capitalize, :from => 'Color'
+        fill_in "sig", :with => sig
         click_button 'commit' #I18n.translate('commit_btn')[:new]
       end
 
@@ -78,12 +81,11 @@ describe "The bike form", :type => :feature do
           end
           first("div.#{css_drop} div.select2-search input").set model.name+"\r\n"          
           sleep(1.5)
-          save_screenshot(File.join(SPEC_TEMP_PATH, 'screen0.png'), :full => true)
-
+          #save_screenshot(File.join(SPEC_TEMP_PATH, 'screen0.png'), :full => true)
           first("div.#{css_drop} ul.select2-results li ul li").click
-          #click_on model.name
           sleep(0.25)
-          save_screenshot(File.join(SPEC_TEMP_PATH, 'screen1.png'), :full => true)
+          #save_screenshot(File.join(SPEC_TEMP_PATH, 'screen1.png'), :full => true)
+          fill_in "sig", :with => sig
           first('#commit').click
           expect(page).to have_content model.name
           expect(BikeModel.where(:name => model.name).first).to_not be_nil
@@ -103,6 +105,7 @@ describe "The bike form", :type => :feature do
           page.choose('bike_form_brand_action_create')
           fill_in 'Brand', :with => new_brand_name
           fill_in 'Model', :with => new_model_name
+          fill_in "sig", :with => sig
           click_button 'commit'
           bike.reload
         end

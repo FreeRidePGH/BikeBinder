@@ -18,20 +18,39 @@ require 'spec_helper'
 #
 describe DeparturesController do
 
+  let(:sig){"ABC"}
+
   # POST is the DEPART action
   describe "POST 'create'" do
+
+    context "without a signatory" do
+      let(:bike){FactoryGirl.create(:bike)}
+      let(:destination){FactoryGirl.create(:destination)}
+          
+      before :each do
+        post :create, :bike_id => bike, :destination_id => destination, :sig => nil
+      end
+
+      it "redirects to the bike" do
+        expect(response).to redirect_to(bike)
+      end      
+
+      it "does not depart the bike" do
+        expect(bike).to_not be_departed
+      end
+    end
 
     context "with an unassigned bike and unknown destination" do
       let(:bike){FactoryGirl.create(:bike)}
       let(:destination){0}
       
       before :each do
-        post :create, :bike_id => bike, :destination_id => destination
+        post :create, :bike_id => bike, :destination_id => destination, :sig => sig
       end
       
-      # In this case, the depart page gives the user the chance
-      # to select a destination or assign to a program
-      it "redirects to the depart page" do
+      # In this case, should a depart page gives the user the chance
+      # to select a destination or assign to a program?
+      it "redirects to the bike" do
         expect(response).to redirect_to(bike_path(bike))
         expect(response).to render_template(nil)
       end
@@ -42,7 +61,7 @@ describe DeparturesController do
       let(:destination_id){""}
       
       before :each do
-        post :create, :bike_id => bike.number, :destination_id => destination_id
+        post :create, :bike_id => bike.number, :destination_id => destination_id, :sig => sig
       end
       
       # In this case, the depart page gives the user the chance
@@ -57,7 +76,7 @@ describe DeparturesController do
       let(:destination){FactoryGirl.create(:destination)}
       
       before :each do
-        post :create, :bike_id => bike, :destination_id => destination
+        post :create, :bike_id => bike, :destination_id => destination, :sig => sig
       end
       
       it "redirects to root" do
@@ -72,7 +91,8 @@ describe DeparturesController do
       let(:destination){FactoryGirl.create(:destination)}
       
       before :each do
-        post :create, :bike_id => bike.id, :destination_id => destination.id, :value => 99
+        post :create, :bike_id => bike.id, :destination_id => destination.id, 
+        :value => 99, :sig => sig
         bike.reload
       end
       
@@ -101,7 +121,7 @@ describe DeparturesController do
       let(:dest){FactoryGirl.create(:destination)}
       
       before :each do
-        post :create, :bike_id => bike, :destination_id => dest, :value => 0
+        post :create, :bike_id => bike, :destination_id => dest, :value => 0, :sig => sig
         bike.reload
       end
       
@@ -126,7 +146,8 @@ describe DeparturesController do
       let(:destination){FactoryGirl.create(:destination)}
       
       before :each do
-        post :create, :bike_id => bike, :destination_id => destination, :value => 0
+        post :create, :bike_id => bike, :destination_id => destination, 
+        :value => 0, :sig => sig
         bike.reload
       end
 
@@ -147,6 +168,24 @@ describe DeparturesController do
 
   # DELETE is the RETURN action
   describe "DELETE 'destroy'" do
+    context "without a signatory" do
+      subject(:departure){FactoryGirl.create(:assignment_departed_dest).application}
+      let(:bike){departure.bike}
+
+      before :each do
+        delete :destroy, :id => bike.assignment, :sig => nil
+        bike.reload
+      end
+
+      it "redirects to the bike" do
+        expect(response).to redirect_to(bike)
+      end
+
+      it "does not return the bike" do
+        expect(bike).to be_departed
+      end
+    end # context "without a signatory"
+    
     context "with a program assigned" do
       subject(:departure){FactoryGirl.create(:assignment_departed_prog).application}
       let(:bike){departure.bike}
@@ -154,7 +193,7 @@ describe DeparturesController do
       
       before :each do
         program
-        delete :destroy, :id => bike.assignment
+        delete :destroy, :id => bike.assignment, :sig => sig
         bike.reload
       end
 
@@ -187,7 +226,7 @@ describe DeparturesController do
       
       before :each do
         destination
-        delete :destroy, :id => bike.assignment
+        delete :destroy, :id => bike.assignment, :sig => sig
         bike.reload
       end
 
@@ -214,7 +253,7 @@ describe DeparturesController do
       subject(:assignment){0}
 
       before :each do
-        delete :destroy, :id => assignment
+        delete :destroy, :id => assignment, :sig => sig
       end
       
       it "redirects to root" do
@@ -227,7 +266,7 @@ describe DeparturesController do
       let(:bike){assignment.bike}
       
       before :each do
-        delete :destroy, :id => bike.assignment
+        delete :destroy, :id => bike.assignment, :sig => sig
         bike.reload
       end
 

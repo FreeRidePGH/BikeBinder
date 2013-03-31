@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe "Action" do
   let(:bike){FactoryGirl.create(:bike)}
+  let(:sig){"ABC"}
 
   describe "reserving an available hook" do
     let!(:hook){FactoryGirl.create(:hook)}
@@ -10,6 +11,7 @@ describe "Action" do
       before :each do
         visit bike_path(bike)
         select hook.number, :from => :hook_id              
+        fill_in "hook_sig", :with => sig
         click_button I18n.translate('commit_btn.new_hook_reservation')
         bike.reload
       end        
@@ -26,6 +28,7 @@ describe "Action" do
     context "when no hook is specified" do
       before :each do
         visit bike_path(bike.reload)
+        fill_in "hook_sig", :with => sig
         click_button I18n.translate('commit_btn.new_hook_reservation')
         bike.reload
       end
@@ -50,6 +53,7 @@ describe "Action" do
 
     before :each do
       visit bike_path(bike)
+      fill_in "hook_sig", :with => sig
       click_button I18n.translate('commit_btn.delete_hook_reservation')
       bike.reload
     end
@@ -67,6 +71,7 @@ describe "Action" do
     before :each do
       visit bike_path(bike)
       select program.label, :from => :program_id
+      fill_in "prog_sig", :with => sig
       click_button I18n.translate('commit_btn.new_assignment')
     end
     
@@ -90,6 +95,7 @@ describe "Action" do
     
     before :each do
       visit bike_path bike
+      fill_in "prog_sig", :with => sig
       click_button I18n.translate('commit_btn.del_assignment')
     end
     
@@ -119,6 +125,7 @@ describe "Action" do
       context "without speficifying destination" do
         before :each do
           visit bike_path bike
+          fill_in "dep_sig", :with => sig
           click_button I18n.translate('commit_btn.new_departure')
         end
         
@@ -142,6 +149,7 @@ describe "Action" do
           destination #make sure it is created before visiting the page
           visit bike_path bike
           select destination.label, :from => :destination_id              
+          fill_in "dep_sig", :with => sig
           click_button I18n.translate('commit_btn.new_departure')
         end
         
@@ -165,6 +173,7 @@ describe "Action" do
       
       before :each do
         visit bike_path assigned_bike
+        fill_in "dep_sig", :with => sig
         click_button I18n.translate('commit_btn.new_departure')
       end
       it "departs the bike" do
@@ -185,6 +194,7 @@ describe "Action" do
 
       before :each do
         visit bike_path assigned_bike
+        fill_in "dep_sig", :with => sig
         click_button I18n.translate('commit_btn.del_departure')
       end
 
@@ -200,6 +210,7 @@ describe "Action" do
 
       before :each do
         visit bike_path assigned_bike
+        fill_in "dep_sig", :with => sig
         click_button I18n.translate('commit_btn.del_departure')
       end
 

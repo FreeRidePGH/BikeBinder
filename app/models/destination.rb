@@ -11,4 +11,6 @@ class Destination < ActiveRecord::Base
   has_many :departures, :as => :application
   has_many :bikes, :through => :departures
 
+  hound
+
 end

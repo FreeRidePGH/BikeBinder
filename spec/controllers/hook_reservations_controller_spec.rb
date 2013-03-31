@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe HookReservationsController do
+  let(:sig){"ABC"}
+  
   describe "GET new" do
     it "should be successful", :if => false do
       get :new
@@ -10,12 +12,34 @@ describe HookReservationsController do
   
   # POST is the RESERVE action
   describe "POST 'create'" do
+
+    context "without a signatory" do
+      let(:bike){FactoryGirl.create(:bike)}
+      let(:hook){FactoryGirl.create(:hook)}
+      
+      before :each do
+        post :create, :bike_id => bike, :hook_id => hook, :sig => nil
+      end
+
+      it "redirects to the bike" do
+        expect(response).to redirect_to(bike)
+      end      
+
+      it "does not reserve the hook" do
+        expect(bike.hook).to be_nil
+      end
+      
+      it "does not assign the bike" do
+        expect(hook.bike).to be_nil
+      end
+    end
+
     context "with valid bike and hook" do
       let(:bike){FactoryGirl.create(:bike)}
       let(:hook){FactoryGirl.create(:hook)}
       
       before :each do
-        post :create, :bike_id => bike, :hook_id => hook
+        post :create, :bike_id => bike, :hook_id => hook, :sig => sig
       end
       
       it "specifies the hook in the request params" do
@@ -48,7 +72,7 @@ describe HookReservationsController do
       let(:hook){FactoryGirl.create(:hook)}
 
       before :each do
-        post :create, :bike_id => parked_bike, :hook_id => hook
+        post :create, :bike_id => parked_bike, :hook_id => hook, :sig => sig
       end
 
       it "does not reserve the hook" do
@@ -67,7 +91,7 @@ describe HookReservationsController do
       let(:hook){pre_reservation.hook}
 
       before :each do
-        post :create, :bike_id => bike, :hook_id => hook
+        post :create, :bike_id => bike, :hook_id => hook, :sig => sig
       end
 
       it "does not assign a hook to the bike" do
@@ -87,7 +111,7 @@ describe HookReservationsController do
       let(:hook){pre_reservationB.hook}
 
       before :each do
-        post :create, :bike_id => bike, :hook_id => hook
+        post :create, :bike_id => bike, :hook_id => hook, :sig => sig
       end
       
       it "does not assign the hook to the bike" do
@@ -113,7 +137,7 @@ describe HookReservationsController do
       let(:hook){pre_reservation.hook}
 
       before :each do
-        post :create, :bike_id => bike, :hook_id => hook
+        post :create, :bike_id => bike, :hook_id => hook, :sig => sig
       end
 
       it "keeps the bike assigned to the hook" do
@@ -134,6 +158,24 @@ describe HookReservationsController do
 
   # DELETE is the VACATE action
   describe "DELETE destroy" do
+    context "without a signatory" do
+      subject(:reservation){FactoryGirl.create(:hook_reservation)}
+      let(:bike){reservation.bike}
+      let(:hook){reservation.hook}
+      
+      before :each do
+        delete :destroy, :id => reservation, :sig => nil
+      end
+
+      it "removes the hook from theh bike" do
+        expect(bike.hook).to eq hook
+      end
+
+      it "keeps the bike on the hook" do
+        expect(hook.bike).to eq bike
+      end
+      
+    end # context "without a signatory"
 
     context "when a given reservation is found" do
       subject(:reservation){FactoryGirl.create(:hook_reservation)}
@@ -141,7 +183,7 @@ describe HookReservationsController do
       let(:hook){reservation.hook}
       
       before :each do
-        delete :destroy, :id => reservation
+        delete :destroy, :id => reservation, :sig => sig
       end
 
       it "removes the reservation record" do
@@ -160,7 +202,7 @@ describe HookReservationsController do
 
     context "when an unknown reservation is specified" do
       before :each do
-        delete :destroy, :id => 0
+        delete :destroy, :id => 0, :sig => sig
       end
 
       it "redirects" do
@@ -184,35 +226,45 @@ describe HookReservationsController do
   describe "PUT update" do
     subject(:reservation){FactoryGirl.create(:hook_reservation)}
 
+    context "without a signatory" do
+      it "does not change state" do
+        reservation.find_bike
+        expect{
+          put :update, :id => reservation, :bike_event => :lose, :sig => nil
+        }.to_not change{reservation.reload.bike_state+reservation.hook_state}
+      end
+    end # context "without a signatory"
+
     context "with a new reservation" do
       context "given garbage state" do
         it "does not change state" do
           expect{
-            put :update, :id => reservation, :garbage_event => :lose            
-          }.to_not change{reservation.bike_state+reservation.hook_state}
+            put :update, :id => reservation, :garbage_event => :lose, :sig => sig
+          }.to_not change{reservation.reload.bike_state+reservation.hook_state}
         end
       end
       
       context "given garbage action for bike state" do
         it "does not change state" do
           expect{
-            put :update, :id => reservation, :bike_event => :garbage
-          }.to_not change{reservation.bike_state+reservation.hook_state}
+            put :update, :id => reservation, :bike_event => :garbage, :sig => sig
+          }.to_not change{reservation.reload.bike_state+reservation.hook_state}
         end
       end
       
       context "given garbage action for hook_state" do
         it "does not change state" do
           expect{
-            put :update, :id => reservation, :hook_event => :garbage
-          }.to_not change{reservation.bike_state+reservation.hook_state}
+            put :update, :id => reservation, :hook_event => :garbage, :sig => sig
+          }.to_not change{reservation.reload.bike_state+reservation.hook_state}
         end
       end
       context "given garbage action for hook_state and bike_state" do
         it "does not change state" do
           expect{
-            put :update, :id => reservation, :hook_event => :garbage, :bike_event => :garbage
-          }.to_not change{reservation.bike_state+reservation.hook_state}
+            put :update, :id => reservation, 
+            :hook_event => :garbage, :bike_event => :garbage, :sig => sig
+          }.to_not change{reservation.reload.bike_state+reservation.hook_state}
         end
       end
     end
@@ -220,7 +272,7 @@ describe HookReservationsController do
     context "when a present bike goes missing" do
       before :each do
         reservation.find_bike
-        put :update, :id => reservation, :bike_event => :lose
+        put :update, :id => reservation, :bike_event => :lose, :sig => sig
         reservation.reload
       end
 
@@ -240,7 +292,7 @@ describe HookReservationsController do
     context "when a missing bike is found" do
       before :each do
         reservation.lose_bike
-        put :update, :id => reservation, :bike_event => :find
+        put :update, :id => reservation, :bike_event => :find, :sig => sig
         reservation.reload
       end
 
@@ -268,7 +320,7 @@ describe HookReservationsController do
     context "when a missing bike is lost" do
       before :each do
         reservation.lose_bike
-        put :update, :id => reservation, :bike_event => :lose
+        put :update, :id => reservation, :bike_event => :lose, :sig => sig
         reservation.reload
       end
 
@@ -280,7 +332,7 @@ describe HookReservationsController do
     context "when a resolved hook has a conflict" do
       before :each do
         reservation.resolve_hook
-        put :update, :id => reservation, :hook_event => :raise_issue
+        put :update, :id => reservation, :hook_event => :raise_issue, :sig => sig
         reservation.reload
       end
 
@@ -292,7 +344,7 @@ describe HookReservationsController do
     context "when an unresolved hook has a conflict" do
       before :each do
         reservation.raise_issue_hook
-        put :update, :id => reservation, :hook_event => :raise_issue
+        put :update, :id => reservation, :hook_event => :raise_issue, :sig => sig
         reservation.reload
       end
 
@@ -305,7 +357,7 @@ describe HookReservationsController do
       describe "is resolved" do
         before :each do
           reservation.raise_issue_hook
-          put :update, :id => reservation, :hook_event => :resolve
+          put :update, :id => reservation, :hook_event => :resolve, :sig => sig
           reservation.reload
         end
 
@@ -320,7 +372,7 @@ describe HookReservationsController do
         before :each do
           reservation.raise_issue_hook
           reservation.lose_bike
-          put :update, :id => reservation, :bike_event => :find, :hook_event => :resolve
+          put :update, :id => reservation, :bike_event => :find, :hook_event => :resolve, :sig => sig
           reservation.reload
         end
 
@@ -338,7 +390,7 @@ describe HookReservationsController do
         before :each do
           reservation.find_bike
           reservation.resolve_hook
-          put :update, :id => reservation, :bike_event => :lose, :hook_event => :raise_issue
+          put :update, :id => reservation, :bike_event => :lose, :hook_event => :raise_issue, :sig => sig
           reservation.reload
         end
 

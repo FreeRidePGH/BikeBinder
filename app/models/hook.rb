@@ -25,6 +25,8 @@ class Hook < ActiveRecord::Base
   has_one :reservation, :class_name => "HookReservation"
   has_one :bike, :through => :reservation
 
+  hound
+
   #######################
   # Properties and Scopes
 

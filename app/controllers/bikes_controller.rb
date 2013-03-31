@@ -69,8 +69,7 @@ class BikesController < ApplicationController
 
   def qr
     respond_to do |format|
-      qrurl = url_for bike
-      @qr = RQRCode::QRCode.new(qrurl, :size => 7)
+      @qr = RQRCode::QRCode.new(url_for bike, :size => 7)
       format.html
     end
   end
@@ -80,7 +79,7 @@ class BikesController < ApplicationController
   end
 
   def create     
-    if bike_form.save
+    if verify_signatory && bike_form.save
       flash[:success] = I18n.translate('controller.bikes.create.success')
       redirect_to bike_post_created_path and return
     end
@@ -93,7 +92,7 @@ class BikesController < ApplicationController
 
   def update
     redirect_to bikes_path and return if fetch_failed?(bike)
-
+    redirect_to bike and return unless verify_signatory
     if bike_form.save
       flash.now[:success] = I18n.translate('controller.bikes.update.success')
       redirect_to bike and return

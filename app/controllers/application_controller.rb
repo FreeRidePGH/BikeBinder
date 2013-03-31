@@ -118,8 +118,19 @@ class ApplicationController < ActionController::Base
         found ||= record_found?(r)
       end
     end
-
+    
     return !found
+  end # def fetch_failed?(record, optns={})
+
+  def hound_user
+    @hound_user ||= Signature.find_or_create(params[:sig])
   end
 
+  def verify_signatory
+    if hound_user.nil?
+      flash[:error] = I18n.translate('controller.application.no_signature')
+      return false
+    end
+    true
+  end
 end

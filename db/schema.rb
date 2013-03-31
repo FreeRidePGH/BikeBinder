@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130307213843) do
+ActiveRecord::Schema.define(:version => 20130331005933) do
 
   create_table "answers", :force => true do |t|
     t.integer  "question_id"
@@ -74,9 +74,9 @@ ActiveRecord::Schema.define(:version => 20130307213843) do
     t.datetime "updated_at"
   end
 
+  add_index "bikes", ["condition"], :name => "index_bikes_on_condition"
   add_index "bikes", ["number"], :name => "index_bikes_on_number"
   add_index "bikes", ["quality"], :name => "index_bikes_on_quality"
-  add_index "bikes", ["condition"], :name => "index_bikes_on_condition"
 
   create_table "comments", :force => true do |t|
     t.integer  "commentable_id",   :default => 0
@@ -99,8 +99,8 @@ ActiveRecord::Schema.define(:version => 20130307213843) do
     t.float    "value"
     t.integer  "application_id"
     t.string   "application_type"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
   end
 
   add_index "departures", ["application_id", "application_type"], :name => "index_departures_on_application"
@@ -167,6 +167,19 @@ ActiveRecord::Schema.define(:version => 20130307213843) do
   end
 
   add_index "hooks", ["number"], :name => "index_hooks_on_number"
+
+  create_table "hound_actions", :force => true do |t|
+    t.string   "action",          :null => false
+    t.string   "actionable_type", :null => false
+    t.integer  "actionable_id",   :null => false
+    t.integer  "user_id"
+    t.string   "user_type"
+    t.datetime "created_at"
+    t.text     "changeset"
+  end
+
+  add_index "hound_actions", ["actionable_type", "actionable_id"], :name => "index_hound_actions_on_actionable_type_and_actionable_id"
+  add_index "hound_actions", ["user_type", "user_id"], :name => "index_hound_actions_on_user_type_and_user_id"
 
   create_table "programs", :force => true do |t|
     t.string   "name"
@@ -253,6 +266,14 @@ ActiveRecord::Schema.define(:version => 20130307213843) do
   end
 
   add_index "responses", ["survey_section_id"], :name => "index_responses_on_survey_section_id"
+
+  create_table "signatures", :force => true do |t|
+    t.string   "uname",      :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "signatures", ["uname"], :name => "index_signatures_on_uname"
 
   create_table "survey_sections", :force => true do |t|
     t.integer  "survey_id"

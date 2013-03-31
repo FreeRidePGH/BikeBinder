@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe BikesController do
+  let(:sig){"ABC"}
   describe "GET new" do
     it "is successful" do
       get :new
@@ -37,10 +38,21 @@ describe BikesController do
 
   describe "Put update" do
     let(:bike){FactoryGirl.create(:bike)}
+
+    context "without a signatory" do
+      before(:each) do
+        put :update, :id => bike, :sig => nil
+      end
+
+      it "gives errors" do
+        expect(controller.flash[:error]).to_not be_nil
+      end
+    end
+
     context "with valid parameters" do
       
       before(:each) do
-        put :update, :id => bike
+        put :update, :id => bike, :sig => sig
       end
       
       it "should redirect to the bike" do
@@ -51,7 +63,7 @@ describe BikesController do
     
     context "with invalid paramaters" do
       before :each do
-        put :update, :id => bike, :bike_form=> {:number => 'BAD'}
+        put :update, :id => bike, :bike_form=> {:number => 'BAD'}, :sig => sig
       end
       it "should render edit" do
         expect(response).to_not redirect_to(@bike)
@@ -83,7 +95,7 @@ describe BikesController do
             }
           end
           before :each do
-            put :update, :id=>bike_with_model, :bike_form=> params            
+            put :update, :id=>bike_with_model, :bike_form=> params, :sig => sig
             bike.reload
           end
 
@@ -104,7 +116,7 @@ describe BikesController do
           end
           before :each do
             bike.model = initial_model
-            put :update, :id=>bike, :bike_form=> params
+            put :update, :id=>bike, :bike_form=> params, :sig => sig
             bike.reload
           end
 
@@ -138,7 +150,7 @@ describe BikesController do
           
           before :each do
             initial_brand
-            put :update, :id=>bike, :bike_form=> params
+            put :update, :id=>bike, :bike_form=> params, :sig => sig
             bike.reload
           end
 
@@ -185,7 +197,7 @@ describe BikesController do
           end
           
           before :each do
-            put :update, :id=>bike, :bike_form=> params
+            put :update, :id=>bike, :bike_form=> params, :sig => sig
             bike.reload
           end
 
@@ -208,11 +220,25 @@ describe BikesController do
   end # "Put update"  
 
   describe "POST create" do
+    context "without a signatory" do
+      let(:params){{:number => FactoryGirl.generate(:bike_number), :color => "ffffff"}}
+
+      before :each do
+        post :create, :bike_form => params, 
+        :commit => I18n.translate('commit_btn.new'), :sig => nil
+        @bike = Bike.where{number == my{params[:number]}}.first 
+      end
+      
+      it "does not create the bike" do
+        expect(@bike).to be_nil
+      end
+    end
+    
     context "with valid parameters" do    
       let(:params){{:number => FactoryGirl.generate(:bike_number), :color => "ffffff"}}
 
       before :each do
-        post :create, :bike_form => params, :commit => I18n.translate('commit_btn.new')
+        post :create, :bike_form => params, :commit => I18n.translate('commit_btn.new'), :sig => sig
         @bike = Bike.where{number == my{params[:number]}}.first 
       end
 
@@ -229,7 +255,7 @@ describe BikesController do
       let(:params){{:number => FactoryGirl.generate(:bike_number)}}
 
       before :each do
-        post :create, :bike_form => params, :commit => I18n.translate('commit_btn.new')
+        post :create, :bike_form => params, :commit => I18n.translate('commit_btn.new'), :sig => sig
       end
       
       it "renders the new bike page" do

@@ -50,6 +50,8 @@ class Bike < ActiveRecord::Base
   
   has_one :assignment, :dependent => :destroy
 
+  hound
+
   ############
   # Properties
 

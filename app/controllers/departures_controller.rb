@@ -23,7 +23,8 @@ class DeparturesController < ApplicationController
   # POST
   def create
 
-    (redirect_to root_path and return) if fetch_failed?(bike)
+    redirect_to root_path and return if fetch_failed?(bike)
+    redirect_to bike and return unless verify_signatory
     
     if fetch_failed?([bike.assignment, destination], :on => :all)
       redirect_to bike_path(bike) and return 
@@ -34,6 +35,7 @@ class DeparturesController < ApplicationController
                       :value => params[:value].to_f, 
                       :destination => destination)
     if departure.save
+      hound_action bike, "Departed"
       flash[:success] = I18n.translate('controller.departures.create.success', 
                                        :bike_number => bike.number,
                                        :method => departure.method.name)
@@ -47,10 +49,12 @@ class DeparturesController < ApplicationController
   
   # DELETE
   def destroy
-    (redirect_to root_path and return) if fetch_failed?(departure)
+    redirect_to root_path and return if fetch_failed?(departure)
     bike = departure.bike
+    redirect_to(bike || root_path) and return unless verify_signatory
     
     if departure.destroy
+      hound_action bike, "Returned"
       flash[:success] = I18n.translate('controller.departures.destroy.success')
     else
       flash[:error] = I18n.translate('controller.departures.destroy.fail')

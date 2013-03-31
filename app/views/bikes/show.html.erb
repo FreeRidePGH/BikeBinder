@@ -19,6 +19,8 @@
         <% if bike.hook %>
           <p>Bike <%= bike.number %> is on hook: <%= bike.hook.number %>.</p>
           <%= form_for bike.hook_reservation, :method=>:delete do |f| %>
+	  <%= label_tag :hook_sig, "Initials" %> 
+	  <%= text_field_tag :sig, nil, :id =>"hook_sig" %>
           <%= f.submit I18n.translate('commit_btn.delete_hook_reservation'),  :class => "btn btn-primary", :title=>"Choose Free Hook to remove this bike from its hook" %>
 	  <% end %>
 	<% else #not bike.hook %>
@@ -30,6 +32,8 @@
 	   :number => I18n.translate('placeholder.hook_options'))]+	       
 	       Hook.available.order(:id), :number, :number)) %>
 	   <%= hidden_field_tag :bike_id, bike.number %>
+	  <%= label_tag :hook_sig, "Initials" %> 
+	  <%= text_field_tag :sig, nil, :id => "hook_sig" %>
 	   <%= submit_tag I18n.translate('commit_btn.new_hook_reservation'), :class => "btn btn-primary"%>
 	   <% end %>
           <% else #no hook %>
@@ -45,6 +49,8 @@
         <p>Assigned to: <%= bike.application.label %></p>
         <div>
           <%= form_for bike.assignment, :method => :delete do |f| %>
+	  <%= label_tag :prog_sig, "Initials" %> 
+	  <%= text_field_tag :sig, nil, :id => "prog_sig" %>
           <%= f.submit I18n.translate('commit_btn.del_assignment'), :class => "btn btn-danger" %>
           <% end%>
         </div>
@@ -59,6 +65,8 @@
 	      [OpenStruct.new(:id => nil, 
 	  :label => I18n.translate('placeholder.prog_options'))]+
 	      Program.all, :id, :label)) %>
+	  <%= label_tag :prog_sig, "Initials" %> 
+	  <%= text_field_tag :sig, nil, :id => "prog_sig" %>
 	  <%= submit_tag I18n.translate('commit_btn.new_assignment'), :class => "btn btn-primary" %>
 	<% end # bike.available? %>
       <% end %>
@@ -73,6 +81,8 @@
 	<p><%= bike.application.departed_at.strftime("%Y-%m-%d") %></p>	
 
 	<%= form_for bike.application, :method=>:delete do |f| %>
+	  <%= label_tag :dep_sig, "Initials" %> 
+	  <%= text_field_tag :sig, nil, :id => "dep_sig" %>
 	  <%= f.submit I18n.translate('commit_btn.del_departure'), :class=>"btn btn-primary" %>
 	<% end %>
 	
@@ -90,12 +100,14 @@
 	  <%= label_tag :value, "Final Value" %> 
 	  <%= text_field_tag :value, bike.value %>
 	  <% end %>
+	  <%= label_tag :dep_sig, "Initials" %> 
+	  <%= text_field_tag :sig, nil, :id => "dep_sig" %>
 	  <%= submit_tag I18n.translate('commit_btn.new_departure'), :class=>"btn btn-primary" %>
 	<% end %>
 	</div>
       <% end %>
     </div> <!-- end of depart info wrapper -->
-
+    
     </section> <!-- end of bikes meta -->
 
   <div class="span8">
