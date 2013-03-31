@@ -62,7 +62,7 @@ namespace :db do
     all_program = Program.all
     all_dest = Destination.all
 
-    30.times do |n|
+    300.times do |n|
 
       c = arr_colors[rand(arr_colors.size)]
       val = rand(120-50)+50
@@ -97,11 +97,11 @@ namespace :db do
                        :quality => quality,
                        :condition => condition,
                        :value => val,
-                       :number => BikeNumber.format_number(n+1001))
+                       :number => BikeNumber.format_number(Bike.count))
 
       
       # Reserve hook
-      if rand(3)>0
+      if rand(3)>0 && Hook.next_available
         HookReservation.new(:bike => b, :hook => Hook.next_available).save
       end
 
