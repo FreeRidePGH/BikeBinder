@@ -20,6 +20,16 @@ class BikesController < ApplicationController
   # All bikes
   expose(:bikes) do
     @bikes ||= ([bike] if record_found?(bike))
+    if params[:status]
+      case params[:status]
+      when 'available'
+        @bikes ||= BikeReport.new(:available => true).assets
+        when 'assigned'
+        @bikes ||= BikeReport.new(:assigned => true, :present => true).assets
+        when 'departed'
+        @bikes ||= BikeReport.new(:departed => true).assets
+      end
+    end
     @bikes ||= Bike.eager_load(:bike_model,:hook_reservation, :hook, :assignment).all 
     @bikes
   end

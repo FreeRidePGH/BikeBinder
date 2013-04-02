@@ -43,12 +43,16 @@ class Bike < ActiveRecord::Base
   # Associations
 
   include BikeMfg::ActsAsManufacturable
+  has_one :bike_brand, :through => :bike_model
   alias_attribute :model, :bike_model
+  alias_attribute :brand, :bike_brand
 
   has_one :hook_reservation, :dependent => :destroy
   has_one :hook, :through => :hook_reservation
   
   has_one :assignment, :dependent => :destroy
+  has_one :program, :through => :assignment, :source => :application, :source_type => 'Program'
+  has_one :departure, :through => :assignment, :source => :application, :source_type => 'Departure'
 
   hound
 

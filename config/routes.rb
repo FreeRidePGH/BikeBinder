@@ -8,6 +8,11 @@ BikeBinder::Application.routes.draw do
       get 'qr'
     end
     # resources :departures, :only => [:new]
+    collection do 
+      get 'available' => 'bikes#index', :defaults => {:status=>'available'}
+      get 'assigned' => 'bikes#index', :defaults => {:status=>'assigned'}
+      get 'departed'=> 'bikes#index', :defaults => {:status=>'departed'}
+    end
   end
 
   # Bike Actions

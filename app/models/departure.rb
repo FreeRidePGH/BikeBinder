@@ -56,7 +56,7 @@ class Departure < ActiveRecord::Base
       bike.hook_reservation.delete if bike.hook_reservation
       
       if bike.departed?
-        bike.application
+        bike.departure
       else
         bridge_destination(
                            bike,
