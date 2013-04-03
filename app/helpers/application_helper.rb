@@ -40,28 +40,15 @@ module ApplicationHelper
     end
   end
 
-  # Creates a link and sets the class based on
-  # if the link is the current conroller & action
-  #
-  # See the source for link_to for the basis on
-  # how arguments are parsed and the block is used
-  def nav_bar_item(*args, &block)
-    optns = (block_given?) ? args.first : args[1]
-    
-    optn_cont = optns[:controller].to_s
-    optn_act = optns[:action].to_s
-    rout = optns[:rout]
-    current = (action_name.to_s == optn_act &&
-        controller_name.to_s == optn_cont)
-    curr_class = (current) ? "active" : nil
-
-    content_tag :li, :class => curr_class do
-      if block_given?
-        link_to capture(&block), rout
-      elsif name = args[0]
-        link_to name, rout
-      end
-    end #content_tag :li
-  end # nav_bar_item
+  # Specifies a link class based on if the 
+  # link is the current conroller & action
+  def nav_bar_curr_class(args = {})
+    if ((action_name.to_s == args[:action].to_s &&
+        controller_name.to_s == args[:controller].to_s))
+      "active"
+    else
+      nil
+    end
+  end # def nav_bar_curr_class
   
 end

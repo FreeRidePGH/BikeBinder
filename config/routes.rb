@@ -12,6 +12,7 @@ BikeBinder::Application.routes.draw do
       get 'available' => 'bikes#index', :defaults => {:status=>'available'}
       get 'assigned' => 'bikes#index', :defaults => {:status=>'assigned'}
       get 'departed'=> 'bikes#index', :defaults => {:status=>'departed'}
+      get 'all'=> 'bikes#index', :defaults => {:status=>nil}
     end
   end
 
@@ -58,7 +59,7 @@ BikeBinder::Application.routes.draw do
   ####################################################
 
   # Ensure root is set per recommendations when installing Devise
-  root :to => 'bikes#index', :via => [:get, :post]
+  root :to => 'bikes#index', :via => [:get, :post], :defaults => {:status=>'available'}
 
   # Map top level domain seach to bikes and hooks
   match '/:id' => 'bikes#show', :id => BikeNumber.pattern, :via => [:get]

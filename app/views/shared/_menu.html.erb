@@ -7,10 +7,24 @@
   <% end %>
   
   <ul class="nav nav-pills span4">
-    <%= nav_bar_item :rout => bikes_path, :controller => 'bikes', :action => :index do %>
-      <i class=""></i>Bikes
-      <%  end %>
-    <%= nav_bar_item "Add a bike", :rout => new_bike_path, :controller => :bikes, :action =>:new %>
+    <%= content_tag :li, 
+	:class => "dropdown #{nav_bar_curr_class(:controller => 'bikes', :action => :index)}" do %>
+      <%= link_to available_bikes_path, {'data-toggle' => "dropdown" } do %>
+        <i class=""></i>Bikes
+	<b class="caret"></b>
+	<ul class="dropdown-menu">
+	  <li><%= link_to I18n.translate('nav.bikes.available'), :available_bikes  %></li>
+	  <li><%= link_to I18n.translate('nav.bikes.assigned'), :assigned_bikes  %></li>
+	  <li><%= link_to I18n.translate('nav.bikes.departed'), :departed_bikes  %></li>
+	  <li class="divider"></li>
+	  <li><%= link_to I18n.translate('nav.bikes.all'), :bikes  %></li>
+	</ul>
+      <%  end # a %>
+    <% end # li%>
+    <%= content_tag :li,
+	:class => nav_bar_curr_class(:controller => 'bikes', :action => :new) do %>
+      <% link_to "Add a bike", new_bike_path %>
+    <% end # li%>
   </ul>
   </div>
 </div>

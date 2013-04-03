@@ -73,6 +73,12 @@ en:
       show: "Bike %{bike_number} Overview"
       edit: "Edit details for bike %{bike_number}"
       update: "Edit details for bike %{bike_number}"
+  nav:
+    bikes:
+      available: 'Available'
+      assigned: 'Assigned'
+      departed: 'Departed'
+      all: 'All Bikes'
   bike:
     form:
       section:

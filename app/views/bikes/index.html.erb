@@ -1,10 +1,11 @@
 <section class="" id = "indexSection">
 <% # render :partial=>"bike_filter" %>
-<ul>
-  <li><%= link_to 'Available', :available_bikes %></li>
-  <li><%= link_to 'Assigned', :assigned_bikes %></li>
-  <li><%= link_to 'Departed', :departed_bikes %></li>
-  <li><%= link_to 'All Bikes', :bikes %></li>
+<ul class="nav nav-tabs">
+  <% I18n.translate('nav.bikes').each do |key, text| %>
+    <li class="<%= key.to_s == params[:status] ? 'active' : 'option' %>">
+      <%= link_to text, "#{key}_bikes" %>
+    </li>
+  <% end %>
 </ul>
 <%= render :partial=>"bike_table", :layout =>"bike_table_layout" %>
 </section>
