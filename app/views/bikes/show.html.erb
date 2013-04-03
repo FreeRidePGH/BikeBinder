@@ -127,8 +127,13 @@
 	<dd class="key">Manufacturer:</dd><dd class="value" ><%= bike.brand.name if bike.brand %></dd>
 	<dd class="key" >Model:</dd><dd class="value"><%= bike.model.name if bike.model %></dd>
 	<dd class="key">Color: </dd>
-	<dd class="value" ><%= bike.color.name.capitalize %></dd>
-	<span data-bike-color=<%=bike.color.name %> style="background-color:#<%= bike.color.key %>"></span>
+	<dd class="value" >
+	  <%= bike.color.name.capitalize %>
+	</dd>
+	<dd class="value" >
+	<span data-bike-color=<%=bike.color.name %> style="background-color:#<%= bike.color.key %>">
+	</span>
+	</dd>
 	<dd class="key">Wheel Size:</dd><dd class="value" ><%= "#{bike.wheel_size} mm" %></dd>
 	<dd class="key">Seat tube height:</dd>
 	<dd class="value" >
@@ -181,7 +186,7 @@
 <section id="action_history">
   <h2>Action History</h2>
   <ul>
-  <% bike.actions.each do |a| %>
+  <% bike.actions.reverse.each do |a| %>
   <li>
     <%= a.action.humanize %> on <%= Settings::Date.new(a.created_at).default_s %> by <%= (a.user.uname  if a.user) || "unknown user" %>
 
@@ -199,11 +204,11 @@
       <% a.changeset.
 	 delete_if{|k, v| 
 	 [:created_at, :updated_at, :id].include? k.to_sym
-	 }.each do |name, val|%>
+	 }.each do |key, val|%>
       <tr>
-	<td><%= name %></td>
-	<td><%= val[0] || "-" %></td>
-	<td><%= val[1] || "-" %></td>
+	<td><%= key.humanize.titleize %></td>
+	<td><%= print_val(key,val[0]) || "-" %></td>
+	<td><%= print_val(key, val[1]) || "-" %></td>
       </tr>
       <% end # .changeset.each %>
       </tbody>
