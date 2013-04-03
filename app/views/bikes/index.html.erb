@@ -3,7 +3,7 @@
 <ul class="nav nav-tabs">
   <% I18n.translate('nav.bikes').each do |key, text| %>
     <li class="<%= key.to_s == params[:status] ? 'active' : 'option' %>">
-      <%= link_to text, "#{key}_bikes" %>
+      <%= link_to text, "#{key}_bikes".to_sym %>
     </li>
   <% end %>
 </ul>
