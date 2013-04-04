@@ -97,7 +97,7 @@ namespace :db do
                        :quality => quality,
                        :condition => condition,
                        :value => val,
-                       :number => BikeNumber.format_number(Bike.count))
+                       :number => BikeNumber.format_number(Bike.count+1))
 
       
       # Reserve hook
