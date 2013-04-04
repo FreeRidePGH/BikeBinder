@@ -303,7 +303,7 @@ describe BikesController do
       end
 
       it "should redirect" do
-        expect(response).to redirect_to(bikes_path)
+        expect(response).to redirect_to(root_path)
       end
 
       it "should delete the bike" do
@@ -321,7 +321,7 @@ describe BikesController do
       end
 
       it "should redirect" do
-        expect(response).to redirect_to(bikes_path)
+        expect(response).to redirect_to(root_path)
       end
 
       it "should delete the bike" do
@@ -341,7 +341,7 @@ describe BikesController do
       end
 
       it "should redirect" do
-        expect(response).to redirect_to(bikes_path)
+        expect(response).to redirect_to(root_path)
       end
 
       it "should delete the bike" do
@@ -366,7 +366,7 @@ describe BikesController do
       end
 
       it "should redirect" do
-        expect(response).to redirect_to(bikes_path)
+        expect(response).to redirect_to(root_path)
       end
 
       it "should delete the bike" do

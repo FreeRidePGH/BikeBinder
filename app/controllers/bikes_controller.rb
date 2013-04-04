@@ -74,7 +74,7 @@ class BikesController < ApplicationController
   end
 
   def show
-    redirect_to bikes_path and return if fetch_failed? bike
+    redirect_to root_path and return if fetch_failed? bike
   end
 
   def qr
@@ -97,11 +97,11 @@ class BikesController < ApplicationController
   end
 
   def edit
-    redirect_to bikes_path and return if fetch_failed?(bike)
+    redirect_to root_path and return if fetch_failed?(bike)
   end
 
   def update
-    redirect_to bikes_path and return if fetch_failed?(bike)
+    redirect_to root_path and return if fetch_failed?(bike)
     redirect_to bike and return unless verify_signatory
     if bike_form.save
       flash.now[:success] = I18n.translate('controller.bikes.update.success')
@@ -112,7 +112,7 @@ class BikesController < ApplicationController
   end
   
   def destroy
-    redirect_to bikes_path and return if fetch_failed?(bike)
+    redirect_to root_path and return if fetch_failed?(bike)
 
     if bike.destroy
       flash[:success] = I18n.translate('controller.bikes.destroy.success')
@@ -121,7 +121,7 @@ class BikesController < ApplicationController
       redirect_to bike and return
     end
 
-    redirect_to bikes_path
+    redirect_to root_path
   end
 
 
