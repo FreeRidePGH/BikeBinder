@@ -113,7 +113,7 @@ namespace :db do
       # Depart
       if (dest)
         dest = nil unless prog.nil?
-        Departure.build(:bike => b, :destination => dest, :value => val)
+        Departure.build(:bike => b, :destination => dest, :value => val).save
       end
 
     end  # 30.times do
