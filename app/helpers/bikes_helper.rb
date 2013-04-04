@@ -12,7 +12,7 @@ module BikesHelper
     when 'wheel_size'
       "#{val} mm"
     when 'bike_model_id'
-      BikeModel.where(:id => val).name
+      BikeModel.where(:id => val.to_i ).first.to_s
     when 'quality'
       val.capitalize
     when 'condition'
