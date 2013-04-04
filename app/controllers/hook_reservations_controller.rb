@@ -21,8 +21,8 @@ class HookReservationsController < ApplicationController
 
     reservation = HookReservation.new(:bike => bike, :hook => hook)
     if reservation.save
-      hound_action bike, "Reserved hook #{hook.number}"
-      hound_action hook, "Reserved by bike #{bike.number}"
+      hound_action bike, "reserve_hook,number,#{bike.hook.number}"
+      hound_action hook, "assign_bike,number,#{bike.number}"
       flash[:success] = I18n.translate('controller.hook_reservations.create.success', :hook_number => bike.hook.number)
     else
       flash[:error] = I18n.translate('controller.hook_reservations.create.fail')
@@ -39,8 +39,8 @@ class HookReservationsController < ApplicationController
     redirect_to bike and return unless verify_signatory
     
     if reservation.destroy
-      hound_action bike, "Vacated hook #{hook.number}"
-      hound_action hook, "Vacated by bike #{bike.number}"
+      hound_action bike, "vacate_hook,number,#{hook.number}"
+      hound_action hook, "unassign_bike,number,#{bike.number}"
       flash[:success] = I18n.translate('controller.hook_reservations.destroy.success')
     else
       flash[:error] = I18n.translate('controller.hook_reservations.destroy.fail')

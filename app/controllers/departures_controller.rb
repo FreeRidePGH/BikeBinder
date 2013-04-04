@@ -35,7 +35,7 @@ class DeparturesController < ApplicationController
                       :value => params[:value].to_f, 
                       :destination => destination)
     if departure.save
-      hound_action bike, "Departed"
+      hound_action bike, "depart"
       flash[:success] = I18n.translate('controller.departures.create.success', 
                                        :bike_number => bike.number,
                                        :method => departure.method.name)
@@ -54,7 +54,7 @@ class DeparturesController < ApplicationController
     redirect_to(bike || root_path) and return unless verify_signatory
     
     if departure.destroy
-      hound_action bike, "Returned"
+      hound_action bike, "return"
       flash[:success] = I18n.translate('controller.departures.destroy.success')
     else
       flash[:error] = I18n.translate('controller.departures.destroy.fail')

@@ -50,5 +50,18 @@ module ApplicationHelper
       nil
     end
   end # def nav_bar_curr_class
+
+  def action_summary(event)
+    return nil if event.blank?
+    
+    key, *args = event.action.split(",")
+    params = Hash[args.combination(2).to_a].symbolize_keys
+    action_text = I18n.translate("action.#{key}", params)
+    date_text = Settings::Date.new(event.created_at).default_s
+    user_text =  (event.user.uname if event.user) || I18n.translate("action_user_unknown")
+
+    return I18n.translate("action_summary", 
+                          :action => action_text, :date => date_text,:user => user_text)
+  end
   
 end

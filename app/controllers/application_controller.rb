@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
+  before_filter :set_timezone
+
   expose :search_term do
       @search_term  ||= params[:q].to_s.strip
   end
@@ -132,5 +134,11 @@ class ApplicationController < ActionController::Base
       return false
     end
     true
+  end
+
+  private 
+
+  def set_timezone
+    Time.zone = ActiveSupport::TimeZone.new('Eastern Time (US & Canada)')
   end
 end

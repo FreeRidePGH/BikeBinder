@@ -2,7 +2,8 @@ class AssignmentsController < ApplicationController
 
   expose(:assignment) do
     unless params[:id].blank?
-      @asmt ||= Assignment.where{id=my{params[:id]}}.first
+      id = params[:id].to_i
+      @asmt ||= Assignment.where(:id=>id).first
     end
     @asmt
   end
@@ -13,8 +14,8 @@ class AssignmentsController < ApplicationController
     redirect_to bike and return unless verify_signatory
     
     if Assignment.build(:bike => bike, :program => program).save
-      hound_action bike, "Assigned to #{program.label}"
-      hound_action program, "Bike #{bike.number} assigned"
+      hound_action bike, "assign_program,program,#{program.label}"
+      hound_action program, "assign_bike,number,#{bike.number}"
       flash[:success] = I18n.translate('controller.assignments.create.success',
                                        :bike => bike.number,
                                        :program => program.name)
@@ -39,8 +40,8 @@ class AssignmentsController < ApplicationController
     redirect_to bike and return unless verify_signatory
     
     if !bike.departed? && assignment.delete
-      hound_action bike, "Assignment canceled"
-      hound_action program, "Bike #{bike.number} removed"
+      hound_action bike, "cancel_assignment"
+      hound_action program, "unassign_bike,number,#{bike.number}"
       flash[:success] = I18n.translate('controller.assignments.destroy.success', :bike => bike.number)
     else
       flash[:error] = I18n.translate('controller.assignments.destroy.fail', :bike => bike.number)

@@ -145,10 +145,10 @@
 	  <%= render :partial=>'show_measurement', 
 	  :locals => {:val => bike.top_tube_length} %>
 	</dd>
-    <dd class="key">Quality:</dd><dd class="value" ><%= bike.quality %></dd>
-    <dd class="key">Condition:</dd><dd class="value" ><%= bike.condition %></dd>
+    <dd class="key">Quality:</dd><dd class="value" ><%= print_val('quality', bike.quality) %></dd>
+    <dd class="key">Condition:</dd><dd class="value" ><%= print_val('condition', bike.condition) %></dd>
 
-	<dd class="key">Value:</dd><dd class="value" ><%= (bike.value ? "$#{bike.value}" : "n/a") %></dd>
+	<dd class="key">Value:</dd><dd class="value" ><%= (bike.value ? print_val('value', bike.value) : "n/a") %></dd>
 
       </dl>
       <dl class="dynamicAttributes">
@@ -185,14 +185,14 @@
 
 <section id="action_history">
   <h2>Action History</h2>
-  <ul>
+  <ul class="span4">
   <% bike.actions.reverse.each do |a| %>
   <li>
-    <%= a.action.humanize %> on <%= Settings::Date.new(a.created_at).default_s %> by <%= (a.user.uname  if a.user) || "unknown user" %>
-
-
-  <% unless a.changeset.empty? %>
-    <table>
+    <!--
+    <%  a.action.humanize %> on <% Settings::Date.new(a.created_at).default_s %> by <% (a.user.uname  if a.user) || "unknown user" %> -->
+    <%=  action_summary(a) %>
+    <% unless a.changeset.empty? %>
+    <table class="table table-bordered table-condensed">
       <thead>
 	<tr>
 	  <th>Attribute</th>

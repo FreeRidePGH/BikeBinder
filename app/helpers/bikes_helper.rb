@@ -1,7 +1,7 @@
 module BikesHelper
 
   def print_val(key, val)
-    return nil if val.nil?
+    return nil if val.blank?
     case key
     when 'color'
       val.respond_to?(:name) ? val.name.capitalize : ColorNameI18n::Color.new(val).name.capitalize
@@ -14,11 +14,11 @@ module BikesHelper
     when 'bike_model_id'
       BikeModel.where(:id => val).name
     when 'quality'
-      val
+      val.capitalize
     when 'condition'
-      val
+      val.capitalize
     when 'value'
-      "$#{val}"
+      sprintf("$%.2f", val)
     when 'number'
       val
     end
