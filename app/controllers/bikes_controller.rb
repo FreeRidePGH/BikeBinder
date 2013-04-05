@@ -70,14 +70,17 @@ class BikesController < ApplicationController
   end
 
   def index
-    # Intentionally blank
+    authorize! :read, Bike
   end
 
   def show
     redirect_to root_path and return if fetch_failed? bike
+    authorize! :read, bike
   end
 
   def qr
+    redirect_to root_path and return if fetch_failed? bike
+    authorize! :read, bike
     respond_to do |format|
       @qr = RQRCode::QRCode.new(url_for(bike), :size => 7)
       format.html
@@ -85,10 +88,11 @@ class BikesController < ApplicationController
   end
 
   def new
-    # Intentionally blank
+    authorize! :create, Bike
   end
 
   def create     
+    authorize! :create, Bike
     if verify_signatory && bike_form.save
       flash[:success] = I18n.translate('controller.bikes.create.success')
       redirect_to bike_post_created_path and return
@@ -98,10 +102,12 @@ class BikesController < ApplicationController
 
   def edit
     redirect_to root_path and return if fetch_failed?(bike)
+    authorize! :edit, bike
   end
 
   def update
     redirect_to root_path and return if fetch_failed?(bike)
+    authorize! :edit, bike
     redirect_to bike and return unless verify_signatory
     if bike_form.save
       flash.now[:success] = I18n.translate('controller.bikes.update.success')
@@ -113,6 +119,7 @@ class BikesController < ApplicationController
   
   def destroy
     redirect_to root_path and return if fetch_failed?(bike)
+    authorize! :destroy, bike
 
     if bike.destroy
       flash[:success] = I18n.translate('controller.bikes.destroy.success')
