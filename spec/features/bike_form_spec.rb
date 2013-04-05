@@ -2,6 +2,14 @@ require 'spec_helper'
 
 describe "The bike form", :type => :feature do
   let(:sig){"ABC"}
+  let(:user){FactoryGirl.create(:user)}
+
+  before :each do
+    visit new_user_session_path
+    fill_in "user_email", :with => user.email
+    fill_in "user_password", :with => user.password
+    click_button 'commit'
+  end
 
   context "for a new bike" do
     it "has required inputs" do

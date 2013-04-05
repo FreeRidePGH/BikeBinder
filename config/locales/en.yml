@@ -13,6 +13,7 @@ en:
     del_assignment: "Unassign"
     new_departure: "Depart Bike"
     del_departure: "Return Bike"
+    new_user_session: "Sign in"
   placeholder:
     departure_destination: "Select destination..."
     prog_options: "Select program..."
