@@ -4,6 +4,10 @@ class SearchesController < ApplicationController
   # Queries in the form of a hook number search for a hook
   # Queries in the form of a bike number search for a bike
   def index
+
+    authorize! :read, Bike
+    authorize! :read, Hook
+
     if search_term =~ HookNumber.anchored_pattern
       @hook = Hook.find_by_slug(search_term)
       @bike = @hook.bike if @hook

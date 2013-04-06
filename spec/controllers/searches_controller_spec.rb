@@ -4,6 +4,10 @@ describe SearchesController do
 
   describe "GET 'index'" do
 
+    before :each do
+      sign_out :user
+    end
+
     context "with exact bike number search term match" do
       let(:bike){FactoryGirl.create(:bike)}
 

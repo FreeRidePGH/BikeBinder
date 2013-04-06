@@ -40,7 +40,7 @@ class HookReservationsController < ApplicationController
     redirect_to root_path and return if fetch_failed?([reservation, bike, hook])
     redirect_to bike and return unless verify_signatory
 
-    authorize! :destroy, HookReservation
+    authorize! :destroy, reservation
     
     if reservation.destroy
       hound_action bike, "vacate_hook,number,#{hook.number}"

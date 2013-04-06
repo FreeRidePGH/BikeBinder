@@ -3,6 +3,14 @@ require 'spec_helper'
 describe "Action" do
   let(:bike){FactoryGirl.create(:bike)}
   let(:sig){"ABC"}
+  let(:user){FactoryGirl.create(:user)}
+
+  before :each do
+    visit new_user_session_path
+    fill_in "user_email", :with => user.email
+    fill_in "user_password", :with => user.password
+    click_button 'commit'
+  end
 
   describe "reserving an available hook" do
     let!(:hook){FactoryGirl.create(:hook)}
