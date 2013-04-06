@@ -13,7 +13,7 @@ describe AssignmentsController do
       let(:program){FactoryGirl.create(:program)}
       
       before :each do
-        sign_out :user
+        sign_in user
         post :create, :bike_id => bike, :program_id => program, :sig => nil
       end
 
@@ -139,7 +139,7 @@ describe AssignmentsController do
       let(:bike){assignment.bike}
       
       before :each do
-        sign_out :user
+        sign_in user
         delete :destroy, :id => bike.assignment, :sig => nil
         bike.reload
       end

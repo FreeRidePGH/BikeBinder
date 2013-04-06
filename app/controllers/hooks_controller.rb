@@ -7,13 +7,13 @@ class HooksController < ApplicationController
   end
 
   def show
+    authorize! :read, hook || Hook
     (redirect_to root_path and return) if fetch_failed?(hook)
-    authorize! :read, hook
   end
 
   def index
-    redirect_to root_path and return
     authorize! :read, Hook
+    redirect_to root_path and return
   end
 
 end

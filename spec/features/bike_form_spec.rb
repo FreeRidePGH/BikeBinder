@@ -87,9 +87,9 @@ describe "The bike form", :type => :feature do
           within "#s2id_bike_form_bike_model_id" do
             expect(first('a').click).to_not be_nil
           end
-          first("div.#{css_drop} div.select2-search input").set model.name+"\r\n"          
+          first("div.#{css_drop} div.select2-search input").set model.name+"\r\n"
           sleep(1.5)
-          #save_screenshot(File.join(SPEC_TEMP_PATH, 'screen0.png'), :full => true)
+          save_screenshot(File.join(SPEC_TEMP_PATH, 'screen0.png'), :full => true)
           first("div.#{css_drop} ul.select2-results li ul li").click
           sleep(0.25)
           #save_screenshot(File.join(SPEC_TEMP_PATH, 'screen1.png'), :full => true)

@@ -16,11 +16,10 @@ class HookReservationsController < ApplicationController
 
   # Post
   def create
+    authorize! :create, HookReservation
     redirect_to root_path and return if fetch_failed? bike
     redirect_to bike and return unless verify_signatory
-
-    authorize! :create, HookReservation
-
+    
     reservation = HookReservation.new(:bike => bike, :hook => hook)
     if reservation.save
       hound_action bike, "reserve_hook,number,#{bike.hook.number}"
@@ -35,13 +34,12 @@ class HookReservationsController < ApplicationController
 
   # Delete
   def destroy
+    authorize! :destroy, reservation || HookReservation    
     bike = reservation.bike if reservation
     hook = reservation.hook if reservation
     redirect_to root_path and return if fetch_failed?([reservation, bike, hook])
     redirect_to bike and return unless verify_signatory
 
-    authorize! :destroy, reservation
-    
     if reservation.destroy
       hound_action bike, "vacate_hook,number,#{hook.number}"
       hound_action hook, "unassign_bike,number,#{bike.number}"
@@ -60,11 +58,10 @@ class HookReservationsController < ApplicationController
 
   # Put
   def update
+    authorize! :update, reservation || HookReservation
     bike = reservation.bike if reservation
     redirect_to root_path and return if fetch_failed?([reservation, bike])
     redirect_to bike and return unless verify_signatory
-
-    authorize! :update, reservation
     
     call_events(reservation, [:bike, :hook], params)
     if reservation.save

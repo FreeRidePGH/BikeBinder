@@ -30,7 +30,7 @@ describe DeparturesController do
       let(:destination){FactoryGirl.create(:destination)}
           
       before :each do
-        sign_out :user
+        sign_in user
         post :create, :bike_id => bike.number, :destination_id => destination, :sig => nil
       end
 
@@ -183,7 +183,7 @@ describe DeparturesController do
       let(:bike){departure.bike}
 
       before :each do
-        sign_out :user
+        sign_in user
         delete :destroy, :id => bike.assignment, :sig => nil
         bike.reload
       end

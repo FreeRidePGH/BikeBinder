@@ -10,10 +10,9 @@ class AssignmentsController < ApplicationController
   
   # POST
   def create
+    authorize! :create, Assignment
     redirect_to root_path and return if fetch_failed?([bike, program])
     redirect_to bike and return unless verify_signatory
-
-    authorize! :create, Assignment
     
     if Assignment.build(:bike => bike, :program => program).save
       hound_action bike, "assign_program,program,#{program.label}"
@@ -30,20 +29,18 @@ class AssignmentsController < ApplicationController
 
   # PUT
   def update
+    authorize! :update, assignment || Assignment
     (redirect_to root_path and return) if fetch_failed?([assignment])
     redirect_to assignment.bike || root_path
-
-    authorize! :update, assignment
   end
   
   # DELETE
   def destroy
+    authorize! :destroy, assignment || Assignment
     bike = assignment.bike if assignment
     program = assignment.application if assignment
     redirect_to root_path and return if fetch_failed?([assignment, bike, program])
     redirect_to bike and return unless verify_signatory
-
-    authorize! :destroy, assignment
     
     if !bike.departed? && assignment.delete
       hound_action bike, "cancel_assignment"

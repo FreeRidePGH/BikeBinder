@@ -26,7 +26,7 @@ describe HookReservationsController do
       let(:hook){FactoryGirl.create(:hook)}
       
       before :each do
-        sign_out :user        
+        sign_in user        
         post :create, :bike_id => bike, :hook_id => hook, :sig => nil
       end
 
@@ -181,7 +181,7 @@ describe HookReservationsController do
       let(:hook){reservation.hook}
       
       before :each do
-        sign_out :user
+        sign_in user
         delete :destroy, :id => reservation, :sig => nil
       end
 
