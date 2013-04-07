@@ -13,19 +13,21 @@ table.bikes th:first-child {
 }
 /* Location, project info, departure info */
 section.bikesMeta {
+    background-color: #e0e0e0; 
+    padding: 10px;
     div.locationWrap {
 	clear: both;
     }
-    div {
+/*    div {
 	float: left;
 	clear: left;
     }
+        */
     div.projInfo {
 
     }
     
 }
-
 #existingNotes {
     float: left;
 }
@@ -42,84 +44,109 @@ dd.value {
     float: left;
     margin-left: .5em;
 }
+/*
+ * Make the rating of each attribute A,B,C etc
+ */
+.attrQuality,
+.attrCondition {
+    text-transform: uppercase;
+}
 /* Notecard like description of bike */
-#bikeInfo.noteCard  {
+.bikeInfo .icon-qrcode {
+    margin-top: 10px;
+}
+.bikeInfo.noteCard  {
     padding: .5em;
 
     a.editLink {
-	float: right;
-	margin: .25em .5em;
-	font-weight: bold;
-    }
-    
-    div.block1 {
-	margin: .25em;
-	h2 {
-	float: left;
-	}
-	dl {
-	    margin: .5em .25em 0 .25em;
-	    height: 25px;
-	}
-    }
-    div.colorWrapper {
-	float:right;
-	width: 45%;
-	p {
-	    font-weight: bold;
-	    font-size: 14px;
-	    float: left;
-	}
-    }
+        float: right;
+        margin: 1.25em .5em .25em .5em;
+        font-weight: bold;
+}
 
-    div.block1 + div {
-	height: 120px;
-	[data-bike-color] {
-	    width: 25px;
-	    height: 25px;
-	    border-radius: 5px;
-	    border: solid #888 1px;
-	    margin: 0 .25em 0 .5em;
-	    float: left;
-	    padding: 0;
-	}
+div.block1 {
+    margin: .25em;
+    h2 {
+        float: left;
+}
+dl {
+    margin: .5em .25em 0 .25em;
+    height: 25px;
+}
+}
+div.colorWrapper {
+    float:right;
+    width: 45%;
+    p {
+        font-weight: bold;
+        font-size: 14px;
+        float: left;
+}
+}
 
-	dl.staticAttributes {
-	    margin-top: 0;
-	}
-	dd {
-	    padding: 5px;
-	    display: block;
-	}
-	dd.key {
-	    clear: left;
-	}
-	dl.dynamicAttributes {
-	    clear:left;
-	    float: left; 
-	    margin-top: 1em;
-	    width: 75%;
-	}
-    }
-    
+div.block1 + div {
+    height: 120px;
+    [data-bike-color] {
+        width: 25px;
+        height: 25px;
+        border-radius: 5px;
+        border: solid #888 1px;
+        margin: 0 .25em 0 .5em;
+        float: left;
+        padding: 0;
+}
+
+dl.staticAttributes {
+    margin-top: 0;
+}
+dd {
+    padding: 5px;
+    display: block;
+}
+dd.key {
+    clear: left;
+}
+dl.dynamicAttributes {
+    clear:left;
+    float: left; 
+    margin-top: 1em;
+    width: 75%;
+}
+}
+
 }
 /* Style comments/notes about bike here */
 .show-bike section.notesWrapper {
     div {
 	margin-top: .5em;
-    }
+}
+}
+.show-bike select {
+    width: 120px;
+}
+.departInfo select,
+.projInfo select {
+    width: auto;
 }
 #existingNotes {
-    
+
     label {
-	font-size: 14px;
-	float: left;
-	font-weight: bold;
-	margin: .25em .25em 0 .25em;
-    }
+        font-size: 14px;
+        float: left;
+        font-weight: bold;
+        margin: .25em .25em 0 .25em;
+}
 }
 #newNote {
     float: left;
+}
+/* Editing bike */
+.edit-bike-nav {
+    position: fixed;
+    top: 11.5%;
+}
+.currentLink {
+    background-color: #EEEEEE;
 }
 
 /* label[for="comment_body"] { */

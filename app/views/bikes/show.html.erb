@@ -1,17 +1,61 @@
-<script type = "text/javascript">
-    $(document).ready(function(){
-        $("#changeProgram").click(function(){
-            $("#changeProgram").fadeOut();
-            $("#changeProgramForm").slideDown();
-        });
-    });
-</script>
+<section class="show-bike ">
 
-<section class="show-bike row">
+  <section id="bikeInfo" class="span4 bikeInfo noteCard noLeftMarg row">
+    <div class="block1 span4">
+      <h2>
+	Bike <%=bike.number %> 
+<%= link_to(qr_bike_path(bike), :target=> "_blank") do %><i class="icon-qrcode"></i><% end %> 
+      </h2>
+        <%= link_to(edit_bike_path(bike), :class=> "editLink",   :title => "Edit this bike's information") do %>
+	<i class="icon-pencil"></i>Edit Bike
+	<% end %>
+    </div>
+    <div>
+      <dl class="staticAttributes">
+	<dd class="key">Manufacturer:</dd><dd class="value" ><%= bike.brand.name if bike.brand %></dd>
+	<dd class="key" >Model:</dd><dd class="value"><%= bike.model.name if bike.model %></dd>
+	<dd class="key">Color: </dd>
+	<dd class="value" ><%= bike.color.name.capitalize %></dd>
+	<span data-bike-color=<%=bike.color.name %> style="background-color:#<%= bike.color.key %>"></span>
+	<dd class="key">Wheel Size:</dd><dd class="value" ><%= "#{bike.wheel_size} mm" %></dd>
+	<dd class="key">Seat tube height:</dd>
+	<dd class="value" >
+	  <%= render :partial=>'show_measurement', 
+	  :locals => {:val => bike.seat_tube_height} %>
+	</dd>
+	<dd class="key">Top tube length:</dd>
+	<dd class="value" >
+	  <%= render :partial=>'show_measurement', 
+	  :locals => {:val => bike.top_tube_length} %>
+	</dd>
+    <dd class="key">Quality:</dd><dd class="value attrQuality" ><%= bike.quality %></dd>
+    <dd class="key">Condition:</dd><dd class="value attrCondition" ><%= bike.condition %></dd>
 
-  <section class="bikesMeta span3">
+	<dd class="key">Value:</dd><dd class="value" ><%= (bike.value ? "$#{bike.value}" : "n/a") %></dd>
 
-    <div class="locationWrap">
+      </dl>
+      <dl class="dynamicAttributes">
+	<dd class="key ">Status: </dd> <dd class="value">
+	  <% if bike.available? %>
+	  Available
+	  <% elsif bike.departed? %>
+	  Departed as <%= link_to "#{bike.application.name}", url_for(bike.application.application) %>
+	  <% elsif bike.application %>
+	    <%= link_to "#{bike.application.name}",url_for(bike.application) %>
+	  <% end %>
+	</dd>
+
+      </dl>
+    </div>
+      <% if @bikePhoto %>
+        <div class = "pull-right bikePhotoContainer">
+        <%= image_tag root_path+"photos/bike-#{bike.number}.jpeg", :class => "bikePhoto" %>
+        </div>  
+    <% end %>
+
+  </section>
+<section class="bikesMeta span7">
+    <div class="span2">
       <h3>Location</h3>
       <% if bike.departed? %>
         <p>Bike has departed.</p>
@@ -39,7 +83,7 @@
       <% end #bike.departed? %>
     </div> <!-- end of location wrapper -->
 
-    <div class="projInfo">
+    <div class="projInfo span2">
       <h3>Assignment</h3>
       <% if bike.application %>
         <p>Assigned to: <%= link_to bike.application.label, bike.application %></p>
@@ -64,7 +108,7 @@
       <% end %>
     </div> <!-- end of proj info wrapper -->
 
-    <div class="departInfo">
+    <div class="departInfo span2">
       <h3>Arrival/Departure</h3>
       <h4>Arrived</h4>
       <p><%= Settings::Date.new(bike.created_at).default_s %></p>
@@ -93,62 +137,7 @@
 
     </section> <!-- end of bikes meta -->
 
-  <div class="span8">
 
-  <section id="bikeInfo" class="span8 noteCard noLeftMarg row">
-    <div class="block1 span8">
-      <h2>
-	Bike <%=bike.number %> 
-	<%= link_to qr_bike_path(bike) do %><i class="icon-qrcode"></i><% end %> 
-      </h2>
-        <%= link_to(edit_bike_path(bike), :class=> "editLink",   :title => "Edit this bike's information") do %>
-	<i class="icon-pencil"></i>Edit Bike
-	<% end %>
-    </div>
-    <div>
-      <dl class="staticAttributes">
-	<dd class="key">Manufacturer:</dd><dd class="value" ><%= bike.brand.name if bike.brand %></dd>
-	<dd class="key" >Model:</dd><dd class="value"><%= bike.model.name if bike.model %></dd>
-	<dd class="key">Color: </dd>
-	<dd class="value" ><%= bike.color.name.capitalize %></dd>
-	<span data-bike-color=<%=bike.color.name %> style="background-color:#<%= bike.color.key %>"></span>
-	<dd class="key">Wheel Size:</dd><dd class="value" ><%= "#{bike.wheel_size} mm" %></dd>
-	<dd class="key">Seat tube height:</dd>
-	<dd class="value" >
-	  <%= render :partial=>'show_measurement', 
-	  :locals => {:val => bike.seat_tube_height} %>
-	</dd>
-	<dd class="key">Top tube length:</dd>
-	<dd class="value" >
-	  <%= render :partial=>'show_measurement', 
-	  :locals => {:val => bike.top_tube_length} %>
-	</dd>
-    <dd class="key">Quality:</dd><dd class="value" ><%= bike.quality %></dd>
-    <dd class="key">Condition:</dd><dd class="value" ><%= bike.condition %></dd>
-
-	<dd class="key">Value:</dd><dd class="value" ><%= (bike.value ? "$#{bike.value}" : "n/a") %></dd>
-
-      </dl>
-      <dl class="dynamicAttributes">
-	<dd class="key ">Status: </dd> <dd class="value">
-	  <% if bike.available? %>
-	  Available
-	  <% elsif bike.departed? %>
-	  Departed as <%= link_to "#{bike.application.name}", url_for(bike.application.application) %>
-	  <% elsif bike.application %>
-	    <%= link_to "#{bike.application.name}",url_for(bike.application) %>
-	  <% end %>
-	</dd>
-
-      </dl>
-    </div>
-      <% if @bikePhoto %>
-        <div class = "pull-right bikePhotoContainer">
-        <%= image_tag root_path+"photos/bike-#{bike.number}.jpeg", :class => "bikePhoto" %>
-        </div>  
-    <% end %>
-
-  </section>
 
   <section class="notesWrapper">
     <div  class="span8">
@@ -159,9 +148,6 @@
       :locals=>{:commentable=>programs, :url => new_comment_bike_path(bike)} %>
     </div>
   </section> <!-- end notesWrap -->
-
-</div>
-
 
 </section> <!-- end of main wrapper -->
 

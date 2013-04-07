@@ -1,50 +1,50 @@
 /* header provides a common label to rest above each part of the site */
 header {
-    margin: 0px;
+    margin: 0;
 }
 
 header h1 {
-     border-bottom-width:2px;
-     border-bottom-style:solid;
-     border-color: #999;
-     margin-bottom: .6em;
+    border-bottom-width:2px;
+    border-bottom-style:solid;
+    border-color: #999;
+    margin-bottom: .6em;
 
-color: #333;
-/* override these here but think about recompiling bootstrap for consistency */
-line-height: 30px;
-font-size: 25px;
+    color: #333;
+    /* override these here but think about recompiling bootstrap for consistency */
+    line-height: 30px;
+    font-size: 25px;
 }
 
 #shared_menu {
-border: 1px solid #ddd;	     
-background-color: #003;
-padding: 0px;		  
-margin: 0px;
-margin-top: 15px;
-border-radius: 5px;
+    border: 1px solid #ddd;	     
+    background-color: #003;
+    padding: 0;		  
+    margin: 0;
+    margin-top: 15px;
+    border-radius: 5px;
 }
 
 /*
-*.navbar-inner {
-background: #003;
+ *.navbar-inner {
+ background: #003;
 }
-#shared_menu a {
-color: rgb(143,149,163);
+    #shared_menu a {
+    color: rgb(143,149,163);
 }
-#shared_menu a:hover {
-color: #ccf;
+    #shared_menu a:hover {
+    color: #ccf;
 }
-*/
+ */
 
 #shared_menu ul{
-margin: 0px;
+    margin: 0;
 }
 
 div.overlay {
     text-align: center;
     background: #CCC;
-    margin: 0px;	
-    padding: 0px;
+    margin: 0;	
+    padding: 0;
     border: 1px solid #999;
 }
 p.demoHelp {
@@ -60,9 +60,6 @@ footer p.copyright {
     clear: both;
     padding-top: 2em;
 }
-
-
-
 a.editLink {
     font-size: 14px;
     font-family: Helvetica Neue, sans-serif;
@@ -130,12 +127,9 @@ margin: .15em;
 
 } 
 
-
-
 /* sitewide table legibility style */ 
 table tr:nth-child(2n+1) {
     /*background: #f1f1f1;*/
-
 }
 
 /* Generic comments styling */
@@ -166,7 +160,6 @@ div.comments {
 .noteCard {
     border: solid 1px #888;
     box-shadow: -1px 1px 1px #999;
-
 }
 footer {
     margin-top: 40px;
@@ -184,7 +177,6 @@ button.toggler {
     }
 
 }
-
 /* Styling to customize for look and feel */
 .inline-label {
     text-align:right;

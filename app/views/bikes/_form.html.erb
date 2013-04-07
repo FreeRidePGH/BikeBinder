@@ -1,6 +1,6 @@
 <div class="row">
-  <div class="section-sidebar span2">
-    <ul class="nav nav-list">
+  <div class="edit-bike-nav span2">
+    <ul class="nav nav-list" id="bikeDetailNav" >
       <% I18n.translate('bike.form.section').each do |key, text| %>
       <li><a href="#<%= "#{key}" %>"><%= text.titleize %></a></li>
       <% end # each section %>
@@ -8,7 +8,7 @@
     </ul>
   </div>
 <%= form_for bike_form, 
-    :html => {:class => "bike_form span9 form-horizontal"},
+    :html => {:class => "bike_form span9 form-horizontal offset2"},
     :url => url_for(bike_form.bike),
     :method => bike_form.form_method(action_name) do |f| %>
   <%= render 'shared/error_messages', :object => f.object %>

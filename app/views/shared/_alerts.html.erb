@@ -1,7 +1,6 @@
 <% flash.each do |key, value| %>
 <!-- bootstrap uses alert as a warning class, lets make the classes match the messages -->
-  <section id="alerts" class=" alert alert-success row span12 alert-<%= key %>">
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <section id="alerts" class=" offset2 alert alert-success row span10 alert-<%= key %>">
   <% if value.is_a? Hash %>
     <p><%= value.delete :description %></p>
     <ul>
@@ -19,6 +18,7 @@
   <% else %>
     <%= content_tag(:p, value) %>
   <% end %>
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
   </section>
 
 <% end %>

@@ -23,13 +23,6 @@
 
 <body>
   <div class="container-fluid<%= ' no-user' if !user_signed_in? %>">
-      <% if !user_signed_in? %>
-      <div class="overlay">
-	<p class="demoHelp" >
-	  You can <%= link_to "sign in", new_user_session_path , :class=> "" %> with username "demo@freeridepgh.org" and password "testdemo"
-	</p>
-      </div>
-      <% end %>
 
       <div class="row-fluid span12" id="pageHeader">
 	<header>

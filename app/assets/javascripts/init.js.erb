@@ -4,8 +4,8 @@
 <% url_map = UrlGenerator.new %>
 
 <% require "settings" %>
-
-$(document).ready(function(){
+$(function(){
+    'use strict'
     /////////////
     // Initialize the Select2 Interface Elements
     select_init(sel2.WheelSelectBuilder)
@@ -39,20 +39,28 @@ $(document).ready(function(){
         });
 
 
-    //////////////////
     // May be able to get rid of these initializations:    
 
     // hack to see if we are adding a new bike
     if ($('#colorInput').length) {
 	$("input#colorInput").fewPicker();			  
     }
+    // add navigation class to the bike edit nav on the left
 
-    ///////////
-    // Initialize Accordian Elements
-    // jQuery("*.collapse").collapse()
-
-    
-
+    var classSet = false;
+    $('#bikeDetailNav').click(function(event){
+        var $anchor = $(event.target);
+        $(this).find('.currentLink').removeClass('currentLink');
+        $anchor.addClass('currentLink');
+        classSet = true;
+    });
+    $(window).scroll(function(){
+        if(classSet){
+            // for simplicity do not apply the class when the user scrolls
+            // TODO rethink this
+            //$('.currentLink').removeClass('currentLink');
+        }
+    });
     if ($("[data-bike-color]").length) {
 	var colorSwatchDiv = $("[data-bike-color]");
 	colorSwatchDiv.css("backgroundColor", colorSwatchDiv.data("bike-color"));
@@ -62,7 +70,6 @@ $(document).ready(function(){
 	$("#newCommentWrap").toggle();
     });
 
-    //////////////////
     // Fade the alerts messages
     $('#alerts').delay(500).fadeIn('normal', function() {
 	$(this).delay(5000).fadeOut();

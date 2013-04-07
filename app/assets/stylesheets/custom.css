@@ -207,17 +207,11 @@ header a img{
     margin-top: 15px;
     margin-left: 20px;
 }
-
-
 #bikeFilters{
     text-align: left;
     color: rgb(33,89,104);
     border: 1px solid LightGray;
     background-color: rgb(219,238,244);
-}
-.bikesMeta{
-    background-color: #DBEEF4;
-    padding: 10px;
 }
 #bikeInfo{
     margin-left: 20px;
