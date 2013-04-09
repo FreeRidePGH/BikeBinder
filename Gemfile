@@ -99,6 +99,7 @@ group :development do
   gem 'rails-erd'
   gem 'rspec-rails', '~>2'
   gem 'guard-rspec', '0.5.5'
+  gem 'tlsmail'
 end
 
 gem 'heroku'

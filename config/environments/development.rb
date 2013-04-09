@@ -1,3 +1,6 @@
+require 'fileutils'
+require File.dirname(__FILE__) + "/../../config/directories.rb"
+
 BikeBinder::Application.configure do
 
   #upgrade to rails 3.2
@@ -26,21 +29,27 @@ BikeBinder::Application.configure do
   # setup instructions @ https://github.com/RailsApps/rails3-devise-rspec-cucumber/wiki/Tutorial
   # also see https://www.ruby-forum.com/topic/215482
   # For installing Devise, Ensure you have defined default url options in your environments files. 
-  #require 'tlsmail' # http://yekmer.posterous.com/devise-gmail-smtp-configuration
-  #Net::SMTP.enable_tls(OpenSSL::SSL::VERIFY_NONE) 
+  require 'tlsmail' # http://yekmer.posterous.com/devise-gmail-smtp-configuration
+  Net::SMTP.enable_tls(OpenSSL::SSL::VERIFY_NONE) 
+
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_deliveries = true
-  config.action_mailer.smtp_settings = {
-    :enable_starttls_auto => true,
-    :address => 'smtp.gmail.com',
-    :port => 587,
-    :authentication => :plain,
-    :domain => "freeridepgh.org",
-    :user_name => "frtest97@gmail.com",
-    :password => "M1hjU26cfkCEe3uBr7Fi"
-  }
   config.action_mailer.default_url_options= {:host => 'localhost:3000'}
+
+  if File.exists?(APP_MAILER_CONFIG_FILE)
+    require APP_MAILER_CONFIG_FILE
+    config.action_mailer.smtp_settings = MailerConfig::settings
+  else
+    config.action_mailer.smtp_settings = {
+      :enable_starttls_auto => true,
+      :port => 587,
+      :authentication => :login,
+      :address => ENV["BIKE_BINDER_SMTP_ADDRESS"],
+      :user_name => ENV["BIKE_BINDER_EMAIL_USER"],
+      :password => ENV["BIKE_BINDER_EMAIL_PWD"]
+    }
+  end
 
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
