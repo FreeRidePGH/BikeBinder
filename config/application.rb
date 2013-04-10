@@ -58,12 +58,13 @@ module BikeBinder
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.raise_delivery_errors = true
     config.action_mailer.perform_deliveries = true
-    config.action_mailer.default_url_options= {:host => 'localhost:3000'}
-    
+
     if File.exists?(APP_MAILER_CONFIG_FILE)
       require APP_MAILER_CONFIG_FILE
       config.action_mailer.smtp_settings = MailerConfig::settings
+      config.action_mailer.default_url_options= {:host => MailerConfig::default_url_host}
     else
+      config.action_mailer.default_url_options= {:host =>ENV["BIKE_BINDER_URL_HOST"]}
       config.action_mailer.smtp_settings = {
         :enable_starttls_auto => true,
         :port => 587,

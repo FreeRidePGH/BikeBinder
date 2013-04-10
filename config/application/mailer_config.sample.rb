@@ -1,4 +1,10 @@
 module MailerConfig
+
+  def self.default_url_host
+    "application.com"
+  end
+
+
   def self.settings
     {
       :enable_starttls_auto => true,

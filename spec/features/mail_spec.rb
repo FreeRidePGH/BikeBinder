@@ -8,9 +8,6 @@ describe "sending mail" do
                                           :to => to, :subject => "Test Mail")}
     before :each do
       BikeBinder::Application.configure do
-        require 'tlsmail' # http://yekmer.posterous.com/devise-gmail-smtp-configuration
-        Net::SMTP.enable_tls(OpenSSL::SSL::VERIFY_NONE) 
-        
         config.action_mailer.delivery_method = :smtp
         config.action_mailer.raise_delivery_errors = true
         config.action_mailer.perform_deliveries = true
