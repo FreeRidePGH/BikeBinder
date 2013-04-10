@@ -2,34 +2,16 @@
 # All the magic directory constants should live here.
 #
 
-dirs = []
-
 # config
 
-dirs << CONFIG_DIRECTORY_ROOT = "#{Rails.root}/config"
-dirs << APP_CONFIG_DIRECTORY = "#{Rails.root}/config/application"
-APP_SECRET_FILE              = "#{APP_CONFIG_DIRECTORY}/secret_token.txt"
-APP_DB_CONFIG_FILE            = "#{CONFIG_DIRECTORY_ROOT}/database.yml"
-APP_MAILER_CONFIG_FILE       = "#{APP_CONFIG_DIRECTORY}/mailer_config.rb"
+CONFIG_DIRECTORY_ROOT    = File.expand_path("..", __FILE__)
+APP_CONFIG_DIRECTORY     = File.join(CONFIG_DIRECTORY_ROOT, "application")
+APP_SECRET_FILE          = File.join(APP_CONFIG_DIRECTORY , "secret_token.txt")
+APP_MAILER_CONFIG_FILE   = File.join(APP_CONFIG_DIRECTORY, "mailer_config.rb")
+APP_DB_CONFIG_FILE       = File.join(CONFIG_DIRECTORY_ROOT, "database.yml")
 
 # tmp
 
-dirs << TMP_DIRECTORY   = "#{Rails.root}/tmp"
-dirs << CACHE_DIRECTORY = "#{TMP_DIRECTORY}/cache"
-
-#
-# ensure the directories exist
-#
-
-require 'fileutils'
-
-dirs.each do |dir|
-  unless File.directory?(dir)
-    if File.exists?(dir)
-      raise 'ERROR: %s is supposed to be a directory, but file already exists' % dir
-    else
-      FileUtils.mkdir_p(dir)
-    end
-  end
-end
+TMP_DIRECTORY   = File.expand_path(File.join("..","tmp"), __FILE__)
+CACHE_DIRECTORY = "#{TMP_DIRECTORY}/cache"
 
