@@ -103,8 +103,13 @@
 
   <div class="span8">
 
-  <section id="bikeInfo" class="span8 noteCard noLeftMarg row">
-    <div class="block1 span8">
+<ul class="nav nav-tabs" id="tab_ui">
+  <li class="active"><a href="#bikeInfo" data-toggle="tab">Bike Info</a></li>
+  <li><a href="#action_history" data-toggle="tab">History</a></li>
+</ul>
+<div class="tab-content row span8">
+  <section id="bikeInfo" class="tab-pane active noteCard noLeftMarg row span6">
+    <div class="block1">
       <h2>
 	Bike <%=bike.number %> 
 	<%= link_to qr_bike_path(bike) do %><i class="icon-qrcode"></i><% end %> 
@@ -156,8 +161,45 @@
       </dl>
     </div>
 
-
   </section>
+
+  <section id="action_history" class="tab-pane noteCard row span6">
+    <div class="block1">
+      <h2>Action History</h2>
+      <ul class="span4">
+	<% bike.actions.reverse.each do |a| %>
+	<li>
+	  <%=  action_summary(a) %>
+	  <% unless a.changeset.empty? %>
+	  <table class="table table-bordered table-condensed">
+	    <thead>
+	      <tr>
+		<th>Attribute</th>
+		<th>Was</th>
+		<th>Became</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	      <% a.changeset.
+		 delete_if{|k, v| 
+		 [:created_at, :updated_at, :id].include? k.to_sym
+		 }.each do |key, val|%>
+	      <tr>
+		<td><%= key.humanize.titleize %></td>
+		<td><%= print_val(key,val[0]) || "-" %></td>
+		<td><%= print_val(key, val[1]) || "-" %></td>
+	      </tr>
+	      <% end # .changeset.each %>
+	    </tbody>
+	  </table>
+	  <% end # unless .changeset.empty?%>
+	</li>
+	<% end # actions.each %>
+      </ul>
+    </div>
+  </section>
+</div>
+
 
   <section class="notesWrapper">
     <div  class="span8">
@@ -174,38 +216,3 @@
 
 </section> <!-- end of main wrapper -->
 
-<section id="action_history">
-  <h2>Action History</h2>
-  <ul class="span4">
-  <% bike.actions.reverse.each do |a| %>
-  <li>
-    <!--
-    <%  a.action.humanize %> on <% Settings::Date.new(a.created_at).default_s %> by <% (a.user.uname  if a.user) || "unknown user" %> -->
-    <%=  action_summary(a) %>
-    <% unless a.changeset.empty? %>
-    <table class="table table-bordered table-condensed">
-      <thead>
-	<tr>
-	  <th>Attribute</th>
-	  <th>Was</th>
-	  <th>Became</th>
-	</tr>
-      </thead>
-      <tbody>
-      <% a.changeset.
-	 delete_if{|k, v| 
-	 [:created_at, :updated_at, :id].include? k.to_sym
-	 }.each do |key, val|%>
-      <tr>
-	<td><%= key.humanize.titleize %></td>
-	<td><%= print_val(key,val[0]) || "-" %></td>
-	<td><%= print_val(key, val[1]) || "-" %></td>
-      </tr>
-      <% end # .changeset.each %>
-      </tbody>
-    </table>
-  <% end # unless .changeset.empty?%>
-  </li>
-  <% end # actions.each %>
-  </ul>
-</section>
