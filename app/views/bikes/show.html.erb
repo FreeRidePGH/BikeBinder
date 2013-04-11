@@ -1,5 +1,6 @@
-<section class="show-bike row">
-
+<section class="show-bike row span12">
+  
+  <% if can? :update, bike %>
   <section class="bikesMeta span3">
 
     <div class="locationWrap">
@@ -100,6 +101,7 @@
     </div> <!-- end of depart info wrapper -->
     
     </section> <!-- end of bikes meta -->
+  <% end %>
 
   <div class="span8">
 
@@ -114,8 +116,10 @@
 	Bike <%=bike.number %> 
 	<%= link_to qr_bike_path(bike) do %><i class="icon-qrcode"></i><% end %> 
       </h2>
+      <% if can? :update, bike %>
         <%= link_to(edit_bike_path(bike), :class=> "editLink",   :title => "Edit this bike's information") do %>
 	<i class="icon-pencil"></i>Edit Bike
+	<% end %>
 	<% end %>
     </div>
     <div>
@@ -204,7 +208,6 @@
   <section class="notesWrapper">
     <div  class="span8">
       <h3><%= pluralize(bike.comment_threads.length, 'Note') %></h3>
-   
       <%= render :partial=>"comments/index", :locals=>{:comments => bike.comment_threads} %> 
       <%= render :partial=>"comments/form",
       :locals=>{:commentable=>programs, :url => new_comment_bike_path(bike)} %>

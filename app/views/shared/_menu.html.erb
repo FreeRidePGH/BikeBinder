@@ -21,10 +21,12 @@
 	</ul>
       <%  end # a %>
     <% end # li%>
+    <% if can? :create, Bike %>
     <%= content_tag :li,
 	:class => nav_bar_curr_class(:controller => 'bikes', :action => :new) do %>
       <% link_to "Add a bike", new_bike_path %>
     <% end # li%>
+    <% end # can? :create, Bike %>
   </ul>
   </div>
 </div>
