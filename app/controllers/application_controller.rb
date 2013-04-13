@@ -1,5 +1,12 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
+  check_authorization :unless => :devise_controller?
+
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_url, :alert => exception.message
+  end
+
+  before_filter :set_timezone
 
   expose :search_term do
       @search_term  ||= params[:q].to_s.strip
@@ -118,8 +125,25 @@ class ApplicationController < ActionController::Base
         found ||= record_found?(r)
       end
     end
-
+    
     return !found
+  end # def fetch_failed?(record, optns={})
+
+  def hound_user
+    @hound_user ||= Signature.find_or_create(params[:sig])
   end
 
+  def verify_signatory
+    if hound_user.nil?
+      flash[:error] = I18n.translate('controller.application.no_signature')
+      return false
+    end
+    true
+  end
+
+  private 
+
+  def set_timezone
+    Time.zone = ActiveSupport::TimeZone.new('Eastern Time (US & Canada)')
+  end
 end

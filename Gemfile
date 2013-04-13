@@ -10,7 +10,10 @@ gem 'strong_parameters'
 gem 'therubyracer', '~>0.10.1'
 
 gem 'devise', '~>2.1.0'
+gem 'cancan', '~>1.6.9'
 gem 'acts_as_commentable_with_threading', '1.1.2'
+gem 'hound', '~>0.3.0'
+gem 'datagrid', '~>0.7.1'
 
 # Modular bulding-blocks for the application
 gem 'bike_mfg','>=0.1.4', :git => 'git://github.com/zflat/bike_mfg.git'

@@ -1,36 +1,5 @@
 <section class="show-bike ">
 
-  <section id="bikeInfo" class="span4 bikeInfo noteCard noLeftMarg row">
-    <div class="block1 span4">
-      <h2>
-	Bike <%=bike.number %> 
-<%= link_to(qr_bike_path(bike), :target=> "_blank") do %><i class="icon-qrcode"></i><% end %> 
-      </h2>
-        <%= link_to(edit_bike_path(bike), :class=> "editLink",   :title => "Edit this bike's information") do %>
-	<i class="icon-pencil"></i>Edit Bike
-	<% end %>
-    </div>
-    <div>
-      <dl class="staticAttributes">
-	<dd class="key">Manufacturer:</dd><dd class="value" ><%= bike.brand.name if bike.brand %></dd>
-	<dd class="key" >Model:</dd><dd class="value"><%= bike.model.name if bike.model %></dd>
-	<dd class="key">Color: </dd>
-	<dd class="value" ><%= bike.color.name.capitalize %></dd>
-	<span data-bike-color=<%=bike.color.name %> style="background-color:#<%= bike.color.key %>"></span>
-	<dd class="key">Wheel Size:</dd><dd class="value" ><%= "#{bike.wheel_size} mm" %></dd>
-	<dd class="key">Seat tube height:</dd>
-	<dd class="value" >
-	  <%= render :partial=>'show_measurement', 
-	  :locals => {:val => bike.seat_tube_height} %>
-	</dd>
-	<dd class="key">Top tube length:</dd>
-	<dd class="value" >
-	  <%= render :partial=>'show_measurement', 
-	  :locals => {:val => bike.top_tube_length} %>
-	</dd>
-    <dd class="key">Quality:</dd><dd class="value attrQuality" ><%= bike.quality %></dd>
-    <dd class="key">Condition:</dd><dd class="value attrCondition" ><%= bike.condition %></dd>
-
 	<dd class="key">Value:</dd><dd class="value" ><%= (bike.value ? "$#{bike.value}" : "n/a") %></dd>
 
       </dl>
@@ -63,6 +32,8 @@
         <% if bike.hook %>
           <p>Bike <%= bike.number %> is on hook: <%= bike.hook.number %>.</p>
           <%= form_for bike.hook_reservation, :method=>:delete do |f| %>
+	  <%= label_tag :hook_sig, "Initials" %> 
+	  <%= text_field_tag :sig, nil, :id =>"hook_sig" %>
           <%= f.submit I18n.translate('commit_btn.delete_hook_reservation'),  :class => "btn btn-primary", :title=>"Choose Free Hook to remove this bike from its hook" %>
 	  <% end %>
 	<% else #not bike.hook %>
@@ -74,6 +45,8 @@
 	   :number => I18n.translate('placeholder.hook_options'))]+	       
 	       Hook.available.order(:id), :number, :number)) %>
 	   <%= hidden_field_tag :bike_id, bike.number %>
+	  <%= label_tag :hook_sig, "Initials" %> 
+	  <%= text_field_tag :sig, nil, :id => "hook_sig" %>
 	   <%= submit_tag I18n.translate('commit_btn.new_hook_reservation'), :class => "btn btn-primary"%>
 	   <% end %>
           <% else #no hook %>
@@ -86,10 +59,12 @@
     <div class="projInfo span2">
       <h3>Assignment</h3>
       <% if bike.application %>
-        <p>Assigned to: <%= link_to bike.application.label, bike.application %></p>
+        <p>Assigned to: <%= bike.application.label %></p>
         <div>
           <%= form_for bike.assignment, :method => :delete do |f| %>
-          <%= f.submit "Unassign bike", :class => "btn btn-danger" %>
+	  <%= label_tag :prog_sig, "Initials" %> 
+	  <%= text_field_tag :sig, nil, :id => "prog_sig" %>
+          <%= f.submit I18n.translate('commit_btn.del_assignment'), :class => "btn btn-danger" %>
           <% end%>
         </div>
       <% end %>
@@ -103,6 +78,8 @@
 	      [OpenStruct.new(:id => nil, 
 	  :label => I18n.translate('placeholder.prog_options'))]+
 	      Program.all, :id, :label)) %>
+	  <%= label_tag :prog_sig, "Initials" %> 
+	  <%= text_field_tag :sig, nil, :id => "prog_sig" %>
 	  <%= submit_tag I18n.translate('commit_btn.new_assignment'), :class => "btn btn-primary" %>
 	<% end # bike.available? %>
       <% end %>
@@ -115,6 +92,13 @@
       <h4><%= (bike.departed?)? "Departed" : "Depart Bike" %></h4>
 	<% if bike.departed? %>
 	<p><%= bike.application.departed_at.strftime("%Y-%m-%d") %></p>	
+
+	<%= form_for bike.application, :method=>:delete do |f| %>
+	  <%= label_tag :dep_sig, "Initials" %> 
+	  <%= text_field_tag :sig, nil, :id => "dep_sig" %>
+	  <%= f.submit I18n.translate('commit_btn.del_departure'), :class=>"btn btn-primary" %>
+	<% end %>
+	
 	<% else %>
 	<div>
 	<%= form_tag departures_path, :method=>:post do %>
@@ -129,15 +113,70 @@
 	  <%= label_tag :value, "Final Value" %> 
 	  <%= text_field_tag :value, bike.value %>
 	  <% end %>
+	  <%= label_tag :dep_sig, "Initials" %> 
+	  <%= text_field_tag :sig, nil, :id => "dep_sig" %>
 	  <%= submit_tag I18n.translate('commit_btn.new_departure'), :class=>"btn btn-primary" %>
 	<% end %>
 	</div>
       <% end %>
     </div> <!-- end of depart info wrapper -->
-
+    
     </section> <!-- end of bikes meta -->
 
+  <div class="span8">
 
+  <section id="bikeInfo" class="span8 noteCard noLeftMarg row">
+    <div class="block1 span8">
+      <h2>
+	Bike <%=bike.number %> 
+<%= link_to( qr_bike_path(bike), :target=>'_blank' ) do %><i class="icon-qrcode"></i><% end %> 
+      </h2>
+        <%= link_to(edit_bike_path(bike), :class=> "editLink",   :title => "Edit this bike's information") do %>
+	<i class="icon-pencil"></i>Edit Bike
+	<% end %>
+    </div>
+    <div>
+      <dl class="staticAttributes">
+	<dd class="key">Manufacturer:</dd><dd class="value" ><%= bike.brand.name if bike.brand %></dd>
+	<dd class="key" >Model:</dd><dd class="value"><%= bike.model.name if bike.model %></dd>
+	<dd class="key">Color: </dd>
+	<dd class="value" >
+	  <%= bike.color.name.capitalize %>
+	</dd>
+	<dd class="value" >
+	<span data-bike-color=<%=bike.color.name %> style="background-color:#<%= bike.color.key %>">
+	</span>
+	</dd>
+	<dd class="key">Wheel Size:</dd><dd class="value" ><%= "#{bike.wheel_size} mm" %></dd>
+	<dd class="key">Seat tube height:</dd>
+	<dd class="value" >
+	  <%= render :partial=>'show_measurement', 
+	  :locals => {:val => bike.seat_tube_height} %>
+	</dd>
+	<dd class="key">Top tube length:</dd>
+	<dd class="value" >
+	  <%= render :partial=>'show_measurement', 
+	  :locals => {:val => bike.top_tube_length} %>
+	</dd>
+    <dd class="key">Quality:</dd><dd class="value attrQuality" ><%= print_val('quality', bike.quality) %></dd>
+    <dd class="key">Condition:</dd><dd class="value attrCondition" ><%= print_val('condition', bike.condition) %></dd>
+
+	<dd class="key">Value:</dd><dd class="value" ><%= (bike.value ? print_val('value', bike.value) : "n/a") %></dd>
+
+      </dl>
+      <dl class="dynamicAttributes">
+	<dd class="key ">Status: </dd> <dd class="value">
+	  <% if bike.available? %>
+	  Available
+	  <% elsif bike.departed? %>
+	  Departed as <%= bike.application.method %>
+	  <% elsif bike.application %>
+	    <%= bike.application.name %>
+	  <% end %>
+	</dd>
+
+      </dl>
+    </div>
 
   <section class="notesWrapper">
     <div  class="span8">
@@ -151,3 +190,38 @@
 
 </section> <!-- end of main wrapper -->
 
+<section id="action_history">
+  <h2>Action History</h2>
+  <ul class="span4">
+  <% bike.actions.reverse.each do |a| %>
+  <li>
+    <!--
+    <%  a.action.humanize %> on <% Settings::Date.new(a.created_at).default_s %> by <% (a.user.uname  if a.user) || "unknown user" %> -->
+    <%=  action_summary(a) %>
+    <% unless a.changeset.empty? %>
+    <table class="table table-bordered table-condensed">
+      <thead>
+	<tr>
+	  <th>Attribute</th>
+	  <th>Was</th>
+	  <th>Became</th>
+	</tr>
+      </thead>
+      <tbody>
+      <% a.changeset.
+	 delete_if{|k, v| 
+	 [:created_at, :updated_at, :id].include? k.to_sym
+	 }.each do |key, val|%>
+      <tr>
+	<td><%= key.humanize.titleize %></td>
+	<td><%= print_val(key,val[0]) || "-" %></td>
+	<td><%= print_val(key, val[1]) || "-" %></td>
+      </tr>
+      <% end # .changeset.each %>
+      </tbody>
+    </table>
+  <% end # unless .changeset.empty?%>
+  </li>
+  <% end # actions.each %>
+  </ul>
+</section>

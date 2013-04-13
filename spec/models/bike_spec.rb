@@ -39,6 +39,23 @@ describe Bike do
       expect(bike.model).to_not be_nil
       expect(bike.model).to eq model
     end
+
+    context "with brand" do
+      let(:brand_model){FactoryGirl.create(:bike_model_with_brand)}
+      let(:brand){brand_model.brand}
+      
+      before :each do
+        bike.bike_model = brand_model
+      end
+      it "is assigned" do
+        expect(bike.model).to_not be_nil
+        expect(bike.model).to eq brand_model
+      end
+
+      it "associates the bike to the the brand" do
+        expect(bike.brand).to eq brand
+      end
+    end
   end
 
   describe "Seat tube height" do
@@ -140,7 +157,8 @@ describe Bike do
         end
         
         it "references the program" do
-          expect(bike_not_asgnd.application).to eq program
+          expect(bike_not_asgnd.program).to eq program
+#          expect(bike_not_asgnd.application).to eq program
         end
 
         it "is not available" do
@@ -226,7 +244,6 @@ describe Bike do
     end # context "in the shop" do
   end # context "with an assignment"
 
-
   context "which is departed" do
     let(:assignment){FactoryGirl.create(:assignment)}
     subject(:bike){assignment.bike}
@@ -234,6 +251,19 @@ describe Bike do
 
     before :each do
       departure.save
+      bike.reload
+    end
+
+    it "is departed" do
+      expect(bike).to be_departed
+    end
+
+    it "has a departure" do
+      expect(bike.departure).to_not be_nil
+    end
+
+    it "does not have a program" do
+      expect(bike.program).to be_nil
     end
 
     describe "destroying assignment" do

@@ -10,7 +10,10 @@ en:
     new_hook_reservation: "Reserve"
     delete_hook_reservation: "Free hook"
     new_assignment: "Assign"
+    del_assignment: "Unassign"
     new_departure: "Depart Bike"
+    del_departure: "Return Bike"
+    new_user_session: "Sign in"
   placeholder:
     departure_destination: "Select destination..."
     prog_options: "Select program..."
@@ -19,6 +22,8 @@ en:
     placeholder: "Search by Bike # or Hook #"
     btn: "Search"
   controller:
+    application:
+      no_signature: "No user initials provided"
     searches:
       index:
         fail: "No results found for: '%{term}'"
@@ -69,6 +74,26 @@ en:
       show: "Bike %{bike_number} Overview"
       edit: "Edit details for bike %{bike_number}"
       update: "Edit details for bike %{bike_number}"
+  nav:
+    bikes:
+      available: 'Available'
+      assigned: 'Assigned'
+      departed: 'Departed'
+      all: 'All Bikes'
+  action_user_unknown: "unknown user"
+  action_summary: "%{action} on %{date} by %{user}"
+  action:
+    create: "Create"
+    update: "Update"
+    delete: "Delete"
+    assign_bike: "Assign bike %{number}"
+    unassign_bike: "Bike %{number} removed"
+    assign_program: "Assign bike to %{program}"
+    cancel_assignment: "Assignment canceled"
+    reserve_hook: "Reserve hook %{number}"
+    vacate_hook: "Vacate hook %{number}"
+    depart: "Depart"
+    return: "Return"
   bike:
     form:
       section:

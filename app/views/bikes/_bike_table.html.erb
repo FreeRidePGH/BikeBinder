@@ -7,19 +7,20 @@
     <% elsif b.departed? %>
       <i class="icon-folder-close"></i> Departed as <%= "#{b.assignment.application.name}" %>
     <% elsif b.assignment %>
-      <%= link_to b.assignment.application do %><i class="icon-folder-open"></i> <%= "#{b.assignment.application.name} Project" %><% end %>
+    <i class="icon-folder-open"></i> <%= "#{b.assignment.application.name} Project" %>
     <% end # elsif %>
   </td>
   <td class="BT7">
   <% if b.hook %>
-  <%= link_to b.hook.number, hook_path(b.hook) %>
+  <% # link_to b.hook.number, hook_path(b.hook) %>
+  <%= b.hook.number %>
   <% else %>
   n/a
   <% end %>
   </td>
   <td><div class="BT1"><%= render Select2BikeBinder::Builder::ColorOption.new b.color %></div></td>
   <td><div class="BT2"><%= (b.brand.nil?)? '' : b.brand.name %></div></td>
-  <td><div class="BT3"><%= b.seat_tube_height %></div></td>
-  <td><div class="BT4"><%= b.wheel_size %></div></td>
+  <td><div class="BT3"><%= print_val('seat_tube_height', b.seat_tube_height) %></div></td>
+  <td><div class="BT4"><%= print_val('wheel_size', b.wheel_size) %></div></td>
 </tr>
 <% end %>

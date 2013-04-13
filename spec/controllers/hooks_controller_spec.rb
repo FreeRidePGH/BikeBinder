@@ -1,4 +1,5 @@
 require 'spec_helper'
+include Devise::TestHelpers
 
 describe HooksController do
 
@@ -12,34 +13,50 @@ describe HooksController do
         expect(request.path).to eq ''
       end
     end
-  end
-
-  it "redirects to index" do
-    put 'index' do
-      expect(response).to redirect_to root_path
-    end
-  end
+  end # describe "Post 'new'"
 
   describe "Get 'show'" do
+    context "when signed out" do
+      before :each do
+        sign_out :user
+      end
 
-    context "with a valid hook" do
-      subject(:hook){FactoryGirl.create(:hook)}
+      context "with a valid unassigned hook" do
+        subject(:hook){FactoryGirl.create(:hook)}
+        
+        before :each do
+          get :show, :id => hook.number
+        end
+        
+        it "exposes the correct hook" do
+          expect(controller.hook).to eq hook
+        end
+      end # context "with a valid unreserved hook"
       
-      it "is successful" do
-        put 'show', :id => hook
-        response.should be_success
-      end
-    end # context "with a valid hook"
+      context "with a reserved hook" do
+        let(:reservation){FactoryGirl.create(:hook_reservation)}
+      subject(:hook){reservation.hook}
+        
+        before :each do
+          get :show, :id => hook.number
+        end
+        
+      it "exposes the correct hook" do
+          expect(controller.hook).to eq hook
+        end
+      end # context "with a reserved hook"
+      
+      context "without a hook" do
+        let(:hook_number){FactortyGirl.create(:hook_number)}
+        it "redirects to root" do
+          begin
+            get :show, :id => hook_number
+          rescue
+            expect(request.path).to eq ''
+          end
+        end # it "redirects to root"
+      end # context "without a hook"
 
-    context "without a hook" do
-
-      it "redirects" do
-        put 'show', :id => 'test'
-        expect(response).to redirect_to root_path
-        # expect(response).to_not be_success
-      end
-    end
-
-  end
-
-end
+    end # context "signed out"
+  end # describe "Get 'show'"
+end # describe HooksController

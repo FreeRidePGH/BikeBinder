@@ -1,20 +1,5 @@
-def resources_project_work_log
-  resources :work_log, :path_names => {:new => 'enter'}, :only => [:new, :create],
-  :controller=>'project_time_entries'
-end
-
+# Note:  See all routes with "rake routes"
 BikeBinder::Application.routes.draw do
-
-  # Note:  See all routes with "rake routes"
-
-  resources :programs, :except => [:destroy] do
-    resources :bikes, :only => [:index]
-  end
-
-  resources :destinations, :except => [:destroy] do
-    resources :bikes, :only => [:index]
-  end
-
   devise_for :users
 
   resources :bikes do
@@ -22,20 +7,34 @@ BikeBinder::Application.routes.draw do
       post 'new_comment'
       get 'qr'
     end
-    resources :departures, :only => [:new]
+    # resources :departures, :only => [:new]
+    collection do 
+      get 'available' => 'bikes#index', :defaults => {:status=>'available'}
+      get 'assigned' => 'bikes#index', :defaults => {:status=>'assigned'}
+      get 'departed'=> 'bikes#index', :defaults => {:status=>'departed'}
+      get 'all'=> 'bikes#index', :defaults => {:status=>nil}
+    end
   end
 
-  resources :hooks, :only =>[:index, :show]
+  # Bike Actions
+  resources :hook_reservations, :only => [:create, :destroy, :update]
+  resources :assignments, :only => [:create, :destroy]
+  resources :departures, :only => [:create, :destroy]
 
-  resources :hook_reservations, :except => [:index, :show]
-             
-  resources :assignments, :only => [:create, :update, :destroy]
-
-  resources :departures, :only => [:new, :create, :destroy]
-            
-
+  resources :hooks, :only =>[:show]
+  
   # Search routes
   resources :searches, :only => [:index]
+
+  if false
+  resources :programs, :except => [:destroy] do
+    resources :bikes, :only => [:index]
+  end
+
+  resources :destinations, :except => [:destroy] do
+    resources :bikes, :only => [:index]
+  end
+  end
 
   # Mobile routes
   if false
@@ -54,20 +53,13 @@ BikeBinder::Application.routes.draw do
     match '/mobile/ajax_add' => 'mobile#ajax_add', :via => :get
   end
 
-
-  # AJAX Routes
-  match '/bikes/get_models/:brand_id' => 'bikes#get_models'
-  match '/bikes/get_brands/:bike_model_id' => 'bikes#get_brands'
-  match '/bikes/filter_bikes/:id' => 'bikes#filter_bikes'
-  match '/bikes/get_details/:id' => 'bikes#get_details'
-
   ####################################################
   ## FINAL ROUTES TO CATCH UNMATCHED URIs AND SEARCHES
   ####################################################
   ####################################################
 
   # Ensure root is set per recommendations when installing Devise
-  root :to => 'bikes#index', :via => [:get, :post]
+  root :to => 'bikes#index', :via => [:get, :post], :defaults => {:status=>'available'}
 
   # Map top level domain seach to bikes and hooks
   match '/:id' => 'bikes#show', :id => BikeNumber.pattern, :via => [:get]

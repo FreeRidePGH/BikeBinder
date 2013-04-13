@@ -20,7 +20,17 @@ class BikesController < ApplicationController
   # All bikes
   expose(:bikes) do
     @bikes ||= ([bike] if record_found?(bike))
-    @bikes ||= Bike.all 
+    if params[:status]
+      case params[:status]
+      when 'available'
+        @bikes ||= BikeReport.new(:available => true).assets
+        when 'assigned'
+        @bikes ||= BikeReport.new(:assigned => true, :present => true).assets
+        when 'departed'
+        @bikes ||= BikeReport.new(:departed => true).assets
+      end
+    end
+    @bikes ||= Bike.eager_load(:bike_model,:hook_reservation, :hook, :assignment).all 
     @bikes
   end
 
@@ -60,27 +70,30 @@ class BikesController < ApplicationController
   end
 
   def index
-    # Intentionally blank
+    authorize! :read, Bike
   end
 
   def show
-    redirect_to bikes_path and return if fetch_failed? bike
+    authorize! :read, bike || Bike
+    redirect_to root_path and return if fetch_failed? bike
   end
 
   def qr
+    authorize! :read, bike || Bike
+    redirect_to root_path and return if fetch_failed? bike
     respond_to do |format|
-      qrurl = url_for bike
-      @qr = RQRCode::QRCode.new(qrurl, :size => 7)
+      @qr = RQRCode::QRCode.new(url_for(bike), :size => 7)
       format.html
     end
   end
 
   def new
-    # Intentionally blank
+    authorize! :create, Bike
   end
 
   def create     
-    if bike_form.save
+    authorize! :create, Bike
+    if verify_signatory && bike_form.save
       flash[:success] = I18n.translate('controller.bikes.create.success')
       redirect_to bike_post_created_path and return
     end
@@ -88,12 +101,14 @@ class BikesController < ApplicationController
   end
 
   def edit
-    redirect_to bikes_path and return if fetch_failed?(bike)
+    authorize! :edit, bike || Bike
+    redirect_to root_path and return if fetch_failed?(bike)
   end
 
   def update
-    redirect_to bikes_path and return if fetch_failed?(bike)
-
+    authorize! :edit, bike || Bike
+    redirect_to root_path and return if fetch_failed?(bike)
+    redirect_to bike and return unless verify_signatory
     if bike_form.save
       flash.now[:success] = I18n.translate('controller.bikes.update.success')
       redirect_to bike and return
@@ -103,7 +118,8 @@ class BikesController < ApplicationController
   end
   
   def destroy
-    redirect_to bikes_path and return if fetch_failed?(bike)
+    authorize! :destroy, bike || Bike
+    redirect_to root_path and return if fetch_failed?(bike)
 
     if bike.destroy
       flash[:success] = I18n.translate('controller.bikes.destroy.success')
@@ -112,7 +128,7 @@ class BikesController < ApplicationController
       redirect_to bike and return
     end
 
-    redirect_to bikes_path
+    redirect_to root_path
   end
 
 

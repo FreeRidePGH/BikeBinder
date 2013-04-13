@@ -21,6 +21,10 @@ namespace :db do
   desc "Setup the application and fill database with demo data"
   task :populate => :environment do
 
+    if User.where(:email => "demo@freeridepgh.org").count == 0
+      User.create!(:email=>"demo@freeridepgh.org", :password=>"testdemo")
+    end
+
     Rake::Task['db:populate_programs'].invoke
     Rake::Task['db:populate_destinations'].invoke
     Rake::Task['db:populate_bikes'].invoke
@@ -32,16 +36,31 @@ namespace :db do
 	  
   desc "Fill databse with programs"
   task :populate_programs => :environment do
-    Program.create!(:name=>"Earn a Bike", :label=>"Earn a Bike")
-    Program.create!(:name=>"Fix for Sale", :label=>"Fix for Sale")
-    Program.create!(:name=>"Youth", :label=>"Youth")
-    Program.create!(:name=>"Buildathon", :label=>"Buildathon")
+    [
+     {:name=>"Earn a Bike", :label=>"Earn a Bike"},
+     {:name=>"Fix for Sale", :label=>"Fix for Sale"},
+     {:name=>"Youth", :label=>"Youth"},
+     {:name=>"Buildathon", :label=>"Buildathon"},
+    ].each do |h|
+      if Program.where(:name => h[:name]).count == 0
+        Program.create!(h)
+      else
+        puts "Program '#{h[:name]}' already exists."
+      end
+    end # each
+    
   end
 
   desc "Fill the database with destinations" 
   task :populate_destinations => :environment do
-    Destination.create!(:name=>"Scrap", :label=>"Scrap")
-    Destination.create!(:name=>"As-Is", :label=>"As-Is")
+    [{:name => "Scrap", :label =>"scrap"},
+     {:name => "As-is", :label => "As-is"}].each do |h|
+      if Destination.where(:name => h[:name]).count == 0
+        Destination.create!(h)
+      else
+        puts "Destination '#{h[:name]}' already exists."
+      end
+    end # each
   end
 
   desc "Fill database with fake Bikes"
@@ -62,7 +81,7 @@ namespace :db do
     all_program = Program.all
     all_dest = Destination.all
 
-    30.times do |n|
+    300.times do |n|
 
       c = arr_colors[rand(arr_colors.size)]
       val = rand(120-50)+50
@@ -97,11 +116,11 @@ namespace :db do
                        :quality => quality,
                        :condition => condition,
                        :value => val,
-                       :number => BikeNumber.format_number(n+1001))
+                       :number => BikeNumber.format_number(Bike.count+1))
 
       
       # Reserve hook
-      if rand(3)>0
+      if rand(3)>0 && Hook.next_available
         HookReservation.new(:bike => b, :hook => Hook.next_available).save
       end
 
@@ -113,7 +132,7 @@ namespace :db do
       # Depart
       if (dest)
         dest = nil unless prog.nil?
-        Departure.build(:bike => b, :destination => dest, :value => val)
+        Departure.build(:bike => b, :destination => dest, :value => val).save
       end
 
     end  # 30.times do

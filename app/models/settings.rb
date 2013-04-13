@@ -48,9 +48,9 @@ module Settings
     end
 
     def default_s
-      @date.strftime(Date.default_format)
+      @date.in_time_zone(Time.zone).strftime(Date.default_format)
     end
-
+    
     def self.default_format
       I18n.translate(:default, :scope => 'date.formats')
     end

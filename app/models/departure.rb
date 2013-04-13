@@ -56,7 +56,7 @@ class Departure < ActiveRecord::Base
       bike.hook_reservation.delete if bike.hook_reservation
       
       if bike.departed?
-        bike.application
+        bike.departure
       else
         bridge_destination(
                            bike,
@@ -99,7 +99,7 @@ class Departure < ActiveRecord::Base
     return nil if bike.departed?
     dest = bike.application
     dest ||= destination if destination.respond_to?(:departures)
-    dest ||= Destination.where{id=my{destination.to_i}}.first if destination.respond_to?(:to_i)
+    dest ||= Destination.where(:id=>destination.to_i).first if destination.respond_to?(:to_i)
     return dest
   end
 
