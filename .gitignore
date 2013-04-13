@@ -17,6 +17,7 @@ tmp/*
 #*.lock
 config/database.yml
 config/application/secret_token.txt
+config/application/mailer_config.rb
 public/photos/*
 spec/tmp
 spec/tmp/*

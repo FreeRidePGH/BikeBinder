@@ -11,6 +11,9 @@ if defined?(Bundler)
 end
 
 module BikeBinder
+
+  require File.join(File.dirname(__FILE__), "directories.rb")
+  
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -45,5 +48,33 @@ module BikeBinder
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    # setup instructions @ https://github.com/RailsApps/rails3-devise-rspec-cucumber/wiki/Tutorial
+    # also see https://www.ruby-forum.com/topic/215482
+    # For installing Devise, Ensure you have defined default url options in your environments files. 
+    # require 'tlsmail' # http://yekmer.posterous.com/devise-gmail-smtp-configuration
+    # Net::SMTP.enable_tls(OpenSSL::SSL::VERIFY_NONE) 
+    
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.raise_delivery_errors = true
+    config.action_mailer.perform_deliveries = true
+
+    if File.exists?(APP_MAILER_CONFIG_FILE)
+      require APP_MAILER_CONFIG_FILE
+      config.action_mailer.smtp_settings = MailerConfig::settings
+      config.action_mailer.default_url_options= {:host => MailerConfig::default_url_host}
+    else
+      config.action_mailer.default_url_options= {:host =>ENV["BIKE_BINDER_URL_HOST"]}
+      config.action_mailer.smtp_settings = {
+        :enable_starttls_auto => true,
+        :port => 587,
+        :authentication => :login,
+        :address => ENV["BIKE_BINDER_SMTP_ADDRESS"],
+        :user_name => ENV["BIKE_BINDER_EMAIL_USER"],
+        :password => ENV["BIKE_BINDER_EMAIL_PWD"]
+      }
+    end
+
+
   end
 end

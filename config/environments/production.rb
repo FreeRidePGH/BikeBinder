@@ -1,3 +1,6 @@
+#require 'fileutils'
+#require File.dirname(__FILE__) + "/../../config/directories.rb"
+
 BikeBinder::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 

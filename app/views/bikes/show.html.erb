@@ -1,30 +1,9 @@
-<section class="show-bike ">
+<section class="show-bike row span12">
+  
+  <% if can? :update, bike %>
+  <section class="bikesMeta span3">
 
-	<dd class="key">Value:</dd><dd class="value" ><%= (bike.value ? "$#{bike.value}" : "n/a") %></dd>
-
-      </dl>
-      <dl class="dynamicAttributes">
-	<dd class="key ">Status: </dd> <dd class="value">
-	  <% if bike.available? %>
-	  Available
-	  <% elsif bike.departed? %>
-	  Departed as <%= link_to "#{bike.application.name}", url_for(bike.application.application) %>
-	  <% elsif bike.application %>
-	    <%= link_to "#{bike.application.name}",url_for(bike.application) %>
-	  <% end %>
-	</dd>
-
-      </dl>
-    </div>
-      <% if @bikePhoto %>
-        <div class = "pull-right bikePhotoContainer">
-        <%= image_tag root_path+"photos/bike-#{bike.number}.jpeg", :class => "bikePhoto" %>
-        </div>  
-    <% end %>
-
-  </section>
-<section class="bikesMeta span7">
-    <div class="span2">
+    <div class="locationWrap">
       <h3>Location</h3>
       <% if bike.departed? %>
         <p>Bike has departed.</p>
@@ -122,17 +101,25 @@
     </div> <!-- end of depart info wrapper -->
     
     </section> <!-- end of bikes meta -->
+  <% end %>
 
   <div class="span8">
 
-  <section id="bikeInfo" class="span8 noteCard noLeftMarg row">
-    <div class="block1 span8">
+<ul class="nav nav-tabs" id="tab_ui">
+  <li class="active"><a href="#bikeInfo" data-toggle="tab">Bike Info</a></li>
+  <li><a href="#action_history" data-toggle="tab">History</a></li>
+</ul>
+<div class="tab-content row span8">
+  <section id="bikeInfo" class="tab-pane active noteCard noLeftMarg row span6">
+    <div class="block1">
       <h2>
 	Bike <%=bike.number %> 
-<%= link_to( qr_bike_path(bike), :target=>'_blank' ) do %><i class="icon-qrcode"></i><% end %> 
+	<%= link_to qr_bike_path(bike) do %><i class="icon-qrcode"></i><% end %> 
       </h2>
+      <% if can? :update, bike %>
         <%= link_to(edit_bike_path(bike), :class=> "editLink",   :title => "Edit this bike's information") do %>
 	<i class="icon-pencil"></i>Edit Bike
+	<% end %>
 	<% end %>
     </div>
     <div>
@@ -178,6 +165,46 @@
       </dl>
     </div>
 
+  </section>
+
+  <section id="action_history" class="tab-pane noteCard row span6">
+    <div class="block1">
+      <h2>Action History</h2>
+      <ul class="span4">
+	<% bike.actions.reverse.each do |a| %>
+	<li>
+	  <%=  action_summary(a) %>
+	  <% unless a.changeset.empty? %>
+	  <table class="table table-bordered table-condensed">
+	    <thead>
+	      <tr>
+		<th>Attribute</th>
+		<th>Was</th>
+		<th>Became</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	      <% a.changeset.
+		 delete_if{|k, v| 
+		 [:created_at, :updated_at, :id].include? k.to_sym
+		 }.each do |key, val|%>
+	      <tr>
+		<td><%= key.humanize.titleize %></td>
+		<td><%= print_val(key,val[0]) || "-" %></td>
+		<td><%= print_val(key, val[1]) || "-" %></td>
+	      </tr>
+	      <% end # .changeset.each %>
+	    </tbody>
+	  </table>
+	  <% end # unless .changeset.empty?%>
+	</li>
+	<% end # actions.each %>
+      </ul>
+    </div>
+  </section>
+</div>
+
+
   <section class="notesWrapper">
     <div  class="span8">
       <h3><%= pluralize(bike.comment_threads.length, 'Note') %></h3>
@@ -187,6 +214,9 @@
       :locals=>{:commentable=>programs, :url => new_comment_bike_path(bike)} %>
     </div>
   </section> <!-- end notesWrap -->
+
+</div>
+
 
 </section> <!-- end of main wrapper -->
 

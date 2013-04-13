@@ -6,7 +6,7 @@ task :setup => :environment do
   require File.dirname(__FILE__) + "/../../config/directories.rb"
   require 'fileutils'
   # Database config file
-  if !File.exists?(APP_DB_CONIG_FILE)
+  if !File.exists?(APP_DB_CONFIG_FILE)
     puts `cp config/database.yml.sample config/database.yml`
   end
 

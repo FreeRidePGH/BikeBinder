@@ -22,26 +22,6 @@ BikeBinder::Application.configure do
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
 
-  # Don't care if the mailer can't send
-  # setup instructions @ https://github.com/RailsApps/rails3-devise-rspec-cucumber/wiki/Tutorial
-  # also see https://www.ruby-forum.com/topic/215482
-  # For installing Devise, Ensure you have defined default url options in your environments files. 
-  #require 'tlsmail' # http://yekmer.posterous.com/devise-gmail-smtp-configuration
-  #Net::SMTP.enable_tls(OpenSSL::SSL::VERIFY_NONE) 
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.perform_deliveries = true
-  config.action_mailer.smtp_settings = {
-    :enable_starttls_auto => true,
-    :address => 'smtp.gmail.com',
-    :port => 587,
-    :authentication => :plain,
-    :domain => "freeridepgh.org",
-    :user_name => "frtest97@gmail.com",
-    :password => "M1hjU26cfkCEe3uBr7Fi"
-  }
-  config.action_mailer.default_url_options= {:host => 'localhost:3000'}
-
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
 
@@ -55,4 +35,7 @@ BikeBinder::Application.configure do
   config.assets.debug = true
 
   config.serve_static_assets = true
+  
+  # override for development
+  config.action_mailer.default_url_options= {:host => "localhost:3000"}
 end
