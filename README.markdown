@@ -9,13 +9,25 @@ Reproduce all functionality that exists with the current paper bike binder and d
 
 ## Installation and configuration
 
-* Run setup rake task
+### Installation script:
+
+Run setup rake task
 
 
         bundle exec rake setup
 
+### Configuration
 
-* Edit the config/database.yml file with correct parameters
+* Database settings
+  * Edit the config/database.yml file with correct parameters
+* SMTP settings
+  * Edit the config/application/mailer_config.rb file with correct settings
+
+### Seeding, if not completed by the setup rake task
+
+* Create the db, load schema and seed
+
+  	 bundle exec rake db:setup
 
 ### Prepare the application for development 
 

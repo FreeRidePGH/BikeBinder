@@ -10,6 +10,11 @@ task :setup => :environment do
     puts `cp config/database.yml.sample config/database.yml`
   end
 
+  # SMTP config file
+  if !File.exists?(APP_MAILER_CONFIG_FILE)
+    puts `cp config/application/mailer_config.sameple.rb config/application/mailer_config.rb`
+  end
+
   # Create the secret token
   Rake::Task['create_a_secret'].invoke
   
