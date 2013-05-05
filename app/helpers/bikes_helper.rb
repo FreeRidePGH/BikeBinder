@@ -24,4 +24,10 @@ module BikesHelper
     end
   end # def changeset_val
 
+  def filter_link_class(key)
+    key_default = params[:status].blank? && key.to_s == 'all'
+    key_active = key.to_s == params[:status]
+    return (key_default || key_active) ? 'active' : 'option'
+  end
+
 end # module BikesHelper

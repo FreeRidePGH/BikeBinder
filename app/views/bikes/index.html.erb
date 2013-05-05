@@ -2,7 +2,7 @@
 <% # render :partial=>"bike_filter" %>
 <ul class="nav nav-tabs">
   <% I18n.translate('nav.bikes').each do |key, text| %>
-    <li class="<%= key.to_s == params[:status] ? 'active' : 'option' %>">
+    <li class="<%= filter_link_class(key) %>">
       <%= link_to text, "#{key}_bikes".to_sym %>
     </li>
   <% end %>
