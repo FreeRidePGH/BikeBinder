@@ -13,36 +13,30 @@ table.bikes th:first-child {
 }
 /* Location, project info, departure info */
 section.bikesMeta {
-    background-color: #e0e0e0; 
-    padding: 10px;
-    div.locationWrap {
-	clear: both;
-    }
-/*    div {
-	float: left;
-	clear: left;
-    }
-        */
-    div.projInfo {
-
-    }
-    
+   background-color: #e0e0e0; 
+   padding: 10px;
 }
+section.bikesMeta div.locationWrap {
+ 	clear: both;
+}
+
 #existingNotes {
     float: left;
 }
-dd.key {
-    font-size: 14px;
-    float: left;
-    margin-left: .5em;
+
+table.attributes{
+margin-top: 15px;
+}
+table.attributes tr{
+border-bottom: 1px solid #999;
+}
+
+td.key {
     font-weight: bold;
 }
-dd.value {
+
+td.value {
     font-weight: normal;
-    font-size: 14px;
-    font-weight: normal;
-    float: left;
-    margin-left: .5em;
 }
 /*
  * Make the rating of each attribute A,B,C etc
