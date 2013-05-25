@@ -1,12 +1,12 @@
 <div class="navbar" id="shared_menu">
   <div class="navbar-inner">
-  <%= form_tag searches_path, :method => :get, :class => "navbar-form pull-right span8" do  %>
+  <%= form_tag searches_path, :method => :get, :class => "navbar-form pull-right" do  %>
     <%= submit_tag I18n.translate('main_search.btn'), 
-	    :class => "btn btn-info span3 pull-right"%>
-    <%= text_field_tag :q, (@searchTerm || ""), :class => "span7 pull-right", :placeholder => I18n.translate('main_search.placeholder')%>
+	    :class => "btn btn-info pull-right"%>
+    <%= text_field_tag :q, (@searchTerm || ""), :class => "search-term pull-right", :placeholder => I18n.translate('main_search.placeholder')%>
   <% end %>
   
-  <ul class="nav nav-pills span4">
+  <ul class="nav nav-pills">
     <%= content_tag :li, 
 	:class => "dropdown #{nav_bar_curr_class(:controller => 'bikes', :action => :index)}" do %>
       <%= link_to available_bikes_path, {'data-toggle' => "dropdown" } do %>

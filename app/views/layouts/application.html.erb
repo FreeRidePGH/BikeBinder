@@ -25,9 +25,11 @@
   <div class="container-fluid<%= ' no-user' if !user_signed_in? %>">
       <div class="row-fluid span12" id="pageHeader">
 	<header>
-	  <%= link_to image_tag("free_ride_logo_smaller.jpg"), root_path, 
-	      :class=> "pull-left span3" %>
-	  <div class="row span6 pull-right">
+	  <div class="pull-left span2" id="header_logo">
+	    <%= link_to image_tag("free_ride_logo_smaller.jpg"), root_path, 
+		:class=>"span12" %>
+	  </div>
+	  <div class="row span9 pull-right">
               <%= render 'shared/menu' %>
 	  </div>
 	</header>

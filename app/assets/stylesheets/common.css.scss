@@ -24,20 +24,17 @@ header h1 {
     border-radius: 5px;
 }
 
-/*
- *.navbar-inner {
- background: #003;
-}
-    #shared_menu a {
-    color: rgb(143,149,163);
-}
-    #shared_menu a:hover {
-    color: #ccf;
-}
- */
-
 #shared_menu ul{
     margin: 0;
+}
+
+#shared_menu input.search-term{
+width: 225px;
+}
+
+#header_logo img{
+margin-top: 20px;	
+margin-left: 10px;
 }
 
 div.overlay {
@@ -74,58 +71,6 @@ section#alerts {
 section#alerts p{
 margin: .15em;
 }
-
-.grad-blue-extra-gray {
-    background: rgb(143,149,163);
-    background: -moz-linear-gradient(top, rgba(143,149,163,1) 0%, rgba(81,104,137,1) 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(143,149,163,1)), color-stop(100%,rgba(81,104,137,1)));
-    background: -webkit-linear-gradient(top, rgba(143,149,163,1) 0%,rgba(81,104,137,1) 100%);
-    background: -o-linear-gradient(top, rgba(143,149,163,1) 0%,rgba(81,104,137,1) 100%);
-    background: -ms-linear-gradient(top, rgba(143,149,163,1) 0%,rgba(81,104,137,1) 100%);
-    background: linear-gradient(top, rgba(143,149,163,1) 0%,rgba(81,104,137,1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8f95a3', endColorstr='#516889',GradientType=0 );
-}
-.grad-blue-gray {
-    background: rgb(96,108,136);
-    background: -moz-linear-gradient(top, rgba(96,108,136,1) 0%, rgba(63,76,107,1) 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(96,108,136,1)), color-stop(100%,rgba(63,76,107,1)));
-    background: -webkit-linear-gradient(top, rgba(96,108,136,1) 0%,rgba(63,76,107,1) 100%);
-    background: -o-linear-gradient(top, rgba(96,108,136,1) 0%,rgba(63,76,107,1) 100%);
-    background: -ms-linear-gradient(top, rgba(96,108,136,1) 0%,rgba(63,76,107,1) 100%);
-    background: linear-gradient(top, rgba(96,108,136,1) 0%,rgba(63,76,107,1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#606c88', endColorstr='#3f4c6b',GradientType=0 );
-}
-.grad-light-gray-2 {
-    background: rgb(211,211,211);
-    background: -moz-linear-gradient(top, rgba(211,211,211,1) 0%, rgba(242,242,242,1) 48%, rgba(211,211,211,1) 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(211,211,211,1)), color-stop(48%,rgba(242,242,242,1)), color-stop(100%,rgba(211,211,211,1)));
-    background: -webkit-linear-gradient(top, rgba(211,211,211,1) 0%,rgba(242,242,242,1) 48%,rgba(211,211,211,1) 100%);
-    background: -o-linear-gradient(top, rgba(211,211,211,1) 0%,rgba(242,242,242,1) 48%,rgba(211,211,211,1) 100%);
-    background: -ms-linear-gradient(top, rgba(211,211,211,1) 0%,rgba(242,242,242,1) 48%,rgba(211,211,211,1) 100%);
-    background: linear-gradient(top, rgba(211,211,211,1) 0%,rgba(242,242,242,1) 48%,rgba(211,211,211,1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d3d3d3', endColorstr='#d3d3d3',GradientType=0 );
-}
-.light-gradient {
-    background: rgb(242,242,242);
-    background: -moz-linear-gradient(top, rgba(242,242,242,1) 0%, rgba(211,211,211,1) 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(242,242,242,1)), color-stop(100%,rgba(211,211,211,1)));
-    background: -webkit-linear-gradient(top, rgba(242,242,242,1) 0%,rgba(211,211,211,1) 100%);
-    background: -o-linear-gradient(top, rgba(242,242,242,1) 0%,rgba(211,211,211,1) 100%);
-    background: -ms-linear-gradient(top, rgba(242,242,242,1) 0%,rgba(211,211,211,1) 100%);
-    background: linear-gradient(top, rgba(242,242,242,1) 0%,rgba(211,211,211,1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f2f2', endColorstr='#d3d3d3',GradientType=0 );
-}
-.dark-grey-gradient {
-    background: rgb(168,168,168);
-    background: -moz-linear-gradient(top, rgba(168,168,168,1) 0%, rgba(196,196,196,1) 51%, rgba(140,140,140,1) 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(168,168,168,1)), color-stop(51%,rgba(196,196,196,1)), color-stop(100%,rgba(140,140,140,1)));
-    background: -webkit-linear-gradient(top, rgba(168,168,168,1) 0%,rgba(196,196,196,1) 51%,rgba(140,140,140,1) 100%);
-    background: -o-linear-gradient(top, rgba(168,168,168,1) 0%,rgba(196,196,196,1) 51%,rgba(140,140,140,1) 100%);
-    background: -ms-linear-gradient(top, rgba(168,168,168,1) 0%,rgba(196,196,196,1) 51%,rgba(140,140,140,1) 100%);
-    background: linear-gradient(top, rgba(168,168,168,1) 0%,rgba(196,196,196,1) 51%,rgba(140,140,140,1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a8a8a8', endColorstr='#8c8c8c',GradientType=0 );
-
-} 
 
 /* sitewide table legibility style */ 
 table tr:nth-child(2n+1) {
@@ -180,4 +125,242 @@ button.toggler {
 /* Styling to customize for look and feel */
 .inline-label {
     text-align:right;
+}
+
+
+body div.container-fluid{
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.floatRight{
+    float: right !important;
+}
+
+#add_brand,#add_model{
+    cursor: pointer;
+    color: red;
+}
+.filter{
+    padding: 10px;
+    margin-left: 10px;
+    text-align: left;
+}
+.selectedFilter{
+    margin-left: 20px;
+}
+.filterName{
+    font-weight: bold;
+}
+.filterName img{
+    cursor: pointer;
+}
+.colorFilter,.statusFilter{
+    left: 0px;
+    padding-bottom: 1px;
+}
+.colorSquare{
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 2em;
+}
+.filterName{
+    margin-bottom: 10px;
+}
+.filterOpts{
+    height: 20px;
+    margin-top: -5px;
+}
+.allFilter{
+    margin-left: 10px;
+    cursor: pointer;
+    color: rgb(49,133,156);
+    font-size: 11px;
+    font-weight: normal;
+}
+.noFilter{
+    font-weight: normal;
+    cursor: pointer;
+    color: rgb(49,133,156);
+    font-size: 11px;
+    margin-left: 10px;
+}
+label.colorFilter,label.statusFilter{
+    color: rgb(33,89,104) !important;
+    margin-left: 15px;
+}
+#sort{
+    margin-left: 10px;
+}
+#bikelisting{
+    float:left;
+    margin-top: 10px;
+    margin-left: 50px;
+}
+#results{
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+#detailTable{
+    margin-bottom: 2px;
+    height: 100px;
+    text-align: left;
+    font-family: Arial;
+}
+#detailTable tr th{
+    font-size: 12px;
+    font-weight: normal !important;
+}
+#detailTable tbody tr:hover td,
+#detailTable tbody tr:hover th {
+  background-color: transparent;
+}
+.staticDetailAttributes tr{
+    font-size: 12px;
+    font-weight: normal;
+}
+.staticAttributes{
+	width:250px;
+}
+.staticAttributes tr,.staticAttributes th{
+	border:0;
+	color:black;
+}
+
+form.bike_form{
+  border:1px solid #999;
+  text-align: left;
+  padding: 10px;
+}
+
+form.bike_form h2, form.bike_form h1{
+    font-size: 1.5em;
+}
+
+form.bike_form dl dt{
+    float:left;
+    margin-right: 10px;
+}
+
+form.bike_form dl dd{
+    float:none;
+}
+
+*.radio_optn input, *.radio input{
+border-width: 0px;
+display: inline;
+}
+
+#user_login_status{
+margin: 0px;
+}
+
+#user_login_status p{
+margin: 0px;
+margin-top: 3px;
+padding: 0px;
+padding-right: 10px;
+}
+
+#user_login_status p a{
+/*    color: #ccf;
+    font-weight: bold;*/
+}
+
+.navLink{
+    color: white;
+    font-weight: bold;
+}
+
+
+#bikesNav{
+    margin-left: 20px;
+}
+#bikesNav a{
+    margin-right: 5px;
+}
+#detailDialog{
+    background: white !important;
+}
+.table tbody#bikeList tr:hover td,
+.table tbody#bikeList tr:hover th {
+  background-color: #DBEEF4 !important;
+}
+.tab-content tr th{
+    text-align: left;
+}
+.tab-content tr td{
+    padding: 6px;
+}
+.quickView{
+    font-size: 10px;
+    /*color: #F77B00;*/
+    color: #265D6C;
+    cursor: pointer;
+}
+.quickView:hover{
+    text-decoration: underline;
+}
+#pagination span{
+    padding: 10px;
+    color: rgb(33,89,104);
+    cursor: pointer;
+}
+#pagination span:hover{
+    font-weight: bold;
+    color: rgb(147,205,221);
+}
+#pagination span.currentPage{
+    color: rgb(147,205,221);
+}
+#pagination{
+    margin-top: -5px;
+    height: 20px;
+    padding-bottom: 10px;
+}
+.statusIcon{
+    margin-right: 6px;
+}
+.sorter{
+
+}
+#pageHeader{
+    position: relative;
+    background-color: rgb(147,205,221);
+    border-bottom: 4px solid #999;
+    margin: 0px;
+    padding: 0px;
+}
+
+
+#bikeFilters{
+    text-align: left;
+    color: rgb(33,89,104);
+    border: 1px solid LightGray;
+    background-color: rgb(219,238,244);
+}
+#bikeInfo{
+    margin-left: 20px;
+    position: relative;
+
+}
+.comments{
+    background-color: #DBEEF4;
+    padding: 5px;
+}
+.oneComment{
+    padding: 5px;
+    border-bottom: 1px solid LightGray;
+}
+.bikePhoto{
+    width: 300px;
+    height: 250px;
+}
+.bikePhotoContainer{
+    float: right;
+    top: 60px;
+    right: 25px;
+    position: absolute;
+    border: 1px solid LightGray;
 }
