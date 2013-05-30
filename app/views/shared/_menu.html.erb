@@ -10,8 +10,8 @@
     <%= content_tag :li, 
 	:class => "dropdown #{nav_bar_curr_class(:controller => 'bikes', :action => :index)}" do %>
       <%= link_to available_bikes_path, {'data-toggle' => "dropdown" } do %>
-        <i class=""></i>Bikes
-	<b class="caret"></b>
+        Bikes<b class="caret"></b>
+      <%  end # a %>
 	<ul class="dropdown-menu">
 	  <li><%= link_to I18n.translate('nav.bikes.available'), :available_bikes  %></li>
 	  <li><%= link_to I18n.translate('nav.bikes.assigned'), :assigned_bikes  %></li>
@@ -19,7 +19,6 @@
 	  <li class="divider"></li>
 	  <li><%= link_to I18n.translate('nav.bikes.all'), :bikes  %></li>
 	</ul>
-      <%  end # a %>
     <% end # li%>
     <% if can? :create, Bike %>
     <%= content_tag :li,
