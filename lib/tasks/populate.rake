@@ -66,7 +66,7 @@ namespace :db do
 
   desc "Fill the database with destinations" 
   task :populate_destinations => :environment do
-    [{:name => "Scrap", :label =>"scrap"},
+    [{:name => "Scrap", :label =>"Scrap"},
      {:name => "As-is", :label => "As-is"}].each do |h|
       if Destination.where(:name => h[:name]).count == 0
         Destination.create!(h)
