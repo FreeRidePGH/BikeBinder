@@ -20,6 +20,8 @@ task :populate_production_cold => :environment do
   # Create the db, load schema and seed
   Rake::Task['setup'].invoke
   Rake::Task['db:bike_mfg:index_repair'].invoke
+  Rake::Task['db:populate_programs'].invoke
+  Rake::Task['db:populate_destinations'].invoke
 end
 
 task :populate_production => :environment do
