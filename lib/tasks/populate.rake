@@ -16,6 +16,10 @@ task :populate_staging => :environment do
   Rake::Task['db:populate'].invoke
 end
 
+task :populate_production => :environment do
+  
+end
+
 namespace :db do
 
   desc "Setup the application and fill database with demo data"
