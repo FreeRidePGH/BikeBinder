@@ -16,8 +16,15 @@ task :populate_staging => :environment do
   Rake::Task['db:populate'].invoke
 end
 
+task :populate_production_cold => :environment do
+  # Create the db, load schema and seed
+  Rake::Task['setup'].invoke
+  Rake::Task['db:bike_mfg:index_repair'].invoke
+end
+
 task :populate_production => :environment do
-  
+  Rake::Task['db:seed'].invoke
+  Rake::Task['db:bike_mfg:index_repair'].invoke
 end
 
 namespace :db do
