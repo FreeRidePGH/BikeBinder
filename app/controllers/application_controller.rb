@@ -76,12 +76,15 @@ class ApplicationController < ActionController::Base
   # ** Assumes calling controller exposes commentable
   # we should only expose comments if a user is logged in. Otherwise current.user.id throws an exception because it is nil
   expose(:comment) do
+    if current_user
       @c_ret ||= (Comment.build_from(commentable, current_user.id, comment_body) if commentable)
+    end
   end
 
   def new_comment
     if commentable
-      if comment && comment.save
+      authorize! :edit, commentable
+      if verify_signatory && comment && comment.save
         # Handle a successful save
         flash[:success] = "Thank you for your comment"
       else
@@ -91,8 +94,10 @@ class ApplicationController < ActionController::Base
           flash[:error][("message_#{key.to_s}").to_sym]= "#{key.upcase.to_s} #{val}"
         end
       end
+      redirect_to(:id=>commentable, :action=>:show)
+    else
+      redirect_to root_path
     end
-    redirect_to(:id=>commentable, :action=>:show)
   end
 
   # Checks if a record was found
