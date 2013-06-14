@@ -2,7 +2,7 @@ require 'spec_helper'
 include Devise::TestHelpers
 
 describe BikesController do
-  let(:sig){"ABC"}
+  let(:sig){nil}
   let(:user){FactoryGirl.create(:user)}
   let(:commentable){FactoryGirl.create(:bike)}
   let(:comment){ {:body => "TEST"} }

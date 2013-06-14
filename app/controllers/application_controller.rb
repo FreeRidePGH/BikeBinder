@@ -84,7 +84,7 @@ class ApplicationController < ActionController::Base
   def new_comment
     if commentable
       authorize! :edit, commentable
-      if verify_signatory && comment && comment.save
+      if comment && comment.save
         # Handle a successful save
         flash[:success] = "Thank you for your comment"
       else
