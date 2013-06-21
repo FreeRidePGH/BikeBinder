@@ -1,3 +1,5 @@
+require "ostruct"
+
 class BikesController < ApplicationController
 
   layout false, :only => :qr
@@ -20,16 +22,7 @@ class BikesController < ApplicationController
   # All bikes
   expose(:bikes) do
     @bikes ||= ([bike] if record_found?(bike))
-    if params[:status]
-      case params[:status]
-      when 'available'
-        @bikes ||= BikeReport.new(:available => true).assets
-        when 'assigned'
-        @bikes ||= BikeReport.new(:assigned => true, :present => true).assets
-        when 'departed'
-        @bikes ||= BikeReport.new(:departed => true).assets
-      end
-    end
+    @bikes ||= bikes_status_report.assets
     @bikes ||= Bike.eager_load(:bike_model,:hook_reservation, :hook, :assignment).all 
     @bikes
   end
@@ -71,6 +64,11 @@ class BikesController < ApplicationController
 
   def index
     authorize! :read, Bike
+
+    respond_to do |format|
+      format.html
+      format.csv { render :csv => bikes_status_report }
+    end
   end
 
   def show
@@ -150,6 +148,21 @@ class BikesController < ApplicationController
       new_bike_path : bike_path(bike_form.bike)
     end
     path || root_path
-  end
+  end # def bike_post_created_path
+
+  def bikes_status_report
+    if params[:status]
+      case params[:status]
+      when 'available'
+        BikeReport.new(:available => true)
+      when 'assigned'
+        BikeReport.new(:assigned => true, :present => true)
+      when 'departed'
+        BikeReport.new(:departed => true)
+      end
+    else
+      BikeReport.new
+    end
+  end # bikes_status_report
 
 end

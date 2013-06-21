@@ -44,6 +44,9 @@ class BikeReport
 
   column(:number)
   column(:color)
+  column(:color_name) do
+    color.name
+  end
   column(:wheel_size)
   column(:brand_name, :order =>"bike_brand.name") do 
     brand.name if brand
@@ -60,5 +63,17 @@ class BikeReport
   
   column(:status, :order => "assignment.application.name") do 
     application.name if application
+  end
+
+  column(:arrival_date) do
+    Settings::Date.new(created_at).default_s
+  end
+
+  column(:departure_date) do
+    if application.respond_to?(:departed_at)
+      Settings::Date.new(application.departed_at).default_s
+    else
+      ""
+    end
   end
 end
