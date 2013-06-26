@@ -346,7 +346,7 @@ describe BikesController do
         end
 
         it "does not creates a bike" do
-          expect(Bike.where{number == my{params[:number]}}.first).to be_nil
+          expect(Bike.where{number == my{params[:number].to_s}}.first).to be_nil
         end
       end
       
@@ -357,13 +357,18 @@ describe BikesController do
           post :create, :bike_form => params, 
           :commit => I18n.translate('commit_btn.new'), :sig => sig
         end
+
+        it "has an invalid bike form" do
+          expect(controller.bike_form).to_not be_valid
+          expect(controller.bike).to_not be_valid
+        end
         
         it "renders the new bike page" do
           expect(response).to render_template(:new)
         end
 
         it "does not creates a bike" do
-          expect(Bike.where{number == my{params[:number]}}.first).to be_nil
+          expect(Bike.where{number == my{params[:number].to_s}}.first).to be_nil
         end
       end # context "with a negative value"
 
@@ -374,9 +379,15 @@ describe BikesController do
           post :create, :bike_form => params, 
           :commit => I18n.translate('commit_btn.new'), :sig => sig
         end
-        
-        it "renders the new bike page" do
+
+        it "has an invalid bike form" do
+          expect(controller.bike_form).to_not be_valid
+          expect(controller.bike).to_not be_valid
+        end
+
+        it "successfully renders the new bike page" do
           expect(response).to render_template(:new)
+          expect(response).to be_success
         end
 
         it "does not creates a bike" do

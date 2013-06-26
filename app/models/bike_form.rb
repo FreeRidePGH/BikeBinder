@@ -41,10 +41,19 @@ class BikeForm
   end
 
   # Validations
-  validates_presence_of :number, :color
-  validates :seat_tube_height,:top_tube_length,:value, :numericality => true, :allow_nil => true
-  # validates_uniqueness_of :number, :allow_nil => true
-  validates :number, :bike_number => true
+  validate :form_validation
+
+  def form_validation
+    models = [bike]
+
+    models.each do |m|
+      unless m.valid?
+        m.errors.each do |e_key, e_message|
+          errors.add(e_key, e_message)
+        end
+      end
+    end
+  end # def form_validation
 
   # Forms are never themselves persisted
   def persisted?
