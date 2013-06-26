@@ -3,6 +3,12 @@ require 'spec_helper'
 describe Bike do
   subject(:bike){FactoryGirl.create(:bike)}
 
+  context "with number and color" do
+    it "is valid" do
+      expect(bike).to be_valid
+    end
+  end
+
   describe "url slugging" do
     let(:slug){bike.slug}
     
@@ -21,7 +27,7 @@ describe Bike do
         expect(Bike.find_by_slug(slug)).to eq bike
       end
     end      
-  end
+  end # describe "url slugging"
 
   describe "#number" do
     subject(:next_bike){Bike.new(:number => bike.number)}

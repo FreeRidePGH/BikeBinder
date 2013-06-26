@@ -14,7 +14,7 @@ describe BikeModel do
     
     it "has a brand" do
       expect(model_with_brand.brand).to_not be_nil
-    end
+   end
 
     it "has a valid brand" do
       expect(model_with_brand.brand).to be_valid

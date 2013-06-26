@@ -9,9 +9,9 @@ GIT
 
 GIT
   remote: git://github.com/zflat/color_name-i18n.git
-  revision: 16d5287a8d3e10d5a75cb8403f8c5abc5f5e3720
+  revision: dc1bfcb36d77eb7532cfef3cd7b71df28c83b354
   specs:
-    color_name-i18n (0.2.0)
+    color_name-i18n (0.2.1)
       activemodel
       bundler (~> 1.2)
       i18n
@@ -149,7 +149,7 @@ GEM
     httparty (0.10.2)
       multi_json (~> 1.0)
       multi_xml (>= 0.5.2)
-    i18n (0.6.1)
+    i18n (0.6.4)
     i18n-js (2.1.2)
       i18n
     journey (1.0.4)
@@ -178,7 +178,7 @@ GEM
     mime-types (1.21)
     mini_magick (3.5.0)
       subexec (~> 0.2.1)
-    multi_json (1.6.1)
+    multi_json (1.7.7)
     multi_xml (0.5.3)
     mustache (0.99.4)
     netrc (0.7.4)

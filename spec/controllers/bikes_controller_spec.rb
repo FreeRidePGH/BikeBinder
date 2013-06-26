@@ -268,7 +268,7 @@ describe BikesController do
         sign_in user
       end
       context "without a signatory" do
-        let(:params){{:number => FactoryGirl.generate(:bike_number), :color => "ffffff"}}
+        let(:params){{:number => FactoryGirl.generate(:bike_number), :color => "FFFFFF"}}
         
         before :each do
           post :create, :bike_form => params, 
@@ -279,10 +279,10 @@ describe BikesController do
         it "does not create the bike" do
         expect(@bike).to be_nil
         end
-      end
+      end # context "without a signatory"
       
       context "with valid parameters" do    
-        let(:params){{:number => FactoryGirl.generate(:bike_number), :color => "ffffff"}}
+        let(:params){{:number => FactoryGirl.generate(:bike_number), :color => "FFFFFF"}}
         
         before :each do
           post :create, :bike_form => params, 
@@ -300,7 +300,7 @@ describe BikesController do
         end
       end # context "with valid parameters"
       
-      context "with invalid parameters" do
+      context "missing color parameter" do
         let(:params){{:number => FactoryGirl.generate(:bike_number)}}
         
         before :each do
@@ -315,7 +315,80 @@ describe BikesController do
         it "does not creates a bike" do
           expect(Bike.where{number == my{params[:number]}}.first).to be_nil
         end
-      end # context "with invalid parameters"
+      end # # context "with invalid parameters"
+
+      context "with invalid color" do
+        let(:params){{:number => FactoryGirl.generate(:bike_number), :color => "abc123"}}
+        before :each do
+          post :create, :bike_form => params, 
+          :commit => I18n.translate('commit_btn.new'), :sig => sig
+        end
+        
+        it "renders the new bike page" do
+          expect(response).to render_template(:new)
+        end
+
+        it "does not creates a bike" do
+          expect(Bike.where{number == my{params[:number]}}.first).to be_nil
+        end
+      end
+
+      context "with a repeated number" do
+        let(:old_bike){FactoryGirl.create(:bike)}
+        let(:params){{:number => old_bike.number, :color => "FFFFFF"}}
+        before :each do
+          post :create, :bike_form => params, 
+          :commit => I18n.translate('commit_btn.new'), :sig => sig
+        end
+        
+        it "renders the new bike page" do
+          expect(response).to render_template(:new)
+        end
+
+        it "does not creates a bike" do
+          expect(Bike.where{number == my{params[:number]}}.first).to be_nil
+        end
+      end
+      
+      context "with a negative value" do
+        let(:params){{:number => FactoryGirl.generate(:bike_number), 
+            :color => "FFFFFF", :value => -1}}
+        before :each do
+          post :create, :bike_form => params, 
+          :commit => I18n.translate('commit_btn.new'), :sig => sig
+        end
+        
+        it "renders the new bike page" do
+          expect(response).to render_template(:new)
+        end
+
+        it "does not creates a bike" do
+          expect(Bike.where{number == my{params[:number]}}.first).to be_nil
+        end
+      end # context "with a negative value"
+
+      context "with a non-number value" do
+        let(:params){{:number => FactoryGirl.generate(:bike_number), 
+            :color => "FFFFFF", :value => 'abc'}}
+        before :each do
+          post :create, :bike_form => params, 
+          :commit => I18n.translate('commit_btn.new'), :sig => sig
+        end
+        
+        it "renders the new bike page" do
+          expect(response).to render_template(:new)
+        end
+
+        it "does not creates a bike" do
+          expect(Bike.where{number == my{params[:number]}}.first).to be_nil
+        end
+      end # context "with a non-number value"
+
+      context "with an invalid quality"
+      context "with an invalid condition"
+      context "with an invalid seat-tube height"
+      context "with an invalid top-tube length"
+
     end # context "when signed in"
   end # POST
 

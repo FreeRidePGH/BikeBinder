@@ -39,6 +39,10 @@ module Settings
     def self.options
       Select2BikeBinder.configuration.color_option_keys
     end
+
+    def self.option_set
+      self.options.map{|c| ColorNameI18n::Color.new(c)}
+    end
   end
 
   class Date

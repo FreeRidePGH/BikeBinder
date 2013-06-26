@@ -86,10 +86,13 @@ class Bike < ActiveRecord::Base
   validates :seat_tube_height,:top_tube_length,:value, :numericality => true, :allow_nil => true
   validates_uniqueness_of :number, :allow_nil => true, :message => "Number is not unique"
   validates :number, :bike_number => :true
+  validates :color, 
+  :inclusion => {:in => Settings::Color.option_set}, :allow_nil => false
   validates :quality, 
   :inclusion => {:in => Bike.qualities}, :allow_nil => true
   validates :condition, 
   :inclusion => {:in => Bike.conditions}, :allow_nil => true
+  validates :value, :numericality => {:greater_than_or_equal_to => 0}, :allow_nil => true
 
   ##########
   # Actions
