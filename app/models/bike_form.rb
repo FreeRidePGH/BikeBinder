@@ -154,11 +154,18 @@ class BikeForm
     return nil if entered_val.blank?
 
     selected_units = self.send("#{attrib_name}_units")
-    selected_units ||= Settings::LinearUnit.default_input.units
+    if selected_units.nil? || selected_units.strip.length == 0
+      selected_units = Settings::LinearUnit.default_input.units      
+    end
 
     given_unit = Unit.new(selected_units)
-    val = Unit.new(entered_val)*given_unit
-    Settings::LinearUnit.to_persistance_units(val).scalar.to_f
+    begin
+      val = Unit.new(entered_val)*given_unit
+      Settings::LinearUnit.to_persistance_units(val).scalar.to_f
+    rescue
+      errors.add(attrib_name, I18n.translate('errors.invalid_measurement'))
+      entered_val
+    end
   end
 
   def model_factory_params

@@ -2,6 +2,7 @@ require 'bike_mfg'
 require 'color_name-i18n'
 require 'bike_number'
 require 'number_slug'
+require 'value/validator'
 
 class Bike < ActiveRecord::Base
 
@@ -25,6 +26,7 @@ class Bike < ActiveRecord::Base
   include Value::Color
   include Value::Linear::SeatTubeHeight
   include Value::Linear::TopTubeLength
+  include Value::Validator
   def wheel_size
     IsoBsdI18n::Size.new(super)
   end
@@ -83,9 +85,13 @@ class Bike < ActiveRecord::Base
   # Validations
 
   validates_presence_of :number,:color
-  validates :seat_tube_height,:top_tube_length,:value, 
+  validates :value, 
   :numericality => {:greater_than_or_equal_to => 0, :only_integer => false}, :allow_nil => true
-  validates_uniqueness_of :number, :allow_nil => true, :message => "Number is not unique"
+  validates :seat_tube_height, :non_negative_number => true
+  validates :top_tube_length, :non_negative_number => true
+
+  validates_uniqueness_of :number, :allow_nil => true, 
+  :message => I18n.translate('errors.taken_number')
   validates :number, :bike_number => :true
   validates :color, 
   :inclusion => {:in => Settings::Color.option_set}, :allow_nil => false

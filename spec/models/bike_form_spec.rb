@@ -11,7 +11,7 @@ describe BikeForm do
     @model = FactoryGirl.create(:bike_model)
     @bike = FactoryGirl.create(:bike)
   end
-  
+
   context "existing bike, blank params" do
     let(:bike){FactoryGirl.create(:bike)}
     subject(:form){BikeForm.new(bike)}
@@ -178,6 +178,28 @@ describe BikeForm do
     end    
     
   end # context "for creating a new model with an existing brand"
+
+  context "full params, invalid measurements" do
+    let(:bike){FactoryGirl.create(:bike)}
+    let(:params) do
+      {
+        :number => bike.number,
+        :color => bike.color,
+        :top_tube_length => 'abc',
+        :seat_tube_height => 'abc',
+        }
+    end
+    subject(:form){BikeForm.new(bike, params)}
+    
+    it "is not valid" do
+      expect(form).to be_valid
+    end
+
+    it "retains the invalid measurements in the form" do
+      expect(form.seat_tube_height).to eq params[:seat_tube_height]
+      expect(form.top_tube_length).to eq params[:top_tube_length]
+    end
+  end
 
 end # describe BikeForm do
 

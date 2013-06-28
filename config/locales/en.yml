@@ -94,6 +94,12 @@ en:
     vacate_hook: "Vacate hook %{number}"
     depart: "Depart"
     return: "Return"
+  errors:
+    invalid_measurement: "Invalid measurement given"
+    taken_number: "Number is not unique"
+    negative_val: "value is negative"
+    not_a_number: "value is not a number"
+    invalid_format: "is not formatted properly"
   bike:
     form:
       section:

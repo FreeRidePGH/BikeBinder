@@ -340,13 +340,18 @@ describe BikesController do
           post :create, :bike_form => params, 
           :commit => I18n.translate('commit_btn.new'), :sig => sig
         end
+
+        it "has an invalid bike form" do
+          expect(controller.bike_form).to_not be_valid
+          expect(controller.bike).to_not be_valid
+        end
         
         it "renders the new bike page" do
           expect(response).to render_template(:new)
         end
 
-        it "does not creates a bike" do
-          expect(Bike.where{number == my{params[:number].to_s}}.first).to be_nil
+        it "does not creates another bike" do
+          expect(Bike.where{number == my{params[:number].to_s}}.count).to eq 1
         end
       end
       
@@ -395,10 +400,97 @@ describe BikesController do
         end
       end # context "with a non-number value"
 
-      context "with an invalid quality"
-      context "with an invalid condition"
-      context "with an invalid seat-tube height"
-      context "with an invalid top-tube length"
+      context "with an invalid quality" do
+        let(:params){{:number => FactoryGirl.generate(:bike_number), 
+            :color => "FFFFFF", :quality => 'abc'}}
+        before :each do
+          post :create, :bike_form => params, 
+          :commit => I18n.translate('commit_btn.new'), :sig => sig
+        end
+
+        it "has an invalid bike form" do
+          expect(controller.bike_form).to_not be_valid
+          expect(controller.bike).to_not be_valid
+        end
+
+        it "successfully renders the new bike page" do
+          expect(response).to render_template(:new)
+          expect(response).to be_success
+        end
+
+        it "does not creates a bike" do
+          expect(Bike.where{number == my{params[:number]}}.first).to be_nil
+        end
+      end #context "with an invalid quality"
+
+      context "with an invalid condition" do
+        let(:params){{:number => FactoryGirl.generate(:bike_number), 
+            :color => "FFFFFF", :condition => 'abc'}}
+        before :each do
+          post :create, :bike_form => params, 
+          :commit => I18n.translate('commit_btn.new'), :sig => sig
+        end
+
+        it "has an invalid bike form" do
+          expect(controller.bike_form).to_not be_valid
+          expect(controller.bike).to_not be_valid
+        end
+
+        it "successfully renders the new bike page" do
+          expect(response).to render_template(:new)
+          expect(response).to be_success
+        end
+
+        it "does not creates a bike" do
+          expect(Bike.where{number == my{params[:number]}}.first).to be_nil
+        end
+      end # context "with an invalid condition"
+
+      context "with an invalid seat-tube height" do
+        let(:params){{:number => FactoryGirl.generate(:bike_number), 
+            :color => "FFFFFF", :seat_tube_height => 'abc'}}
+        before :each do
+          post :create, :bike_form => params, 
+          :commit => I18n.translate('commit_btn.new'), :sig => sig
+        end
+
+        it "has an invalid bike form" do
+          expect(controller.bike_form).to_not be_valid
+          expect(controller.bike).to_not be_valid
+        end
+
+        it "successfully renders the new bike page" do
+          expect(response).to render_template(:new)
+          expect(response).to be_success
+        end
+
+        it "does not creates a bike" do
+          expect(Bike.where{number == my{params[:number]}}.first).to be_nil
+        end
+      end # context "with an invalid seat-tube height"
+
+      context "with an invalid top-tube length" do
+        let(:params){{:number => FactoryGirl.generate(:bike_number), 
+            :color => "FFFFFF", :top_tube_length => 'abc'}}
+        before :each do
+          post :create, :bike_form => params, 
+          :commit => I18n.translate('commit_btn.new'), :sig => sig
+        end
+
+        it "has an invalid bike form" do
+          expect(controller.bike_form).to_not be_valid
+          expect(controller.bike).to_not be_valid
+        end
+
+        it "successfully renders the new bike page" do
+          expect(response).to render_template(:new)
+          expect(response).to be_success
+        end
+
+        it "does not creates a bike" do
+          expect(Bike.where{number == my{params[:number]}}.first).to be_nil
+        end
+      end # context "with an invalid top-tube length"
 
     end # context "when signed in"
   end # POST

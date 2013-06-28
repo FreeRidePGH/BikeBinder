@@ -1,7 +1,7 @@
 class BikeNumberValidator < ActiveModel::EachValidator
   def validate_each(object, attribute, value)
     unless value.to_s =~ BikeNumber.anchored_pattern
-      object.errors.add attribute, (options[:message] || "is not formatted properly")
+      object.errors.add attribute, (options[:message] || I18n.translate('errors.invalid_format'))
     end 
   end
 end

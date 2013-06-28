@@ -144,7 +144,7 @@ render :partial=>'units/input',
 </table>
 
 <%= label_tag :sig, "Initials" %> 
-<%= text_field_tag :sig, nil %>
+<%= text_field_tag :sig, nil , :required => true %>
 
 <div class="btn-group" id="submit_form">
 <%= f.submit submit_text, :class => "btn btn-primary", :id => "commit" %>
