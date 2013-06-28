@@ -30,6 +30,7 @@ module Value
       end
       def seat_tube_height=(height)
         begin
+          @seat_tube_height = nil
           super(ConvertMethods::val_to_persist(height))
         rescue
           # Allow ill-formed values to be assigned so that they persist for validation
@@ -52,6 +53,7 @@ module Value
       end
       def top_tube_length=(length)
         begin
+          @top_tube_length = nil
           super(ConvertMethods::val_to_persist(length))
         rescue
           @top_tube_length = length
