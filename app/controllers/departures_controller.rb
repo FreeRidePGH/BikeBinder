@@ -30,11 +30,19 @@ class DeparturesController < ApplicationController
       redirect_to bike_path(bike) and return 
     end
 
+    # Check bike assignment-state before departing
+    new_assignment = bike.available?
+
     departure = 
       Departure.build(:bike => bike, 
                       :value => params[:value].to_f, 
                       :destination => destination)
     if departure.save
+      if new_assignment
+        # Record the new assignment in the bike history
+        hound_action bike, "assign_program,program,#{destination.label}"
+        hound_action destination, "assign_bike,number,#{bike.number}"
+      end
       hound_action bike, "depart"
       flash[:success] = I18n.translate('controller.departures.create.success', 
                                        :bike_number => bike.number,
