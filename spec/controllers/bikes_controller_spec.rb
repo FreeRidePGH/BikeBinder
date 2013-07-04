@@ -100,17 +100,17 @@ describe BikesController do
         expect(controller.bike_form.bike.id).to eq(bike.id)
           expect(response).to redirect_to(bike)
         end
-      end
+      end # context "with valid parameters"
       
       context "with invalid paramaters" do
         before :each do
           put :update, :id => bike, :bike_form=> {:number => 'BAD'}, :sig => sig
         end
         it "should render edit" do
-        expect(response).to_not redirect_to(@bike)
+        expect(response).to_not redirect_to(bike)
           expect(response).to render_template(:edit)
         end
-      end
+      end # context "with invalid paramaters"
       
       describe "model and brand" do
         
@@ -255,8 +255,30 @@ describe BikesController do
         end # context "when a model is pre-assigned"
         
         context "when a model is not pre-assigned"
-        
+     
       end # describe "editing model and brand"
+
+      context "that is departed" do
+        let(:destination){FactoryGirl.create(:assignment_departed_dest)}
+        subject(:bike){destination.bike}
+        
+        before(:each) do
+          put :update, :id => bike, :sig => sig
+        end
+
+        it "is departed" do
+          expect(bike).to be_departed
+        end
+        
+        it "should redirect to the bike" do
+          expect(response).to redirect_to(bike)
+          expect(response).to_not render_template(:edit)
+        end
+        
+        it "has no errors" do
+          expect(controller.flash[:error]).to be_nil
+        end
+      end # that is departed
       
     end # context "when signed in"
     
@@ -277,7 +299,7 @@ describe BikesController do
         end
       
         it "does not create the bike" do
-        expect(@bike).to be_nil
+          expect(@bike).to be_nil
         end
       end # context "without a signatory"
       
