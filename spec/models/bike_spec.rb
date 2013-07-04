@@ -84,6 +84,43 @@ describe Bike do
     end
     
   end
+
+context "with a non-number seat-tube height" do
+    let(:non_number){'abc'}
+    subject(:bike){Bike.new(:seat_tube_height => non_number)}
+    let(:measurement){55}
+    describe "assigning a numberical measurement" do
+      before :each do
+        bike.seat_tube_height = measurement
+      end
+      it "overrides the old value" do
+        expect(bike.seat_tube_height).to_not eq non_number
+      end
+
+      it "records the measurement" do
+        expect(bike.seat_tube_height.scalar).to eq measurement
+      end
+
+    end # describe "assigning a numberical measurement"
+  end # context "with a non-number seat-tube height"
+
+  context "with a non-number top-tube length" do
+    let(:non_number){'abc'}
+    subject(:bike){Bike.new(:top_tube_length => non_number)}
+    let(:measurement){55}
+    describe "assigning a numberical measurement" do
+      before :each do
+        bike.top_tube_length = measurement
+      end
+      it "overrides the old value" do
+        expect(bike.top_tube_length).to_not eq non_number
+      end
+
+      it "records the measurement" do
+        expect(bike.top_tube_length.scalar).to eq measurement
+      end
+    end # describe "assigning a numberical measurement"
+  end # context "with a non-number top-tube"
   
   context "with invalid number" do
     let(:number){'123456'} 
