@@ -76,6 +76,14 @@ namespace :db do
     end # each
   end
 
+  desc "Load spreadsheet data into the database"
+  task :populate_spreadsheet_data => :environment do
+    require 'csv'
+    data = CSV.read(File.join(File.dirname(__FILE__), 'InventoryDataSpreadsheet.csv'))
+
+    puts data
+  end # task :populate_spreadsheet_data => :environment
+
   desc "Fill database with fake Bikes"
   task :populate_bikes => :environment do
 
