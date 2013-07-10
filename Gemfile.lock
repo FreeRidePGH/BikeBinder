@@ -9,9 +9,9 @@ GIT
 
 GIT
   remote: git://github.com/zflat/color_name-i18n.git
-  revision: dc1bfcb36d77eb7532cfef3cd7b71df28c83b354
+  revision: f1aa16f77ae74ca7158917f721c6e19be64756ee
   specs:
-    color_name-i18n (0.2.1)
+    color_name-i18n (0.2.2)
       activemodel
       bundler (~> 1.2)
       i18n
