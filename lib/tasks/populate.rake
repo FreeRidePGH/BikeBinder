@@ -79,9 +79,95 @@ namespace :db do
   desc "Load spreadsheet data into the database"
   task :populate_spreadsheet_data => :environment do
     require 'csv'
+    require 'ostruct'
     data = CSV.read(File.join(File.dirname(__FILE__), 'InventoryDataSpreadsheet.csv'))
 
-    puts data
+    header = data.delete_at(0)
+
+    data.each do |row|
+      record = OpenStruct.new
+      (0..header.length-1).each do |i|
+        record.send("#{header[i].downcase}=", row[i]) unless header[i].nil?
+      end
+      
+      if record.id.nil?
+        next
+      end
+      record.id = record.id.rjust(5, '0')
+      bike = Bike.where(:id => record.id).first
+
+      # Create the record if it does not exist
+      if bike.nil?
+        bike_params = {
+          :bike_brand_name => record.brand,
+          :bike_model_name => record.model,
+          :seat_tube_height_units => "in",
+          :top_tube_length_units => "in",
+          :color => record.color,
+          :value => record.value,
+          :wheel_size => record.wheel_size,
+          :number => record.id,
+          :quality => record.id,
+          :condition => record.condition
+        }
+        bike_form = BikeForm.new(Bike.new, bike_params)
+        if !bike_form.valid?
+          raise "Bike creation errors. #{bike_form.errors.messages}"
+        end
+        bike_form.save
+        bike = bike_form.bike
+      end # if bike.nil?
+
+      if bike.nil?
+        raise "Bike could not be found or created from record row"
+      end
+
+      # Assign bike if a program is specified
+      program_name = case record.status
+                     when "Youth" then "Youth"
+                     when "Buildathon" then "Buildathon"
+                     when "FFS" then "Fix for Sale"
+                     when "EAB" then "Earn a Bike"
+                     else nil
+                     end # case record.status
+      assignment = nil
+      unless program_name.nil?
+        program = Program.where(:name => program_name).first 
+        if program.nil?
+          raise "Program name not found"
+        end
+        assignment = Assignment.build(:bike => bike, :program => program)
+        assignment.save!
+      end
+
+      # Depart bike when specified
+      if record.dateout && !b.departed?
+        if assignment.nil?
+          dest_name = case record.status
+                      when "As-is" then "As-is"
+                      when "Scrap" then "Scrap"
+                      else nil
+                    end
+          destination = nil
+          if dest_name
+            destination = Destination.where(:name => dest_name).first 
+          end
+          unless destination && destination.valid?
+            raise "DateOut bike could not have a destination assigned"
+          end
+        end # if assignment.nil?
+
+        # verify that the bike is assigned or has a destination
+        if bike.assignment.nil? && destination.nil?
+          raise "DateOut bike must have a destination or assignment from status"
+        end
+        
+        Departure.build(:bike => bike,
+                        :value => record.value,
+                        :destination => destination).save!
+      end # Depart bike when specified
+
+    end # data.each do |row|
   end # task :populate_spreadsheet_data => :environment
 
   desc "Fill database with fake Bikes"
