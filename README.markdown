@@ -36,6 +36,9 @@ Run setup rake task
 
         bundle exec rake populate
 
+Troubleshooting failing tests. If most tests are failing, you may need to setup the test database. 
+
+        bundle exec rake db:test_setup
 
 ### Running tests
 
