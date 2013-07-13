@@ -192,7 +192,7 @@ describe BikeForm do
     subject(:form){BikeForm.new(bike, params)}
     
     it "is not valid" do
-      expect(form).to be_valid
+      expect(form).to_not be_valid
     end
 
     it "retains the invalid measurements in the form" do
