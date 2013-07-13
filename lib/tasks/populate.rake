@@ -87,15 +87,25 @@ namespace :db do
     data.each do |row|
       record = OpenStruct.new
       (0..header.length-1).each do |i|
-        record.send("#{header[i].downcase}=", row[i]) unless header[i].nil?
+        val = row[i].strip unless row[i].nil?
+        record.send("#{header[i].downcase}=", val) unless header[i].nil?
       end
-      
+
       if record.id.nil?
         next
       end
-      record.id = record.id.rjust(5, '0')
-      bike = Bike.where(:id => record.id).first
 
+      record.id = record.id.rjust(5, '0').to_s
+
+      puts "Bike ID #{record.id}"
+      bike = Bike.where(:number => record.id).first
+
+      ['quality', 'condition'].each do |attr|
+        unless record.send(attr).nil?
+          record.send("#{attr}=", record.send(attr).downcase)
+        end
+      end
+      
       # Create the record if it does not exist
       if bike.nil?
         bike_params = {
@@ -103,11 +113,11 @@ namespace :db do
           :bike_model_name => record.model,
           :seat_tube_height_units => "in",
           :top_tube_length_units => "in",
-          :color => record.color,
+          :color => record.color.to_s.gsub(/'/, ''),
           :value => record.value,
           :wheel_size => record.wheel_size,
           :number => record.id,
-          :quality => record.id,
+          :quality => record.quality,
           :condition => record.condition
         }
         bike_form = BikeForm.new(Bike.new, bike_params)
@@ -116,6 +126,7 @@ namespace :db do
         end
         bike_form.save
         bike = bike_form.bike
+	puts "Bike #{bike.number} created"
       end # if bike.nil?
 
       if bike.nil?
@@ -126,22 +137,26 @@ namespace :db do
       program_name = case record.status
                      when "Youth" then "Youth"
                      when "Buildathon" then "Buildathon"
-                     when "FFS" then "Fix for Sale"
-                     when "EAB" then "Earn a Bike"
+                     when "Fix for Sale" then "Fix for Sale"
+                     when "Earn a Bike" then "Earn a Bike"
                      else nil
                      end # case record.status
-      assignment = nil
-      unless program_name.nil?
+
+      assignment = bike.assignment
+      
+      unless program_name.nil? || assignment
         program = Program.where(:name => program_name).first 
         if program.nil?
           raise "Program name not found"
         end
         assignment = Assignment.build(:bike => bike, :program => program)
-        assignment.save!
+        bike.assignment = assignment
+        bike.save!
+	puts "Bike #{bike.number} assigned"
       end
 
       # Depart bike when specified
-      if record.dateout && !b.departed?
+      if record.dateout && !bike.departed?
         if assignment.nil?
           dest_name = case record.status
                       when "As-is" then "As-is"
@@ -151,20 +166,21 @@ namespace :db do
           destination = nil
           if dest_name
             destination = Destination.where(:name => dest_name).first 
-          end
-          unless destination && destination.valid?
-            raise "DateOut bike could not have a destination assigned"
+            unless destination && destination.valid?
+              raise "DateOut bike could not have a destination assigned"
+            end
           end
         end # if assignment.nil?
 
         # verify that the bike is assigned or has a destination
         if bike.assignment.nil? && destination.nil?
-          raise "DateOut bike must have a destination or assignment from status"
+          raise "DateOut bike must have a destination or assignment from status '#{record.status}'"
         end
         
         Departure.build(:bike => bike,
-                        :value => record.value,
+                        :value => record.value || bike.value || 0,
                         :destination => destination).save!
+	puts "Bike #{bike.number} departed"
       end # Depart bike when specified
 
     end # data.each do |row|
