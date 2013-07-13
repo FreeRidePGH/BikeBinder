@@ -38,6 +38,8 @@ class BikeForm
     # the supplied params to override
     # persisted obj data
     parse_params(form_params_list, params) unless params.empty?
+
+    update_bike
   end
 
   # Validations
