@@ -37,12 +37,14 @@
       <h3>Assignment</h3>
       <% if bike.application %>
         <p>Assigned to: <%= bike.application.label %></p>
+	<% if !bike.departed? %>
         <div>
           <%= form_for bike.assignment, :method => :delete do |f| %>
 	  <%= render :partial => 'form_initials', :locals => {:id => "prog_sig"} %>
           <%= f.submit I18n.translate('commit_btn.del_assignment'), :class => "btn btn-danger" %>
           <% end%>
         </div>
+	<% end # !bike.departed? %>
       <% end %>
       <% if bike.available? %>
         <p>This bike is available</p>
