@@ -34,42 +34,6 @@
 <%=  render :partial=>'select2_ui/brand_model_lookup_create', :locals =>{:form_builder =>f, :value=>bike.bike_model_id} %>  
 
 
-<h2 id="value"><%= I18n.translate('bike.form.section.value').titleize %></h2>
-
-<div class="accordion-group">
-<div class="accordion-heading">
-  <a href="#bike_price_guide" class="accordion-toggle" data-toggle="collapse"><%= I18n.translate('bike.price_guide.sale_price.definition') %></a>
-</div>
-<div class="accordion-body collapse" id="bike_price_guide">
-<dl class="accordion-inner">
-  <dt><%= I18n.translate('bike.price_guide.base.term').titleize %></dt>
-  <dd><%= I18n.translate('bike.price_guide.base.definition').capitalize %></dd>
-
-  <dt><%= I18n.translate('bike.price_guide.damage.term').titleize %></dt>
-  <dd><%= I18n.translate('bike.price_guide.damage.definition').capitalize %></dd>
-
-  <dt><%= I18n.translate('bike.price_guide.labor.term').titleize %></dt>
-  <dd><%= I18n.translate('bike.price_guide.labor.definition').capitalize %></dd>
-
-  <dt><%= I18n.translate('bike.price_guide.missing_parts.term').titleize %></dt>
-  <dd><%= I18n.translate('bike.price_guide.missing_parts.definition').capitalize %></dd>
-</dl>
-</div>
-</div> <!-- accordion-group -->
-
-<div class="control-group">
-<%= f.label :value, I18n.translate('bike.form.label.value').titleize, :class=>"control-label" %>
-<div class="controls">
-  <div class="input-prepend">
-    <span class="add-on">$</span><%= f.text_field :value, 
-	:maxlength => 10, 
-    :value => ("%.2f" % bike_form.value if bike_form.value),
-    :placeholder=> I18n.translate('bike.form.placeholder.value').titleize %>
-  </div>
-</div>
-</div>
-
-
 <h2 id="measurements"><%= I18n.translate('bike.form.section.measurements').titleize %></h2>
 <div class="control-group">
 <%= f.label :wheel_size, I18n.translate('bike.form.label.wheel_size').titleize,
@@ -142,6 +106,42 @@ render :partial=>'units/input',
   <% end %>
 </tbody>
 </table>
+
+<h2 id="value"><%= I18n.translate('bike.form.section.value').titleize %></h2>
+
+<div class="accordion-group">
+<div class="accordion-heading">
+  <a href="#bike_price_guide" class="accordion-toggle" data-toggle="collapse"><%= I18n.translate('bike.price_guide.sale_price.definition') %></a>
+</div>
+<div class="accordion-body collapse" id="bike_price_guide">
+<dl class="accordion-inner">
+  <dt><%= I18n.translate('bike.price_guide.base.term').titleize %></dt>
+  <dd><%= I18n.translate('bike.price_guide.base.definition').capitalize %></dd>
+
+  <dt><%= I18n.translate('bike.price_guide.damage.term').titleize %></dt>
+  <dd><%= I18n.translate('bike.price_guide.damage.definition').capitalize %></dd>
+
+  <dt><%= I18n.translate('bike.price_guide.labor.term').titleize %></dt>
+  <dd><%= I18n.translate('bike.price_guide.labor.definition').capitalize %></dd>
+
+  <dt><%= I18n.translate('bike.price_guide.missing_parts.term').titleize %></dt>
+  <dd><%= I18n.translate('bike.price_guide.missing_parts.definition').capitalize %></dd>
+</dl>
+</div>
+</div> <!-- accordion-group -->
+
+<div class="control-group">
+<%= f.label :value, I18n.translate('bike.form.label.value').titleize, :class=>"control-label" %>
+<div class="controls">
+  <div class="input-prepend">
+    <span class="add-on">$</span><%= f.text_field :value, 
+	:maxlength => 10, 
+    :value => ("%.2f" % bike_form.value if bike_form.value),
+    :placeholder=> I18n.translate('bike.form.placeholder.value').titleize %>
+  </div>
+</div>
+</div>
+
 
 <%= label_tag :sig, "Initials" %> 
 <%= text_field_tag :sig, nil , :required => true %>

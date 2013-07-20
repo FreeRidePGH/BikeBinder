@@ -105,10 +105,10 @@ en:
       section:
         bikeinfo: bike information
         brandmodel: brand and model
-        value: sales price value
         measurements: size and measurements
         quality: quality
         condition: condition
+        value: sales price value
       placeholder:
         value: sales price
       label:
