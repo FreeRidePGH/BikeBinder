@@ -54,6 +54,27 @@ describe BikesController do
     end # context "while not signed in"
   end
 
+  describe "GET 'edit' a bike with a model" do
+    let(:bike){FactoryGirl.create(:bike_with_model)}
+    
+    context "when signed in" do
+      before(:each) do
+        sign_in user
+        get :edit, :id => bike
+      end
+
+      it "gives a valid form" do
+        expect(controller.bike_form).to be_valid
+      end
+      
+      it "should expose the correct bike" do
+        expect(Bike.find(bike)).to_not be_nil
+        expect(controller.bike).to_not be_nil
+        expect(controller.bike.id).to eq(bike.id)
+      end
+    end # context "when signed in"
+  end # describe "GET 'edit' a bike with a model"
+
   describe "GET 'edit' a bike" do
     let(:bike){FactoryGirl.create(:bike)}
     
@@ -62,8 +83,9 @@ describe BikesController do
         sign_in user
         get :edit, :id => bike
       end
-      
+
       it "should expose the correct bike" do
+        expect(bike).to eq (controller.bike_form.bike)
         expect(Bike.find(bike)).to_not be_nil
         expect(controller.bike).to_not be_nil
         expect(controller.bike.id).to eq(bike.id)

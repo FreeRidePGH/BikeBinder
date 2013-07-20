@@ -87,6 +87,7 @@ describe BikeForm do
       {
         :number => bike.number,
         :color => bike.color,
+        :bike_model_id => '',
         :bike_model_name => new_model_name,
         :bike_brand_id => '',
         :bike_brand_name => new_brand_name

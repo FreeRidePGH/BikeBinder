@@ -171,11 +171,22 @@ class BikeForm
   end
 
   def model_factory_params
+
+    if !bike_model_id.nil?
+      model_name = nil
+      brand_id = nil
+      brand_name = nil
+    else
+      model_name = bike_model_name
+      brand_id = bike_brand_id
+      brand_name = brand_id.present? ? nil : bike_brand_name 
+    end
+
     {
       :model_id => bike_model_id,
-      :model_name => bike_model_name,
-      :brand_id => bike_brand_id,
-      :brand_name => bike_brand_name,
+      :model_name => model_name, 
+      :brand_id => brand_id,
+      :brand_name => brand_name,
       :brand_scope => BikeBrand,
       :model_scope => BikeModel,
       :param_prefix => :bike
