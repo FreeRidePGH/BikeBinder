@@ -39,7 +39,7 @@ class BikeReport
     scope
   end
 
-  filter(:number)
+  filter(:number_record)
   filter(:wheel_size)
 
   column(:number)

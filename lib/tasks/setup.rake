@@ -33,10 +33,6 @@ namespace :db do
     # http://guides.rubyonrails.org/testing.html#preparing-your-application-for-testing
 
     Rake::Task['db:test:clone_structure'].invoke
-
-    ENV['FILE'] = 'surveys/bike_overhaul_inspection.rb'    
-    ENV['RAILS_ENV'] = 'test'
-    Rake::Task['surveyor'].invoke
   end
 
 end

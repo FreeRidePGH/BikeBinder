@@ -317,7 +317,7 @@ describe BikesController do
         before :each do
           post :create, :bike_form => params, 
           :commit => I18n.translate('commit_btn.new'), :sig => nil
-          @bike = Bike.where{number == my{params[:number]}}.first 
+          @bike = Bike.where{number_record == my{params[:number]}}.first 
         end
       
         it "does not create the bike" do
@@ -332,7 +332,7 @@ describe BikesController do
           post :create, :bike_form => params, 
           :commit => I18n.translate('commit_btn.new'), :sig => sig
 
-          @bike = Bike.where{number == my{params[:number]}}.first 
+          @bike = Bike.where{number_record == my{params[:number]}}.first 
         end
         
         it "redirects to bike" do
@@ -357,7 +357,7 @@ describe BikesController do
         end
 
         it "does not creates a bike" do
-          expect(Bike.where{number == my{params[:number]}}.first).to be_nil
+          expect(Bike.where{number_record == my{params[:number]}}.first).to be_nil
         end
       end # # context "with invalid parameters"
 
@@ -373,7 +373,7 @@ describe BikesController do
         end
 
         it "does not creates a bike" do
-          expect(Bike.where{number == my{params[:number]}}.first).to be_nil
+          expect(Bike.where{number_record == my{params[:number]}}.first).to be_nil
         end
       end
 
@@ -395,7 +395,7 @@ describe BikesController do
         end
 
         it "does not creates another bike" do
-          expect(Bike.where{number == my{params[:number].to_s}}.count).to eq 1
+          expect(Bike.where{number_record == my{params[:number].to_s}}.count).to eq 1
         end
       end
       
@@ -417,7 +417,7 @@ describe BikesController do
         end
 
         it "does not creates a bike" do
-          expect(Bike.where{number == my{params[:number].to_s}}.first).to be_nil
+          expect(Bike.where{number_record == my{params[:number].to_s}}.first).to be_nil
         end
       end # context "with a negative value"
 
@@ -440,7 +440,7 @@ describe BikesController do
         end
 
         it "does not creates a bike" do
-          expect(Bike.where{number == my{params[:number]}}.first).to be_nil
+          expect(Bike.where{number_record == my{params[:number]}}.first).to be_nil
         end
       end # context "with a non-number value"
 
@@ -463,7 +463,7 @@ describe BikesController do
         end
 
         it "does not creates a bike" do
-          expect(Bike.where{number == my{params[:number]}}.first).to be_nil
+          expect(Bike.where{number_record == my{params[:number]}}.first).to be_nil
         end
       end #context "with an invalid quality"
 
@@ -486,7 +486,7 @@ describe BikesController do
         end
 
         it "does not creates a bike" do
-          expect(Bike.where{number == my{params[:number]}}.first).to be_nil
+          expect(Bike.where{number_record == my{params[:number]}}.first).to be_nil
         end
       end # context "with an invalid condition"
 
@@ -509,7 +509,7 @@ describe BikesController do
         end
 
         it "does not creates a bike" do
-          expect(Bike.where{number == my{params[:number]}}.first).to be_nil
+          expect(Bike.where{number_record == my{params[:number]}}.first).to be_nil
         end
       end # context "with an invalid seat-tube height"
 
@@ -532,7 +532,7 @@ describe BikesController do
         end
 
         it "does not creates a bike" do
-          expect(Bike.where{number == my{params[:number]}}.first).to be_nil
+          expect(Bike.where{number_record == my{params[:number]}}.first).to be_nil
         end
       end # context "with an invalid top-tube length"
 

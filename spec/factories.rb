@@ -65,10 +65,10 @@ FactoryGirl.define do
     association :application, :factory => :destination
   end
 
-  sequence(:bike_number, 1000){|n| BikeNumber.new(BikeNumber.format_number(n))}
+  sequence(:bike_number, 1000){|n| BikeNumber.format_number(n)}
   factory :bike do
 
-    number {generate :bike_number}
+    number_record {generate :bike_number}
 
     val = 100
     n_bike_info = 1
@@ -79,21 +79,21 @@ FactoryGirl.define do
     
     factory :bike_with_model do
       association :model, :factory => :bike_model_with_brand
-      number {generate :bike_number}      
+      number_record {generate :bike_number}      
       color '00FF00'
     end
   end
 
-  sequence(:hook_number){|n| HookNumber.new("#{(n%90+10)}H")}
+  sequence(:hook_number){|n| "#{(n%90+10)}H"}
   factory :hook do
-    number {generate :hook_number}.to_s
+    number_record {generate :hook_number}
   end
 
   factory :associated_hook, :class => :hook do
-    number {generate :hook_number}.to_s
+    number_record {generate :hook_number}
   end
   factory :associated_bike, :class => :bike do
-    number {generate :bike_number}.to_s
+    number_record {generate :bike_number}
     color 'FFFFFF'
   end
 

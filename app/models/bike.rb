@@ -20,7 +20,7 @@ class Bike < ActiveRecord::Base
   acts_as_commentable
 
   attr_accessible :color, :value, :wheel_size, :seat_tube_height, :top_tube_length,
-  :number, :quality, :condition
+  :number_record, :quality, :condition
   
   # Override with value objects
   include Value::Color
@@ -31,7 +31,10 @@ class Bike < ActiveRecord::Base
     IsoBsdI18n::Size.new(super)
   end
   def number
-    BikeNumber.new(super)
+    BikeNumber.new(number_record)
+  end
+  def number=(val)
+    self.send('number_record=', val)
   end
 
   def self.qualities
@@ -53,8 +56,8 @@ class Bike < ActiveRecord::Base
   has_one :hook, :through => :hook_reservation
   
   has_one :assignment, :dependent => :destroy
-  has_one :program, :through => :assignment, :source => :application, :source_type => 'Program'
-  has_one :departure, :through => :assignment, :source => :application, :source_type => 'Departure'
+  has_one :program, :through => :assignment, :source_type => 'Assignment', :source => :application
+  has_one :departure, :through => :assignment, :source => :application , :source_type => 'Assignment'
 
   hound
 
@@ -84,15 +87,15 @@ class Bike < ActiveRecord::Base
   #############
   # Validations
 
-  validates_presence_of :number,:color
+  validates_presence_of :number_record, :color
   validates :value, 
   :numericality => {:greater_than_or_equal_to => 0, :only_integer => false}, :allow_nil => true
   validates :seat_tube_height, :non_negative_number => true
   validates :top_tube_length, :non_negative_number => true
 
-  validates_uniqueness_of :number, :allow_nil => true, 
+  validates_uniqueness_of :number_record, :allow_nil => true, 
   :message => I18n.translate('errors.taken_number')
-  validates :number, :bike_number => :true
+  validates :number_record, :bike_number => :true
   validates :color, 
   :inclusion => {:in => Settings::Color.option_set}, :allow_nil => false
   validates :quality, 

@@ -34,7 +34,7 @@ end
   ['H', 'L'].each do |suffix|
     hook_num = "#{n}#{suffix}"
 
-    if Hook.where(:number => hook_num).first.nil?    
+    if Hook.where(:number_record => hook_num).to_a.first.nil?    
       # Hook for the given number does not exist, so create it
       h = Hook.new
       h.number = hook_num

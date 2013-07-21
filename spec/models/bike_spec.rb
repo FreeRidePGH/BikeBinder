@@ -30,7 +30,10 @@ describe Bike do
   end # describe "url slugging"
 
   describe "#number" do
-    subject(:next_bike){Bike.new(:number => bike.number)}
+    let(:number_param) do
+      ActionController::Parameters.new({:number_record => bike.number}).permit(:record_number)
+    end
+    subject(:next_bike){Bike.new(number_param)}
     it "can not be re-used" do
       expect(next_bike).to_not be_valid
     end
@@ -150,7 +153,8 @@ context "with a non-number seat-tube height" do
   context "is destroyed" do
     subject(:bike){FactoryGirl.create(:bike)}
     let(:b_id){bike.id}
-    let(:b_sn){bike.id}
+    let!(:b_sn){bike.number}
+
     before(:each) do
       bike.destroy
     end
@@ -164,7 +168,20 @@ context "with a non-number seat-tube height" do
     end
 
     describe "# serial number" do
-      subject(:next_bike){Bike.new(:number => b_sn)}
+      let(:bike_param) do
+        ActionController::Parameters.new({
+                                           :number_record => bike.number_record,
+                                           :color => 'FFFFFF'
+                                         }).
+          permit(:number_record, :color)
+      end
+      let!(:next_bike){Bike.new(bike_param)}
+
+      before(:each) do
+        next_bike
+        bike.destroy
+      end
+
       it "can be re-used" do
         expect(next_bike).to be_valid
       end

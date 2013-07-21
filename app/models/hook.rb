@@ -12,11 +12,12 @@ class Hook < ActiveRecord::Base
   friendly_id :slug
   number_slug :prefix => 'location', :delimiter => '-'
 
-  attr_accessible :number
-
   # Override with value object
   def number
-    HookNumber.new(super)
+    HookNumber.new(number_record)
+  end
+  def number=(val)
+    self.send('number_record=', val)
   end
 
   ##############
@@ -58,7 +59,7 @@ class Hook < ActiveRecord::Base
   #############
   # Validations
 
-  validates :number, :hook_number => true
-  validates_uniqueness_of :number, :allow_nil => false
+  validates :number_record, :uniqueness => true, :allow_nil => false
+  validates :number_record, :hook_number => true
 
 end

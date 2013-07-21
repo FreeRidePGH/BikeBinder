@@ -33,7 +33,8 @@ gem 'select2-bikebinder', '>= 0.1.10', :git => 'git://github.com/zflat/select2-b
 gem 'jquery-datatables-rails'
 
 
-gem 'friendly_id', '~>4.0.9'
+gem 'friendly_id', github: 'FriendlyId/friendly_id'# , branch: 'rails4'
+#, '~>4.0.9'
 gem 'decent_exposure', '~>2.2.0'
 gem 'squeel', '~>1.1.0'
 
