@@ -56,17 +56,38 @@ class Bike < ActiveRecord::Base
   has_one :hook, :through => :hook_reservation
   
   has_one :assignment, :dependent => :destroy
-  has_one :program, :through => :assignment, :source_type => 'Assignment', :source => :application
-  has_one :departure, :through => :assignment, :source => :application , :source_type => 'Assignment'
+
+  # Implement polymorphically chained associations manually
+  def application
+    assignment.application if assignment
+  end
+
+  def program
+    if assignment && assignment.application_type == 'Program'
+      assignment.application
+    end
+  end
+
+  def program=(p)
+    assignment = assignment.new
+    assignment.application = p
+  end
+
+  def departure
+    if assignment && assignment.application_type == 'Departure'
+      assignment.application
+    end
+  end
+
+  def departure=(d)
+    assignment = assignment.new
+    assignment.application = d
+  end
 
   hound
 
   ############
   # Properties
-
-  def application
-    assignment.application if assignment
-  end
 
   def departed?
     application && application.respond_to?(:departed_at)

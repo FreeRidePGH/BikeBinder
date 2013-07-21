@@ -58,13 +58,10 @@ class Departure < ActiveRecord::Base
       if bike.departed?
         bike.departure
       else
-        bridge_destination(
-                           bike,
-                           self.new(
-                                    :value => params[:value], 
-                                    :application =>build_destination(bike, params[:destination])
-                                    )
-                           )
+        new_dep = self.new
+        new_dep.value = params[:value]
+        new_dep.application = build_destination(bike, params[:destination])
+        bridge_destination(bike, new_dep)
       end # if bike.departed?
     else # bike
       self.new(params)
@@ -99,7 +96,7 @@ class Departure < ActiveRecord::Base
     return nil if bike.departed?
     dest = bike.application
     dest ||= destination if destination.respond_to?(:departures)
-    dest ||= Destination.where(:id=>destination.to_i).first if destination.respond_to?(:to_i)
+    dest ||= Destination.where(:id=>destination.to_i).to_a.first if destination.respond_to?(:to_i)
     return dest
   end
 

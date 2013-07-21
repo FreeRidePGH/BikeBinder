@@ -94,7 +94,7 @@ namespace :db do
       record.id = record.id.rjust(5, '0').to_s
 
       puts "Bike ID #{record.id}"
-      bike = Bike.where(:number => record.id).first
+      bike = Bike.where(:number_record => record.id).first
 
       ['quality', 'condition'].each do |attr|
         unless record.send(attr).nil?
@@ -104,19 +104,29 @@ namespace :db do
       
       # Create the record if it does not exist
       if bike.nil?
-        bike_params = {
+        bike_params = ActionController::Parameters.new({
           :bike_brand_name => record.brand,
           :bike_model_name => record.model,
           :seat_tube_height_units => "in",
           :top_tube_length_units => "in",
+          :seat_tube_height => record.st,
+          :top_tube_length => record.tt,
           :color => record.color.to_s.gsub(/'/, ''),
           :value => record.value,
           :wheel_size => record.wheel_size,
-          :number => record.id,
+          :number_record => record.id,
           :quality => record.quality,
           :condition => record.condition
-        }
-        bike_form = BikeForm.new(Bike.new, bike_params)
+        })
+        bike_form = BikeForm.new(Bike.new, bike_params.permit(:color, 
+                                                              :seat_tube_height, 
+                                                              :top_tube_length, 
+                                                              :wheel_size,
+                                                              :bike_model_id, 
+                                                              :quality, 
+                                                              :condition, 
+                                                              :value, 
+                                                              :number_record))
         if !bike_form.valid?
           raise "Bike creation errors. #{bike_form.errors.messages}"
         end
@@ -224,20 +234,21 @@ namespace :db do
 
       val = rand(120)+25
 
-      b = Bike.create!(
-                       :color=>c,
-                       :seat_tube_height=>
-                       Settings::LinearUnit.to_persistance_units(sh).scalar.to_f, 
-                       :top_tube_length=>
-                       Settings::LinearUnit.to_persistance_units(tl).scalar.to_f,
-                       :wheel_size => wheel,
-                       :bike_model_id => bike_model_id,
-                       :quality => quality,
-                       :condition => condition,
-                       :value => val,
-                       :number => BikeNumber.format_number(Bike.count+1))
+      vals = {
+        :color=>c,
+        :seat_tube_height=>Settings::LinearUnit.to_persistance_units(sh).scalar.to_f, 
+        :top_tube_length=>Settings::LinearUnit.to_persistance_units(tl).scalar.to_f,
+        :wheel_size => wheel,
+        :bike_model_id => bike_model_id,
+        :quality => quality,
+        :condition => condition,
+        :value => val,
+        :number_record => BikeNumber.format_number(Bike.count+1)
+      }
+      params = ActionController::Parameters.new(vals)
+      b = Bike.create!(params.permit(:color, :seat_tube_height, :top_tube_length, :wheel_size,
+                                     :bike_model_id, :quality, :condition, :value, :number_record))
 
-      
       # Reserve hook
       if rand(3)>0 && Hook.next_available
         HookReservation.new(:bike => b, :hook => Hook.next_available).save
