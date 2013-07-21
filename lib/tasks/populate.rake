@@ -41,10 +41,6 @@ namespace :db do
     Rake::Task['db:populate_programs'].invoke
     Rake::Task['db:populate_destinations'].invoke
     Rake::Task['db:populate_bikes'].invoke
-
-    # Pass rake argument using ENV hash
-    ENV['FILE'] = 'surveys/bike_overhaul_inspection.rb'
-    Rake::Task['surveyor'].invoke
   end
 	  
   desc "Fill databse with programs"

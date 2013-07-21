@@ -1,22 +1,27 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.12'
-gem 'strong_parameters'
+gem 'rails', '4.0.0'
+
+gem 'protected_attributes'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
 
-gem 'therubyracer', '~>0.10.1'
+gem 'therubyracer', '~>0.11.4'
 
-gem 'devise', '~>2.1.0'
-gem 'cancan', '~>1.6.9'
-gem 'acts_as_commentable_with_threading', '1.1.2'
+gem 'devise', '~>3.0.0'
+gem 'cancan', '~>1.6.10'
+
+gem 'acts_as_commentable_with_threading', '1.1.2', :github => 'D1plo1d/acts_as_commentable_with_threading', :branch => 'patch-1'
+#elight/acts_as_commentable_with_threading'
+#'1.1.2', :git => 'git://github.com/elight/acts_as_commentable_with_threading.git', :branch => 'rails4'
+
 gem 'hound', '~>0.3.0'
 gem 'datagrid', '~>0.7.1'
 
 # Modular bulding-blocks for the application
-gem 'bike_mfg','>=0.1.4', :git => 'git://github.com/zflat/bike_mfg.git'
+gem 'bike_mfg','>=0.1.5'# , :git => 'git://github.com/zflat/bike_mfg.git'
 gem 'color_name-i18n','>= 0.2', :git => 'git://github.com/zflat/color_name-i18n.git'
 gem 'iso_bsd-i18n','>= 0.2', :git => 'git://github.com/zflat/iso_bsd-i18n.git'
 
@@ -28,16 +33,14 @@ gem 'select2-bikebinder', '>= 0.1.10', :git => 'git://github.com/zflat/select2-b
 gem 'jquery-datatables-rails'
 
 
-gem 'friendly_id', '~>4.0.5'
-gem 'decent_exposure', '~>1.0.2'
-gem 'squeel', '~>1.0.14'
+gem 'friendly_id', '~>4.0.9'
+gem 'decent_exposure', '~>2.2.0'
+gem 'squeel', '~>1.1.0'
 
-gem "ruby-units", "~> 1.4.2"
+gem "ruby-units", "~> 1.4.4"
 
-gem 'state_machine', '~>1.1.2'
+gem 'state_machine', '~>1.2.0'
 gem 'ruby-graphviz', :require => 'graphviz'
-
-gem 'surveyor', '~>0.22.0'
 
 gem 'jquery-ui-rails'
 gem 'jquery-ui-themes'
@@ -46,14 +49,10 @@ gem 'jquery-ui-themes'
 gem 'rqrcode-rails3'
 gem 'mini_magick'
 
-# Gems used only for assets and not required
-# in production environments by default.
-group :assets do
-  gem 'sass-rails', "~> 3.2.3"
-  gem 'coffee-rails', "~> 3.2.1"
-  gem 'uglifier', ">= 1.0.3"
-  gem 'bootstrap-sass', '~> 2.3.1.0'
-end
+#gem 'sass-rails', "~> 4.0.0"
+gem 'coffee-rails', "~> 4.0.0"
+gem 'uglifier', ">= 1.3.0"
+gem 'bootstrap-sass', '~> 2.3.2.1'
 
 gem 'jquery-rails', '~>2'
 
@@ -79,9 +78,9 @@ group :test do
 
   # Testing framework
   gem 'rspec-rails', '~>2'
-  gem 'capybara', "~> 2.0.2"
-  gem 'poltergeist', "~> 1.1.0"
-  gem 'factory_girl_rails', '~>4.0'
+  gem 'capybara', "~> 2.1.0"
+  gem 'poltergeist', "~> 1.3.0"
+  gem 'factory_girl_rails', '~>4.2.1'
   
   
   # Speed up testing with spork

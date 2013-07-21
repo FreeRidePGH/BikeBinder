@@ -13,29 +13,6 @@
 
 ActiveRecord::Schema.define(:version => 20130331005933) do
 
-  create_table "answers", :force => true do |t|
-    t.integer  "question_id"
-    t.text     "text"
-    t.text     "short_text"
-    t.text     "help_text"
-    t.integer  "weight"
-    t.string   "response_class"
-    t.string   "reference_identifier"
-    t.string   "data_export_identifier"
-    t.string   "common_namespace"
-    t.string   "common_identifier"
-    t.integer  "display_order"
-    t.boolean  "is_exclusive"
-    t.integer  "display_length"
-    t.string   "custom_class"
-    t.string   "custom_renderer"
-    t.datetime "created_at",             :null => false
-    t.datetime "updated_at",             :null => false
-    t.string   "default_value"
-    t.string   "api_id"
-    t.string   "display_type"
-  end
-
   create_table "assignments", :force => true do |t|
     t.integer  "bike_id"
     t.integer  "application_id"
