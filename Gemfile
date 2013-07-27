@@ -85,11 +85,12 @@ group :test do
   
   
   # Speed up testing with spork
-  gem 'guard-spork', '0.3.2'
-  gem 'spork', '0.9.0'
+  gem 'guard-spork', '~>1.5.1'
+  gem 'spork-rails', :git => 'git://github.com/sporkrb/spork-rails.git'
+#  gem 'spork', '0.9.0'
   
   # System specific for automatic tests on linux
-  gem 'rb-inotify', '0.8.8'
+  gem 'rb-inotify', '~> 0.9'
   gem 'libnotify', '0.5.9'
 end
 
