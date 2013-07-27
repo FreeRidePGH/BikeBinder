@@ -5,6 +5,7 @@ task :create_a_secret =>:environment do
   `rake -s secret > #{APP_SECRET_FILE}`
   puts File.exists?(APP_SECRET_FILE) ? "Succeeded" : "Failed"
 
+  puts "Writing secret base to to #{APP_SECRET_BASE_FILE}"
   `rake -s secret > #{APP_SECRET_BASE_FILE}`
   puts File.exists?(APP_SECRET_BASE_FILE) ? "Succeeded" : "Failed"
 end
