@@ -13,9 +13,9 @@ elsif File.exists?(APP_SECRET_FILE)
 end
 
 if ENV["BIKE_BINDER_SECRET_BASE"].present?
-  BikeBinder::Application.config.secret_token = ENV["BIKE_BINDER_SECRET_BASE"].strip
+  BikeBinder::Application.config.secret_key_base = ENV["BIKE_BINDER_SECRET_BASE"].strip
 elsif File.exists?(APP_SECRET_BASE_FILE)
-  BikeBinder::Application.config.secret_token = 
+  BikeBinder::Application.config.secret_key_base = 
     File.read(File.expand_path(APP_SECRET_BASE_FILE)).strip
 end
 
