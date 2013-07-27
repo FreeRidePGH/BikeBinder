@@ -23,6 +23,16 @@ GIT
       spork (>= 1.0rc0)
 
 GIT
+  remote: git://github.com/zflat/bike_mfg.git
+  revision: e6fe4cd763801022f247a1fd393a9bc7eb84a7f2
+  specs:
+    bike_mfg (0.1.6)
+      activemodel (~> 4.0.0)
+      oj
+      rabl (>= 0.8.6)
+      squeel (~> 1.1.0)
+
+GIT
   remote: git://github.com/zflat/color_name-i18n.git
   revision: f1aa16f77ae74ca7158917f721c6e19be64756ee
   specs:
@@ -81,11 +91,6 @@ GEM
     awesome_nested_set (2.1.6)
       activerecord (>= 3.0.0)
     bcrypt-ruby (3.1.1)
-    bike_mfg (0.1.5)
-      activemodel (~> 4.0.0)
-      oj
-      rabl (>= 0.8.6)
-      squeel (~> 1.1.0)
     bootstrap-sass (2.3.2.1)
       sass (~> 3.2)
     builder (3.1.4)
@@ -305,7 +310,7 @@ PLATFORMS
 
 DEPENDENCIES
   acts_as_commentable_with_threading (= 1.1.2)!
-  bike_mfg (>= 0.1.5)
+  bike_mfg (>= 0.1.6)!
   bootstrap-sass (~> 2.3.2.1)
   cancan (~> 1.6.10)
   capybara (~> 2.1.0)

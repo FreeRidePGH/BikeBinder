@@ -10,6 +10,12 @@ if ENV["BIKE_BINDER_SECRET_TOKEN"].present?
   BikeBinder::Application.config.secret_token = ENV["BIKE_BINDER_SECRET_TOKEN"].strip
 elsif File.exists?(APP_SECRET_FILE)
   BikeBinder::Application.config.secret_token = File.read(File.expand_path(APP_SECRET_FILE)).strip
-  #raise "ERROR: secret file #{APP_SECRET_FILE} must be generated. Run setup as require."
+end
+
+if ENV["BIKE_BINDER_SECRET_BASE"].present?
+  BikeBinder::Application.config.secret_token = ENV["BIKE_BINDER_SECRET_BASE"].strip
+elsif File.exists?(APP_SECRET_BASE_FILE)
+  BikeBinder::Application.config.secret_token = 
+    File.read(File.expand_path(APP_SECRET_BASE_FILE)).strip
 end
 

@@ -1,12 +1,10 @@
 source 'https://rubygems.org'
 
+ruby "2.0.0"
+
 gem 'rails', '4.0.0'
 
 gem 'protected_attributes'
-
-# Bundle edge Rails instead:
-# gem 'rails',     :git => 'git://github.com/rails/rails.git'
-
 
 gem 'therubyracer', '~>0.11.4'
 
@@ -15,13 +13,12 @@ gem 'cancan', '~>1.6.10'
 
 gem 'acts_as_commentable_with_threading', '1.1.2', :github => 'D1plo1d/acts_as_commentable_with_threading', :branch => 'patch-1'
 #elight/acts_as_commentable_with_threading'
-#'1.1.2', :git => 'git://github.com/elight/acts_as_commentable_with_threading.git', :branch => 'rails4'
 
 gem 'hound', '~>0.3.0'
 gem 'datagrid', '~>0.7.1'
 
 # Modular bulding-blocks for the application
-gem 'bike_mfg','>=0.1.5'# , :git => 'git://github.com/zflat/bike_mfg.git'
+gem 'bike_mfg','>=0.1.6', :git => 'git://github.com/zflat/bike_mfg.git'
 gem 'color_name-i18n','>= 0.2', :git => 'git://github.com/zflat/color_name-i18n.git'
 gem 'iso_bsd-i18n','>= 0.2', :git => 'git://github.com/zflat/iso_bsd-i18n.git'
 
@@ -29,12 +26,12 @@ gem 'iso_bsd-i18n','>= 0.2', :git => 'git://github.com/zflat/iso_bsd-i18n.git'
 gem 'i18n-js'
 gem 'select2-rails'
 gem 'select2-bikebinder', '>= 0.1.10', :git => 'git://github.com/zflat/select2-bikebinder.git'
+
 # simple paging, filtering for bikes table
 gem 'jquery-datatables-rails'
 
 
-gem 'friendly_id', github: 'FriendlyId/friendly_id'# , branch: 'rails4'
-#, '~>4.0.9'
+gem 'friendly_id', github: 'FriendlyId/friendly_id'
 gem 'decent_exposure', '~>2.2.0'
 gem 'squeel', '~>1.1.0'
 
@@ -56,12 +53,6 @@ gem 'uglifier', ">= 1.3.0"
 gem 'bootstrap-sass', '~> 2.3.2.1'
 
 gem 'jquery-rails', '~>2'
-
-# Use unicorn as the web server
-# gem 'unicorn'
-
-# Deploy with Capistrano
-# gem 'capistrano'
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
@@ -87,7 +78,6 @@ group :test do
   # Speed up testing with spork
   gem 'guard-spork', '~>1.5.1'
   gem 'spork-rails', :git => 'git://github.com/sporkrb/spork-rails.git'
-#  gem 'spork', '0.9.0'
   
   # System specific for automatic tests on linux
   gem 'rb-inotify', '~> 0.9'

@@ -12,6 +12,12 @@ def check_secret_token
     secret = `rake -s secret`.strip
     `heroku config:set BIKE_BINDER_SECRET_TOKEN=#{secret}`
   end
+
+  if `heroku config:get BIKE_BINDER_SECRET_BASE`.length<30
+    puts "Configuring the cookie store base on the staging deployment"
+    secret = `rake -s secret`.strip
+    `heroku config:set BIKE_BINDER_SECRET_BASE=#{secret}`
+  end
 end
 
 def precompile_deploy_assets
