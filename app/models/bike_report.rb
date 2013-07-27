@@ -11,15 +11,15 @@ class BikeReport
   end
 
   def self.departed_query(scope=Bike)
-    scope.joins(:departure)
+    DepartedQuery.new(scope).find
   end
 
   def self.present_query(scope=Bike)
-    scope.includes(:departure).where{id.not_in my{departed_query(scope)}.select{id}}
+    scope.where{id.not_in my{departed_query(scope)}.select{id}}
   end
 
   scope do
-    Bike.includes(:bike_model, :bike_brand, :hook, :departure)
+    Bike.includes(:bike_model, :bike_brand, :hook, :assignment).references('')
   end
 
   filter(:departed, :boolean) { |val, scope| BikeReport.departed_query(scope) }
@@ -29,9 +29,12 @@ class BikeReport
   filter(:assigned, :boolean) { |b, scope| BikeReport.assigned_query(scope)}
 
   filter(:program, :integer, :multiple => true) do |prog_id, scope|
-    scope.includes(:program, :departure).where{
-      (program.id.in my{prog_id.map{|id| id.to_i}}) |
-      (departure.application_id.in my{prog_id.map{|id| id.to_i}})
+    prog_ids = prog_id.map{|id| id.to_i}
+    DepartedQuery.new(scope).find.includes(:assignment).where{
+      (assignment.application_id.in my{prog_ids})
+    }+
+    scope.includes{:assignment}.where{
+      assignment.application_id.in my{prog_ids}
     }
   end
 

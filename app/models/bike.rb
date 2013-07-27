@@ -79,11 +79,6 @@ class Bike < ActiveRecord::Base
     end
   end
 
-  def departure=(d)
-    assignment = assignment.new
-    assignment.application = d
-  end
-
   hound
 
   ############

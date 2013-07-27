@@ -20,7 +20,7 @@ describe BikeReport do
 
   context "filtering an unused number" do
     let(:number){FactoryGirl.generate(:bike_number)}
-    subject(:report){BikeReport.new(:number => number)}
+    subject(:report){BikeReport.new(:number_record => number)}
       
     it "has no assets" do
       expect(report.assets).to be_empty
