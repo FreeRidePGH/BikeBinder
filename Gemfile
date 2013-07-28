@@ -92,4 +92,4 @@ group :development do
   gem 'guard-rspec', '0.5.5'
 end
 
-gem 'heroku'
+
