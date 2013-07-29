@@ -15,7 +15,8 @@ def check_secret_token
     `heroku config:set BIKE_BINDER_SECRET_TOKEN=#{secret}`
   end
 
-  if `heroku config:get BIKE_BINDER_SECRET_BASE`.length<30
+  base = Bundler.with_clean_env{`heroku config:get BIKE_BINDER_SECRET_BASE`}
+  if base.length<30
     puts "Configuring the cookie store base on the staging deployment"
     secret = `rake -s secret`.strip
     `heroku config:set BIKE_BINDER_SECRET_BASE=#{secret}`
@@ -23,23 +24,23 @@ def check_secret_token
 end
 
 def precompile_deploy_assets
-    `git co -b heroku-deploy`
-    `git co heroku-deploy`
-    `git merge master`
-    `git pull heroku master`
-    `git rm public/assets/manifest.yml`
-    ENV['RAILS_ENV'] = 'production'
-    `bundle exec rake assets:precompile`
+  `git co -b heroku-deploy`
+  `git co heroku-deploy`
+  `git merge master`
+  `git pull heroku master`
+  `git rm public/assets/manifest.yml`
+  ENV['RAILS_ENV'] = 'production'
+  Bundler.with_clean_env{`bundle exec rake assets:precompile`}
     
-    `git add .`
+  `git add .`
 
-    `git commit -m "vendor compiled assets"`
-    `git push heroku heroku-deploy:master`
+  `git commit -m "vendor compiled assets"`
+  `git push heroku heroku-deploy:master`
 end
 
 def cleanup_deploy_steps
-    `git co master`
-    `git branch -D heroku-deploy`
+  `git co master`
+  `git branch -D heroku-deploy`
 end
 
 namespace :deploy do
