@@ -18,7 +18,7 @@ def check_secret_token
   if base.length<30
     puts "Configuring the cookie store base on the staging deployment"
     secret = Bundler.with_clean_env{`rake -s secret`}.strip
-    Bundler.with_clean_env{`heroku config:set BIKE_BINDER_SECRET_BASE=#{secret}`}
+    Bundler.with_clean_env{p `heroku config:set BIKE_BINDER_SECRET_BASE=#{secret}`}
   end
 end
 
@@ -29,7 +29,7 @@ def precompile_deploy_assets
   `git pull heroku master`
   `git rm public/assets/manifest-*.json`
   ENV['RAILS_ENV'] = 'production'
-  Bundler.with_clean_env{`bundle exec rake assets:precompile`}
+  Bundler.with_clean_env{p `bundle exec rake assets:precompile`}
     
   `git add .`
 
