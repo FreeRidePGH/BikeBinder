@@ -48,26 +48,26 @@ namespace :deploy do
   task :production_cold do
     
     check_source_control
-    `heroku maintenance:on`  
+    Bundler.with_clean_env{`heroku maintenance:on`}
     check_secret_token
     precompile_deploy_assets    
     
     puts "Setup and seed the production deployment"
-    `heroku run rake populate_production_cold`
-    `heroku maintenance:off`
+    Bundler.with_clean_env{`heroku run rake populate_production_cold`}
+    Bundler.with_clean_env{`heroku maintenance:off`}
     cleanup_deploy_steps
   end
 
   desc 'Deploy to the production environment on Heroku'
   task :production do
     check_source_control
-    `heroku maintenance:on`  
+    Bundler.with_clean_env{`heroku maintenance:on`}
     check_secret_token
     precompile_deploy_assets    
     
     puts "Setup and seed the production deployment"
-    `heroku run rake populate_production`
-    `heroku maintenance:off`
+    Bundler.with_clean_env{`heroku run rake populate_production`}
+    Bundler.with_clean_env{`heroku maintenance:off`}
     cleanup_deploy_steps
   end
 
@@ -76,7 +76,7 @@ namespace :deploy do
     exit
     
     check_source_control
-    `heroku maintenance:on`  
+    Bundler.with_clean_env{`heroku maintenance:on`}
     check_secret_token
     precompile_deploy_assets    
 
@@ -84,12 +84,12 @@ namespace :deploy do
     `git push heroku heroku-deploy:master`
 
     puts "Reset the deploy database"
-    `heroku pg:reset OLIVE --confirm bikebinder`
+    Bundler.with_clean_env{`heroku pg:reset OLIVE --confirm bikebinder`}
 
     puts "Setup and populate the staging deployment"
-    `heroku run rake populate_staging`
+    Bundler.with_clean_env{`heroku run rake populate_staging`}
 
-    `heroku maintenance:off`
+    Bundler.with_clean_env{`heroku maintenance:off`}
     cleanup_deploy_steps
   end
   
