@@ -7,7 +7,8 @@ def check_source_control
 end
 
 def check_secret_token
-  Bundler.with_clean_env{token = `heroku config:get BIKE_BINDER_SECRET_TOKEN`}
+  token =  Bundler.with_clean_env{`heroku config:get BIKE_BINDER_SECRET_TOKEN`}
+  puts token
   if token.length<30
     puts "Configuring the secret token on the staging deployment"
     secret = `rake -s secret`.strip
