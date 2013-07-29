@@ -8,18 +8,17 @@ end
 
 def check_secret_token
   token =  Bundler.with_clean_env{`heroku config:get BIKE_BINDER_SECRET_TOKEN`}
-  puts token
   if token.length<30
     puts "Configuring the secret token on the staging deployment"
-    secret = `rake -s secret`.strip
-    `heroku config:set BIKE_BINDER_SECRET_TOKEN=#{secret}`
+    secret = Bundler.with_clean_env{`rake -s secret`}.strip
+    Bundler.with_clean_env{`heroku config:set BIKE_BINDER_SECRET_TOKEN=#{secret}`}
   end
 
   base = Bundler.with_clean_env{`heroku config:get BIKE_BINDER_SECRET_BASE`}
   if base.length<30
     puts "Configuring the cookie store base on the staging deployment"
-    secret = `rake -s secret`.strip
-    `heroku config:set BIKE_BINDER_SECRET_BASE=#{secret}`
+    secret = Bundler.with_clean_env{`rake -s secret`}.strip
+    Bundler.with_clean_env{`heroku config:set BIKE_BINDER_SECRET_BASE=#{secret}`}
   end
 end
 
