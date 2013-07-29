@@ -27,7 +27,7 @@ def precompile_deploy_assets
   `git co heroku-deploy`
   `git merge master`
   `git pull heroku master`
-  `git rm public/assets/manifest.yml`
+  `git rm public/assets/manifest-*.json`
   ENV['RAILS_ENV'] = 'production'
   Bundler.with_clean_env{`bundle exec rake assets:precompile`}
     
