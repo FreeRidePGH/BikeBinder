@@ -60,6 +60,7 @@ gem 'jquery-rails', '~>2'
 group :production do
   # Use PostgreSQL for Heroku deployment
   gem 'pg'
+  gem 'rails_12factor'
 end
 
 group :test do
