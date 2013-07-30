@@ -23,23 +23,24 @@ def check_secret_token
 end
 
 def precompile_deploy_assets
-  `git co -b heroku-deploy`
-  `git co heroku-deploy`
-  `git merge master`
-  `git pull heroku master`
-  `git rm public/assets/manifest-*.json`
+  p `git co -b heroku-deploy`
+  p `git co heroku-deploy`
+  p `git merge master`
+  p `git pull heroku master`
+  p `git rm public/assets/manifest-*.json`
   ENV['RAILS_ENV'] = 'production'
+  Bundler.with_clean_env{p `bundle exec rake assets:clobber`}
   Bundler.with_clean_env{p `bundle exec rake assets:precompile`}
     
-  `git add .`
+  p `git add .`
 
-  `git commit -m "vendor compiled assets"`
-  `git push heroku heroku-deploy:master`
+  p `git commit -m "vendor compiled assets"`
+  p `git push heroku heroku-deploy:master`
 end
 
 def cleanup_deploy_steps
-  `git co master`
-  `git branch -D heroku-deploy`
+  p `git co master`
+  p `git branch -D heroku-deploy`
 end
 
 namespace :deploy do
