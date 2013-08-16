@@ -29,10 +29,12 @@ def precompile_deploy_assets
   puts `git pull heroku master`
   puts `git rm public/assets/manifest-*.json`
   ENV['RAILS_ENV'] = 'production'
-  Bundler.with_clean_env{puts `bundle exec rake assets:clobber`}
-  Bundler.with_clean_env{puts `bundle exec rake assets:precompile`}
+  Bundler.with_clean_env{puts `RAILS_ENV=production bundle exec rake assets:clobber`}
+  puts `git rm -rf public/assets`
+  ENV['RAILS_ENV'] = 'production'
+  Bundler.with_clean_env{puts `RAILS_ENV=production bundle exec rake assets:precompile`}
     
-  puts `git add .`
+  puts `git add public/assets`
 
   puts `git commit -m "vendor compiled assets"`
   puts `git push heroku heroku-deploy:master`
