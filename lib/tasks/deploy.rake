@@ -45,7 +45,7 @@ def cleanup_deploy_steps
   puts `git branch -D heroku-deploy`
 end
 
-namespace :deploy do
+namespace :deploy_heroku do
 
   desc 'First (Cold) deploy to the production environment on Heroku'
   task :production_cold do

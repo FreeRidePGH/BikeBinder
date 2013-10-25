@@ -11,7 +11,17 @@ Reproduce all functionality that exists with the current paper bike binder and d
 
 ### Installation script:
 
-Run setup rake task
+For development: 
+
+    
+        bundle install --without production
+
+For production: 
+
+
+        bundle install
+
+Run setup rake task:
 
 
         bundle exec rake setup

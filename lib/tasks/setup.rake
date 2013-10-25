@@ -1,7 +1,7 @@
 desc "Setup/installation script to run after the first clone"
 task :setup => :environment do
 
-  puts `bundle install`
+  # puts `bundle install`
 
   require File.dirname(__FILE__) + "/../../config/directories.rb"
   require 'fileutils'

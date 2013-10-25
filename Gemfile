@@ -47,7 +47,7 @@ gem 'jquery-ui-themes'
 gem 'rqrcode-rails3'
 gem 'mini_magick'
 
-#gem 'sass-rails', "~> 4.0.0"
+gem 'sass-rails', "~> 4.0.0"
 gem 'coffee-rails', "~> 4.0.0"
 gem 'uglifier', ">= 1.3.0"
 gem 'bootstrap-sass', '~> 2.3.2.1'
@@ -61,6 +61,9 @@ group :production do
   # Use PostgreSQL for Heroku deployment
   gem 'pg'
   gem 'rails_12factor'
+
+  # Use mySQL for hosted deployment
+  gem 'mysql2',  '~>0.3.13'
 end
 
 group :test do
