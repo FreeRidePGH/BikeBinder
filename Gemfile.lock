@@ -51,9 +51,9 @@ GIT
 
 GIT
   remote: git://github.com/zflat/select2-bikebinder.git
-  revision: e173d556aba27bc9a60c1bcafe106b3c4c3394e6
+  revision: ebdb5a980b04ba9160c2b936912b216ea18608e1
   specs:
-    select2-bikebinder (0.1.10)
+    select2-bikebinder (0.1.11)
       activesupport
       bundler (~> 1.2)
 
@@ -339,7 +339,7 @@ DEPENDENCIES
   rspec-rails (~> 2)
   ruby-graphviz
   ruby-units (~> 1.4.4)
-  select2-bikebinder (>= 0.1.10)!
+  select2-bikebinder (>= 0.1.11)!
   select2-rails
   spork-rails!
   sqlite3 (~> 1.3.6)
