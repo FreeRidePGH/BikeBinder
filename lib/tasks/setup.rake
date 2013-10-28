@@ -1,7 +1,5 @@
 desc "Setup/installation script to run after the first clone"
-task :setup => :environment do
-
-  # puts `bundle install`
+task :setup do
 
   require File.dirname(__FILE__) + "/../../config/directories.rb"
   require 'fileutils'
@@ -12,7 +10,7 @@ task :setup => :environment do
 
   # SMTP config file
   if !File.exists?(APP_MAILER_CONFIG_FILE)
-    puts `cp config/application/mailer_config.sameple.rb config/application/mailer_config.rb`
+    puts `cp config/application/mailer_config.sample.rb config/application/mailer_config.rb`
   end
 
   # Create the secret token
@@ -21,6 +19,11 @@ task :setup => :environment do
   # Create the db, load schema and seed
   Rake::Task['db:setup'].invoke
 
+end
+
+desc "Setup script to update from origin/master merge"
+task :update do
+  puts `bundle install`
 end
 
 namespace :db do
