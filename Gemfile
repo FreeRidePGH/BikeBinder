@@ -64,8 +64,6 @@ group :production do
 
   # Use mySQL for hosted deployment
   gem 'mysql2',  '~>0.3.13'
-
-  gem 'nokogiri', '1.6.0.rc1', :git => 'git://github.com/sparklemotion/nokogiri.git'
 end
 
 group :test do
