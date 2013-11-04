@@ -172,7 +172,7 @@ describe BikeReport do
       let!(:bike){departure.bike}
       subject(:report){BikeReport.new(:departed => true)}
       it "has departed bikes" do
-        expect(Departure.count).to be_> 0
+        expect(Departure.count > 0).to be_true
       end
       it "has assets" do
         expect(report.assets).to_not be_empty
