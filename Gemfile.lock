@@ -25,9 +25,9 @@ GIT
 
 GIT
   remote: git://github.com/zflat/bike_mfg.git
-  revision: 464c767eefeaabd082c585e4c2127e6c98886530
+  revision: 55b931b85e4cdebf224faf5caa7c9204a1f51af7
   specs:
-    bike_mfg (0.1.7)
+    bike_mfg (0.1.8)
       activemodel (~> 4.0.0)
       oj
       rabl (>= 0.8.6)
@@ -306,7 +306,7 @@ PLATFORMS
 
 DEPENDENCIES
   acts_as_commentable_with_threading (= 1.1.2)!
-  bike_mfg (>= 0.1.7)!
+  bike_mfg (>= 0.1.8)!
   bootstrap-sass (~> 2.3.2.1)
   cancan (~> 1.6.10)
   capybara (~> 2.1.0)
