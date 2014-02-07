@@ -33,6 +33,9 @@ BikeBinder::Application.configure do
   config.assets.debug = true
 
   config.serve_static_assets = true
+
+  # Allow local precompile of assets
+  config.assets.prefix = "/dev-assets"
   
   # override for development
   config.action_mailer.default_url_options= {:host => "localhost:3000"}
