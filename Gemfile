@@ -31,7 +31,7 @@ gem 'select2-bikebinder', '>= 0.1.11', :git => 'git://github.com/zflat/select2-b
 gem 'jquery-datatables-rails'
 
 
-gem 'friendly_id', github: 'FriendlyId/friendly_id'
+gem 'friendly_id', :github => 'FriendlyId/friendly_id'
 gem 'decent_exposure', '~>2.2.0'
 gem 'squeel', '~>1.1.0'
 
@@ -59,11 +59,14 @@ gem 'jquery-rails', '~>2'
 
 group :production do
   # Use PostgreSQL for Heroku deployment
-  gem 'pg'
+  # gem 'pg'
   gem 'rails_12factor'
+end
 
+group :shared_host do
   # Use mySQL for hosted deployment
   gem 'mysql2',  '~>0.3.13'
+  gem 'fcgi'
 end
 
 group :test do
