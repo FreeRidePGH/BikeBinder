@@ -44,21 +44,21 @@ ActiveRecord::Schema.define(version: 20130721165753) do
     t.datetime "updated_at"
   end
 
-  add_index "assignments", ["application_id", "application_type"], name: "index_assignments_on_application"
+  add_index "assignments", ["application_id", "application_type"], name: "index_assignments_on_application", using: :btree
 
   create_table "bike_brands", force: true do |t|
     t.string "name", null: false
   end
 
-  add_index "bike_brands", ["name"], name: "index_bike_brands_on_name"
+  add_index "bike_brands", ["name"], name: "index_bike_brands_on_name", using: :btree
 
   create_table "bike_models", force: true do |t|
     t.string  "name",          null: false
     t.integer "bike_brand_id"
   end
 
-  add_index "bike_models", ["bike_brand_id"], name: "index_bike_models_on_bike_brand_id"
-  add_index "bike_models", ["name"], name: "index_bike_models_on_name"
+  add_index "bike_models", ["bike_brand_id"], name: "index_bike_models_on_bike_brand_id", using: :btree
+  add_index "bike_models", ["name"], name: "index_bike_models_on_name", using: :btree
 
   create_table "bikes", force: true do |t|
     t.string   "color"
@@ -74,15 +74,15 @@ ActiveRecord::Schema.define(version: 20130721165753) do
     t.datetime "updated_at"
   end
 
-  add_index "bikes", ["condition"], name: "index_bikes_on_condition"
-  add_index "bikes", ["number_record"], name: "index_bikes_on_number_record"
-  add_index "bikes", ["quality"], name: "index_bikes_on_quality"
+  add_index "bikes", ["condition"], name: "index_bikes_on_condition", using: :btree
+  add_index "bikes", ["number_record"], name: "index_bikes_on_number_record", using: :btree
+  add_index "bikes", ["quality"], name: "index_bikes_on_quality", using: :btree
 
   create_table "comments", force: true do |t|
     t.integer  "commentable_id",   default: 0
     t.string   "commentable_type", default: ""
     t.string   "title",            default: ""
-    t.text     "body",             default: nil
+    t.text     "body"
     t.string   "subject",          default: ""
     t.integer  "user_id",          default: 0,  null: false
     t.integer  "parent_id"
@@ -92,8 +92,8 @@ ActiveRecord::Schema.define(version: 20130721165753) do
     t.datetime "updated_at"
   end
 
-  add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id"
-  add_index "comments", ["user_id"], name: "index_comments_on_user_id"
+  add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree
+  add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "departures", force: true do |t|
     t.float    "value"
@@ -103,7 +103,7 @@ ActiveRecord::Schema.define(version: 20130721165753) do
     t.datetime "updated_at",       null: false
   end
 
-  add_index "departures", ["application_id", "application_type"], name: "index_departures_on_application"
+  add_index "departures", ["application_id", "application_type"], name: "index_departures_on_application", using: :btree
 
   create_table "dependencies", force: true do |t|
     t.integer  "question_id"
@@ -144,9 +144,9 @@ ActiveRecord::Schema.define(version: 20130721165753) do
     t.datetime "created_at"
   end
 
-  add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", unique: true
-  add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id"
-  add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
+  add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", unique: true, using: :btree
+  add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
+  add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
   create_table "hook_reservations", force: true do |t|
     t.integer  "bike_id"
@@ -157,8 +157,8 @@ ActiveRecord::Schema.define(version: 20130721165753) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "hook_reservations", ["bike_id"], name: "index_hook_reservations_on_bike_id"
-  add_index "hook_reservations", ["hook_id"], name: "index_hook_reservations_on_hook_id"
+  add_index "hook_reservations", ["bike_id"], name: "index_hook_reservations_on_bike_id", using: :btree
+  add_index "hook_reservations", ["hook_id"], name: "index_hook_reservations_on_hook_id", using: :btree
 
   create_table "hooks", force: true do |t|
     t.string   "number_record"
@@ -166,7 +166,7 @@ ActiveRecord::Schema.define(version: 20130721165753) do
     t.datetime "updated_at"
   end
 
-  add_index "hooks", ["number_record"], name: "index_hooks_on_number_record"
+  add_index "hooks", ["number_record"], name: "index_hooks_on_number_record", using: :btree
 
   create_table "hound_actions", force: true do |t|
     t.string   "action",          null: false
@@ -178,8 +178,8 @@ ActiveRecord::Schema.define(version: 20130721165753) do
     t.text     "changeset"
   end
 
-  add_index "hound_actions", ["actionable_type", "actionable_id"], name: "index_hound_actions_on_actionable_type_and_actionable_id"
-  add_index "hound_actions", ["user_type", "user_id"], name: "index_hound_actions_on_user_type_and_user_id"
+  add_index "hound_actions", ["actionable_type", "actionable_id"], name: "index_hound_actions_on_actionable_type_and_actionable_id", using: :btree
+  add_index "hound_actions", ["user_type", "user_id"], name: "index_hound_actions_on_user_type_and_user_id", using: :btree
 
   create_table "programs", force: true do |t|
     t.string   "name"
@@ -189,8 +189,8 @@ ActiveRecord::Schema.define(version: 20130721165753) do
     t.datetime "closed_at"
   end
 
-  add_index "programs", ["label"], name: "index_programs_on_label", unique: true
-  add_index "programs", ["name"], name: "index_programs_on_name"
+  add_index "programs", ["label"], name: "index_programs_on_label", unique: true, using: :btree
+  add_index "programs", ["name"], name: "index_programs_on_name", using: :btree
 
   create_table "question_groups", force: true do |t|
     t.text     "text"
@@ -245,7 +245,7 @@ ActiveRecord::Schema.define(version: 20130721165753) do
     t.string   "surveyable_process_type"
   end
 
-  add_index "response_sets", ["access_code"], name: "response_sets_ac_idx", unique: true
+  add_index "response_sets", ["access_code"], name: "response_sets_ac_idx", unique: true, using: :btree
 
   create_table "responses", force: true do |t|
     t.integer  "response_set_id"
@@ -265,7 +265,7 @@ ActiveRecord::Schema.define(version: 20130721165753) do
     t.string   "api_id"
   end
 
-  add_index "responses", ["survey_section_id"], name: "index_responses_on_survey_section_id"
+  add_index "responses", ["survey_section_id"], name: "index_responses_on_survey_section_id", using: :btree
 
   create_table "signatures", force: true do |t|
     t.string   "uname",      null: false
@@ -273,7 +273,7 @@ ActiveRecord::Schema.define(version: 20130721165753) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "signatures", ["uname"], name: "index_signatures_on_uname"
+  add_index "signatures", ["uname"], name: "index_signatures_on_uname", using: :btree
 
   create_table "survey_sections", force: true do |t|
     t.integer  "survey_id"
@@ -307,7 +307,7 @@ ActiveRecord::Schema.define(version: 20130721165753) do
     t.string   "api_id"
   end
 
-  add_index "surveys", ["access_code"], name: "surveys_ac_idx", unique: true
+  add_index "surveys", ["access_code"], name: "surveys_ac_idx", unique: true, using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -324,8 +324,8 @@ ActiveRecord::Schema.define(version: 20130721165753) do
     t.datetime "updated_at"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "validation_conditions", force: true do |t|
     t.integer  "validation_id"
@@ -362,6 +362,6 @@ ActiveRecord::Schema.define(version: 20130721165753) do
     t.datetime "created_at"
   end
 
-  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
+  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
 end
