@@ -11,7 +11,8 @@ gem 'therubyracer', '~>0.11.4'
 gem 'devise', '~>3.0.0'
 gem 'cancan', '~>1.6.10'
 
-gem 'acts_as_commentable_with_threading', '1.1.2', :github => 'D1plo1d/acts_as_commentable_with_threading', :branch => 'patch-1'
+#gem 'acts_as_commentable_with_threading', '1.1.2', :github => 'D1plo1d/acts_as_commentable_with_threading', :branch => 'patch-1'
+gem 'acts_as_commentable_with_threading', '1.2.0'
 #elight/acts_as_commentable_with_threading'
 
 gem 'hound', '~>0.3.0'
@@ -91,7 +92,6 @@ end
 group :development do
   gem 'railroady', '~>1'
   gem 'rails-erd'
-
   gem 'guard-rspec', '0.5.5'
 end
 
