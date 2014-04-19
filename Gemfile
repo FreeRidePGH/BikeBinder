@@ -61,7 +61,10 @@ gem 'jquery-rails', '~>2'
 group :production do
   # Use PostgreSQL for Heroku deployment
   # gem 'pg'
-  gem 'rails_12factor'
+  #  gem 'rails_12factor'
+
+  # Use mySQL for hosted deployment
+  gem 'mysql2',  '~>0.3.13'
 end
 
 group :shared_host do
