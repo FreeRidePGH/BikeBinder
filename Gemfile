@@ -34,9 +34,9 @@ gem 'select2-bikebinder', '>= 0.1.11', :git => 'git://github.com/zflat/select2-b
 gem 'jquery-datatables-rails'
 
 
-gem 'friendly_id', :github => 'FriendlyId/friendly_id'
+gem 'friendly_id', '~> 5.0.3'
 gem 'decent_exposure', '~>2.2.0'
-gem 'squeel', '~>1.1.0'
+gem 'squeel', '~>1.1.1'
 
 gem "ruby-units", "~> 1.4.4"
 
