@@ -4,9 +4,9 @@ source 'https://rubygems.org'
 
 ruby "2.1.1"
 
-gem 'rails', '4.0.0'
+gem 'rails', '4.0.1'
 
-gem 'protected_attributes'
+gem 'protected_attributes', '~>1.0.5'
 
 gem 'therubyracer', '~>0.11.4'
 
