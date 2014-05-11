@@ -74,8 +74,8 @@ GEM
       awesome_nested_set (>= 2.0)
     ansi (1.4.3)
     arel (4.0.2)
-    awesome_nested_set (2.1.6)
-      activerecord (>= 3.0.0)
+    awesome_nested_set (3.0.0.rc.5)
+      activerecord (>= 4.0.0, < 5)
     bcrypt-ruby (3.1.2)
     bootstrap-sass (2.3.2.2)
       sass (~> 3.2)
@@ -289,6 +289,7 @@ PLATFORMS
 
 DEPENDENCIES
   acts_as_commentable_with_threading (= 1.2.0)
+  awesome_nested_set (~> 3.0.0.rc.5)
   bike_mfg (>= 0.1.8)!
   bootstrap-sass (~> 2.3.2.1)
   cancan (~> 1.6.10)
