@@ -247,7 +247,7 @@ GEM
       thor (~> 0.14)
     slop (3.4.6)
     spork (1.0.0rc4)
-    sprockets (2.10.0)
+    sprockets (2.11.0)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
