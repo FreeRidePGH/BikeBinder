@@ -1,3 +1,5 @@
+# -*- mode: ruby -*-
+
 source 'https://rubygems.org'
 
 ruby "2.1.1"
@@ -61,16 +63,16 @@ gem 'jquery-rails', '~>2'
 group :production do
   # Use PostgreSQL for Heroku deployment
   # gem 'pg'
-  #  gem 'rails_12factor'
-
-  # Use mySQL for hosted deployment
-  gem 'mysql2',  '~>0.3.13'
+  # gem 'rails_12factor'
 end
 
 group :shared_host do
+  gem 'fcgi'
+end
+
+group :shared_host, :production do
   # Use mySQL for hosted deployment
   gem 'mysql2',  '~>0.3.13'
-  gem 'fcgi'
 end
 
 group :test do
