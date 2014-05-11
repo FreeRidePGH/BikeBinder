@@ -82,7 +82,7 @@ group :test do
   # Testing framework
   gem 'capybara', "~> 2.1.0"
   gem 'poltergeist', "~> 1.3.0"
-  gem 'factory_girl_rails', '~>4.2.1'
+  gem 'factory_girl_rails', '~>4.4.1'
   
   
   # Speed up testing with spork
