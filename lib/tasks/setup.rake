@@ -1,3 +1,5 @@
+# -*- mode: ruby -*-
+
 desc "Setup/installation script to run after the first clone"
 task :setup do
 
