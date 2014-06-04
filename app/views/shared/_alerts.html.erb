@@ -1,3 +1,5 @@
+<% if flash.count>0  %>
+<div class="row clearfix">
 <% flash.each do |key, value| %>
 <!-- bootstrap uses alert as a warning class, lets make the classes match the messages -->
   <section id="alerts" class=" offset2 alert alert-success row span10 alert-<%= key %>">
@@ -21,4 +23,6 @@
     <button type="button" class="close" data-dismiss="alert">&times;</button>
   </section>
 
-<% end %>
+<% end # flash.each %>
+<% end # flash.count > 0 %>
+</div>

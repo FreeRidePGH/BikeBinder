@@ -1,6 +1,7 @@
+before_install: sudo apt-get install libfcgi-dev 
 language: ruby
 rvm:
-  - "2.0.0"
+  - "2.1.1"
 before_script: 
   - cp config/database.yml.sample config/database.yml
   - bundle exec rake create_a_secret
