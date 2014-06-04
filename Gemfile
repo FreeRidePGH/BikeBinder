@@ -1,18 +1,21 @@
+# -*- mode: ruby -*-
+
 source 'https://rubygems.org'
 
-ruby "2.0.0"
+ruby "2.1.1"
 
-gem 'rails', '4.0.0'
+gem 'rails', '4.0.5'
 
-gem 'protected_attributes'
+gem 'protected_attributes', '~>1.0.5'
 
 gem 'therubyracer', '~>0.11.4'
 
 gem 'devise', '~>3.0.0'
 gem 'cancan', '~>1.6.10'
 
-gem 'acts_as_commentable_with_threading', '1.1.2', :github => 'D1plo1d/acts_as_commentable_with_threading', :branch => 'patch-1'
-#elight/acts_as_commentable_with_threading'
+gem 'awesome_nested_set', '~>3.0.0.rc.5'
+gem 'acts_as_commentable_with_threading', '1.2.0'
+
 
 gem 'hound', '~>0.3.0'
 gem 'datagrid', '~>0.7.1'
@@ -31,9 +34,9 @@ gem 'select2-bikebinder', '>= 0.1.11', :git => 'git://github.com/zflat/select2-b
 gem 'jquery-datatables-rails'
 
 
-gem 'friendly_id', :github => 'FriendlyId/friendly_id'
+gem 'friendly_id', '~> 5.0.3'
 gem 'decent_exposure', '~>2.2.0'
-gem 'squeel', '~>1.1.0'
+gem 'squeel', '~>1.1.1'
 
 gem "ruby-units", "~> 1.4.4"
 
@@ -47,8 +50,8 @@ gem 'jquery-ui-themes'
 gem 'rqrcode-rails3'
 gem 'mini_magick'
 
-gem 'sass-rails', "~> 4.0.0"
-gem 'coffee-rails', "~> 4.0.0"
+gem 'sass-rails', "~> 4.0.3"
+gem 'coffee-rails', "~> 4.0.1"
 gem 'uglifier', ">= 1.3.0"
 gem 'bootstrap-sass', '~> 2.3.2.1'
 
@@ -60,26 +63,26 @@ gem 'jquery-rails', '~>2'
 group :production do
   # Use PostgreSQL for Heroku deployment
   # gem 'pg'
-  gem 'rails_12factor'
+  # gem 'rails_12factor'
 end
 
 group :shared_host do
-  # Use mySQL for hosted deployment
-  gem 'mysql2',  '~>0.3.13'
   gem 'fcgi'
 end
 
-group :test do
-  gem 'sqlite3', '~>1.3.6'
+group :shared_host, :production do
+  # Use mySQL for hosted deployment
+  gem 'mysql2',  '~>0.3.13'
+end
 
+group :test do
   # Pretty printed test output
   gem 'turn', :require => false
 
   # Testing framework
-  gem 'rspec-rails', '~>2'
   gem 'capybara', "~> 2.1.0"
   gem 'poltergeist', "~> 1.3.0"
-  gem 'factory_girl_rails', '~>4.2.1'
+  gem 'factory_girl_rails', '~>4.4.1'
   
   
   # Speed up testing with spork
@@ -92,11 +95,14 @@ group :test do
 end
 
 group :development do
-  gem 'sqlite3', '~>1.3.6'
   gem 'railroady', '~>1'
   gem 'rails-erd'
-  gem 'rspec-rails', '~>2'
   gem 'guard-rspec', '0.5.5'
+end
+
+group :test, :development do
+  gem 'rspec-rails', '~>2'
+  gem 'sqlite3', '~>1.3.6'
 end
 
 
