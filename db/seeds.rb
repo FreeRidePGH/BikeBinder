@@ -32,7 +32,8 @@ end
 # Seed the hooks
 (1..80).each do |n|
   ['H', 'L'].each do |suffix|
-    hook_num = "#{n}#{suffix}"
+    hook_base = "%02d" % n
+    hook_num = "#{hook_base}#{suffix}"
 
     if Hook.where(:number_record => hook_num).to_a.first.nil?    
       # Hook for the given number does not exist, so create it
