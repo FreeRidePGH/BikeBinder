@@ -79,6 +79,7 @@ task :cleanup_hooks => :environment do
             # leave the hook
             if !bike.hook_reservation.delete
               puts "Bike #{bike.number} could not leave hook #{bike.hook.number}"
+              puts bike.hook_reservation.errors.messages
             end
           end
           
@@ -87,6 +88,7 @@ task :cleanup_hooks => :environment do
             # remove the bike
             if !hook.reservation.delete
               puts "Bike #{hook.bike.number} could not leave hook #{hook.number}"
+              puts hook.hook_reservation.errors.messages
             end
           end
           
@@ -95,6 +97,7 @@ task :cleanup_hooks => :environment do
           reservation = HookReservation.new(:bike => bike, :hook => hook)
           if !reservation.save
             puts  "Bike #{bike.number} could not take hook #{hook.number}"
+            puts reservation.errors.messages
           end
           
         end # else hook.bike.number.to_s == b_num
