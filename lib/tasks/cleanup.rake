@@ -44,6 +44,12 @@ task :cleanup_missing => :environment do
   
 end
 
+desc "Reset the hooks by deleting them all and then re-seeding"
+task :cleanup_reset_hooks => :environment do
+  Hook.destroy_all
+  Rake::Task['db:seed'].invoke
+end # task :cleanup_reset_hooks => :environment
+
 desc "Assign all hooks to the bikes actually on them"
 task :cleanup_hooks => :environment do
   # On each hook, make sure the assigned bike
