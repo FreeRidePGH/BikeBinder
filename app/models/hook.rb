@@ -23,7 +23,7 @@ class Hook < ActiveRecord::Base
   ##############
   # Associations
 
-  has_one :reservation, :class_name => "HookReservation"
+  has_one :reservation, :class_name => "HookReservation", :dependent => :destroy
   has_one :bike, :through => :reservation
 
   hound
