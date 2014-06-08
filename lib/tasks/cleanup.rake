@@ -211,7 +211,7 @@ def hook_actual_assignments
 end
 
 def bikes_actually_in_the_shop
-  ["00411",
+  ["00415",
    "00485",
    "00753",
    "00851",
@@ -276,6 +276,7 @@ def bikes_actually_in_the_shop
 "01996",
 "01998",
 "02000",
+"02003",
 "02004",
 "02008",
 "02009",
@@ -319,6 +320,7 @@ def bikes_actually_in_the_shop
 "02086",
 "02087",
 "02088",
+"02089",
 "02090",
 "02092",
 "02093",
@@ -329,6 +331,7 @@ def bikes_actually_in_the_shop
 "02101",
 "02103",
 "02105",
+"02106",
 "02115",
 ]
 end
