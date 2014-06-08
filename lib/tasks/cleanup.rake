@@ -323,6 +323,6 @@ def bikes_actually_in_the_shop
 "02101",
 "02103",
 "02105",
-"02106",
+"02115",
 ]
 end
