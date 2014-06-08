@@ -57,7 +57,7 @@ task :cleanup_hooks => :environment do
     end
 	
     if b_num.nil?
-      if hook.reservation
+      if hook && hook.reservation
         if !hook.reservation.delete
           puts "Hook #{hook.number} could not be freed"
         end
