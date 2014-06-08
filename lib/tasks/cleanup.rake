@@ -116,7 +116,7 @@ end # task :cleanup_hooks
 
 def hook_actual_assignments
   { "01H" => "02072",
-    "01L" => "02021",
+    "01L" => "02010",
     "02H" => "02023",
     "02L" => "02000",
     "03H" => nil,
