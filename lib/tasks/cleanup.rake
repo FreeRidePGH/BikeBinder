@@ -48,115 +48,163 @@ task :cleanup_hooks => :environment do
 
   hook_actual_assignments.each do |h_num, b_num|
     hook = Hook.where(:number_record => h_num).first
-    bike = Bike.where(:number_record => b_num).first
 
     if hook.nil?
       puts "Hook not found for number #{h_num}"
     end
-    if bike.nil?
-      puts "Bike not found for number #{b_num}"
-    end
-
-    if bike && hook
-      # Case the correct bike is already there
-      if hook.bike && hook.bike.number.to_s == b_num
-        # nothing to do
-      else
-        if bike.hook
-          # Case the bike is on a different hook
-          # leave the hook
-          if !bike.hook_reservation.delete
-            puts "Bike #{bike.number} could not leave hook #{bike.hook.number}"
+	
+    if b_num.nil?
+      if hook.reservation
+        if !hook.reservation.delete
+          puts "Hook #{hook.number} could not be freed"
+        end
+      end
+    else
+      bike = Bike.where(:number_record => b_num).first
+      
+      if bike.nil?
+        puts "Bike not found for number #{b_num}"
+      end
+      
+      if bike && hook
+        # Case the correct bike is already there
+        if hook.bike && hook.bike.number.to_s == b_num
+          # nothing to do
+        else
+          if bike.hook
+            # Case the bike is on a different hook
+            # leave the hook
+            if !bike.hook_reservation.delete
+              puts "Bike #{bike.number} could not leave hook #{bike.hook.number}"
+            end
           end
-        end
-        
-        if hook.bike
-          # Case an incorrect bike is on the hook
-          # remove the bike
-          if !hook.reservation.delete
-            puts "Bike #{bike.number} could not leave hook #{bike.hook.number}"
+          
+          if hook.bike
+            # Case an incorrect bike is on the hook
+            # remove the bike
+            if !hook.reservation.delete
+              puts "Bike #{bike.number} could not leave hook #{bike.hook.number}"
+            end
           end
-        end
-
-        # The bike should have no hook and the hook should have no bike
-        # Add the bike to the hook
-        reservation = HookReservation.new(:bike => bike, :hook => hook)
-        if !reservation.save
-          puts  "Bike #{bike.number} could not take hook #{bike.hook.number}"
-        end
-        
-      end # else hook.bike.number.to_s == b_num
-    end # bike && hook
+          
+          # The bike should have no hook and the hook should have no bike
+          # Add the bike to the hook
+          reservation = HookReservation.new(:bike => bike, :hook => hook)
+          if !reservation.save
+            puts  "Bike #{bike.number} could not take hook #{bike.hook.number}"
+          end
+          
+        end # else hook.bike.number.to_s == b_num
+      end # bike && hook
+    end # else b_num.nil?
+      
   end # hook_actuall_assignment.each
 end # task :cleanup_hooks
 
+
 def hook_actual_assignments
-  {"01H" => "02072",
-"01L" => "02021",
-"02H" => "02023",
-"02L" => "02000",
-"03H" => nil,
-"03L" => "02009",
-"04H" => nil,
-"04L" => "02046",
-"05H" => "02101",
-"05L" => "02078",
-"06H" => "02100",
-"06L" => "01823",
-"07H" => "01886",
-"07L" => "01586",
-"08H" => "01870",
-"08L" => "01889",
-"09H" => "00851",
-"09L" => "01998",
-"10H" => "01996",
-"10L" => "01801",
-"11H" => "02099",
-"11L" => "02056",
-"12H" => "02097",
-"12L" => "01905",
-"13H" => "01609",
-"13L" => "02037",
-"14H" => "02067",
-"14L" => "02036",
-"15H" => "01657",
-"15L" => "01923",
-"16H" => "01849",
-"16L" => "01831",
-"17H" => "02096",
-"17L" => "01802",
-"18H" => "00753",
-"18L" => "02090",
-"19H" => "02003",
-"19L" => "02055",
-"20H" => "02055",
-"20L" => "02061",
-"21H" => "02068",
-"21L" => "01719",
-"22H" => "02056",
-"22L" => "01878",
-"23H" => "02051",
-"23L" => "02092",
-"24H" => "02106",
-"24L" => "01692",
-"25H" => "01875",
-"25L" => "02087",
-"26H" => "02056",
-"26L" => "01834",
-"27H" => "01910",
-"27L" => "02086",
-"28H" => "01411",
-"28L" => "01985",
-"29H" => "01685",
-"29L" => "01615",
-"30H" => "01919",
-"30L" => "01858"
+  { "01H" => "02072",
+    "01L" => "02021",
+    "02H" => "02023",
+    "02L" => "02000",
+    "03H" => nil,
+    "03L" => "02009",
+    "04H" => nil,
+    "04L" => "02046",
+    "05H" => "02101",
+    "05L" => "02078",
+    "06H" => "02100",
+    "06L" => "01823",
+    "07H" => "01886",
+    "07L" => "01586",
+    "08H" => "01870",
+    "08L" => "01889",
+    "09H" => "00851",
+    "09L" => "01998",
+    "10H" => "01996",
+    "10L" => "01801",
+    "11H" => "02099",
+    "11L" => "02056",
+    "12H" => "02097",
+    "12L" => "01905",
+    "13H" => "01609",
+    "13L" => "02037",
+    "14H" => "02067",
+    "14L" => "02036",
+    "15H" => "01657",
+    "15L" => "01923",
+    "16H" => "01849",
+    "16L" => "01831",
+    "17H" => "02096",
+    "17L" => "01802",
+    "18H" => "00753",
+    "18L" => "02090",
+    "19H" => "02003",
+    "19L" => "02055",
+    "20H" => "02055",
+    "20L" => "02061",
+    "21H" => "02068",
+    "21L" => "01719",
+    "22H" => "02056",
+    "22L" => "01878",
+    "23H" => "02051",
+    "23L" => "02092",
+    "24H" => "02106",
+    "24L" => "01692",
+    "25H" => "01875",
+    "25L" => "02087",
+    "26H" => "02056",
+    "26L" => "01834",
+    "27H" => "01910",
+    "27L" => "02086",
+    "28H" => "01411",
+    "28L" => "01985",
+    "29H" => "01685",
+    "29L" => "01615",
+    "30H" => "01919",
+    "30L" => "01858",
+    "31H" => "01593",
+    "31L" => "01917",
+    "32H" => nil,
+    "32L" => "02073",
+    "33H" => "00415",
+    "33L" => "01853",
+    "34H" => nil,
+    "34L" => "01873",
+    "35H" => "01768",
+    "35L" => "02047",
+    "36H" => nil,
+    "36L" => "02021",
+    "37H" => "01947",
+    "37L" => "01037",
+    "38H" => "01917",
+    "38L" => "01732",
+    "39H" => "01757",
+    "39L" => "02071",
+    "40L" => "01585",
+    "41H" => nil,
+    "41L" => "02020",
+    "42H" => "02060",
+    "42L" => "02093",
+    "43H" => "02089",
+    "43L" => "01794",
+    "44H" => nil,
+    "44L" => "01819",
+    "45H" => nil,
+    "45L" => "01948",
+    "46H" => "01994",
+    "46L" => "02004",
+    "47H" => "02069",
+    "48H" => "01734",
+    "48L" => "02105",
+    "49H" => "02040",
+    "49L" => "02080",
+    "50H" => "02081",
+    "50L" => "01840"
   }
 end
 
 def bikes_actually_in_the_shop
-  return ["00002"]
-
   ["00411",
    "00485",
    "00753",
@@ -275,6 +323,6 @@ def bikes_actually_in_the_shop
 "02101",
 "02103",
 "02105",
-"02106"
+"02106",
 ]
 end
