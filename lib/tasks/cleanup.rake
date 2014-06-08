@@ -23,8 +23,11 @@ task :cleanup_missing => :environment do
 
   # depart all of the bikes that are not in the shop, but are still recorded as in the shop
   dest_unknown = Destination.where(:name => "Unknown").first
+  if !dest_unknown
+    puts "No destination 'Unknon' exists"
+  end
   went_missing(bikes_actually_in_the_shop).each do |b|
-    departure = Departure.build(:bike => b, :value => b.value, :destination => dest_unknown)
+    departure = Departure.build(:bike => b, :value => b.value || 0 , :destination => dest_unknown)
     if ! departure.save
       puts "Could not depart bike #{b.number}"      
       puts departure.errors.messages
