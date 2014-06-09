@@ -114,6 +114,16 @@ task :cleanup_hooks => :environment do
 end # task :cleanup_hooks
 
 
+
+desc "Place all missing bikes as departed unknown"
+task :cleanup_report_hooks => :environment do
+  Hook.all.each do |h|
+    b_num = h.bike.number if h.bike
+    b_num ||= ""
+    puts "#{h.number} #{b_num}"
+  end
+end
+
 def hook_actual_assignments
   { "01H" => "02072",
     "01L" => "02010",
