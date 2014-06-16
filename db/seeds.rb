@@ -30,10 +30,9 @@ if User.count == 0
 end
 
 # Seed the hooks
-(1..80).each do |n|
+(1..50).each do |n|
   ['H', 'L'].each do |suffix|
     hook_num = "%02d#{suffix}" % n
-
     if Hook.where(:number_record => hook_num).to_a.first.nil?    
       # Hook for the given number does not exist, so create it
       h = Hook.new
