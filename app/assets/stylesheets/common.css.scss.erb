@@ -128,6 +128,16 @@ button.toggler {
 }
 
 
+body {
+     <% if ENV['DEMOVISUAL'] %>
+     background: url(<%= asset_path 'demo_env_bg.png' %>);
+     <% end %>
+}
+
+body div.container {
+     background: #fff;
+}
+
 body div.container-fluid{
     padding-left: 0px;
     padding-right: 0px;
