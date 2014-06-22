@@ -1,3 +1,5 @@
+# -*- mode: ruby -*-
+
 desc "Setup/installation script to prepare applction for develoment after each pull"
 task :populate => :environment do
   Rake::Task['db:drop'].invoke

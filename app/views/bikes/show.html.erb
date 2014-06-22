@@ -1,6 +1,6 @@
 <section class="show-bike">
   
-  <% if can? :update, bike %>
+
   <section class="bikesMeta span3">
 
     <div class="locationWrap">
@@ -10,12 +10,16 @@
       <% else %>
         <% if bike.hook %>
           <p>Bike <%= bike.number %> is on hook: <%= bike.hook.number %>.</p>
+	  <% if can? :update, bike %>
           <%= form_for bike.hook_reservation, :method=>:delete do |f| %>
 	  <%= render :partial => 'form_initials', :locals => {:id => "hook_sig"} %>
           <%= f.submit I18n.translate('commit_btn.delete_hook_reservation'),  :class => "btn btn-primary", :title=>"Choose Free Hook to remove this bike from its hook" %>
-	  <% end %>
+	  <% end # form %>
+	  <% end # if can? update %>
 	<% else #not bike.hook %>
+	<p>No hook is assigned.</p>
           <% if Hook.available.count > 0  %>
+	   <% if can? :update, bike %>
 	   <%= form_tag hook_reservations_path, :metod => :post, :action => :create do %>
 	   <%= select_tag(:hook_id, 
 	       options_from_collection_for_select(
@@ -25,11 +29,12 @@
 	   <%= hidden_field_tag :bike_id, bike.number %>
 	   <%= render :partial => 'form_initials', :locals => {:id => "hook_sig"} %>
 	   <%= submit_tag I18n.translate('commit_btn.new_hook_reservation'), :class => "btn btn-primary"%>
-	   <% end %>
+	   <% end # form %>
+	   <% end # can update %>
           <% else #no hook %>
            <p>No hooks are available.</p>
 	  <% end #hook %>
-        <% end #bike.hook %>
+	  <% end #bike.hook %>
       <% end #bike.departed? %>
     </div> <!-- end of location wrapper -->
 
@@ -37,7 +42,7 @@
       <h3>Assignment</h3>
       <% if bike.application %>
         <p>Assigned to: <%= bike.application.label %></p>
-	<% if !bike.departed? %>
+	<% if !bike.departed? && can?(:update, bike) %>
         <div>
           <%= form_for bike.assignment, :method => :delete do |f| %>
 	  <%= render :partial => 'form_initials', :locals => {:id => "prog_sig"} %>
@@ -48,6 +53,7 @@
       <% end %>
       <% if bike.available? %>
         <p>This bike is available</p>
+	<% if can? :update, bike %>
 	<%= form_tag assignments_path, :method => :post do %>
 	  <%= hidden_field_tag :bike_id, bike.number %>
 	  <%= select_tag(
@@ -58,25 +64,28 @@
 	      Program.all, :id, :label)) %>
 	  <%= render :partial => 'form_initials', :locals => {:id => "prog_sig"} %>
 	  <%= submit_tag I18n.translate('commit_btn.new_assignment'), :class => "btn btn-primary" %>
+	  <% end # form%>
+	  <% end # can update %>
 	<% end # bike.available? %>
-      <% end %>
     </div> <!-- end of proj info wrapper -->
 
     <div class="departInfo">
       <h3>Arrival/Departure</h3>
       <h4>Arrived</h4>
       <p><%= Settings::Date.new(bike.created_at).default_s %></p>
-      <h4><%= (bike.departed?)? "Departed" : "Depart Bike" %></h4>
+      <h4><%= (bike.departed? || !can?(:upate, bike))? "Departed" : "Depart Bike" %></h4>
 	<% if bike.departed? %>
 	<p><%= bike.application.departed_at.strftime("%Y-%m-%d") %></p>	
-
+	<% if can? :update, bike %>
 	<%= form_for bike.application, :method=>:delete do |f| %>
 	<%= render :partial => 'form_initials', :locals => {:id => "dep_sig"} %>
 	  <%= f.submit I18n.translate('commit_btn.del_departure'), :class=>"btn btn-primary" %>
-	<% end %>
+	<% end # form %>
+	<% end # can? edit %>
 	
 	<% else %>
 	<div>
+	<% if can? :update, bike %>
 	<%= form_tag departures_path, :method=>:post do %>
 	  <%= hidden_field_tag :bike_id, bike.number %>
 	  <% if bike.available? %>
@@ -91,13 +100,16 @@
 	  <% end %>
 	  <%= render :partial => 'form_initials', :locals => {:id => "dep_sig"} %>
 	  <%= submit_tag I18n.translate('commit_btn.new_departure'), :class=>"btn btn-primary" %>
-	<% end %>
+	<% end # form %>
+	<% else %>
+	  <p>n/a</p>
+	<% end # can? update %>
 	</div>
       <% end %>
     </div> <!-- end of depart info wrapper -->
     
     </section> <!-- end of bikes meta -->
-  <% end %>
+
 
   <div class="span8">
 
