@@ -23,6 +23,11 @@
 
 <body>
   <div class="container-fluid<%= ' no-user' if !user_signed_in? %>">
+    <% if ENV['DEMOVISUAL'] %>
+    <p class="demoHelp center-block">
+     <strong> &gt;&gt;&gt;&gt; </strong>You are on the demo database. Your changes will not affect the shop database. <strong>&lt;&lt;&lt;&lt;</strong>
+    </p>
+    <% end %>
       <div class="row-fluid span12" id="pageHeader">
 	<header>
 	  <div class="pull-left span2" id="header_logo">
