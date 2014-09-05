@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 
 ruby "2.1.1"
 
-gem 'rails', '4.0.10.rc1'
+gem 'rails', '4.1.5'
 
 gem 'therubyracer', '~>0.11.4'
 
@@ -94,12 +94,12 @@ end
 group :development do
   gem 'railroady', '~>1'
   gem 'rails-erd'
-  gem 'guard-rspec', '0.5.5'
+  gem 'guard-rspec','~>4.3'  #'0.5.5'
   gem 'spring'
 end
 
 group :test, :development do
-  gem 'rspec-rails', '~>2'
+  gem 'rspec-rails', '~>2.14'
   gem 'sqlite3', '~>1.3.6'
 end
 

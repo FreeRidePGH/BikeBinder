@@ -1,6 +1,9 @@
+# -*- mode: ruby -*-
+
 # A Guardfile based on the Ruby on Rails Tutorial book
 # More info at https://github.com/guard/guard#readme
 
+require 'active_support'
 require 'active_support/core_ext'
 
 guard 'spork', :cucumber_env => { 'RAILS_ENV' => 'test' }, :rspec_env => { 'RAILS_ENV' => 'test' } do
@@ -16,7 +19,7 @@ guard 'spork', :cucumber_env => { 'RAILS_ENV' => 'test' }, :rspec_env => { 'RAIL
   watch('spec/support/')
 end
 
-guard 'rspec', :version => 2, :all_after_pass=>false , :cli => '--drb' do
+guard 'rspec', :all_after_pass=>false , :cmd => 'bundle exec rspec spec -c --drb' do
   watch(%r{^spec/.+_spec\.rb$})
   watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
   watch('spec/spec_helper.rb')  { "spec" }
