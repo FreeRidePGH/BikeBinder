@@ -1,6 +1,7 @@
 class Signature < ActiveRecord::Base
 
-  attr_accessible :uname
+  # Attribute
+  # :uname
 
   hound_user
 

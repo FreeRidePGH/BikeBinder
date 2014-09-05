@@ -5,7 +5,6 @@ class Departure < ActiveRecord::Base
   ############
   # Attributes
 
-  attr_accessible :value, :application, :bike
   alias_attribute :departed_at, :created_at
 
   ##############
