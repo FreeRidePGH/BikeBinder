@@ -6,8 +6,6 @@ ruby "2.1.1"
 
 gem 'rails', '4.0.10.rc1'
 
-# gem 'protected_attributes', '~>1.0.5'
-
 gem 'therubyracer', '~>0.11.4'
 
 gem 'devise', '~>3.0.0'
@@ -32,7 +30,6 @@ gem 'select2-bikebinder', '>= 0.1.11', :git => 'git://github.com/zflat/select2-b
 
 # simple paging, filtering for bikes table
 gem 'jquery-datatables-rails'
-
 
 gem 'friendly_id', '~> 5.0.3'
 gem 'decent_exposure', '~>2.2.0'
@@ -98,6 +95,7 @@ group :development do
   gem 'railroady', '~>1'
   gem 'rails-erd'
   gem 'guard-rspec', '0.5.5'
+  gem 'spring'
 end
 
 group :test, :development do
