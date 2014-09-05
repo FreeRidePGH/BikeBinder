@@ -625,7 +625,7 @@ describe BikesController do
         end
         
         it "should delete the bike" do
-          expect(Bike.where{id=my{bike.id.to_i}}.first).to be_nil
+          expect(Bike.where(:id => bike.id.to_i).first).to be_nil
         end
         
         it "should delete the assignment" do
@@ -635,7 +635,6 @@ describe BikesController do
       it "should delete the departure" do
           expect(Departure.where{bike_id=my{bike.id.to_i}}.first).to be_nil        
         end
-        
       end
       
       context "a departed bike with a destination" do

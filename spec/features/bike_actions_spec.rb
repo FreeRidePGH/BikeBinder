@@ -105,6 +105,7 @@ describe "Action" do
       visit bike_path bike
       fill_in "prog_sig", :with => sig
       click_button I18n.translate('commit_btn.del_assignment')
+      bike.reload
     end
     
     it "removes the bike from the program" do
@@ -135,6 +136,7 @@ describe "Action" do
           visit bike_path bike
           fill_in "dep_sig", :with => sig
           click_button I18n.translate('commit_btn.new_departure')
+          bike.reload
         end
         
         it "does not depart the bike" do
@@ -159,6 +161,7 @@ describe "Action" do
           select destination.label, :from => :destination_id              
           fill_in "dep_sig", :with => sig
           click_button I18n.translate('commit_btn.new_departure')
+          bike.reload
         end
         
         it "departs the bike" do
@@ -167,7 +170,7 @@ describe "Action" do
         
         it "assigns the bike to the destination" do
           expect(bike.application).to_not be_nil
-          expect(bike.application.method).to eq destination
+          expect(bike.application.disposition).to eq destination
         end
         it "lists the bike number" do
           expect(page).to have_text bike.number
@@ -183,6 +186,7 @@ describe "Action" do
         visit bike_path assigned_bike
         fill_in "dep_sig", :with => sig
         click_button I18n.translate('commit_btn.new_departure')
+        assigned_bike.reload
       end
       it "departs the bike" do
         expect(assigned_bike).to be_departed
@@ -204,6 +208,7 @@ describe "Action" do
         visit bike_path assigned_bike
         fill_in "dep_sig", :with => sig
         click_button I18n.translate('commit_btn.del_departure')
+        bike.reload
       end
 
       it "lists the bike number" do

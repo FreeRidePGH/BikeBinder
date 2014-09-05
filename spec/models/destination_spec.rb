@@ -17,7 +17,7 @@ describe Destination do
       expect(bike).to be_departed
     end
     it "gives the assignment as destination" do
-      expect(bike.application.assignment).to eq assignment
+      expect(bike.application).to eq assignment.application
     end
   end #  context "with an assignment"
 
