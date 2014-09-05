@@ -19,8 +19,8 @@ class Bike < ActiveRecord::Base
 
   acts_as_commentable
 
-  attr_accessible :color, :value, :wheel_size, :seat_tube_height, :top_tube_length,
-  :number_record, :quality, :condition
+#  attr_accessible :color, :value, :wheel_size, :seat_tube_height, :top_tube_length,
+#  :number_record, :quality, :condition
   
   # Override with value objects
   include Value::Color

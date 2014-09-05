@@ -129,14 +129,11 @@ class BikesController < ApplicationController
     redirect_to root_path
   end
 
-
   private
 
-  # Protect from mass assignment
-  # See https://gist.github.com/1975644
-  # http://rubysource.com/rails-mass-assignment-issue-a-php-perspective/
+
   def bike_form_params
-    params[:bike_form].slice(*BikeForm.form_params_list) if params[:bike_form]
+    params[:bike_form].permit(BikeForm.form_params_list) if params[:bike_form]
   end
 
   # Allow for the option to "Creat and add another" 

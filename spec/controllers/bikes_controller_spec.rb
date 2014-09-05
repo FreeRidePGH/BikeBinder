@@ -178,9 +178,14 @@ describe BikesController do
               }
             end
             before :each do
+              expect(initial_model).to_not be_nil
               bike.model = initial_model
               put :update, :id=>bike, :bike_form=> params, :sig => sig
               bike.reload
+            end
+            
+            it "assigns a model" do
+              expect(bike.model).to_not be_nil
             end
             
             it "changes the model" do
