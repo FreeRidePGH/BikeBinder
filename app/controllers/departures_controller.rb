@@ -46,7 +46,7 @@ class DeparturesController < ApplicationController
       hound_action bike, "depart"
       flash[:success] = I18n.translate('controller.departures.create.success', 
                                        :bike_number => bike.number,
-                                       :method => departure.method.name)
+                                       :method => departure.disposition.name)
     else
       flash[:error] = I18n.translate('controller.departures.create.fail', 
                                        :bike_number => bike.number)

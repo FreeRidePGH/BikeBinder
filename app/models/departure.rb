@@ -15,23 +15,23 @@ class Departure < ActiveRecord::Base
 
   # application specifies a 
   # program or destination
-  belongs_to :application, :polymorphic => true
-  alias_attribute :method, :application
+  belongs_to :disposition, :polymorphic => true
+  alias_attribute :application, :disposition
 
   ############
   # Properties
   def label
-    application.label
+    disposition.label
   end
 
   def name
-    application.name
+    disposition.name
   end
 
   #############
   # Validations
 
-  validates_presence_of :value, :application
+  validates_presence_of :value, :disposition
   validates_associated :assignment
   
   # Constructor
@@ -59,7 +59,7 @@ class Departure < ActiveRecord::Base
       else
         new_dep = self.new
         new_dep.value = params[:value]
-        new_dep.application = build_destination(bike, params[:destination])
+        new_dep.disposition = build_destination(bike, params[:destination])
         bridge_destination(bike, new_dep)
       end # if bike.departed?
     else # bike
@@ -67,7 +67,7 @@ class Departure < ActiveRecord::Base
     end
   end
 
-  before_destroy :unchain_application
+  before_destroy :unchain_disposition
 
   private
   
@@ -76,11 +76,11 @@ class Departure < ActiveRecord::Base
   # 
   # When the departure method is a destination
   # then the item is assumed to not be assigned.
-  def unchain_application
-    if self.application_type == "Destination"
+  def unchain_disposition
+    if self.disposition_type == "Destination"
       !! self.assignment.destroy
     else
-      self.assignment.application = self.application
+      self.assignment.application = self.disposition
       !! self.assignment.save!
     end
   end
