@@ -7,13 +7,12 @@
 //= require jquery
 //= require jquery_ujs
 // require_tree .
-//= require jquery.ui.button
-//= require jquery.ui.dialog
-//= require jquery.ui.autocomplete
+//= require jquery-ui/button
+//= require jquery-ui/dialog
+//= require jquery-ui/autocomplete
 //= require bootstrap
 //= require fewpicker.jquery
 //= require dataTables/jquery.dataTables
-//= require dataTables/jquery.dataTables.bootstrap
 // 
 // Internationalization Library
 //= require i18n

@@ -4,15 +4,14 @@
  * the top of the compiled file, but it's generally better to create a new file per style scope.
  *= require_self
  *= require_tree
- *= require jquery.ui.button
- *= require jquery.ui.dialog
+ *= require jquery-ui/button
+ *= require jquery-ui/dialog
  *= require jquery-ui/redmond
  *
  *= require common
  * //require bootstrap
  *
  *= require dataTables/jquery.dataTables
- * require dataTables/jquery.dataTables.bootstrap
  *= require select2
  *= require select2/wheel_select
  *= require select2/color_select
