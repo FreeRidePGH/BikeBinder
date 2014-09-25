@@ -29,7 +29,7 @@ gem 'select2-rails'
 gem 'select2-bikebinder', '>= 0.1.11', :git => 'git://github.com/zflat/select2-bikebinder.git'
 
 # simple paging, filtering for bikes table
-gem 'jquery-datatables-rails'
+gem 'jquery-datatables-rails', '~> 2.2.3'
 
 gem 'friendly_id', '~> 5.0.3'
 gem 'decent_exposure', '~>2.2.0'
@@ -40,19 +40,18 @@ gem "ruby-units", "~> 1.4.4"
 gem 'state_machine', '~>1.2.0'
 gem 'ruby-graphviz', :require => 'graphviz'
 
-gem 'jquery-ui-rails'
-gem 'jquery-ui-themes'
+gem 'jquery-ui-rails', '~>5.0.0'
+gem 'jquery-ui-themes', '~>0.0.11'
+gem 'jquery-rails', '~>2'
 
 # QR Codes
-gem 'rqrcode-rails3'
-gem 'mini_magick'
+gem 'rqrcode-rails3',  '~>0.1.7'
+gem 'mini_magick', '~>3.8.1'
 
 gem 'sass-rails', "~> 4.0.3"
 gem 'coffee-rails', "~> 4.0.1"
 gem 'uglifier', ">= 1.3.0"
 gem 'bootstrap-sass', '~> 2.3.2.1'
-
-gem 'jquery-rails', '~>2'
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
@@ -64,7 +63,7 @@ group :production do
 end
 
 group :shared_host do
-  gem 'fcgi'
+  gem 'fcgi', '~>0.9.2.1'
 end
 
 group :shared_host, :production do
@@ -74,7 +73,7 @@ end
 
 group :test do
   # Pretty printed test output
-  gem 'turn', :require => false
+  gem 'turn', '~>0.9.6', :require => false
 
   # Testing framework
   gem 'capybara', "~> 2.1.0"
@@ -93,9 +92,9 @@ end
 
 group :development do
   gem 'railroady', '~>1'
-  gem 'rails-erd'
+  gem 'rails-erd', '~>1.1.0'
   gem 'guard-rspec','~>4.3'  #'0.5.5'
-  gem 'spring'
+  gem 'spring', '~>1.1.3'
 end
 
 group :test, :development do
