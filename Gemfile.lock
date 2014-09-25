@@ -18,24 +18,24 @@ GIT
 
 GIT
   remote: git://github.com/zflat/color_name-i18n.git
-  revision: f1aa16f77ae74ca7158917f721c6e19be64756ee
+  revision: 02d5d216a6bd622abd1bbd243a6c9015ee58be65
   specs:
-    color_name-i18n (0.2.2)
+    color_name-i18n (1.0.0)
       activemodel
       bundler (~> 1.2)
       i18n
 
 GIT
   remote: git://github.com/zflat/iso_bsd-i18n.git
-  revision: ae2777fa9d774e0e724fe3d9c264023c83639aa6
+  revision: b5c7d2d9c533c939aacd1ea08c4193d37c422ade
   specs:
-    iso_bsd-i18n (0.2.0)
+    iso_bsd-i18n (1.0.0)
       bundler (~> 1.2)
       i18n
 
 GIT
   remote: git://github.com/zflat/select2-bikebinder.git
-  revision: ebdb5a980b04ba9160c2b936912b216ea18608e1
+  revision: af593c474e0b8ee5ba28c8a2587ba96d85030386
   specs:
     select2-bikebinder (0.1.11)
       activesupport
@@ -181,7 +181,7 @@ GEM
     mini_magick (3.6.0)
       subexec (~> 0.2.1)
     mini_portile (0.5.3)
-    minitest (5.4.1)
+    minitest (4.7.5)
     multi_json (1.10.1)
     multi_xml (0.5.5)
     mysql2 (0.3.13)
@@ -295,8 +295,7 @@ GEM
       polyglot (>= 0.3.1)
     turn (0.9.6)
       ansi
-    tzinfo (1.2.2)
-      thread_safe (~> 0.1)
+    tzinfo (0.3.41)
     uglifier (2.3.0)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
