@@ -42,7 +42,7 @@ gem 'ruby-graphviz', :require => 'graphviz'
 
 gem 'jquery-ui-rails', '~>5.0.0'
 gem 'jquery-ui-themes', '~>0.0.11'
-gem 'jquery-rails', '~>2'
+gem 'jquery-rails', '~>2.3.0'
 
 # QR Codes
 gem 'rqrcode-rails3',  '~>0.1.7'
@@ -52,6 +52,7 @@ gem 'sass-rails', "~> 4.0.3"
 gem 'coffee-rails', "~> 4.0.1"
 gem 'uglifier', ">= 1.3.0"
 gem 'bootstrap-sass', '~> 2.3.2.1'
+gem "autoprefixer-rails", '~> 3.1.0'
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
