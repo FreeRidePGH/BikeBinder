@@ -68,7 +68,7 @@ class ApplicationController < ActionController::Base
   end
 
   expose(:comment_body) do
-    params[:comment][:body] if params[:comment]
+    params[:comment].permit(:body)[:body] if params[:comment]
   end
 
   # Create by:
@@ -135,7 +135,7 @@ class ApplicationController < ActionController::Base
   end # def fetch_failed?(record, optns={})
 
   def hound_user
-    @hound_user ||= Signature.find_or_create(params[:sig])
+    @hound_user ||= Signature.find_or_create(params.permit(:sig)[:sig])
   end
 
   def verify_signatory

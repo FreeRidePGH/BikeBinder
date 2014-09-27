@@ -94,7 +94,7 @@ describe Departure do
     end
     
     it "specifies the method" do
-      expect(departure.method).to_not be_nil            
+      expect(departure.disposition).to_not be_nil            
     end
 
     it "departs the bike" do
@@ -149,19 +149,27 @@ describe Departure do
 
   context "of an assigned bike" do
     let(:assignment){FactoryGirl.create(:assignment)}
-    subject(:departure){Departure.build(:bike => assignment.bike, :value => 0)}
+    let!(:original_application){assignment.application}
+    let(:bike){assignment.bike}
+    subject(:departure){Departure.build(:bike => bike, :value => 0)}
 
     before :each do
       departure.save
+      departure.reload
+      assignment.reload
     end
 
     it "is valid" do
       expect(departure).to be_valid
     end
+    
+    it "changes the bike assignment 'application' to Departure" do
+      expect(bike.assignment.application).to eq departure
+    end
 
-    it "specifies the assignemnt application as the method" do
-      expect(departure.method).to_not be_nil
-      expect(departure.method).to eq(assignment.application)
+    it "specifies the original assignment application as the departure disposition" do
+      expect(departure.disposition).to_not be_nil
+      expect(departure.disposition).to eq(original_application)
     end
   end # context "of an assigned bike"
 
@@ -190,7 +198,7 @@ describe Departure do
     end
 
     it "assigns the destination to the bike as allotment method" do
-      expect(bike.assignment.application.method).to eq dest
+      expect(bike.assignment.application.disposition).to eq dest
     end
   end # context "of a bike with a destination"
 
@@ -222,7 +230,7 @@ describe Departure do
     end
 
     it "assigns the destination to the bike as allotment method" do
-      expect(bike.assignment.application.method.id).to eq dest.id
+      expect(bike.assignment.application.disposition.id).to eq dest.id
     end
   end
 

@@ -184,7 +184,7 @@
 	  <% if bike.available? %>
 	  Available
 	  <% elsif bike.departed? %>
-	  Departed as <%= bike.application.method.label %>
+	  Departed as <%= bike.application.disposition.label %>
 	  <% elsif bike.application %>
 	    <%= bike.application.name %>
 	  <% end %>

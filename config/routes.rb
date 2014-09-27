@@ -35,8 +35,8 @@ BikeBinder::Application.routes.draw do
   root :to => 'bikes#index', :via => [:get, :post], :defaults => {:status=>'available'}
 
   # Map top level domain seach to bikes and hooks
-  match '/:id' => 'bikes#show', :id => BikeNumber.pattern, :via => [:get]
-  match '/:id' => 'hooks#show', :id => HookNumber.pattern, :via => [:get]
+  get '/:id' => 'bikes#show', :id => BikeNumber.pattern
+  get '/:id' => 'hooks#show', :id => HookNumber.pattern
 
   ####################################################
   ####################################################

@@ -1,6 +1,7 @@
 class Program < ActiveRecord::Base
 
-  attr_accessible :name, :label
+  # Attributes
+  # :name, :label
 
   has_many :assignments, :as => :application
   has_many :bikes, :through => :assignments

@@ -197,6 +197,7 @@ context "with a non-number seat-tube height" do
 
         before :each do
           departure.save
+          bike_not_asgnd.reload
         end
         
         it "has invalid departure" do

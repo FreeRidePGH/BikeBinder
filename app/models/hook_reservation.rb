@@ -2,8 +2,7 @@ class HookReservation < ActiveRecord::Base
 
   #############
   # Attributes
-
-  attr_accessible :bike, :hook, :bike_state, :hook_state
+  # :bike, :hook, :bike_state, :hook_state
 
   ##############
   # Associations

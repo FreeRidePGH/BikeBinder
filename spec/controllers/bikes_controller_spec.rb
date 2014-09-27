@@ -178,9 +178,14 @@ describe BikesController do
               }
             end
             before :each do
+              expect(initial_model).to_not be_nil
               bike.model = initial_model
               put :update, :id=>bike, :bike_form=> params, :sig => sig
               bike.reload
+            end
+            
+            it "assigns a model" do
+              expect(bike.model).to_not be_nil
             end
             
             it "changes the model" do
@@ -620,7 +625,7 @@ describe BikesController do
         end
         
         it "should delete the bike" do
-          expect(Bike.where{id=my{bike.id.to_i}}.first).to be_nil
+          expect(Bike.where(:id => bike.id.to_i).first).to be_nil
         end
         
         it "should delete the assignment" do
@@ -630,7 +635,6 @@ describe BikesController do
       it "should delete the departure" do
           expect(Departure.where{bike_id=my{bike.id.to_i}}.first).to be_nil        
         end
-        
       end
       
       context "a departed bike with a destination" do
