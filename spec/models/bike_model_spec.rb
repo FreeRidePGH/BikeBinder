@@ -7,7 +7,8 @@ describe BikeModel do
   end
 
   context "with a numerical seat-tube height measurement" do
-    subject(:bike){Bike.new(:seat_tube_height => 55)}
+    let(:params){ActionController::Parameters.new(:seat_tube_height => 55).permit(:seat_tube_height)}
+    subject(:bike){Bike.new(params)}
     before :each do
       bike.valid?
     end

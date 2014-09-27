@@ -1,8 +1,5 @@
 class Assignment < ActiveRecord::Base
   
-  attr_accessible :application, :bike
-  attr_accessible :state
-  
   # application specifies program, etc
   belongs_to :application, :polymorphic => true
   belongs_to :bike

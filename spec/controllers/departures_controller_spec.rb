@@ -139,13 +139,13 @@ describe DeparturesController do
           expect(response).to redirect_to(bike)
         end
         
-        it "does not assign the bike assigment to the departure method" do
-          expect(bike.application.method).to eq pre_assignment.application
+        it "does not assign the bike assigment to the departure disposition" do
+          expect(bike.application.disposition).to eq pre_assignment.application
           expect(pre_assignment.bike).to eq bike
         end
         
         it "does not assign the bike to the destination" do
-          expect(bike.application.method).to_not eq dest
+          expect(bike.application.disposition).to_not eq dest
         end
         
       end # context "with already assigned bike and a given destination"
@@ -206,7 +206,7 @@ describe DeparturesController do
       context "with a program assigned" do
         subject(:departure){FactoryGirl.create(:assignment_departed_prog).application}
         let(:bike){departure.bike}
-        let(:program){departure.application}
+        let(:program){departure.disposition}
         
         before :each do
           program
@@ -239,7 +239,7 @@ describe DeparturesController do
       context "with a destination assigned" do
         subject(:departure){FactoryGirl.create(:assignment_departed_dest).application}
         let(:bike){departure.bike}
-        let(:destination){departure.application}
+        let(:destination){departure.disposition}
         
         before :each do
           destination

@@ -19,7 +19,7 @@ module BikesHelper
       val.capitalize
     when 'value'
       sprintf("$%.2f", val)
-    when 'number'
+    when 'number_record'
       val
     end
   end # def changeset_val

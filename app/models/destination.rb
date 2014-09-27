@@ -1,6 +1,7 @@
 class Destination < ActiveRecord::Base
-
-  attr_accessible :name, :label
+  
+  # Attributes
+  # :name, :label
 
   validates_presence_of :name, :label
   validates_uniqueness_of :name, :label

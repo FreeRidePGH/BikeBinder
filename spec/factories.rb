@@ -57,12 +57,12 @@ FactoryGirl.define do
 
   factory :departure_with_prog, :class => :departure do
     value 0
-    association :application, :factory => :program    
+    association :disposition, :factory => :program    
   end
 
   factory :departure_with_dest, :class=> :departure do
     value 0
-    association :application, :factory => :destination
+    association :disposition, :factory => :destination
   end
 
   sequence(:bike_number, 1000){|n| BikeNumber.format_number(n)}
