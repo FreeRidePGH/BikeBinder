@@ -23,3 +23,5 @@ public/photos/*
 spec/tmp
 spec/tmp/*
 public/assets/*
+# Let each system set its own ruby version
+.ruby-version

@@ -94,6 +94,9 @@ group :development do
   gem 'rails-erd', '~>1.1.0'
   gem 'guard-rspec','~>4.3'  #'0.5.5'
   gem 'spring', '~>1.1.3'
+
+  gem 'capistrano',  '~> 3.2'
+  gem 'capistrano-rails', '~> 1.1'
 end
 
 group :test, :development do
