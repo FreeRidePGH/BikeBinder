@@ -18,7 +18,7 @@ namespace :deploy do
       config_files.each do |file|
         if file.respond_to?('each')&&file.respond_to?('[]')
           if (subdir = File.dirname(file[1])) != '.'
-            execute :mkdir, "-p #{shared_path}/config/#{subdir}"            
+            execute :mkdir, "-p #{shared_path}/#{subdir}"            
           end
           smart_template file[0], file[1]
         else

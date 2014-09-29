@@ -16,7 +16,8 @@ Change the configuration settings in the following files
 * shared/database.yml
 * shared/application/mailer_config.rb
 
-Seed the database
+Change permissions for dispatch.fcgi to 755
+Create the .htaccess file
 
 
 Reset configuration files

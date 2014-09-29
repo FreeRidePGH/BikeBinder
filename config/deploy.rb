@@ -52,11 +52,12 @@ set(:linked_files,
 # for details of operations
 set(:config_files, 
     [
-     ['database.example.yml', 'database.yml'],
-     ['mailer_config.sample.rb','application/mailer_config.rb'],
-     ['shared_host.htaccess','../public/.htaccess'],
-     ['secret_base.txt','application/secret_base.txt'],
-     ['secret_token.txt', 'application/secret_token.txt']
+     ['database.example.yml', 'config/database.yml'],
+     ['mailer_config.sample.rb','config/application/mailer_config.rb'],
+     ['shared_host.htaccess','/public/.htaccess'],
+     ['secret_base.txt','config/application/secret_base.txt'],
+     ['secret_token.txt', 'config/application/secret_token.txt']
+     ['shared_host.htaccess', 'public/.htaccess']
     ])
 
 # which config files should be made executable after copying

@@ -12,7 +12,7 @@
 # the second parameter can be left out
 def smart_template(from, to=nil)
   to ||= from
-  full_to_path = "#{shared_path}/config/#{to}"
+  full_to_path = "#{shared_path}/#{to}"
 
   if test("[ -f #{full_to_path} ]")
     # do nothing if the remote file already exists
