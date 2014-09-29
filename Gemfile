@@ -95,8 +95,10 @@ group :development do
   gem 'guard-rspec','~>4.3'  #'0.5.5'
   gem 'spring', '~>1.1.3'
 
-  gem 'capistrano',  '~> 3.2'
-  gem 'capistrano-rails', '~> 1.1'
+  gem 'capistrano',  '~> 3.2', require: false
+  gem 'capistrano-rails', '~> 1.1', require: false
+  gem 'capistrano-bundler', '~> 1.1', require: false
+  gem 'capistrano-rvm',   '~> 0.1', require: false
 end
 
 group :test, :development do
