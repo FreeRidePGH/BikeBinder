@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.1.5'
 
-gem 'therubyracer', '~>0.11.4'
+gem 'therubyracer', '~>0.12.1'
 
 gem 'devise', '~>3.0.0'
 gem 'cancan', '~>1.6.10'
