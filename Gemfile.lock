@@ -186,7 +186,7 @@ GEM
       httparty
     json (1.8.1)
     libnotify (0.5.9)
-    libv8 (3.11.8.17)
+    libv8 (3.16.14.7)
     listen (2.7.9)
       celluloid (>= 0.15.2)
       rb-fsevent (>= 0.9.3)
@@ -308,8 +308,8 @@ GEM
       net-ssh (>= 2.8.0)
     state_machine (1.2.0)
     subexec (0.2.3)
-    therubyracer (0.11.4)
-      libv8 (~> 3.11.8.12)
+    therubyracer (0.12.1)
+      libv8 (~> 3.16.14.0)
       ref
     thor (0.19.1)
     thread_safe (0.3.4)
@@ -383,6 +383,6 @@ DEPENDENCIES
   sqlite3 (~> 1.3.6)
   squeel (~> 1.2.1)
   state_machine (~> 1.2.0)
-  therubyracer (~> 0.11.4)
+  therubyracer (~> 0.12.1)
   turn (~> 0.9.6)
   uglifier (>= 1.3.0)
