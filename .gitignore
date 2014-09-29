@@ -1,6 +1,5 @@
 # See http://sujee.net/tech/articles/gitignore/
 .bundle
-db/
 *.sqlite3
 log/*
 *.log
