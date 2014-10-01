@@ -36,7 +36,9 @@ BikeBinder::Application.configure do
   config.assets.compile = false
 
   # Do fallback to assets pipeline if a precompiled asset is missed
-  config.assets.compile = true
+  if ENV['PRECOMPILE']=='true'
+    config.assets.compile = true
+  end
 
 
   # Generate digests for assets URLs
