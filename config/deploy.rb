@@ -44,7 +44,6 @@ set(:linked_files,
     config/application/mailer_config.rb
     config/application/secret_base.txt
     config/application/secret_token.txt
-    public/.htaccess
     ))
 
 # which config files should be copied by deploy:setup_config
@@ -54,26 +53,59 @@ set(:config_files,
     [
      ['database.example.yml', 'config/database.yml'],
      ['mailer_config.sample.rb','config/application/mailer_config.rb'],
-     ['shared_host.htaccess','/public/.htaccess'],
      ['secret_base.txt','config/application/secret_base.txt'],
-     ['secret_token.txt', 'config/application/secret_token.txt']
-     ['shared_host.htaccess', 'public/.htaccess']
+     ['secret_token.txt', 'config/application/secret_token.txt'],
     ])
 
-# which config files should be made executable after copying
-# by deploy:setup_config
-set(:executable_config_files, [])
-
-# files which need to be symlinked to other parts of the
-# filesystem. For example nginx virtualhosts, log rotation
-# init scripts etc. The full_app_name variable isn't
-# available at this point so we use a custom template {{}}
-# tag and then add it at run time.
-set(:system_symlinks, [])
-
-set(:symlinks, [])
+set :curren_release_path, lambda{"#{release_path}"}
 
 namespace :deploy do
+  desc 'Shared host setup'
+  task :setup_shared_host do
+    on roles(:app) do
+      within release_path do
+        # lazy evaluate
+        # see http://stackoverflow.com/questions/25850045/capistrano-returning-wrong-release-path
+        target_path = "/public/shared"
+        if test "[ -L #{target_path}/shared_host.htaccess ]"
+          execute :cp, "#{temp_path}/shared_host.htaccess", "#{temp_path}/.htaccess"
+        else
+          warn "Could not set the shared host .htaccess"
+        end
+      end # within release_path
+    end
+  end #   task :shared_host_setup
+
+  before :published, :setup_shared_host
+  
+  # From
+  # http://blog.blenderbox.com/2013/11/06/precompiling-assets-with-capistrano-3-0-1/
+  # Alternative at:
+  # https://gist.github.com/melnikaite/3fa6850b4283865f1543
+  namespace :assets do
+    Rake::Task['deploy:assets:precompile'].clear_actions
+    
+    desc "Precompile assets on local machine and upload them to the server."
+    task :precompile_locally do
+      run_locally do
+        execute "RAILS_ENV=#{fetch(:rails_env)} PRECOMPILE=true bundle exec rake assets:precompile assets:clean"
+      end
+      
+      on roles(:web) do
+        within release_path do
+          asset_full_path = "#{release_path}/public/#{fetch(:assets_prefix)}"
+          asset_parent_path = File.dirname(asset_full_path)
+          execute "mkdir -p #{asset_full_path}"
+          upload! "./public/#{fetch(:assets_prefix)}", asset_parent_path, recursive: true
+        end
+      end
+ 
+      run_locally do
+        execut "RAILS_ENV=#{fetch(:rails_env)} PRECOMPILE=true bundle exec rake assets:clobber"
+        execute "rm -r ./public/#{fetch(:assets_prefix)}"
+      end
+    end
+  end # namespace :assets
 
   desc 'Restart application'
   task :restart do

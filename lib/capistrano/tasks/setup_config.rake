@@ -28,21 +28,27 @@ namespace :deploy do
 
       # which of the above files should be marked as executable
       executable_files = fetch(:executable_config_files)
-      executable_files.each do |file|
+      if executable_files
+        executable_files.each do |file|
         execute :chmod, "+x #{shared_path}/config/#{file}"
+        end
       end
 
       # symlink stuff which should be... symlinked
       symlinks = fetch(:system_symlinks)
-      symlinks.each do |symlink|
-        execute "ln -nfs #{shared_path}/config/#{symlink[:source]} #{sub_strings(symlink[:link])}"
+      if symlinks
+        symlinks.each do |symlink|
+          execute "ln -nfs #{shared_path}/config/#{symlink[:source]} #{sub_strings(symlink[:link])}"
+        end
       end
 
       # Symlinks that are relative to current_path
       symlinks = fetch(:symlinks)      
-      symlinks.each do |symlink|
-        execute "ln -nfs #{shared_path}/config/#{symlink[:source]} #{current_path}/#{sub_strings(symlink[:link])}"
+      if symlinks
+        symlinks.each do |symlink|
+          execute "ln -nfs #{shared_path}/config/#{symlink[:source]} #{current_path}/#{sub_strings(symlink[:link])}"
+        end
       end
-    end
-  end
+    end # if symlinks
+  end # task :setup_config
 end
