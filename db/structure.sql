@@ -1,3 +1,5 @@
+CREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL);
+CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version");
 CREATE TABLE "answers" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "question_id" integer, "text" text, "short_text" text, "help_text" text, "weight" integer, "response_class" varchar(255), "reference_identifier" varchar(255), "data_export_identifier" varchar(255), "common_namespace" varchar(255), "common_identifier" varchar(255), "display_order" integer, "is_exclusive" boolean, "display_length" integer, "custom_class" varchar(255), "custom_renderer" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "default_value" varchar(255), "api_id" varchar(255), "display_type" varchar(255));
 CREATE TABLE "assignments" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "bike_id" integer, "application_id" integer, "application_type" varchar(255), "created_at" datetime, "updated_at" datetime);
 CREATE INDEX "index_assignments_on_application" ON "assignments" ("application_id", "application_type");
@@ -13,8 +15,8 @@ CREATE INDEX "index_bikes_on_quality" ON "bikes" ("quality");
 CREATE TABLE "comments" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "commentable_id" integer DEFAULT 0, "commentable_type" varchar(255) DEFAULT '', "title" varchar(255) DEFAULT '', "body" text, "subject" varchar(255) DEFAULT '', "user_id" integer DEFAULT 0 NOT NULL, "parent_id" integer, "lft" integer, "rgt" integer, "created_at" datetime, "updated_at" datetime);
 CREATE INDEX "index_comments_on_commentable_id" ON "comments" ("commentable_id");
 CREATE INDEX "index_comments_on_user_id" ON "comments" ("user_id");
-CREATE TABLE "departures" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "value" float, "application_id" integer, "application_type" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL);
-CREATE INDEX "index_departures_on_application" ON "departures" ("application_id", "application_type");
+CREATE TABLE "departures" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "value" float, "disposition_id" integer, "disposition_type" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL);
+CREATE INDEX "index_departures_on_application" ON "departures" ("disposition_id", "disposition_type");
 CREATE TABLE "dependencies" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "question_id" integer, "question_group_id" integer, "rule" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL);
 CREATE TABLE "dependency_conditions" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "dependency_id" integer, "rule_key" varchar(255), "question_id" integer, "operator" varchar(255), "answer_id" integer, "datetime_value" datetime, "integer_value" integer, "float_value" float, "unit" varchar(255), "text_value" text, "string_value" varchar(255), "response_other" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL);
 CREATE TABLE "destinations" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "label" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL);
@@ -51,6 +53,9 @@ CREATE TABLE "validation_conditions" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT
 CREATE TABLE "validations" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "answer_id" integer, "rule" varchar(255), "message" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL);
 CREATE TABLE "versions" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "item_type" varchar(255) NOT NULL, "item_id" integer NOT NULL, "event" varchar(255) NOT NULL, "whodunnit" varchar(255), "object" text, "created_at" datetime);
 CREATE INDEX "index_versions_on_item_type_and_item_id" ON "versions" ("item_type", "item_id");
-CREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL);
-CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version");
 INSERT INTO schema_migrations (version) VALUES ('20130721165753');
+
+INSERT INTO schema_migrations (version) VALUES ('20140905041347');
+
+INSERT INTO schema_migrations (version) VALUES ('20140929000814');
+
