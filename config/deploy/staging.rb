@@ -19,7 +19,7 @@ role :db,  %w{frpgh@frbp.org}
 
 set :deploy_to, '/home/frpgh/dev.frbp.org'
 
-set :default_env, { path: "/#{ENV['HOME']}/.rvm/bin:$PATH", demovisual: 'true', precompile: 'true'}
+set :default_env, { demovisual: 'true', precompile: 'true'}
 
 # Custom SSH Options
 # ==================
