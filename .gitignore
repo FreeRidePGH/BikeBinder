@@ -24,3 +24,17 @@ spec/tmp/*
 public/assets/*
 # Let each system set its own ruby version
 .ruby-version
+
+# unless supporting rvm < 1.11.0 or doing something fancy, ignore this:
+.rvmrc
+## Environment normalisation:
+/.bundle
+/vendor/bundle
+/public/system
+/coverage/
+/spec/tmp
+**.orig
+rerun.txt
+pickle-email-*.html
+*.rbc
+capybara-*.html
