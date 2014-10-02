@@ -1,3 +1,5 @@
+load File.expand_path("./env_vals.rb", __FILE__)
+
 app_name = 'BikeBinder'
 user_name = 'frpgh'
 ruby_version = 'ruby-2.0.0-p247'

@@ -55,6 +55,8 @@ set(:config_files,
      ['mailer_config.sample.rb','config/application/mailer_config.rb'],
      ['secret_base.txt','config/application/secret_base.txt'],
     ['secret_token.txt', 'config/application/secret_token.txt'],
+    ['shared_host.htaccess', 'config/shared_host.htaccess'],
+    ['env_vals.rb', 'config/env_vals.rb'],
     ])
 
 namespace :deploy do
@@ -63,7 +65,8 @@ namespace :deploy do
     on roles(fetch(:app)) do
       within release_path do
         with rails_env: fetch(:rails_env) do
-          execute :cp, "#{release_path}/public/shared_host.htaccess #{release_path}/public/.htaccess"            
+          execute :cp, "#{shared_path}/config/shared_host.htaccess #{release_path}/public/.htaccess"            
+          execute :chmod, 755, "#{release_path}/public/dispatch.fcgi"
         end
       end
     end
