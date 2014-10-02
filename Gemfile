@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.1.5'
 
-gem 'therubyracer', '~>0.11.4'
+gem 'therubyracer', '~>0.12.1'
 
 gem 'devise', '~>3.0.0'
 gem 'cancan', '~>1.6.10'
@@ -94,6 +94,11 @@ group :development do
   gem 'rails-erd', '~>1.1.0'
   gem 'guard-rspec','~>4.3'  #'0.5.5'
   gem 'spring', '~>1.1.3'
+
+  gem 'capistrano',  '~> 3.2', require: false
+  gem 'capistrano-rails', '~> 1.1', require: false
+  gem 'capistrano-bundler', '~> 1.1', require: false
+  gem 'capistrano-rvm',   '~> 0.1', require: false
 end
 
 group :test, :development do

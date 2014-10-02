@@ -1,6 +1,5 @@
 # See http://sujee.net/tech/articles/gitignore/
 .bundle
-db/
 *.sqlite3
 log/*
 *.log
@@ -24,3 +23,7 @@ spec/tmp
 spec/tmp/*
 public/assets/*
 public/.htaccess
+
+# Let each system set its own ruby version
+.ruby-version
+
