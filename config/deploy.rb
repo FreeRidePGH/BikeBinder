@@ -6,7 +6,7 @@ set :repo_url, 'https://github.com/FreeRidePGH/BikeBinder.git'
 set :branch, :master
 
 set :rails_env, 'shared_host'
-set :assets_roles, [:web, :app] 
+# set :assets_roles, [:web] 
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
@@ -33,7 +33,7 @@ set :pty, false
 # set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
 # Default value for default_env is {}
-set :default_env, { path: "/#{ENV['HOME']}/.rvm/bin:$PATH"}
+# set :default_env, { path: "/#{ENV['HOME']}/.rvm/bin:$PATH"}
 
 # Default value for keep_releases is 5
 set :keep_releases, 5
@@ -54,12 +54,38 @@ set(:config_files,
      ['database.example.yml', 'config/database.yml'],
      ['mailer_config.sample.rb','config/application/mailer_config.rb'],
      ['secret_base.txt','config/application/secret_base.txt'],
-     ['secret_token.txt', 'config/application/secret_token.txt'],
+    ['secret_token.txt', 'config/application/secret_token.txt'],
     ])
 
-set :curren_release_path, lambda{"#{release_path}"}
-
 namespace :deploy do
+
+  task :fcgi_setup  => [:set_rails_env]  do
+    on roles(fetch(:app)) do
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :cp, "#{release_path}/public/shared_host.htaccess #{release_path}/public/.htaccess"            
+        end
+      end
+    end
+  end
+
+  before :updated, :fix_assets_precompile
+
+  task :fix_assets_precompile => [:set_rails_env]  do
+    on roles(fetch(:assets_roles)) do
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          warn '!!!!!!!!!!!'
+          execute :cp, "#{release_path}/public/shared_host.htaccess #{release_path}/public/.htaccess"            
+          execute :mkdir, "-p #{release_path}/public/assets"            
+#          execute :touch, "#{release_path}/public/assets/manifest.json" 
+        end
+      end
+    end
+  end
+
+  before :updated, :fix_assets_precompile
+
   desc 'Shared host setup'
   task :setup_shared_host do
     on roles(:app) do
@@ -73,39 +99,17 @@ namespace :deploy do
           warn "Could not set the shared host .htaccess"
         end
       end # within release_path
-    end
+    end # on roles(:app)
   end #   task :shared_host_setup
 
-  before :published, :setup_shared_host
-  
-  # From
+
+  ############
+  # Assets locally
   # http://blog.blenderbox.com/2013/11/06/precompiling-assets-with-capistrano-3-0-1/
   # Alternative at:
   # https://gist.github.com/melnikaite/3fa6850b4283865f1543
-  namespace :assets do
-    Rake::Task['deploy:assets:precompile'].clear_actions
-    
-    desc "Precompile assets on local machine and upload them to the server."
-    task :precompile_locally do
-      run_locally do
-        execute "RAILS_ENV=#{fetch(:rails_env)} PRECOMPILE=true bundle exec rake assets:precompile assets:clean"
-      end
-      
-      on roles(:web) do
-        within release_path do
-          asset_full_path = "#{release_path}/public/#{fetch(:assets_prefix)}"
-          asset_parent_path = File.dirname(asset_full_path)
-          execute "mkdir -p #{asset_full_path}"
-          upload! "./public/#{fetch(:assets_prefix)}", asset_parent_path, recursive: true
-        end
-      end
- 
-      run_locally do
-        execut "RAILS_ENV=#{fetch(:rails_env)} PRECOMPILE=true bundle exec rake assets:clobber"
-        execute "rm -r ./public/#{fetch(:assets_prefix)}"
-      end
-    end
-  end # namespace :assets
+  ############
+
 
   desc 'Restart application'
   task :restart do
