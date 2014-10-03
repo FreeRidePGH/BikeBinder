@@ -15,4 +15,4 @@ RewriteRule .* https://%{SERVER_NAME}%{REQUEST_URI} [R,L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.*)$ dispatch.fcgi/$1 [QSA,L]
 
-ErrorDocument 500 500.html
+ErrorDocument 500 /500.html
