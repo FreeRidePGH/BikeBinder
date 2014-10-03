@@ -44,6 +44,7 @@ set(:linked_files,
     config/application/mailer_config.rb
     config/application/secret_base.txt
     config/application/secret_token.txt
+    config/env_vals.rb
     ))
 
 # which config files should be copied by deploy:setup_config
@@ -54,24 +55,11 @@ set(:config_files,
      ['database.example.yml', 'config/database.yml'],
      ['mailer_config.sample.rb','config/application/mailer_config.rb'],
      ['secret_base.txt','config/application/secret_base.txt'],
-    ['secret_token.txt', 'config/application/secret_token.txt'],
-    ['env_vals.rb', 'config/env_vals.rb'],
+     ['secret_token.txt', 'config/application/secret_token.txt'],
+     ['env_vals.rb', 'config/env_vals.rb']
     ])
 
 namespace :deploy do
-
-  task :fcgi_setup  => [:set_rails_env]  do
-    on roles(:app) do
-      within release_path do
-        with rails_env: fetch(:rails_env) do
-          execute :cp, "#{release_path}/config/shared_host.htaccess #{release_path}/public/.htaccess"            
-          execute :chmod, 755, "#{release_path}/public/dispatch.fcgi"
-        end
-      end
-    end
-  end
-
-  after :updated, :fcgi_setup
 
   task :fix_assets_precompile => [:set_rails_env]  do
     on roles(fetch(:assets_roles)) do
@@ -86,31 +74,7 @@ namespace :deploy do
   end
 
   before :updated, :fix_assets_precompile
-
-  desc 'Shared host setup'
-  task :setup_shared_host do
-    on roles(:app) do
-      within release_path do
-        # lazy evaluate
-        # see http://stackoverflow.com/questions/25850045/capistrano-returning-wrong-release-path
-        target_path = "/public/shared"
-        if test "[ -L #{target_path}/shared_host.htaccess ]"
-          execute :cp, "#{temp_path}/shared_host.htaccess", "#{temp_path}/.htaccess"
-        else
-          warn "Could not set the shared host .htaccess"
-        end
-      end # within release_path
-    end # on roles(:app)
-  end #   task :shared_host_setup
-
-
-  ############
-  # Assets locally
-  # http://blog.blenderbox.com/2013/11/06/precompiling-assets-with-capistrano-3-0-1/
-  # Alternative at:
-  # https://gist.github.com/melnikaite/3fa6850b4283865f1543
-  ############
-
+  after :updated, :setup_shared_host
 
   desc 'Restart application'
   task :restart do
