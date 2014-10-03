@@ -6,7 +6,6 @@ app_name = 'BikeBinder'
 user_name = 'frpgh'
 ruby_version = 'ruby-2.0.0-p247'
 
-ENV['DEMOVISUAL'] = 'true'
 ENV['RAILS_ENV'] = 'shared_host'
 ENV['HOME'] ||= "/home/#{user_name}"
 ENV['GEM_HOME'] = File.expand_path("/home/#{user_name}/.rvm/gems/#{ruby_version}")

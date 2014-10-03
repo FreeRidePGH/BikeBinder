@@ -21,6 +21,9 @@ set :deploy_to, '/home/frpgh/dev.frbp.org'
 
 set :default_env, { demovisual: 'true', precompile: 'true'}
 
+set(:dispatch_env_vals, {'DEMOVISUAL' => 'true'})
+
+
 # Custom SSH Options
 # ==================
 # You may pass any option but keep in mind that net/ssh understands a
