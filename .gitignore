@@ -40,4 +40,4 @@ rerun.txt
 pickle-email-*.html
 *.rbc
 capybara-*.html
-
+/config/env_vals.rb

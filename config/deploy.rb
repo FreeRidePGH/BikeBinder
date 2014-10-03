@@ -55,33 +55,31 @@ set(:config_files,
      ['mailer_config.sample.rb','config/application/mailer_config.rb'],
      ['secret_base.txt','config/application/secret_base.txt'],
     ['secret_token.txt', 'config/application/secret_token.txt'],
-    ['shared_host.htaccess', 'config/shared_host.htaccess'],
     ['env_vals.rb', 'config/env_vals.rb'],
     ])
 
 namespace :deploy do
 
   task :fcgi_setup  => [:set_rails_env]  do
-    on roles(fetch(:app)) do
+    on roles(:app) do
       within release_path do
         with rails_env: fetch(:rails_env) do
-          execute :cp, "#{shared_path}/config/shared_host.htaccess #{release_path}/public/.htaccess"            
+          execute :cp, "#{release_path}/config/shared_host.htaccess #{release_path}/public/.htaccess"            
           execute :chmod, 755, "#{release_path}/public/dispatch.fcgi"
         end
       end
     end
   end
 
-  before :updated, :fix_assets_precompile
+  before :updated, :fcgi_setup
 
   task :fix_assets_precompile => [:set_rails_env]  do
     on roles(fetch(:assets_roles)) do
       within release_path do
         with rails_env: fetch(:rails_env) do
           warn '!!!!!!!!!!!'
-          execute :cp, "#{release_path}/public/shared_host.htaccess #{release_path}/public/.htaccess"            
           execute :mkdir, "-p #{release_path}/public/assets"            
-#          execute :touch, "#{release_path}/public/assets/manifest.json" 
+          execute :touch, "#{release_path}/public/assets/manifest.json" 
         end
       end
     end
