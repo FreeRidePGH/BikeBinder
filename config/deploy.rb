@@ -71,7 +71,7 @@ namespace :deploy do
     end
   end
 
-  before :updated, :fcgi_setup
+  after :updated, :fcgi_setup
 
   task :fix_assets_precompile => [:set_rails_env]  do
     on roles(fetch(:assets_roles)) do
