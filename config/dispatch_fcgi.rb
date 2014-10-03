@@ -3,8 +3,8 @@ begin
 rescue LoadError; end
 
 app_name = 'BikeBinder'
-user_name = 'frpgh'
-ruby_version = 'ruby-2.0.0-p247'
+user_name = ENV['USER']
+ruby_version = 'default'
 
 ENV['RAILS_ENV'] = 'shared_host'
 ENV['HOME'] ||= "/home/#{user_name}"
@@ -43,24 +43,3 @@ wrappedApp = Rack::Builder.new do
 end
 
 Rack::Handler::FastCGI.run wrappedApp
-
-# require 'fcgi'
-# require File.join(File.dirname(__FILE__), '../config/environment')
- 
-#class Rack::PathInfoRewriter
-# def initialize(app)
-#   @app = app
-# end
- 
-# def call(env)
-#   env.delete('SCRIPT_NAME')
-#   parts = env['REQUEST_URI'].split('?')
-#   env['PATH_INFO'] = parts[0]
-#   env['QUERY_STRING'] = parts[1].to_s
-#   @app.call(env)
-# end
-#end
- 
-#Rack::Handler::FastCGI.run  Rack::PathInfoRewriter.new(Object.const_get(app_name)::Application)
-
-
