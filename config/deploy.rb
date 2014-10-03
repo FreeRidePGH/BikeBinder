@@ -61,22 +61,6 @@ set(:config_files,
 
 namespace :deploy do
 
-  task :fix_assets_precompile => [:set_rails_env]  do
-    on roles(fetch(:assets_roles)) do
-      within release_path do
-        with rails_env: fetch(:rails_env) do
-          if !test("[ -f #{release_path}/public/assets/manifest* ]")
-            warn '!!!!!!!!!!!'
-            execute :mkdir, "-p #{release_path}/public/assets"            
-            execute :touch, "#{release_path}/public/assets/manifest.json" 
-          end
-        end
-      end
-    end
-  end
-
-#  before :updated, :fix_assets_precompile
-
   after :updated, :setup_shared_host
 
   desc 'Restart application'
