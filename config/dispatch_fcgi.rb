@@ -1,4 +1,6 @@
-load File.expand_path("./env_vals.rb", __FILE__)
+begin
+  load File.join(File.dirname(File.expand_path(__FILE__)), "env_vals.rb")
+rescue LoadError; end
 
 app_name = 'BikeBinder'
 user_name = 'frpgh'
