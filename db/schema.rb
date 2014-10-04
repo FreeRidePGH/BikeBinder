@@ -103,7 +103,7 @@ ActiveRecord::Schema.define(version: 20141004143056) do
     t.datetime "updated_at",       null: false
   end
 
-  add_index "departures", ["disposition_id", "disposition_type"], name: "index_departures_on_application"
+  add_index "departures", ["disposition_id", "disposition_type"], name: "index_departures_on_disposition"
 
   create_table "dependencies", force: true do |t|
     t.integer  "question_id"
