@@ -84,13 +84,13 @@ class MigrateSchema < ActiveRecord::Migration
 
   create_table "departures", force: true do |t|
     t.float    "value"
-    t.integer  "disposition_id"
-    t.string   "disposition_type"
+    t.integer  "application_id"
+    t.string   "application_type"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
   end
 
-  add_index "departures", ["disposition_id", "disposition_type"], name: "index_departures_on_application"
+  add_index "departures", ["application_id", "application_type"], name: "index_departures_on_application"
 
   create_table "dependencies", force: true do |t|
     t.integer  "question_id"
