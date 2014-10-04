@@ -9,7 +9,8 @@ Options +FollowSymLinks +ExecCGI
  
 RewriteEngine On
 
-RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTPS} !=on [OR,NC]
+RewriteCond %{SERVER_PORT} 80
 RewriteRule .* https://%{SERVER_NAME}%{REQUEST_URI} [R,L]
  
 RewriteCond %{REQUEST_FILENAME} !-f
