@@ -48,7 +48,7 @@ set(:linked_files,
     ))
 
 # which config files should be copied by deploy:setup_config
-# see documentation in lib/capistrano/tasks/setup_config.cap
+# see documentation in lib/capistrano/tasks/setup_config.rake
 # for details of operations
 set(:config_files, 
     [
@@ -64,12 +64,19 @@ namespace :deploy do
   after :updated, :setup_shared_host
 
   desc 'Restart application'
-  task :restart do
-    on roles(:app), in: :sequence, wait: 5 do
-      # Your restart mechanism here, for example:
-      # execute :touch, release_path.join('tmp/restart.txt')
-    end
-  end
+  task :restart => [:set_rails_env]  do
+    on roles(:app), in: :sequence, wait: 5 do |host|
+      if fetch(:rails_env) == 'shared_host'
+        capture(:echo, '$USER')
+        # ps x | grep .*#{fetch(:deploy_to)}/.*\dispatch_fcgi.rb | awk '!/grep/ {print$1}' | xargs -i kill {}
+        pattern_str = ".*#{fetch(:deploy_to)}/.*\.rb"
+        execute(:ps, 'x', '|',
+                :grep, pattern_str, '|',
+                :awk, "\'!/grep/ {print$1}\'", '|',
+                :xargs, '-i', 'kill', '{}')
+      end
+    end # on roles
+  end # task
 
   after :publishing, :restart
 
