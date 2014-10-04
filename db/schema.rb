@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140929000814) do
+ActiveRecord::Schema.define(version: 20141004143056) do
 
   create_table "answers", force: true do |t|
     t.integer  "question_id"
@@ -44,27 +44,27 @@ ActiveRecord::Schema.define(version: 20140929000814) do
     t.datetime "updated_at"
   end
 
-  add_index "assignments", ["application_id", "application_type"], name: "index_assignments_on_application", using: :btree
+  add_index "assignments", ["application_id", "application_type"], name: "index_assignments_on_application"
 
   create_table "bike_brands", force: true do |t|
     t.string "name", null: false
   end
 
-  add_index "bike_brands", ["name"], name: "index_bike_brands_on_name", using: :btree
+  add_index "bike_brands", ["name"], name: "index_bike_brands_on_name"
 
   create_table "bike_models", force: true do |t|
     t.string  "name",          null: false
     t.integer "bike_brand_id"
   end
 
-  add_index "bike_models", ["bike_brand_id"], name: "index_bike_models_on_bike_brand_id", using: :btree
-  add_index "bike_models", ["name"], name: "index_bike_models_on_name", using: :btree
+  add_index "bike_models", ["bike_brand_id"], name: "index_bike_models_on_bike_brand_id"
+  add_index "bike_models", ["name"], name: "index_bike_models_on_name"
 
   create_table "bikes", force: true do |t|
     t.string   "color"
-    t.float    "value",            limit: 53
-    t.float    "seat_tube_height", limit: 53
-    t.float    "top_tube_length",  limit: 53
+    t.float    "value"
+    t.float    "seat_tube_height"
+    t.float    "top_tube_length"
     t.integer  "wheel_size"
     t.integer  "bike_model_id"
     t.string   "number_record"
@@ -74,9 +74,9 @@ ActiveRecord::Schema.define(version: 20140929000814) do
     t.datetime "updated_at"
   end
 
-  add_index "bikes", ["condition"], name: "index_bikes_on_condition", using: :btree
-  add_index "bikes", ["number_record"], name: "index_bikes_on_number_record", using: :btree
-  add_index "bikes", ["quality"], name: "index_bikes_on_quality", using: :btree
+  add_index "bikes", ["condition"], name: "index_bikes_on_condition"
+  add_index "bikes", ["number_record"], name: "index_bikes_on_number_record"
+  add_index "bikes", ["quality"], name: "index_bikes_on_quality"
 
   create_table "comments", force: true do |t|
     t.integer  "commentable_id",   default: 0
@@ -92,18 +92,18 @@ ActiveRecord::Schema.define(version: 20140929000814) do
     t.datetime "updated_at"
   end
 
-  add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree
-  add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
+  add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id"
+  add_index "comments", ["user_id"], name: "index_comments_on_user_id"
 
   create_table "departures", force: true do |t|
-    t.float    "value",            limit: 53
+    t.float    "value"
     t.integer  "disposition_id"
     t.string   "disposition_type"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
-  add_index "departures", ["disposition_id", "disposition_type"], name: "index_departures_on_disposition", using: :btree
+  add_index "departures", ["disposition_id", "disposition_type"], name: "index_departures_on_application"
 
   create_table "dependencies", force: true do |t|
     t.integer  "question_id"
@@ -121,13 +121,13 @@ ActiveRecord::Schema.define(version: 20140929000814) do
     t.integer  "answer_id"
     t.datetime "datetime_value"
     t.integer  "integer_value"
-    t.float    "float_value",    limit: 53
+    t.float    "float_value"
     t.string   "unit"
     t.text     "text_value"
     t.string   "string_value"
     t.string   "response_other"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   create_table "destinations", force: true do |t|
@@ -144,9 +144,9 @@ ActiveRecord::Schema.define(version: 20140929000814) do
     t.datetime "created_at"
   end
 
-  add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", unique: true, using: :btree
-  add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
-  add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
+  add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", unique: true
+  add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id"
+  add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
 
   create_table "hook_reservations", force: true do |t|
     t.integer  "bike_id"
@@ -157,8 +157,8 @@ ActiveRecord::Schema.define(version: 20140929000814) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "hook_reservations", ["bike_id"], name: "index_hook_reservations_on_bike_id", using: :btree
-  add_index "hook_reservations", ["hook_id"], name: "index_hook_reservations_on_hook_id", using: :btree
+  add_index "hook_reservations", ["bike_id"], name: "index_hook_reservations_on_bike_id"
+  add_index "hook_reservations", ["hook_id"], name: "index_hook_reservations_on_hook_id"
 
   create_table "hooks", force: true do |t|
     t.string   "number_record"
@@ -166,7 +166,7 @@ ActiveRecord::Schema.define(version: 20140929000814) do
     t.datetime "updated_at"
   end
 
-  add_index "hooks", ["number_record"], name: "index_hooks_on_number_record", using: :btree
+  add_index "hooks", ["number_record"], name: "index_hooks_on_number_record"
 
   create_table "hound_actions", force: true do |t|
     t.string   "action",          null: false
@@ -178,8 +178,8 @@ ActiveRecord::Schema.define(version: 20140929000814) do
     t.text     "changeset"
   end
 
-  add_index "hound_actions", ["actionable_type", "actionable_id"], name: "index_hound_actions_on_actionable_type_and_actionable_id", using: :btree
-  add_index "hound_actions", ["user_type", "user_id"], name: "index_hound_actions_on_user_type_and_user_id", using: :btree
+  add_index "hound_actions", ["actionable_type", "actionable_id"], name: "index_hound_actions_on_actionable_type_and_actionable_id"
+  add_index "hound_actions", ["user_type", "user_id"], name: "index_hound_actions_on_user_type_and_user_id"
 
   create_table "programs", force: true do |t|
     t.string   "name"
@@ -189,8 +189,8 @@ ActiveRecord::Schema.define(version: 20140929000814) do
     t.datetime "closed_at"
   end
 
-  add_index "programs", ["label"], name: "index_programs_on_label", unique: true, using: :btree
-  add_index "programs", ["name"], name: "index_programs_on_name", using: :btree
+  add_index "programs", ["label"], name: "index_programs_on_label", unique: true
+  add_index "programs", ["name"], name: "index_programs_on_name"
 
   create_table "question_groups", force: true do |t|
     t.text     "text"
@@ -245,7 +245,7 @@ ActiveRecord::Schema.define(version: 20140929000814) do
     t.string   "surveyable_process_type"
   end
 
-  add_index "response_sets", ["access_code"], name: "response_sets_ac_idx", unique: true, using: :btree
+  add_index "response_sets", ["access_code"], name: "response_sets_ac_idx", unique: true
 
   create_table "responses", force: true do |t|
     t.integer  "response_set_id"
@@ -253,19 +253,19 @@ ActiveRecord::Schema.define(version: 20140929000814) do
     t.integer  "answer_id"
     t.datetime "datetime_value"
     t.integer  "integer_value"
-    t.float    "float_value",       limit: 53
+    t.float    "float_value"
     t.string   "unit"
     t.text     "text_value"
     t.string   "string_value"
     t.string   "response_other"
     t.string   "response_group"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
     t.integer  "survey_section_id"
     t.string   "api_id"
   end
 
-  add_index "responses", ["survey_section_id"], name: "index_responses_on_survey_section_id", using: :btree
+  add_index "responses", ["survey_section_id"], name: "index_responses_on_survey_section_id"
 
   create_table "signatures", force: true do |t|
     t.string   "uname",      null: false
@@ -273,7 +273,7 @@ ActiveRecord::Schema.define(version: 20140929000814) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "signatures", ["uname"], name: "index_signatures_on_uname", using: :btree
+  add_index "signatures", ["uname"], name: "index_signatures_on_uname"
 
   create_table "survey_sections", force: true do |t|
     t.integer  "survey_id"
@@ -307,7 +307,7 @@ ActiveRecord::Schema.define(version: 20140929000814) do
     t.string   "api_id"
   end
 
-  add_index "surveys", ["access_code"], name: "surveys_ac_idx", unique: true, using: :btree
+  add_index "surveys", ["access_code"], name: "surveys_ac_idx", unique: true
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -324,8 +324,8 @@ ActiveRecord::Schema.define(version: 20140929000814) do
     t.datetime "updated_at"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
   create_table "validation_conditions", force: true do |t|
     t.integer  "validation_id"
@@ -335,14 +335,14 @@ ActiveRecord::Schema.define(version: 20140929000814) do
     t.integer  "answer_id"
     t.datetime "datetime_value"
     t.integer  "integer_value"
-    t.float    "float_value",    limit: 53
+    t.float    "float_value"
     t.string   "unit"
     t.text     "text_value"
     t.string   "string_value"
     t.string   "response_other"
     t.string   "regexp"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   create_table "validations", force: true do |t|
@@ -362,6 +362,6 @@ ActiveRecord::Schema.define(version: 20140929000814) do
     t.datetime "created_at"
   end
 
-  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
+  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
 
 end
