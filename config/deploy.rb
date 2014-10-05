@@ -61,6 +61,24 @@ set(:config_files,
 
 namespace :deploy do
 
+  desc 'Take a backup of the app content'
+  task :auto_backup => [:set_rails_env]  do
+    if fetch(:stage).to_s == 'production'
+      on roles(:app) do
+        within "/home/#{host.user}/Backup" do
+          with rails_env: fetch(:rails_env) do
+            execute :bundle, :exec, :backup,
+            :perform, '--trigger', 'DH_frpgh'
+          end # with rails_env
+        end # within ~/Backup
+      end # on roles
+    else
+      warn " Auto backups only performed on production deploy"
+    end  # if stage=='production'
+  end # task
+
+  before :started, :auto_backup
+
   after :updated, :setup_shared_host
 
   desc 'Restart application'
