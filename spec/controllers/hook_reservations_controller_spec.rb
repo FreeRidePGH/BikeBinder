@@ -3,7 +3,7 @@ include Devise::TestHelpers
 
 describe HookReservationsController do
   let(:sig){"ABC"}
-  let(:user){FactoryGirl.create(:user)}
+  let(:user){FactoryGirl.create(:staff_user)}
   
   describe "GET new" do
     context "when signed in" do

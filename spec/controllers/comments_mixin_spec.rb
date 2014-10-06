@@ -3,7 +3,7 @@ include Devise::TestHelpers
 
 describe BikesController do
   let(:sig){nil}
-  let(:user){FactoryGirl.create(:user)}
+  let(:user){FactoryGirl.create(:staff_user)}
   let(:commentable){FactoryGirl.create(:bike)}
   let(:comment){ {:body => "TEST"} }
 
@@ -23,7 +23,7 @@ describe BikesController do
       end
 
       it "does redirects to root" do
-        expect(response).to redirect_to(root_path)
+        expect(response).to redirect_to(new_user_session_path)
       end
     end # context "when not signed in"
 

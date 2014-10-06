@@ -5,6 +5,14 @@ FactoryGirl.define do
     email {generate :user_email}
     password "testtest"
     password_confirmation "testtest"
+
+    factory :staff_user do
+      group :staff
+    end
+
+    factory :volunteer_user do
+      group :volunteer
+    end
   end
 
   sequence(:program_name){|n| "TestProgram#{n}"}

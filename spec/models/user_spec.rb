@@ -13,6 +13,19 @@ describe User do
     @user.id.should_not be_nil
   end
 
+  it "Should have a group" do
+    @user.group.should_not be_nil
+  end
+
+  context "volunteer" do
+    before(:each) do
+      @user = FactoryGirl.build(:volunteer_user)
+    end
+    it "Should have group volunteer" do
+      @user.should be_volunteer
+    end
+  end
+
 end
 
 # == Schema Information

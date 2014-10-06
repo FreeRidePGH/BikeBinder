@@ -26,7 +26,10 @@ if BikeBrand.count == 0
 end
 
 if User.count == 0
-  User.create!(:email=>"staff@freeridepgh.org", :password=>generate_passwd(15))
+  User.create!(:email=>"staff@freeridepgh.org", :password=>generate_passwd(15), :group => 'admin')
+end
+if User.count == 1
+  User.create!(:email=>"volunteer@freeridepgh.org", :password=>generate_passwd(15), :group => 'volunteer')
 end
 
 # Seed the hooks

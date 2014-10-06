@@ -3,7 +3,11 @@ class ApplicationController < ActionController::Base
   check_authorization :unless => :devise_controller?
 
   rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_url, :alert => exception.message
+    flash[:error] = exception.message
+    # Note: it is more elegant to redirect to the root rather than
+    # the sign-in page, but this means that the root page
+    # should be viewable for any user (even guest)
+    redirect_to new_user_session_url
   end
 
   before_filter :set_timezone
