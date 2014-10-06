@@ -20,7 +20,7 @@ include Devise::TestHelpers
 describe DeparturesController do
 
   let(:sig){"ABC"}
-  let(:user){FactoryGirl.create(:user)}
+  let(:user){FactoryGirl.create(:staff_user)}
 
   # POST is the DEPART action
   describe "POST 'create'" do

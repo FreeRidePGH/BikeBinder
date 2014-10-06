@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "The bike form", :type => :feature do
   let(:sig){"ABC"}
-  let(:user){FactoryGirl.create(:user)}
+  let(:user){FactoryGirl.create(:staff_user)}
 
   before :each do
     visit new_user_session_path

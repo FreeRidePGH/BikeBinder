@@ -1,10 +1,11 @@
 require 'spec_helper'
 
 describe "Showing a bike", :type => :feature do
+  let(:bike){FactoryGirl.create(:bike)}
 
-  context "while logged in" do
+  context "while logged in as volunteer" do
 
-    let(:user){FactoryGirl.create(:user)}
+    let(:user){FactoryGirl.create(:volunteer_user)}
     
     before :each do
       visit new_user_session_path
@@ -13,13 +14,23 @@ describe "Showing a bike", :type => :feature do
       click_button 'commit'
     end
     
-    let(:bike){FactoryGirl.create(:bike)}
-    
     it "lists the bike number" do
       visit bike_path(bike)
       expect(page).to have_text bike.number
     end
-    
+
+  end
+
+  context "while logged in as staff" do    
+    let(:user){FactoryGirl.create(:staff_user)}
+
+    before :each do
+      visit new_user_session_path
+      fill_in "user_email", :with => user.email
+      fill_in "user_password", :with => user.password
+      click_button 'commit'
+    end
+
     context "with an available program" do
       let!(:program){FactoryGirl.create(:program)}
       

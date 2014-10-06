@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141004143056) do
+ActiveRecord::Schema.define(version: 20141006031217) do
 
   create_table "answers", force: true do |t|
     t.integer  "question_id"
@@ -322,10 +322,15 @@ ActiveRecord::Schema.define(version: 20141004143056) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "failed_attempts",        default: 0
+    t.string   "unlock_token"
+    t.datetime "locked_at"
+    t.integer  "group",                  default: 0
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true
 
   create_table "validation_conditions", force: true do |t|
     t.integer  "validation_id"

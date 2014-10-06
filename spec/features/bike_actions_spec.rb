@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "Action" do
   let(:bike){FactoryGirl.create(:bike)}
   let(:sig){"ABC"}
-  let(:user){FactoryGirl.create(:user)}
+  let(:user){FactoryGirl.create(:staff_user)}
 
   before :each do
     visit new_user_session_path

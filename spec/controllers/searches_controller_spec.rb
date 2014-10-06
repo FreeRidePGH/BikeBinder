@@ -1,11 +1,14 @@
 require 'spec_helper'
+include Devise::TestHelpers
 
 describe SearchesController do
+  let(:user){FactoryGirl.create(:volunteer_user)}
 
   describe "GET 'index'" do
 
     before :each do
-      sign_out :user
+      # sign_out :user
+      sign_in user
     end
 
     context "with exact bike number search term match" do

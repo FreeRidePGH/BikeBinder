@@ -1,5 +1,6 @@
 <div class="navbar" id="shared_menu">
   <div class="navbar-inner">
+  <% if can?(:read, :any) %>
   <%= form_tag searches_path, :method => :get, :class => "navbar-form pull-right" do  %>
     <%= submit_tag I18n.translate('main_search.btn'), 
 	    :class => "btn btn-info pull-right"%>
@@ -27,6 +28,7 @@
     <% end # li%>
     <% end # can? :create, Bike %>
   </ul>
+  <% end # can? :read %>
   </div>
 </div>
 

@@ -3,10 +3,12 @@ include Devise::TestHelpers
 
 describe BikesController do
   let(:sig){"ABC"}
-  let(:user){FactoryGirl.create(:user)}
+
   
   describe "GET index" do
     context "as a guest user" do
+
+      let(:user){FactoryGirl.create(:user)}
       
       # Trick Devise into expecting
       # no user to be signed-in
@@ -17,15 +19,29 @@ describe BikesController do
         sign_out :user
       end
       
+      it "should not be successful" do
+        get :index
+        expect(response).to_not be_success
+      end
+    end # context "as a guest user"
+
+    context "as a volunteer user" do
+      let(:user){FactoryGirl.create(:volunteer_user)}      
+      before :each do
+        sign_in user        
+      end
       it "should be successful" do
         get :index
         expect(response).to be_success
       end
     end # context "as a guest user"
+
   end # describe "GET index"
 
   describe "GET new" do
-    context "when signed-in" do
+    context "when signed-in as staff" do
+      let(:user){FactoryGirl.create(:staff_user)}      
+
       before :each do
         sign_in user        
       end
@@ -52,12 +68,14 @@ describe BikesController do
         response.should_not be_success
       end
     end # context "while not signed in"
-  end
+  end # describe "GET new"
 
   describe "GET 'edit' a bike with a model" do
     let(:bike){FactoryGirl.create(:bike_with_model)}
     
-    context "when signed in" do
+    context "when signed-in as staff" do
+      let(:user){FactoryGirl.create(:staff_user)}      
+
       before(:each) do
         sign_in user
         get :edit, :id => bike
@@ -78,7 +96,9 @@ describe BikesController do
   describe "GET 'edit' a bike" do
     let(:bike){FactoryGirl.create(:bike)}
     
-    context "when signed in" do
+    context "when signed-in as staff" do
+      let(:user){FactoryGirl.create(:staff_user)}      
+
       before(:each) do
         sign_in user
         get :edit, :id => bike
@@ -96,7 +116,8 @@ describe BikesController do
   describe "Put update" do
     let(:bike){FactoryGirl.create(:bike)}
     
-    context "when signed in" do
+    context "when signed-in as staff" do
+      let(:user){FactoryGirl.create(:staff_user)}      
 
       before :each do
         sign_in user
@@ -312,7 +333,9 @@ describe BikesController do
   end # "Put update"  
   
   describe "POST create" do
-    context "when signed in" do
+    context "when signed-in as staff" do
+      let(:user){FactoryGirl.create(:staff_user)}      
+
       before :each do
         sign_in user
       end
@@ -545,7 +568,9 @@ describe BikesController do
   end # POST
 
   describe "GET 'show'" do
-    context "when signed in" do
+    context "when signed-in as staff" do
+      let(:user){FactoryGirl.create(:staff_user)}      
+
       before :each do
         sign_in user
       end
@@ -572,7 +597,9 @@ describe BikesController do
 
   describe "DELETE 'destroy'" do
 
-    context "when signed in" do
+    context "when signed-in as staff" do
+      let(:user){FactoryGirl.create(:staff_user)}      
+
       before :each do
         sign_in user
       end
@@ -665,7 +692,9 @@ describe BikesController do
   end # describe "DELETE 'destroy'"
 
   describe "GET 'qr'" do
-    context "when signed in" do
+    context "when signed-in as staff" do
+      let(:user){FactoryGirl.create(:staff_user)}      
+
       before :each do
         sign_in user
       end

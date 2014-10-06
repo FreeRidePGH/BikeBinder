@@ -1,11 +1,10 @@
 class User < ActiveRecord::Base
-  # attr_accessible :email, :password, :password_confirmation, :remember_me
+  enum :group => [:guest, :volunteer, :staff, :coordinator, :admin]
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
-  # :registerable, :rememberable
+  # :registerable, :rememberable, :recoverable 
   devise(:database_authenticatable,
-         :recoverable, 
          :trackable, 
          :validatable)
 end

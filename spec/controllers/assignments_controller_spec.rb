@@ -3,7 +3,7 @@ include Devise::TestHelpers
 
 describe AssignmentsController do
   let(:sig){"Signature"}
-  let(:user){FactoryGirl.create(:user)}
+  let(:user){FactoryGirl.create(:staff_user)}
 
   # POST is the ASSIGN action
   describe "POST 'create'" do
