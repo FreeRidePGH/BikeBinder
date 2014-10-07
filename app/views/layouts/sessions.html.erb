@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%= render 'shared/head' %>
+</head>
+
+<body>
+   <div class="container-fluid<%= ' no-user' if !user_signed_in? %>">
+    <% if ENV['DEMOVISUAL']=='true' %>
+    <p class="demoHelp center-block">
+     <strong> &gt;&gt;&gt;&gt; </strong>You are on the demo database. Your changes will not affect the shop database. <strong>&lt;&lt;&lt;&lt;</strong>
+    </p>
+    <% end %>
+      <div class="row-fluid span12" id="pageHeader">
+	<header>
+	  <div class="pull-left span12" id="header_logo">
+	    <%= link_to image_tag("free_ride_logo_smaller.jpg"), root_path, 
+		:class=>"span2" %>
+	  </div>
+	</header>
+      </div>
+
+      <%= render 'shared/alerts' %>
+      <div class="container">
+      <%= yield %>
+      </div>
+    </div>
+
+      <%= render 'shared/footer' %>
+</body>
+</html>

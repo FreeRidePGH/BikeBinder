@@ -1,0 +1,18 @@
+  <title><%= header_title %></title>
+  <%= stylesheet_link_tag    "application" %>
+  
+  <% stylesheet_link_tag    "bootstrap" %>
+  <% stylesheet_link_tag    "custom" %>
+  
+  <%= javascript_include_tag "application" %>
+  
+  <script type="text/javascript">
+    //specify locale
+    // TODO read from the session cookie so this can be done
+    // along with other initializations
+    I18n.locale = "<%= I18n::locale %>";
+  </script>
+  
+  <%= csrf_meta_tags %>
+  <%= favicon_link_tag '/favicon.png' %>
+

@@ -1,29 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= header_title %></title>
-  <%= stylesheet_link_tag    "application" %>
-  
-  <% stylesheet_link_tag    "bootstrap" %>
-  <% stylesheet_link_tag    "custom" %>
-  
-  <%= javascript_include_tag "application" %>
-  
-  <script type="text/javascript">
-    //specify locale
-    // TODO read from the session cookie so this can be done
-    // along with other initializations
-    I18n.locale = "<%= I18n::locale %>";
-  </script>
-  
-  <%= csrf_meta_tags %>
-  <%= favicon_link_tag '/favicon.png' %>
-
+  <%= render 'shared/head' %>
 </head>
 
 <body>
   <div class="container-fluid<%= ' no-user' if !user_signed_in? %>">
-    <% if ENV['DEMOVISUAL'] %>
+    <% if ENV['DEMOVISUAL']=='true' %>
     <p class="demoHelp center-block">
      <strong> &gt;&gt;&gt;&gt; </strong>You are on the demo database. Your changes will not affect the shop database. <strong>&lt;&lt;&lt;&lt;</strong>
     </p>
@@ -56,11 +39,6 @@
       <%= yield %>
       </div>
     </div>
-    <footer style = "text-align: center;" class = "footer">
-      <p>&copy; 2014 <a href="http://freeridepgh.org">Free Ride Community Bicycle Project</a>.</p>
-      <p><span class="tinytext">See <a href="https://github.com/FreeRidePGH/BikeBinder/wiki/Contributors">the contributors list </a> to learn who built this open source software.
-      </span></p>
-    </footer>
-    <%= debug(params) if Rails.env.development? %>
+    <%= render 'shared/footer' %>
 </body>
 </html>
