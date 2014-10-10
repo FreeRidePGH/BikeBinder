@@ -70,6 +70,8 @@ group :shared_host, :production do
   gem 'mysql2',  '~>0.3.13'
 end
 
+gem 'airbrake', '~>4.1.0'
+
 group :test do
   # Pretty printed test output
   gem 'turn', '~>0.9.6', :require => false

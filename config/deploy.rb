@@ -1,6 +1,12 @@
 # config valid only for Capistrano 3.1
 lock '3.2.1'
 
+# Added by the airbrake gem
+# (appended after running: rails generate airbrake)
+        require './config/boot'
+        require 'airbrake/capistrano'
+
+
 set :application, 'BikeBinder'
 set :repo_url, 'https://github.com/FreeRidePGH/BikeBinder.git'
 set :branch, :master
@@ -108,3 +114,4 @@ namespace :deploy do
   end
 
 end
+
