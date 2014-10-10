@@ -82,6 +82,9 @@ GEM
       activerecord (>= 3.0)
       activesupport (>= 3.0)
       awesome_nested_set (>= 2.0)
+    airbrake (4.1.0)
+      builder
+      multi_json
     ansi (1.4.3)
     arel (5.0.1.20140414130214)
     autoprefixer-rails (3.1.0.20140911)
@@ -331,6 +334,7 @@ PLATFORMS
 
 DEPENDENCIES
   acts_as_commentable_with_threading (= 1.2.0)
+  airbrake (~> 4.1.0)
   autoprefixer-rails (~> 3.1.0)
   awesome_nested_set (~> 3.0.0.rc.5)
   bike_mfg (>= 0.1.9)!
