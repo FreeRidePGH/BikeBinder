@@ -4,7 +4,7 @@ lock '3.2.1'
 # Added by the airbrake gem
 # (appended after running: rails generate airbrake)
         require './config/boot'
-        require 'airbrake/capistrano'
+        require 'airbrake/capistrano3'
 
 
 set :application, 'BikeBinder'
