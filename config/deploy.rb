@@ -51,17 +51,22 @@ set(:linked_files,
     config/application/secret_base.txt
     config/application/secret_token.txt
     config/env_vals.rb
+    config/application/err_api_key.txt
     ))
 
 # which config files should be copied by deploy:setup_config
 # see documentation in lib/capistrano/tasks/setup_config.rake
 # for details of operations
+#
+# Setup by running
+# cap <stage> deploy:setup_config
 set(:config_files, 
     [
      ['database.example.yml', 'config/database.yml'],
      ['mailer_config.sample.rb','config/application/mailer_config.rb'],
      ['secret_base.txt','config/application/secret_base.txt'],
      ['secret_token.txt', 'config/application/secret_token.txt'],
+     ['err_api_key.txt', 'config/application/err_api_key.txt'],
      ['env_vals.rb', 'config/env_vals.rb']
     ])
 
