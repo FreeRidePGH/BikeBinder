@@ -17,6 +17,7 @@ tmp/*
 config/database.yml
 config/application/secret_token.txt
 config/application/secret_base.txt
+config/application/err_api_key.txt
 config/application/mailer_config.rb
 public/photos/*
 spec/tmp
