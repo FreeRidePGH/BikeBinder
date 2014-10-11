@@ -10,7 +10,7 @@ APP_SECRET_FILE          = File.join(APP_CONFIG_DIRECTORY , "secret_token.txt")
 APP_SECRET_BASE_FILE     = File.join(APP_CONFIG_DIRECTORY , "secret_base.txt")
 APP_MAILER_CONFIG_FILE   = File.join(APP_CONFIG_DIRECTORY, "mailer_config.rb")
 APP_DB_CONFIG_FILE       = File.join(CONFIG_DIRECTORY_ROOT, "database.yml")
-ERR_API_KEY              = File.join(CONFIG_DIRECTORY_ROOT, "err_api_key.txt")
+ERR_API_KEY              = File.join(APP_CONFIG_DIRECTORY, "err_api_key.txt")
 
 # tmp
 
