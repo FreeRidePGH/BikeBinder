@@ -1,9 +1,5 @@
 #require File.join(File.dirname(__FILE__) + "../", "config/directories.rb")
-
 require File.expand_path(File.join("..","..","directories.rb"), __FILE__)
-
-puts File.expand_path(File.join("..","..","directories.rb"), __FILE__)
-
 Airbrake.configure do |config|
   if ENV["ERR_API_KEY"].present?
     config.api_key = ENV["ERR_API_KEY"].strip
@@ -14,4 +10,5 @@ Airbrake.configure do |config|
   config.host    = 'err.frbp.org'
   config.port    = 80
   config.secure  = config.port == 443
+  config.user_attributes = [:id, :email, :group]
 end
