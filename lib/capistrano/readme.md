@@ -12,8 +12,9 @@
 
 Change the configuration settings in the following files
 
-* shared/database.yml
-* shared/application/mailer_config.rb
+* shared/config/database.yml
+* shared/config/application/mailer_config.rb
+* shared/config/env_vals.rb
 
 ### Deploy ###
 

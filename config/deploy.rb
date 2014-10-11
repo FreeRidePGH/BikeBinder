@@ -115,3 +115,4 @@ namespace :deploy do
 
 end
 
+after 'deploy:finished', 'airbrake:deploy'
