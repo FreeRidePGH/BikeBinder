@@ -10,5 +10,5 @@ Airbrake.configure do |config|
   config.host    = 'err.frbp.org'
   config.port    = 80
   config.secure  = config.port == 443
-  config.user_attributes = [:id, :email, :group]
+  config.user_attributes = [:id, :email]
 end
