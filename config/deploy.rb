@@ -76,10 +76,10 @@ namespace :deploy do
   task :auto_backup => [:set_rails_env]  do
     if fetch(:stage).to_s == 'production'
       on roles(:app) do
-        within "/home/#{host.user}/Backup" do
+        within "/home/#{host.user}/ops/Backup" do
           with rails_env: fetch(:rails_env) do
             execute :bundle, :exec, :backup,
-            :perform, '--trigger', 'DH_frpgh'
+            :perform, '--trigger', 'DH_frpgh', '--config-file', './config.rb'
           end # with rails_env
         end # within ~/Backup
       end # on roles
