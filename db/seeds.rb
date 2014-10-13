@@ -7,10 +7,13 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 def generate_passwd(length=8)
-  chars = 'abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789!@#$%^&*)(+'
-  Array.new(length) { chars[rand(chars.length)].chr }.join
+  if Rails.env == 'development'
+    'password'
+  else
+    chars = 'abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789!@#$%^&*)(+'
+    Array.new(length) { chars[rand(chars.length)].chr }.join
+  end
 end
-
 
 # Seeding methodology:
 #
@@ -26,7 +29,7 @@ if BikeBrand.count == 0
 end
 
 if User.count == 0
-  User.create!(:email=>"staff@freeridepgh.org", :password=>generate_passwd(15), :group => 'admin')
+  User.create!(:email=>"staff@freeridepgh.org", :password=>generate_passwd(15), :group => 'staff')
 end
 if User.count == 1
   User.create!(:email=>"volunteer@freeridepgh.org", :password=>generate_passwd(15), :group => 'volunteer')
