@@ -1,5 +1,3 @@
-CREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL);
-CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version");
 CREATE TABLE "answers" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "question_id" integer, "text" text, "short_text" text, "help_text" text, "weight" integer, "response_class" varchar(255), "reference_identifier" varchar(255), "data_export_identifier" varchar(255), "common_namespace" varchar(255), "common_identifier" varchar(255), "display_order" integer, "is_exclusive" boolean, "display_length" integer, "custom_class" varchar(255), "custom_renderer" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "default_value" varchar(255), "api_id" varchar(255), "display_type" varchar(255));
 CREATE TABLE "assignments" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "bike_id" integer, "application_id" integer, "application_type" varchar(255), "created_at" datetime, "updated_at" datetime);
 CREATE INDEX "index_assignments_on_application" ON "assignments" ("application_id", "application_type");
@@ -46,23 +44,19 @@ CREATE INDEX "index_signatures_on_uname" ON "signatures" ("uname");
 CREATE TABLE "survey_sections" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "survey_id" integer, "title" varchar(255), "description" text, "reference_identifier" varchar(255), "data_export_identifier" varchar(255), "common_namespace" varchar(255), "common_identifier" varchar(255), "display_order" integer, "custom_class" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL);
 CREATE TABLE "surveys" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "description" text, "access_code" varchar(255), "reference_identifier" varchar(255), "data_export_identifier" varchar(255), "common_namespace" varchar(255), "common_identifier" varchar(255), "active_at" datetime, "inactive_at" datetime, "css_url" varchar(255), "custom_class" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "display_order" integer, "api_id" varchar(255));
 CREATE UNIQUE INDEX "surveys_ac_idx" ON "surveys" ("access_code");
-CREATE TABLE "validation_conditions" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "validation_id" integer, "rule_key" varchar(255), "operator" varchar(255), "question_id" integer, "answer_id" integer, "datetime_value" datetime, "integer_value" integer, "float_value" float, "unit" varchar(255), "text_value" text, "string_value" varchar(255), "response_other" varchar(255), "regexp" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL);
-CREATE TABLE "validations" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "answer_id" integer, "rule" varchar(255), "message" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL);
-CREATE TABLE "versions" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "item_type" varchar(255) NOT NULL, "item_id" integer NOT NULL, "event" varchar(255) NOT NULL, "whodunnit" varchar(255), "object" text, "created_at" datetime);
-CREATE INDEX "index_versions_on_item_type_and_item_id" ON "versions" ("item_type", "item_id");
 CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "email" varchar(255) DEFAULT '' NOT NULL, "encrypted_password" varchar(255) DEFAULT '' NOT NULL, "reset_password_token" varchar(255), "reset_password_sent_at" datetime, "remember_created_at" datetime, "sign_in_count" integer DEFAULT 0, "current_sign_in_at" datetime, "last_sign_in_at" datetime, "current_sign_in_ip" varchar(255), "last_sign_in_ip" varchar(255), "created_at" datetime, "updated_at" datetime, "failed_attempts" integer DEFAULT 0, "unlock_token" varchar(255), "locked_at" datetime, "group" integer DEFAULT 0);
 CREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email");
 CREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" ("reset_password_token");
 CREATE UNIQUE INDEX "index_users_on_unlock_token" ON "users" ("unlock_token");
+CREATE TABLE "validation_conditions" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "validation_id" integer, "rule_key" varchar(255), "operator" varchar(255), "question_id" integer, "answer_id" integer, "datetime_value" datetime, "integer_value" integer, "float_value" float, "unit" varchar(255), "text_value" text, "string_value" varchar(255), "response_other" varchar(255), "regexp" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL);
+CREATE TABLE "validations" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "answer_id" integer, "rule" varchar(255), "message" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL);
+CREATE TABLE "versions" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "item_type" varchar(255) NOT NULL, "item_id" integer NOT NULL, "event" varchar(255) NOT NULL, "whodunnit" varchar(255), "object" text, "created_at" datetime);
+CREATE INDEX "index_versions_on_item_type_and_item_id" ON "versions" ("item_type", "item_id");
+CREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL);
+CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version");
 INSERT INTO schema_migrations (version) VALUES ('20130721165753');
 
-INSERT INTO schema_migrations (version) VALUES ('20140905041347');
-
-INSERT INTO schema_migrations (version) VALUES ('20140929000814');
-
 INSERT INTO schema_migrations (version) VALUES ('20141004143056');
-
-INSERT INTO schema_migrations (version) VALUES ('20141005200409');
 
 INSERT INTO schema_migrations (version) VALUES ('20141006031217');
 
