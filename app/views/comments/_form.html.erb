@@ -1,6 +1,6 @@
 <!-- http://stackoverflow.com/questions/6393464/form-for-nested-resource -->
 <!-- quick hack to prevent non-authenticated users from adding comments, probably should do this in another area,like a controller-->
-  <% if user_signed_in? %> 
+  <% if user_signed_in? && can?(:manage, comment) %> 
   <div id="newCommentWrap_X" class="span8 clearfix">
     
   <%= form_for(comment, :url=> url) do |f| %>
