@@ -18,7 +18,7 @@ role :db,  %w{frpgh@frbp.org}
 
 set :deploy_to, '/home/frpgh/frbp.org'
 
-set :default_env, { demovisual: 'true', precompile: 'true'}
+set :default_env, { precompile: 'true'}
 
 # Custom SSH Options
 # ==================
