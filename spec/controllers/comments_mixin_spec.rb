@@ -22,8 +22,8 @@ describe BikesController do
         expect(controller.commentable).to_not be_nil
       end
 
-      it "does redirects to root" do
-        expect(response).to redirect_to(new_user_session_path)
+      it "does not redirect to root" do
+        expect(response).to_not redirect_to(root_path)
       end
     end # context "when not signed in"
 

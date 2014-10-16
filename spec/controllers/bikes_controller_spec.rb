@@ -19,9 +19,9 @@ describe BikesController do
         sign_out :user
       end
       
-      it "should not be successful" do
+      it "should be successful" do
         get :index
-        expect(response).to_not be_success
+        expect(response).to be_success
       end
     end # context "as a guest user"
 
@@ -65,7 +65,7 @@ describe BikesController do
 
       it "should not be successful" do
         get("new")
-        response.should_not be_success
+        expect(response).to_not be_success
       end
     end # context "while not signed in"
   end # describe "GET new"
