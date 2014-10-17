@@ -77,7 +77,7 @@ module BikeBinder
     end
 
     # White listing IPs
-    config.middleware.use Rack::IpWhitelist, ENV['WHITELISTED_IPS'] || '*.*.*'
+    config.middleware.use( Rack::IpWhitelist, :ips => (ENV['WHITELISTED_IPS'] || '*.*.*'))
 
   end
 end

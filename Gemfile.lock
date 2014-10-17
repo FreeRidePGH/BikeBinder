@@ -35,9 +35,9 @@ GIT
 
 GIT
   remote: git://github.com/zflat/rack-ip-whitelist.git
-  revision: 96145634b2bf711b061d121c36c0760b0c2c2ba0
+  revision: 8e16ed369a5877b51a23963a4b13bb8a39a9fec7
   specs:
-    rack-ip-whitelist (0.0.2)
+    rack-ip-whitelist (0.0.3)
       netaddr
 
 GIT
