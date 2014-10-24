@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe Hook do
+RSpec.describe Hook, :type=>:model do
 
   subject(:hook){FactoryGirl.create(:hook)}
   let(:hook2){FactoryGirl.create(:hook)}
@@ -23,7 +23,7 @@ describe Hook do
     end
 
     it "is in the list of available hooks" do
-      expect(Hook.available.include?(hook)).to be_true
+      expect(Hook.available.include?(hook)).to be_truthy
     end
 
   end

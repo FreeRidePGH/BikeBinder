@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe Signature do
+RSpec.describe Signature, :type=>:model do
 
   describe "finding or creating" do
     context "of existing record" do

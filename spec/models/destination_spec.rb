@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe Destination do
+RSpec.describe Destination, :type=>:model do
 
   context "with unique name and label" do
     subject(:dest){FactoryGirl.create(:destination)}

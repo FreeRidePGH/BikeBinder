@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe BikeReport do
+RSpec.describe BikeReport, :type=>:model do
 
   context "with a bike seeded" do
     let!(:bike){FactoryGirl.create(:bike)}
@@ -172,7 +172,7 @@ describe BikeReport do
       let!(:bike){departure.bike}
       subject(:report){BikeReport.new(:departed => true)}
       it "has departed bikes" do
-        expect(Departure.count > 0).to be_true
+        expect(Departure.count > 0).to be_truthy
       end
       it "has assets" do
         expect(report.assets).to_not be_empty

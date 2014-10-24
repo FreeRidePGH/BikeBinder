@@ -1,9 +1,9 @@
-require 'spec_helper'
+require 'rails_helper'
 require 'settings'
 
 module Settings
 
-  describe LinearUnit do
+  RSpec.describe LinearUnit, :type=>:model do
 
     it "should have a persistance unit that is a unit" do
       expect(LinearUnit.persistance.units).to_not be_nil

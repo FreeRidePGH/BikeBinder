@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe Bike do
+RSpec.describe Bike, :type=>:model do
   subject(:bike){FactoryGirl.create(:bike)}
 
   context "with number and color" do
@@ -83,7 +83,7 @@ describe Bike do
     end
     
     it "should have units" do
-      expect(bike.seat_tube_height.respond_to?(:units)).to be_true
+      expect(bike.seat_tube_height.respond_to?(:units)).to be_truthy
     end
     
   end
@@ -136,8 +136,8 @@ context "with a non-number seat-tube height" do
     it "should not be valid" do
       is_valid = bike_bad_num.valid?
       expect(bike_bad_num.errors.count).to_not eq 0
-      expect(bike_bad_num.errors.count>0).to be_true
-      expect(is_valid).to be_false
+      expect(bike_bad_num.errors.count>0).to be_truthy
+      expect(is_valid).to be_falsey
     end
   end
 

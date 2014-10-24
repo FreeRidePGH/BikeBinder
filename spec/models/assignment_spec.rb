@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe Assignment do
+RSpec.describe Assignment, :type => :model do
 
   context "without bike" do
     let(:program){FactoryGirl.create(:program)}
@@ -20,7 +20,7 @@ describe Assignment do
     end
   end
 
-  describe "build with empty params" do
+  describe "build with empty params", :type=>:model do
     subject(:assignment){Assignment.build({})}
       
     it "is not valid" do

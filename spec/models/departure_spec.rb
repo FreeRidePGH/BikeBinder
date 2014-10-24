@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 #Departure
 # id | user_id | bike_id | value | method_id | method_type |datetime_departed (would just be created_at)
@@ -11,7 +11,7 @@ require 'spec_helper'
 
 # One nice thing about this is it could allow for a sale to be paid for in a combination of partial cash and partial volunteer credit. At Free Ride, people doing the earn-a-bike sometimes just fix the bike, do some of the required volunteering and then just pay the difference in cash. We also allow as-is purchases to be with volunteer credit or with cash. But we way that fix for sales need to be with cash.
 
-describe Departure do
+RSpec.describe Departure, :type=>:model do
 
   context "without a bike" do
     subject(:departure){Departure.build(:bike => nil, :value => 0 )}
@@ -90,7 +90,7 @@ describe Departure do
 
     it "records the final valid" do
       expect(departure.value).to_not be_nil
-      expect(departure.value >= 0).to be_true
+      expect(departure.value >= 0).to be_truthy
     end
     
     it "specifies the method" do
