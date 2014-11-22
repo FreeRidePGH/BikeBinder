@@ -62,6 +62,7 @@ group :production do
   # Use PostgreSQL for Heroku deployment
   # gem 'pg'
   # gem 'rails_12factor'
+  gem 'rack-protection', '~> 1.5.3'
 end
 
 group :shared_host do

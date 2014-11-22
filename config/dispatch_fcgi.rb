@@ -16,6 +16,7 @@ require 'rubygems'
 require 'bundler'
 Bundler.setup(:default, :fcgi)
 require 'rack'
+require 'rack/protection'
 
 class Rack::PathInfoRewriter
   def initialize(app)
@@ -39,6 +40,7 @@ app, options = Rack::Builder.parse_file(config_fpath)
 wrappedApp = Rack::Builder.new do
   use Rack::ShowExceptions
   use Rack::PathInfoRewriter
+  use Rack::Protection
   run app
 end
 
