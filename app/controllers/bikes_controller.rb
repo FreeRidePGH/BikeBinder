@@ -22,7 +22,7 @@ class BikesController < ApplicationController
   # All bikes
   expose(:bikes) do
     @bikes ||= ([bike] if record_found?(bike))
-    @bikes ||= bikes_status_report.assets
+    @bikes ||= bikes_status_report.assets if bikes_status_report
     @bikes ||= Bike.eager_load(:bike_model,:hook_reservation, :hook, :assignment).all 
     @bikes
   end
