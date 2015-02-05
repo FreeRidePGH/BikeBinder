@@ -41,9 +41,9 @@ wrappedApp = Rack::Builder.new do
   use Rack::ShowExceptions
   use Rack::PathInfoRewriter
 
-  use Rack::Protection
-  use Rack::HttpOrigin
-  use Rack::Protection::SessionHijacking
+#  use Rack::Protection
+#  use Rack::HttpOrigin
+#  use Rack::Protection::SessionHijacking
 
   run app
 end
