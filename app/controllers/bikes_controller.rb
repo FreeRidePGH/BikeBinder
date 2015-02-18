@@ -22,7 +22,7 @@ class BikesController < ApplicationController
   # All bikes
   expose(:bikes) do
     @bikes ||= ([bike] if record_found?(bike))
-    @bikes ||= bikes_status_report.assets
+    @bikes ||= bikes_status_report.assets if bikes_status_report
     @bikes ||= Bike.eager_load(:bike_model,:hook_reservation, :hook, :assignment).all 
     @bikes
   end
@@ -148,10 +148,10 @@ class BikesController < ApplicationController
   end # def bike_post_created_path
 
   def bikes_status_report
-    if params[:status]
+    if params.permit(:status)
       case params[:status]
       when 'available'
-        BikeReport.new(:available => true)
+        b = BikeReport.new(:available => true)
       when 'assigned'
         BikeReport.new(:assigned => true, :present => true)
       when 'departed'

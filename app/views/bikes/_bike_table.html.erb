@@ -11,12 +11,7 @@
     <% end # elsif %>
   </td>
   <td class="BT7">
-  <% if b.hook %>
-  <% # link_to b.hook.number, hook_path(b.hook) %>
-  <%= b.hook.number %>
-  <% else %>
-  n/a
-  <% end %>
+  <%= b.hook ? b.hook.number : 'n/a' %>
   </td>
   <td><div class="BT1"><%= render Select2BikeBinder::Builder::ColorOption.new b.color %></div></td>
   <td><div class="BT2"><%= (b.brand.nil?)? '' : b.brand.name %></div></td>

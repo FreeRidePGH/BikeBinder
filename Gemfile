@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.6'
+gem 'rails', '4.1.7'
 
 gem 'therubyracer', '~>0.12.1'
 
@@ -62,6 +62,7 @@ group :production do
   # Use PostgreSQL for Heroku deployment
   # gem 'pg'
   # gem 'rails_12factor'
+  gem 'rack-protection', '~> 1.5.3'
 end
 
 group :shared_host do
