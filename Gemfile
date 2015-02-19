@@ -87,8 +87,8 @@ group :test do
   
   
   # Speed up testing with spork
- #  gem 'spork', '~>1.0.0rc4', :path => '/home/william/proj/spork'
-  gem 'guard-spork', '~>1.5.1'
+  gem 'spork', '~>1.0.0rc4', :git  => 'https://github.com/sporkrb/spork.git'
+  gem 'guard-spork', '~>2.1.0'
   gem 'spork-rails', '~>4.0.0'
   
   # System specific for automatic tests on linux
@@ -99,7 +99,7 @@ end
 group :development do
   gem 'railroady', '~>1'
   gem 'rails-erd', '~>1.1.0'
-  gem 'guard-rspec','~>4.3.1', :require=>false
+  gem 'guard-rspec','~>4.5.0', :require=>false
   gem 'spring', '~>1.1.3'
 
   gem 'capistrano',  '~> 3.2', require: false
