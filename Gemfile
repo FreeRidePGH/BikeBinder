@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.8'
+gem 'rails', '4.1.9'
 
 gem 'therubyracer', '~>0.12.1'
 
