@@ -45,6 +45,7 @@ Spork.prefork do
   require 'capybara/rspec'
   require 'capybara/rails'
   require 'capybara/poltergeist'
+  require 'devise'
 
 
   ENGINE_RAILS_ROOT=File.join(File.dirname(__FILE__), '../')
@@ -96,6 +97,8 @@ Spork.prefork do
 
     config.infer_spec_type_from_file_location!
     # config.raise_errors_for_deprecations!
+
+    config.include Devise::TestHelpers, :type => :controller
   end
 
 end

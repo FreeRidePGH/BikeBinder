@@ -160,11 +160,11 @@ context "with a non-number seat-tube height" do
     end
     
     it "can not have any errors" do
-      bike.errors.count.should == 0
+      expect(bike.errors.count).to eq 0
     end
     
     it "can not be found" do
-      Bike.find_by_id(b_id).should be_nil
+      expect(Bike.find_by_id(b_id)).to be_nil
     end
 
     describe "# serial number" do
