@@ -49,7 +49,6 @@ describe BikesController do
       it "is successful" do
         get :new
         expect(response).to be_success
-        response.should be_success
       end
       
       it "exposes a new bike" do

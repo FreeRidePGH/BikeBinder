@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe BikeNumber do
+RSpec.describe BikeNumber, :type=>:model do
 
   describe "a new invalid number object" do
 

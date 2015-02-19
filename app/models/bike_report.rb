@@ -19,7 +19,8 @@ class BikeReport
   end
 
   scope do
-    Bike.includes(:bike_model, :bike_brand, :hook, :assignment).references('')
+    Bike.includes(:bike_model, :bike_brand,:assignment, :hook).
+      includes(:hook_reservation=>[:hook]).references('')
   end
 
   filter(:departed, :boolean) { |val, scope| BikeReport.departed_query(scope) }
@@ -63,6 +64,10 @@ class BikeReport
   column(:quality)
   column(:condition)
   column(:value)
+
+  column(:hook_number) do
+    (hook) ? hook.number : 'n/a'
+  end
   
   column(:status, :order => "assignment.application.name") do 
     application.name if application

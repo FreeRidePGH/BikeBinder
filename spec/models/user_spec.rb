@@ -1,31 +1,24 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe User do
-
-  before(:each) do
-    @user = FactoryGirl.build(:user)
-  end
+RSpec.describe User, :type=>:model do
+  let(:user){FactoryGirl.build(:user)}
 
   it "Should have an id" do
-    @user.should_not be_nil
-    @user.save
-    puts @user.errors.messages if @user.id.nil?
-    @user.id.should_not be_nil
+    expect(user).to_not be_nil
+    user.save
+    expect(user.id).to_not be_nil
   end
 
   it "Should have a group" do
-    @user.group.should_not be_nil
+    expect(user.group).to_not be_nil
   end
 
-  context "volunteer" do
-    before(:each) do
-      @user = FactoryGirl.build(:volunteer_user)
-    end
+  context "volunteer", type: :model do
+    let(:user){FactoryGirl.build(:volunteer_user)}
     it "Should have group volunteer" do
-      @user.should be_volunteer
+      expect(user).to be_volunteer
     end
   end
-
 end
 
 # == Schema Information

@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe Program do
+RSpec.describe Program, :type=>:model do
 
   context "with unique name and label" do
     subject(:prog){FactoryGirl.create(:prog)}

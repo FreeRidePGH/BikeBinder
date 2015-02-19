@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe HookReservation do 
+RSpec.describe HookReservation, :type=>:model do 
 
   context "with given hook and bike" do
     let(:bike){ FactoryGirl.create(:bike) }
@@ -14,7 +14,7 @@ describe HookReservation do
     end
 
     it "saved sucessfully" do
-      expect(@saved).to be_true
+      expect(@saved).to be_truthy
     end
 
     it "is valid" do

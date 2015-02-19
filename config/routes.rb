@@ -7,7 +7,6 @@ BikeBinder::Application.routes.draw do
       post 'new_comment'
       get 'qr'
     end
-    # resources :departures, :only => [:new]
     collection do 
       get 'available' => 'bikes#index', :defaults => {:status=>'available'}
       get 'assigned' => 'bikes#index', :defaults => {:status=>'assigned'}

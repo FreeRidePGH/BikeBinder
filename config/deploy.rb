@@ -79,7 +79,7 @@ namespace :deploy do
         within "/home/#{host.user}/ops/Backup" do
           with rails_env: fetch(:rails_env) do
             execute :bundle, :exec, :backup,
-            :perform, '--trigger', 'DH_frpgh', '--config-file', './config.rb'
+            :perform, '--trigger', 'DH_frpgh', '--root-path', './'
           end # with rails_env
         end # within ~/Backup
       end # on roles

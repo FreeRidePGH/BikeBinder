@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe BikeForm do
+RSpec.describe BikeForm do
   
   it "has a params list with correct items" do
     expect(BikeForm.form_params_list).to include(:bike_brand_name)
@@ -44,7 +44,7 @@ describe BikeForm do
     end
 
     it "saves successfully" do
-      expect(@saved).to be_true
+      expect(@saved).to be_truthy
     end
 
     it "is valid" do
@@ -112,7 +112,7 @@ describe BikeForm do
     end
 
     it "saves successfully" do
-      expect(@saved).to be_true
+      expect(@saved).to be_truthy
     end
 
     it "overrides the model name" do

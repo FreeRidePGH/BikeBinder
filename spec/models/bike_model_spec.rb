@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe BikeModel do
+RSpec.describe BikeModel, :type=>:model do
   subject(:model){FactoryGirl.create(:bike_model)}
   it "is valid" do
     expect(model).to be_valid

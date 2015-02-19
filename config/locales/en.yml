@@ -171,7 +171,7 @@ en:
         definition: subtract $5 to $20 for rust and wear, if there is any
       labor:
         term: labor
-        definition: subtract needed labor = (number of hours of work needed) x ($8 per hour)
+        definition: subtract needed labor = (number of hours of work needed) x ($10 per hour)
       missing_parts:
         term: missing parts
         definition: subtract some discount for anything missing that is necessary to get the bike safely working

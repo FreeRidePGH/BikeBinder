@@ -40,9 +40,13 @@ Spork.prefork do
   ENV["RAILS_ENV"] ||= 'test'
   require File.expand_path("../../config/environment", __FILE__)
   require 'rspec/rails'
+  # require 'rspec/autorun'
+
   require 'capybara/rspec'
+  require 'capybara/rails'
   require 'capybara/poltergeist'
-  require 'rspec/autorun'
+  require 'devise'
+
 
   ENGINE_RAILS_ROOT=File.join(File.dirname(__FILE__), '../')
 
@@ -56,6 +60,13 @@ Spork.prefork do
     Capybara::Poltergeist::Driver.new(app, :debug => false)
   end
   Capybara.javascript_driver = :poltergeist
+
+  # Solution to 'spork does not load helper methods'
+  # http://stackoverflow.com/questions/10217755/rails-3-2-3-with-spork-does-not-recognize-helper-methods-in-cucumber-tests
+  view_helpers = Dir["#{Rails.root}/app/helpers/*.rb"]
+  view_helpers.collect do |full_name|
+    include Object.const_get(File.basename(full_name,'.rb').camelize)
+  end
   
   RSpec.configure do |config|
     
@@ -83,6 +94,11 @@ Spork.prefork do
     # automatically. This will be the default behavior in future versions of
     # rspec-rails.
     config.infer_base_class_for_anonymous_controllers = false
+
+    config.infer_spec_type_from_file_location!
+    # config.raise_errors_for_deprecations!
+
+    config.include Devise::TestHelpers, :type => :controller
   end
 
 end

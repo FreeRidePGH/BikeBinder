@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe "Action" do
+RSpec.describe "Action", :type=>:feature do
   let(:bike){FactoryGirl.create(:bike)}
   let(:sig){"ABC"}
   let(:user){FactoryGirl.create(:staff_user)}
