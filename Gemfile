@@ -6,7 +6,7 @@ gem 'rails', '4.1.7'
 
 gem 'therubyracer', '~>0.12.1'
 
-gem 'devise', '~>3.0.0'
+gem 'devise', '~>3.4.1'
 gem 'cancan', '~>1.6.10'
 
 gem 'awesome_nested_set', '~>3.0.0.rc.5'
@@ -81,7 +81,7 @@ group :test do
   gem 'turn', '~>0.9.6', :require => false
 
   # Testing framework
-  gem 'capybara', "~> 2.4.0"
+  gem 'capybara', "~> 2.4.4"
   gem 'poltergeist', "~> 1.5.1"
   gem 'factory_girl_rails', '~>4.4.1'
   
