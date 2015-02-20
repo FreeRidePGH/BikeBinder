@@ -43,4 +43,12 @@ RSpec.describe BikeModel, :type=>:model do
       expect(model_with_brand.brand).to be_valid
     end
   end # context "with a new brand"
+
+  context "associated in factory" do
+    subject(:bike){FactoryGirl.create(:associated_bike)}
+
+    it "is valid" do
+      expect(bike).to be_valid
+    end
+  end
 end
