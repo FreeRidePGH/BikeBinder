@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.9'
+gem 'rails', '4.2.0'
 
 gem 'therubyracer', '~>0.12.1'
 
@@ -35,7 +35,7 @@ gem 'squeel', '~>1.2.1'
 
 gem "ruby-units", "~> 1.4.4"
 
-gem 'state_machine', '~>1.2.0'
+gem 'state_machine', '~>1.2.0', :git => 'https://github.com/seuros/state_machine'
 gem 'ruby-graphviz', :require => 'graphviz'
 
 gem 'jquery-ui-rails', '~>5.0.0'
@@ -83,7 +83,7 @@ group :test do
   # Testing framework
   gem 'capybara', "~> 2.4.4"
   gem 'poltergeist', "~> 1.5.1"
-  gem 'factory_girl_rails', '~>4.4.1'
+  gem 'factory_girl_rails', '~>4.5.0'
   
   
   # Speed up testing with spork

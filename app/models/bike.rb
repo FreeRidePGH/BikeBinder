@@ -106,8 +106,8 @@ class Bike < ActiveRecord::Base
   validates_presence_of :number_record, :color
   validates :value, 
   :numericality => {:greater_than_or_equal_to => 0, :only_integer => false}, :allow_nil => true
-  validates :seat_tube_height, :non_negative_number => true
-  validates :top_tube_length, :non_negative_number => true
+  validates :seat_tube_height, :non_negative_number => true, :allow_nil => true
+  validates :top_tube_length, :non_negative_number => true, :allow_nil => true
 
   validates_uniqueness_of :number_record, :allow_nil => true, 
   :message => I18n.translate('errors.taken_number')
