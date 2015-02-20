@@ -31,7 +31,7 @@ Rails.application.configure do
   # Do not compress assets
   config.assets.compress = false
 
-  config.serve_static_assets = true
+  config.serve_static_files = true
 
   # Assets digest allow you to set far-future HTTP expiration dates on all assets,
   # yet still be able to expire then through the digets params.
