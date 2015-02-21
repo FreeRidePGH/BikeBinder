@@ -4,7 +4,7 @@ rescue LoadError; end
 
 app_name = 'BikeBinder'
 user_name = ENV['USER']
-ruby_version = 'default'
+ruby_version = '2.2.0'
 
 ENV['RAILS_ENV'] = 'shared_host'
 ENV['HOME'] ||= "/home/#{user_name}"
@@ -40,7 +40,7 @@ app, options = Rack::Builder.parse_file(config_fpath)
 wrappedApp = Rack::Builder.new do
   use Rack::ShowExceptions
   use Rack::PathInfoRewriter
-  use Rack::Protection
+  use Rack::Protection::IPSpoofing
   run app
 end
 
