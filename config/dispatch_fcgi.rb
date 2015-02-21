@@ -4,7 +4,7 @@ rescue LoadError; end
 
 app_name = 'BikeBinder'
 user_name = ENV['USER']
-ruby_version = '2.2.0'
+ruby_version = ENV['RUBY_INTERPRETER'] || 'default'
 
 ENV['RAILS_ENV'] = 'shared_host'
 ENV['HOME'] ||= "/home/#{user_name}"
@@ -17,6 +17,7 @@ require 'bundler'
 Bundler.setup(:default, :fcgi)
 require 'rack'
 require 'rack/protection'
+require 'rack/utf8_sanitizer'
 
 class Rack::PathInfoRewriter
   def initialize(app)
@@ -38,6 +39,7 @@ config_fpath = File.expand_path(File.join(File.dirname(__FILE__),
 
 app, options = Rack::Builder.parse_file(config_fpath)
 wrappedApp = Rack::Builder.new do
+  use Rack::UTF8Sanitizer
   use Rack::ShowExceptions
   use Rack::PathInfoRewriter
   use Rack::Protection::IPSpoofing

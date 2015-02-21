@@ -62,6 +62,7 @@ group :production do
   # gem 'pg'
   # gem 'rails_12factor'
   gem 'rack-protection', '~> 1.5.3'
+  gem 'rack-utf8_sanitizer'
 end
 
 group :shared_host do
