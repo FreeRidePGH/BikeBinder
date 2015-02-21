@@ -91,6 +91,8 @@ Devise.setup do |config|
   # Setup a pepper to generate the encrypted password.
   # config.pepper = "17ef75093488fcf3837a4cc289df499d909bfd5a1bd3d6c532fdac7f103e130959cf6c04af6d54a7639624d96341708ff50270d599be61ebba15662b7b509740"
 
+  config.secret_key = ENV["DEVISE_SECRET_KEY"]
+
   # ==> Configuration for :confirmable
   # A period that the user is allowed to access the website even without
   # confirming his account. For instance, if set to 2.days, the user will be
@@ -166,6 +168,9 @@ Devise.setup do |config|
   # Defines which key will be used when recovering the password for an account
   config.reset_password_keys = [ :email ]
 
+  # Warn on the last attempt before the account is locked.
+  # config.last_attempt_warning = true
+
   # Time interval you can reset your password with a reset password key.
   # Don't put a too small interval or your users won't have the time to
   # change their passwords.
@@ -225,4 +230,19 @@ Devise.setup do |config|
   # Speed up unit tests
   # https://github.com/plataformatec/devise/wiki/Speed-up-your-unit-tests
   config.stretches = Rails.env.test? ? 1 : 10
+
+
+  # Mountable engine configurations
+  # When using Devise inside an engine, let's call it 'MyEngine', and this engin
+  # is mountable, there are some extra configurations to be taken into account. 
+  # The following options are available, assuming the engine is mounted as:
+  # mount MyEngine, at: '/my_engine'
+  # 
+  # The router that invoked `devise_for`, in the example above, would be: 
+  # config.router_name = :my_engine
+  #
+  # When using omniauth, Devise cannot automatically set Omniauth path,
+  # so you need to do it manually. For the users scope, it would be:
+  # config.omniauth_path_prefix = '/my_engine/users/auth'
+
 end
