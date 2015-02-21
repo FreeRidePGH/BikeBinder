@@ -45,6 +45,7 @@ Spork.prefork do
   require 'capybara/rspec'
   require 'capybara/rails'
   require 'capybara/poltergeist'
+  require 'devise'
 
 
   ENGINE_RAILS_ROOT=File.join(File.dirname(__FILE__), '../')
@@ -96,6 +97,9 @@ Spork.prefork do
 
     config.infer_spec_type_from_file_location!
     # config.raise_errors_for_deprecations!
+
+    config.include Devise::TestHelpers, :type => :controller
+    
   end
 
 end
@@ -104,6 +108,9 @@ Spork.each_run do
   # This code will be run each time you run your specs.
 
 end
+
+# See http://blog.plataformatec.com.br/2011/12/three-tips-to-improve-the-performance-of-your-test-suite/
+Devise.stretches = 1
 
 # --- Instructions ---
 # Sort the contents of this file into a Spork.prefork and a Spork.each_run

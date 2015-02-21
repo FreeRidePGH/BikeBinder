@@ -1,4 +1,4 @@
-BikeBinder::Application.configure do
+Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
   # The test environment is used exclusively to run your application's
@@ -15,8 +15,8 @@ BikeBinder::Application.configure do
   config.active_record.migration_error = :page_load
 
   # Configure static asset server for tests with Cache-Control for performance
-  config.serve_static_assets = true
-  config.static_cache_control = "public, max-age=3600"
+  config.serve_static_files = true
+  config.static_cache_control = 'public, max-age=3600'
 
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
@@ -41,8 +41,14 @@ BikeBinder::Application.configure do
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
 
+  # Randomize the order test cases are executed
+  config.active_support.test_order = :random
+
   # Allow pass debug_assets=true as a query parameter to load pages with unpackaged assets
   config.assets.allow_debugging = true
+
+  # Raise error for missing translations
+  config.action_view.raise_on_missing_translations = true
 
   config.assets.compile = true
   config.assets.initialize_on_precompile = true

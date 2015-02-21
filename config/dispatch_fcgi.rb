@@ -41,6 +41,7 @@ wrappedApp = Rack::Builder.new do
   use Rack::ShowExceptions
   use Rack::PathInfoRewriter
   use Rack::Protection::IPSpoofing
+
   run app
 end
 

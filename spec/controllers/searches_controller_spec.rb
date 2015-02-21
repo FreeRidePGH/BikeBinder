@@ -1,7 +1,6 @@
 require 'rails_helper'
-include Devise::TestHelpers
 
-RSpec.describe SearchesController, :type=>:conroller do
+describe SearchesController do
   let(:user){FactoryGirl.create(:volunteer_user)}
 
   describe "GET 'index'" do
