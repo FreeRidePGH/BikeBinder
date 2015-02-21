@@ -49,7 +49,6 @@ describe BikesController do
       it "is successful" do
         get :new
         expect(response).to be_success
-        response.should be_success
       end
       
       it "exposes a new bike" do
@@ -86,7 +85,7 @@ describe BikesController do
       end
       
       it "should expose the correct bike" do
-        expect(Bike.find(bike)).to_not be_nil
+        expect(Bike.find(bike.id)).to_not be_nil
         expect(controller.bike).to_not be_nil
         expect(controller.bike.id).to eq(bike.id)
       end
@@ -106,7 +105,7 @@ describe BikesController do
 
       it "should expose the correct bike" do
         expect(bike).to eq (controller.bike_form.bike)
-        expect(Bike.find(bike)).to_not be_nil
+        expect(Bike.find(bike.id)).to_not be_nil
         expect(controller.bike).to_not be_nil
         expect(controller.bike.id).to eq(bike.id)
       end

@@ -23,4 +23,4 @@ end
 
 require 'spec_helper'
 
-# RSpec.configure {|c| c.raise_errors_for_deprecations!}
+ RSpec.configure {|c| c.raise_errors_for_deprecations!}

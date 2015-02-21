@@ -160,26 +160,31 @@ context "with a non-number seat-tube height" do
     end
     
     it "can not have any errors" do
-      bike.errors.count.should == 0
+      expect(bike.errors.count).to eq 0
     end
     
     it "can not be found" do
-      Bike.find_by_id(b_id).should be_nil
+      expect(Bike.find_by_id(b_id)).to be_nil
     end
 
     describe "# serial number" do
+      let(:b_number){FactoryGirl.generate :bike_number}
       let(:bike_param) do
         ActionController::Parameters.new({
-                                           :number_record => bike.number_record,
+                                           :number_record => b_number,
                                            :color => 'FFFFFF'
                                          }).
           permit(:number_record, :color)
       end
-      let!(:next_bike){Bike.new(bike_param)}
+      let(:first_bike){Bike.create(bike_param)}
+      let(:next_bike){Bike.new(bike_param)}
 
-      before(:each) do
-        next_bike
-        bike.destroy
+      before :each do
+        first_bike.destroy
+      end
+
+      it "can instantiate another bike with the the same number" do
+        expect(next_bike).to_not be_nil
       end
 
       it "can be re-used" do

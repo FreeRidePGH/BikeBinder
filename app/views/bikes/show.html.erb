@@ -23,7 +23,7 @@
 	   <%= form_tag hook_reservations_path, :metod => :post, :action => :create do %>
 	   <%= select_tag(:hook_id, 
 	       options_from_collection_for_select(
-	       [OpenStruct.new(:number => nil, 
+	       [OpenStruct.new(:id => nil, 
 	   :number => I18n.translate('placeholder.hook_options'))]+	       
 	       Hook.available.order(:id), :number, :number)) %>
 	   <%= hidden_field_tag :bike_id, bike.number %>
