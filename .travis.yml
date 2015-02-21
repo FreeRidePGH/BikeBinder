@@ -1,12 +1,15 @@
 before_install: sudo apt-get install libfcgi-dev 
 language: ruby
 rvm:
-  - "2.1.2"
+  - "2.2.0"
 env:
-  - DEVISE_SECRET_KEY=17ef75093 BIKE_BINDER_SECRET_TOKEN=8160ae5a4300ab4a  BIKE_BINDER_SECRET_BASE=9a5547ff6e464
+  global:
+    - DEVISE_SECRET_KEY=17ef75093
+    - BIKE_BINDER_SECRET_TOKEN=8160ae5a4300ab4a
+    - BIKE_BINDER_SECRET_BASE=9a5547ff6e464
 before_script: 
   - cp config/database.yml.sample config/database.yml
-  - bundle exec rake create_a_secret --trace
+  - bundle exec rake create_a_secret
   - bundle exec rake db:setup > /dev/null
-  - bundle exec rake db:test_setup --trace
+  - bundle exec rake db:test_setup
 script: bundle exec rspec spec
