@@ -1,0 +1,19 @@
+<section class="row" id="indexSection">
+  <div class="offset2">
+    <%= form_tag searches_path, :method => :get, :class=>"form-horizontal" do  %>
+      <div class="form-group">
+	<%=label_tag :num, I18n.translate('advanced_search.number_label'), :class=>"control-label"  %>
+	<%= text_field_tag :num, (@searchTerm || ""), :class => "search-term form-control", :placeholder => I18n.translate('advanced_search.placeholder')%>
+      </div>
+      <div class="form-group">
+	<%=label_tag :t, I18n.translate('advanced_search.keywords_placeholder_label'), :class=>"control-label"  %>
+	<%= text_field_tag :t, (@searchTerm || ""), :class => "search-term form-control", :placeholder => I18n.translate('advanced_search.keywords_placeholder')%>
+      </div>
+      <div class="form-group">
+	<%= submit_tag I18n.translate('advanced_search.btn'), :class=>"btn btn-default" %>
+      </div>
+    <% end %>
+  </div>
+
+
+</section>

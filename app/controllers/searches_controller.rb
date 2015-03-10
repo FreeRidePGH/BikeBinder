@@ -22,7 +22,7 @@ class SearchesController < ApplicationController
     # render :browse
 
     flash[:error] = I18n.translate('controller.searches.index.fail', :term => search_term)
-    redirect_to :controller => 'bikes', :action => 'index', :q => search_term
+#    redirect_to :controller => 'bikes', :action => 'index', :q => search_term
   end
   
 end
