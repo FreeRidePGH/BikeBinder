@@ -25,6 +25,11 @@
             <th>
 	      Wheel Size
             </th>
+	    <% if can? :create, Bike %>
+ 	    <th>
+		    Value
+	    </th>
+	    <% end %>
 	  </tr>
 	</thead>
 	<tbody id = "bikeList">
