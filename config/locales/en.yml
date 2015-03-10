@@ -24,7 +24,7 @@ en:
     keywords_placeholder_label: "Keywords"
     keywords_placeholder: "Color, model, brand..."
     status_label: "Status"
-    btn: "Advanced Search"
+    btn: "Search"
   main_search:
     placeholder: "Search by Bike # or Hook #"
     btn: "Search"

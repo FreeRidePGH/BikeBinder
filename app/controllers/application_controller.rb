@@ -14,6 +14,7 @@ class ApplicationController < ActionController::Base
   end
 
   before_filter :set_timezone
+  before_filter :clear_flash
 
   expose :search_term do
       @search_term  ||= params[:q].to_s.strip
@@ -157,5 +158,9 @@ class ApplicationController < ActionController::Base
 
   def set_timezone
     Time.zone = ActiveSupport::TimeZone.new('Eastern Time (US & Canada)')
+  end
+
+  def clear_flash
+    flash.clear
   end
 end

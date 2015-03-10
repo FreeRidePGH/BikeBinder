@@ -8,21 +8,21 @@ class SearchesController < ApplicationController
     authorize! :read, Bike
     authorize! :read, Hook
 
-    if search_term =~ HookNumber.anchored_pattern
-      @hook = Hook.find_by_slug(search_term)
+    @search_number = (search_term.nil? || search_term.empty?) ? params[:num].to_s.strip : search_term
+    @search_keywords = params[:keywords].to_s.strip
+
+    if @search_number =~ HookNumber.anchored_pattern
+      @hook = Hook.find_by_slug(@search_number)
       @bike = @hook.bike if @hook
-    elsif search_term =~ BikeNumber.anchored_pattern
-      @bike = Bike.find_by_slug(search_term)
+    elsif @search_number =~ BikeNumber.anchored_pattern
+      @bike = Bike.find_by_slug(@search_number)
     end
 
     redirect_to(@bike) and return unless @bike.nil?
     redirect_to(@hook) and return unless @hook.nil?    
     
-    # Nothing found. Render browse page
-    # render :browse
-
-    flash[:error] = I18n.translate('controller.searches.index.fail', :term => search_term)
-#    redirect_to :controller => 'bikes', :action => 'index', :q => search_term
+    # Nothing found
+    flash[:error] = I18n.translate('controller.searches.index.fail', :term => (@search_number +' '+ @search_keywords).strip)
   end
   
 end

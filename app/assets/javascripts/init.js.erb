@@ -29,7 +29,10 @@ $(function(){
 
 
      var bikesTable = $('.table.bikes').dataTable({
-        "pagingType":"bootstrap"
+        "pagingType":"bootstrap",
+	     "language": {
+		     "search": "Apply filter _INPUT_ to table"
+	     }
 /*       "sDom": "<'row-fluid'<'span12' l p i ><'span7'>r>t<'row-fluid'<'span7'>",
          "sPaginationType": "bootstrap"  */
      });
