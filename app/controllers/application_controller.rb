@@ -14,11 +14,6 @@ class ApplicationController < ActionController::Base
   end
 
   before_filter :set_timezone
-  before_filter :clear_flash
-
-  expose :search_term do
-      @search_term  ||= params[:q].to_s.strip
-  end
 
   # Scope from collection of all categories
   expose(:project_categories) {ProjectCategory.all}

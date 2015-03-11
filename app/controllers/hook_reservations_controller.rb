@@ -1,5 +1,7 @@
 class HookReservationsController < ApplicationController
 
+  before_filter :clear_flash
+
   expose(:hook) do
     unless params[:hook_id].blank?
       @hook ||= Hook.find_by_slug(params[:hook_id])

@@ -108,7 +108,7 @@ class BikesController < ApplicationController
     redirect_to root_path and return if fetch_failed?(bike)
     redirect_to bike and return unless verify_signatory
     if bike_form.save
-      flash.now[:success] = I18n.translate('controller.bikes.update.success')
+      flash[:success] = I18n.translate('controller.bikes.update.success')
       redirect_to bike and return
     end
 
@@ -120,7 +120,7 @@ class BikesController < ApplicationController
     redirect_to root_path and return if fetch_failed?(bike)
 
     if bike.destroy
-      flash[:success] = I18n.translate('controller.bikes.destroy.success')
+      flash.now[:success] = I18n.translate('controller.bikes.destroy.success')
     else
       flash[:error] = I18n.translate('controller.bikes.destroy.fail')
       redirect_to bike and return

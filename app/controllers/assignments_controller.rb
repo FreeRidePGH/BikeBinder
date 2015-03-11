@@ -1,5 +1,7 @@
 class AssignmentsController < ApplicationController
 
+  before_filter :clear_flash
+
   expose(:assignment) do
     unless params[:id].blank?
       id = params[:id].to_i

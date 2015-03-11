@@ -32,7 +32,7 @@ describe SearchesController do
       end
       
       it "indicates a failed search" do
-        expect(controller.flash[:error]).to eq err_msg
+        expect(controller.flash.now[:notice]).to eq err_msg
       end
     end # describe "garbage search term"
     
@@ -78,7 +78,7 @@ describe SearchesController do
       end
 
       it "indicates a failed search" do
-        expect(controller.flash[:error]).to eq err_msg
+        expect(controller.flash.now[:notice]).to eq err_msg
       end
     end # context "with formatted but unmatching bike number term"
 
@@ -91,7 +91,7 @@ describe SearchesController do
       end
 
       it "indicates a failed search" do
-        expect(controller.flash[:error]).to eq err_msg
+        expect(controller.flash.now[:notice]).to eq err_msg
       end
     end # context "with formatted but unmatching bike number term"
 

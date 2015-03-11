@@ -1,5 +1,7 @@
 class DeparturesController < ApplicationController
 
+  before_filter :clear_flash
+
   expose(:departure) do
     if @dep.nil? && params[:id]
       id = params[:id]

@@ -20,6 +20,10 @@ en:
     hook_options: "Select hook..."
   advanced_search:
     number_label: "Number"
+    bike_number_label: "Bike Number"
+    bike_number_placeholder: "02345"
+    hook_number_label: "Hook Number"
+    hook_number_placeholder: "01H or 01L"
     placeholder: "Search by Bike # or Hook #"
     keywords_placeholder_label: "Keywords"
     keywords_placeholder: "Color, model, brand..."
@@ -34,6 +38,7 @@ en:
     searches:
       index:
         fail: "No results found for: '%{term}'"
+        blank_search: "No search terms provided"
     bikes:
       create:
         success: "New bike was added"
