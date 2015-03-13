@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/zflat/bike_mfg.git
-  revision: 7a53cfcbf85d6431a41d4304b1ca727f93683414
+  revision: 21101a0d6c6a87c16cfb8b213f88691f670f944c
   specs:
-    bike_mfg (0.1.11)
+    bike_mfg (0.1.12)
       actionview (>= 4)
       activemodel (>= 4)
       activesupport (>= 4)
@@ -246,7 +246,7 @@ GEM
     notiffany (0.0.5)
       nenv (~> 0.1)
       shellany (~> 0.0)
-    oj (2.11.4)
+    oj (2.12.1)
     orm_adapter (0.5.0)
     poltergeist (1.5.1)
       capybara (~> 2.1)
@@ -392,7 +392,7 @@ DEPENDENCIES
   airbrake (~> 4.1.0)
   autoprefixer-rails (~> 3.1.0)
   awesome_nested_set (~> 3.0.0.rc.5)
-  bike_mfg (>= 0.1.11)!
+  bike_mfg (>= 0.1.12)!
   bootstrap-sass (~> 2.3.2.1)
   cancancan (~> 1.10.1)
   capistrano (~> 3.2)

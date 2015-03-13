@@ -24,6 +24,7 @@ BikeBinder::Application.routes.draw do
   
   # Search routes
   resources :searches, :only => [:index]
+  resources :pages, :only => [:index, :show]
 
   ####################################################
   ## FINAL ROUTES TO CATCH UNMATCHED URIs AND SEARCHES

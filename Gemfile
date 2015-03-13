@@ -17,7 +17,7 @@ gem 'hound', '~>0.3.0', :git => 'https://github.com/metaquark/hound', :branch =>
 gem 'datagrid', '~>0.7.1'
 
 # Modular bulding-blocks for the application
-gem 'bike_mfg','>=0.1.11', :git => 'git://github.com/zflat/bike_mfg.git'
+gem 'bike_mfg','>=0.1.12', :git => 'git://github.com/zflat/bike_mfg.git'
 gem 'color_name-i18n','>= 0.2', :git => 'git://github.com/zflat/color_name-i18n.git'
 gem 'iso_bsd-i18n','>= 0.2', :git => 'git://github.com/zflat/iso_bsd-i18n.git'
 

@@ -1,0 +1,25 @@
+<svg version="1.1" baseProfile="tiny" id="svg-root"
+  width="100%" height="100%" viewBox="0 0 1167 703"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <title id="bike-measurement">Bike Measurement Diagram</title>
+  <defs>
+    <font-face font-family="SVGFreeSansASCII" unicode-range="U+0-7F">
+      <font-face-src>
+        <font-face-uri xlink:href="http://dev.w3.org/SVG/profiles/1.1F2/test/resources/SVGFreeSans.svg#ascii"/>
+      </font-face-src>
+    </font-face>
+  </defs>
+  <!-- see also http://stackoverflow.com/a/6250418 -->
+  <image id="image1JPEG" x="0" y="0" width="1167" height="703" 
+	  xlink:href="<%= request.protocol + request.host_with_port + 
+		      path_to_image('bike_construction_lines.jpg')  %>"/>
+  <text x="530"  y="40" style="font-size: 1.2em; font-weight: 600;">
+    <tspan x="540"><%= I18n.translate('help.top_tube_length0').titleize %></tspan>
+    <tspan x="540" dy="1.0em"><%= I18n.translate('help.top_tube_length1').titleize %></tspan>
+  </text>
+  <text x="0"  y="530" style="font-size: 1.2em; font-weight: 600;">
+    <tspan x="20"><%= I18n.translate('help.seat_tube_length0').titleize %></tspan>
+    <tspan x="20" dy="1.0em"><%= I18n.translate('help.seat_tube_length1').titleize %></tspan>
+  </text>
+  <!-- rect id="test-frame" x="1" y="1" width="478" height="358" fill="none" stroke="#000000"/ -->
+</svg>

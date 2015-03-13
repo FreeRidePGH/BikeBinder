@@ -64,4 +64,8 @@ module ApplicationHelper
                           :action => action_text, :date => date_text,:user => user_text)
   end
   
+  def page_link_args(page_key)
+    {:controller=>:pages, :action=>:show, :id=>page_key}
+  end
+
 end

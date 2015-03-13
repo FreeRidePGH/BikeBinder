@@ -21,14 +21,32 @@
 	  <li><%= link_to I18n.translate('nav.bikes.all'), :bikes  %></li>
 	</ul>
     <% end # li%>
+
     <% if can? :create, Bike %>
-    <%= content_tag :li,
-	:class => nav_bar_curr_class(:controller => 'bikes', :action => :new) do %>
-      <% link_to "Add a bike", new_bike_path %>
-    <% end # li%>
+      <%= content_tag :li,
+      :class => nav_bar_curr_class(:controller => 'bikes', :action => :new) do %>
+        <% link_to "Add a bike", new_bike_path %>
+      <% end # li%>
     <% end # can? :create, Bike %>
+
+
+    <%= content_tag :li, 
+    :class => "dropdown #{nav_bar_curr_class(:controller => 'pages', :action => :show)}" do %>
+    <%= link_to pages_path, {'data-toggle' => "dropdown" } do %>
+      Help<b class="caret"></b>
+    <%  end # a %>
+    <ul class="dropdown-menu">
+      <% I18n.translate('page_link').each do |page_key, link_text|  %>
+	<li><%= link_to link_text.titleize, page_link_args(page_key) %></li>
+      <% end %>
+    </ul>
+    <% end # li%>
+    
   </ul>
   <% end # can? :read %>
+
+
+    
   </div>
 </div>
 

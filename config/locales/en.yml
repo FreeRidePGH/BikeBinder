@@ -112,6 +112,14 @@ en:
     negative_val: "value is negative"
     not_a_number: "value is not a number"
     invalid_format: "is not formatted properly"
+  page_link:
+    incoming_bike_instructions: "incoming bike instructions"
+    parking_hook_instructions: "parking hook instructions"
+  help:
+    top_tube_length0: "effective top tube"
+    top_tube_length1: "length"
+    seat_tube_length0: "seat tube"
+    seat_tube_length1: "length (C-T)"
   bike:
     form:
       section:
