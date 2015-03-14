@@ -1,4 +1,12 @@
 module ApplicationHelper
+
+  def color_displayed(color_key, color_name)
+    Rails.cache.fetch('color_displayed.'+color_key) {
+      content_tag(:span,"", :class=>"colorSquare", 
+                  :style=>"margin:0px; display:inline-block; background:##{color_key}")+" "+color_name
+    }
+  end
+
   # Dynamic assignment of a title for the header element
   def header_title
     title_key = "page_titles.#{controller_name.to_s}.#{action_name}"
