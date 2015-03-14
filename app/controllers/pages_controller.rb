@@ -6,10 +6,8 @@ class PagesController < ApplicationController
   end
 
   def show
-    begin
-      render page = params[:id]
-    rescue ActionView::MissingTemplate => e
-      fail ActionController::RoutingError, "Page not found for '#{e.path}'"
-    end
+    render page = params[:id]
+  rescue ActionView::MissingTemplate => e
+    fail ActionController::RoutingError, "Page not found for '#{e.path}'"
   end
 end
