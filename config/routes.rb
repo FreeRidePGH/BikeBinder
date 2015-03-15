@@ -31,8 +31,9 @@ BikeBinder::Application.routes.draw do
   ####################################################
   ####################################################
 
-  # Ensure root is set per recommendations when installing Devise
-  root :to => 'bikes#index', :via => [:get, :post], :defaults => {:status=>'available'}
+  # Ensure root is set
+  # root :to => 'bikes#index', :via => [:get, :post], :defaults => {:status=>'available'}
+  root :to => 'pages#index', :via => [:get, :post]
 
   # Map top level domain seach to bikes and hooks
   get '/:id' => 'bikes#show', :id => BikeNumber.pattern
