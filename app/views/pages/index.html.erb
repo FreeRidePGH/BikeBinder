@@ -41,16 +41,31 @@
   </div>
   <div class="span4">
     <div class="row-fluid">
-      <h2 class="span12">Free Ride Info</h2>
+      <h2 class="span12">Bike Inventory Info</h2>
     </div>
     <div class="row-fluid">
-      <p class="span12">Quick links to other Free Ride information</p>
+      <p class="span12">Pages decribing how bikes are managed at Free Ride</p>
       <ul class="span12">
-	<li><a href="http://freeridepgh.org/resources/calendar/">Calendar of classes and open shop hours</a></li>
-	<li><a href="http://freeridepgh.org/resources/email-lists/">Email lists to keep in touch</a></li>
-	<li><a href="https://we.riseup.net/freeride_council">Crabgrass, our organization wiki</a></li>
+	<% ['tag_system', 'parking_hook_instructions', 'bike_numbering_system'].each do |page_key, link_text|  %>
+	  <li><%= link_to I18n.translate('page_link.'+page_key).capitalize, 
+	      page_link_args(page_key) %></li>
+	<% end %>
       </ul>
     </div>
+    <% if user_signed_in? %>
+    <div class="row-fluid">
+      <h3 class="span12">Processing Instructions</h3>
+    </div>
+    <div class="row-fluid">
+      <p class="span12">Instructions on how to process bikes</p>
+      <ul class="span12">
+	<% ['incoming_bike_instructions'].each do |page_key, link_text|  %>
+	  <li><%= link_to I18n.translate('page_link.'+page_key).capitalize, 
+	      page_link_args(page_key) %></li>
+	<% end %>
+      </ul>
+    </div>
+    <% end  %>
     <br />
     <div class="row">
       <p class="offset1">Today is <%= DateTime.now.strftime("%m/%d/%Y") %></p>
