@@ -9,7 +9,7 @@
  *
  *= require dataTables/bootstrap/2/jquery.dataTables.bootstrap
  *
- *= require common
+ * //require common
  * //require bootstrap
  *
  *= require select2
@@ -20,3 +20,5 @@
 
  @import "bootstrap";
  @import "bootstrap-responsive";
+
+ @import "common";
