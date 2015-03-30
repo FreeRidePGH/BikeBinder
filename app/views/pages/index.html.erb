@@ -1,3 +1,78 @@
+<div class="row-fluid">
+  <div class="span4">
+    <div class="row-fluid">
+      <h2 class="span12">Browse Bikes</h2>
+    </div>
+    <div class="row-fluid">
+      <p class="span12">View bikes based on availability or other category</p>
+    </div>
+    <div class="row-fluid">
+      <ul class="span12 unstyled browse-btns">
+	<li><%= link_to I18n.translate('nav.bikes.available'), :available_bikes, :class=>"btn span10"  %></li>
+	<li><%= link_to I18n.translate('nav.bikes.assigned'), :assigned_bikes, :class=>"btn span10"  %></li>
+	<li><%= link_to I18n.translate('nav.bikes.departed'), :departed_bikes, :class=>"btn span10"  %></li>
+      </ul>
+    </div>
+    <div class="row-fluid">
+      <p class="span12">Full list of bikes</p>
+    </div>
+    <div class="row-fluid">
+      <ul class="span12 unstyled browse-btns">
+	<li><%= link_to I18n.translate('nav.bikes.all'), :bikes, :class=>"btn span10"  %></li>
+      </ul>
+    </div>
+  </div>
+  <div class="span4">
+    <div class="row-fluid">
+      <h2 class="span12">Look Up a Bike</h2>
+    </div>
+    <div class="row">
+      <div class="span12">
+	<%= render partial: 'searches/form' %>
+      </div>
+    </div>
+    <% if !user_signed_in? %>
+    <div class="row-fluid">
+      <h2 class="span12">View-only mode</h2>
+      <p class="span12">You are not logged in. You can view bikes and pages, but if you want to make edits, please sign in.</p>
+      <%= link_to "Sign in", new_user_session_path , :class=>"btn btn-primary span12" %>
+    </div>
+    <% end %>
+  </div>
+  <div class="span4">
+    <div class="row-fluid">
+      <h2 class="span12">Bike Inventory Info</h2>
+    </div>
+    <div class="row-fluid">
+      <p class="span12">Pages decribing how bikes are managed at Free Ride</p>
+      <ul class="span12">
+	<% ['tag_system', 'parking_hook_instructions', 'bike_numbering_system'].each do |page_key, link_text|  %>
+	  <li><%= link_to I18n.translate('page_link.'+page_key).capitalize, 
+	      page_link_args(page_key) %></li>
+	<% end %>
+      </ul>
+    </div>
+    <% if user_signed_in? %>
+    <div class="row-fluid">
+      <h3 class="span12">Processing Instructions</h3>
+    </div>
+    <div class="row-fluid">
+      <p class="span12">Instructions on how to process bikes</p>
+      <ul class="span12">
+	<% ['incoming_bike_instructions'].each do |page_key, link_text|  %>
+	  <li><%= link_to I18n.translate('page_link.'+page_key).capitalize, 
+	      page_link_args(page_key) %></li>
+	<% end %>
+      </ul>
+    </div>
+    <% end  %>
+    <br />
+    <div class="row">
+      <p class="offset1">Today is <%= DateTime.now.strftime("%m/%d/%Y") %></p>
+    </div>
+  </div>
+</div>
+
 <!-- 
 
 * Measuring a frame image
@@ -16,6 +91,11 @@ pricing_a_bike_instructions
 
 getting_a_bike_at_free_ride
 * How to get a bike at Free Ride
+* Tag system explained
+
+departing bike instructions
+
+assigning a bike to a project instructions
 
  -->
 

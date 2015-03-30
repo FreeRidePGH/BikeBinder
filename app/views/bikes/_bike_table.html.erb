@@ -1,4 +1,5 @@
 <% bikes.each do |b| %>
+<%= cache(b) do %>
 <tr class = "bikeRow">
   <td class="BT5"><%= link_to b.number, bike_path(b) %></td>
   <td class="BT6"> 
@@ -13,7 +14,7 @@
   <td class="BT7">
   <%= b.hook ? b.hook.number : 'n/a' %>
   </td>
-  <td><div class="BT1"><%= render Select2BikeBinder::Builder::ColorOption.new b.color %></div></td>
+  <td><div class="BT1"><%= color_displayed(b.color.key, b.color.name.capitalize) %></div></td>
   <td><div class="BT2"><%= (b.brand.nil?)? '' : b.brand.name %></div></td>
   <td><div class="BT3"><%= print_val('seat_tube_height', b.seat_tube_height) %></div></td>
   <td><div class="BT4"><%= print_val('wheel_size', b.wheel_size) %></div></td>
@@ -21,4 +22,5 @@
     <td><%= print_val('value', b.value) %></td>
   <% end %>
 </tr>
-<% end %>
+<% end # cache %>
+<% end # bikes.each  %>

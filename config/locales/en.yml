@@ -113,6 +113,8 @@ en:
     not_a_number: "value is not a number"
     invalid_format: "is not formatted properly"
   page_link:
+    tag_system: "color tag system"
+    bike_numbering_system: "bike numbering system"
     incoming_bike_instructions: "incoming bike instructions"
     parking_hook_instructions: "parking hook instructions"
   help:
