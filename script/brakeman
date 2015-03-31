@@ -1,0 +1,10 @@
+#!/bin/bash
+#
+# Script for running Brakeman tests
+# Brakeman is a security scanner https://github.com/presidentbeef/brakeman.
+
+# script based on 
+# https://semaphoreci.com/community/tutorials/automatic-security-testing-of-rails-applications-using-brakeman/?utm_source=rubyflow&utm_medium=social&utm_campaign=community
+
+gem install --no-rdoc --no-ri brakeman
+brakeman --exit-on-warn .

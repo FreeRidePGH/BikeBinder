@@ -17,8 +17,7 @@ module JoinSlug
       
       if is_record
         # Join association
-        
-        @join = 
+        # @join = 
       elsif is_invertable
         # Pre-slugged string that needs to be inverted into a slug instance
         @number = extract_number(options[:invert])
@@ -44,7 +43,7 @@ module JoinSlug
       arr = slug_str.split(@delimiter)[1..-1] if slug_str
       return nil if arr.length < 1
       
-      (0..arr.length) do |i|
+      (0..arr.length).each do |i|
         join[i]
       end
 

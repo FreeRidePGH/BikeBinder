@@ -124,7 +124,7 @@ class MobileController < ApplicationController
   def upload
     # Get params
     photo = params[:file]
-    number = params[:number]
+    number = BikeNumber.new(params[:number]).to_s
     bike = Bike.find_by_number(number)
     success = true
     if bike.nil?

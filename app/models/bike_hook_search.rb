@@ -4,6 +4,10 @@ class BikeHookSearch
 
   attr_reader :search_term, :bike_number, :hook_number
 
+  def self.params_allowed
+    %w(q bike_number hook_number bike_color bike_model bike_brand)
+  end
+
   def initialize(params)
     parse_params(params)
     @message = nil

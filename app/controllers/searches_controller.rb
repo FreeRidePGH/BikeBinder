@@ -8,7 +8,7 @@ class SearchesController < ApplicationController
     authorize! :read, Bike
     authorize! :read, Hook
 
-    query = BikeHookSearch.new(params).find
+    query = BikeHookSearch.new(search_params).find
     @bike = query.bike
     @hook = query.hook
 
@@ -17,6 +17,12 @@ class SearchesController < ApplicationController
 
     # Nothing found
     flash.now[:notice] = query.message
+  end
+
+  private
+  
+  def search_params
+    params.permit(BikeHookSearch.params_allowed)
   end
   
 end
