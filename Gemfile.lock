@@ -30,9 +30,9 @@ GIT
 
 GIT
   remote: git://github.com/zflat/rack-ip-whitelist.git
-  revision: 8e16ed369a5877b51a23963a4b13bb8a39a9fec7
+  revision: ce9ec2f56b4970def952f5d0cc209e8989a2c60e
   specs:
-    rack-ip-whitelist (0.0.3)
+    rack-ip-whitelist (0.0.4)
       netaddr
 
 GIT
@@ -427,7 +427,7 @@ DEPENDENCIES
   mini_magick (~> 3.8.1)
   mysql2 (~> 0.3.13)
   poltergeist (~> 1.5.1)
-  rack-ip-whitelist (~> 0.0.2)!
+  rack-ip-whitelist (~> 0.0.4)!
   rack-protection (~> 1.5.3)
   rack-utf8_sanitizer
   railroady (~> 1)
