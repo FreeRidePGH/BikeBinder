@@ -54,6 +54,10 @@ module Settings
     def default_s
       @date.in_time_zone(Time.zone).strftime(Date.default_format)
     end
+
+    def long_s
+      @date.in_time_zone(Time.zone).strftime(I18n.translate(:long, :scope => 'date.formats'))
+    end
     
     def self.default_format
       I18n.translate(:default, :scope => 'date.formats')

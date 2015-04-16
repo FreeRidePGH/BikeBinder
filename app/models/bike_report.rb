@@ -74,12 +74,12 @@ class BikeReport
   end
 
   column(:arrival_date) do
-    Settings::Date.new(created_at).default_s
+    Settings::Date.new(created_at).long_s
   end
 
   column(:departure_date) do
     if application.respond_to?(:departed_at)
-      Settings::Date.new(application.departed_at).default_s
+      Settings::Date.new(application.departed_at).long_s
     else
       ""
     end
