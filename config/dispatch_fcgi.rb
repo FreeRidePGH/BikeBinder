@@ -42,7 +42,8 @@ config_fpath = File.expand_path(File.join(File.dirname(__FILE__),
 begin
   app, options = Rack::Builder.parse_file(config_fpath)
 rescue => ex
-  Airbrake.notify_or_ignore(ex,cgi_data: ENV.to_hash)
+  env['airbrake.error_id'] = 
+    Airbrake.notify_or_ignore(ex,cgi_data: ENV.to_hash)
   raise ex
 end
 
@@ -54,6 +55,7 @@ wrappedApp = Rack::Builder.new do
     use Rack::PathInfoRewriter
     use Rack::Protection::IPSpoofing
   rescue => ex
+    env['airbrake.error_id'] = 
       Airbrake.notify_or_ignore(ex,cgi_data: ENV.to_hash)
   end
 
@@ -63,5 +65,6 @@ end
 begin
   Rack::Handler::FastCGI.run wrappedApp
 rescue => ex
-  Airbrake.notify_or_ignore(ex,cgi_data: ENV.to_hash)
+  env['airbrake.error_id'] = 
+    Airbrake.notify_or_ignore(ex,cgi_data: ENV.to_hash)
 end
