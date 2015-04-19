@@ -19,6 +19,9 @@ require 'rack'
 require 'rack/protection'
 require 'rack/utf8_sanitizer'
 
+require 'airbrake'
+load File.join(File.dirname(File.expand_path(__FILE__)),"initializers", "airbrake.rb")
+
 class Rack::PathInfoRewriter
   def initialize(app)
     @app = app
@@ -34,17 +37,30 @@ class Rack::PathInfoRewriter
   end
 end
 
-config_fpath = File.expand_path(File.join(File.dirname(__FILE__),
-                                          '..', 'config.ru'))
+begin
+  config_fpath = File.expand_path(File.join(File.dirname(__FILE__),
+                                            '..', 'config.ru'))
+rescue => ex
+  Airbrake.notify_or_ignore(ex,cgi_data: ENV.to_hash)
+end
 
 app, options = Rack::Builder.parse_file(config_fpath)
 wrappedApp = Rack::Builder.new do
-  use Rack::UTF8Sanitizer
-  use Rack::ShowExceptions
-  use Rack::PathInfoRewriter
-  use Rack::Protection::IPSpoofing
+  use Airbrake::Rack
+  begin
+    use Rack::UTF8Sanitizer
+    use Rack::ShowExceptions
+    use Rack::PathInfoRewriter
+    use Rack::Protection::IPSpoofing
+  rescue ex =>
+      Airbrake.notify_or_ignore(ex,cgi_data: ENV.to_hash)
+  end
 
   run app
 end
 
-Rack::Handler::FastCGI.run wrappedApp
+begin
+  Rack::Handler::FastCGI.run wrappedApp
+rescue => ex
+  Airbrake.notify_or_ignore(ex,cgi_data: ENV.to_hash)
+end
