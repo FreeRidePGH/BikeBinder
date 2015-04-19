@@ -10,5 +10,5 @@ Airbrake.configure do |config|
   config.port    = 80
   config.secure  = config.port == 443
   config.user_attributes = [:id, :email]
-  config.user_information = "We've been notified of this (assigned to id: <strong>{{ error_id }}</strong>) and we'll take a look at it shortly."
+  config.user_information = "We've been notified of this issue (assigned to id: <strong>{{ error_id }}</strong>) and we'll take a look at it shortly."
 end
