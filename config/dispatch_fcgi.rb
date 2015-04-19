@@ -42,8 +42,9 @@ config_fpath = File.expand_path(File.join(File.dirname(__FILE__),
 begin
   app, options = Rack::Builder.parse_file(config_fpath)
 rescue => ex
-  env['airbrake.error_id'] = 
-    Airbrake.notify_or_ignore(ex,cgi_data: ENV.to_hash)
+  ENV['airbrake.error_id'] = 
+    error_id = Airbrake.notify_or_ignore(ex,cgi_data: ENV.to_hash)
+  $stderr.puts "An error was sent to Airbrake with error_id: '#{ENV["airbrake.error_id"]}'"
   raise ex
 end
 
@@ -57,6 +58,11 @@ wrappedApp = Rack::Builder.new do
   rescue => ex
     env['airbrake.error_id'] = 
       Airbrake.notify_or_ignore(ex,cgi_data: ENV.to_hash)
+    if defined? Rails
+      Rails.logger.fatal "An error was sent to Airbrake with error_id: '#{env["airbrake.error_id"]}'"
+    else
+      $stderr.puts "An error was sent to Airbrake with error_id: '#{env["airbrake.error_id"]}'"
+    end
   end
 
   run app
@@ -65,6 +71,7 @@ end
 begin
   Rack::Handler::FastCGI.run wrappedApp
 rescue => ex
-  env['airbrake.error_id'] = 
+  ENV['airbrake.error_id'] = 
     Airbrake.notify_or_ignore(ex,cgi_data: ENV.to_hash)
+  $stderr.puts "An error was sent to Airbrake with error_id: '#{ENV["airbrake.error_id"]}'"
 end
