@@ -52,7 +52,7 @@ wrappedApp = Rack::Builder.new do
     use Rack::ShowExceptions
     use Rack::PathInfoRewriter
     use Rack::Protection::IPSpoofing
-  rescue ex =>
+  rescue => ex
       Airbrake.notify_or_ignore(ex,cgi_data: ENV.to_hash)
   end
 
