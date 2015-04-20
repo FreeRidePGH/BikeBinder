@@ -18,7 +18,7 @@
   <td><div class="BT2"><%= (b.brand.nil?)? '' : b.brand.name %></div></td>
   <td><div class="BT3"><%= print_val('seat_tube_height', b.seat_tube_height) %></div></td>
   <td><div class="BT4"><%= print_val('wheel_size', b.wheel_size) %></div></td>
-  <% if can? :create, Bike %>
+  <% if can? :manage, true %>
     <td><%= print_val('value', b.value) %></td>
   <% end %>
 </tr>
