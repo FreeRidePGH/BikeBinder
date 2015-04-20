@@ -123,26 +123,7 @@ class MobileController < ApplicationController
   # Action to Upload a Photo for a bike
   def upload
     # Get params
-    photo = params[:file]
-    number = BikeNumber.new(params[:number]).to_s
-    bike = Bike.find_by_number(number)
-    success = true
-    if bike.nil?
-        success = false
-    elsif photo
-            # Create the directory
-            directory = "public/photos"
-            begin  
-                # If the directory doesn't exist, create it
-                Dir::mkdir(directory)
-            rescue
-                # directory exists
-            end
-            # Find the path located in public/photos/bike-XXXXX.jpeg
-            path = File.join(directory,"bike-#{number}.jpeg")
-            # Binary write the uploaded file to the path
-            File.open(path,'wb') { |f| f.write(photo.read) }
-    end
+    success = false
     render :json => { "success" => success }
   end
 

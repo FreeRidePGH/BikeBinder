@@ -12,8 +12,9 @@ class SearchesController < ApplicationController
     @bike = query.bike
     @hook = query.hook
 
-    redirect_to(@bike) and return unless @bike.nil?
-    redirect_to(@hook) and return unless @hook.nil?    
+
+    redirect_to bike_path(@bike) and return unless @bike.nil?
+    redirect_to hook_path(@hook) and return unless @hook.nil?    
 
     # Nothing found
     flash.now[:notice] = query.message

@@ -117,6 +117,9 @@ en:
     bike_numbering_system: "bike numbering system"
     incoming_bike_instructions: "incoming bike instructions"
     parking_hook_instructions: "parking hook instructions"
+  satic_page:	  
+    # page_name: link text     
+    frame_measurements: frame measurement diagram
   help:
     top_tube_length0: "effective top tube"
     top_tube_length1: "length"
