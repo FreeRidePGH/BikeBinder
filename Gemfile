@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.4'
 
 # execjs compatible javascript runtime
-gem 'execjs'
+gem 'execjs', '~>2.7.0'
 gem 'therubyracer', :platforms => :ruby
 
 gem 'devise', '~>3.4.1'
