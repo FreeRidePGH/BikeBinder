@@ -8,8 +8,6 @@ gem 'rails', '4.2.4'
 gem 'execjs', '~>2.7.0'
 gem 'therubyracer', :platforms => :ruby
 
-gem 'racc', '~>1.4'
-
 gem 'devise', '~>3.4.1'
 gem 'cancancan', '~>1.10.1'
 
