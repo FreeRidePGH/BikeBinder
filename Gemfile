@@ -70,7 +70,7 @@ end
 
 group :shared_host, :production do
   # Use mySQL for hosted deployment
-  gem 'mysql2',  '~>0.3.13'
+  gem 'mysql2',  '~>0.5'
 end
 
 gem 'airbrake', '~>4.1.0'
