@@ -33,7 +33,7 @@ gem 'friendly_id', '~> 5.0.3'
 gem 'decent_exposure', '~>2.2.0'
 gem 'squeel', '~>1.2.3'
 
-gem "ruby-units", "~> 1.4.4"
+gem "ruby-units", "~> 2.2.0"
 
 gem 'state_machine', '~>1.2.0', :git => 'https://github.com/seuros/state_machine'
 

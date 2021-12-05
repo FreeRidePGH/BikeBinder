@@ -23,6 +23,7 @@ set :default_env, { demovisual: 'true', precompile: 'true'}
 
 set(:dispatch_env_vals, {'DEMOVISUAL' => 'true'})
 
+set(:branch, :dev)
 
 # Custom SSH Options
 # ==================

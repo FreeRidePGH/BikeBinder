@@ -1,5 +1,5 @@
 # config valid only for Capistrano 3.1
-lock '3.2.1'
+lock '3.16.0'
 
 # Added by the airbrake gem
 # (appended after running: rails generate airbrake)
