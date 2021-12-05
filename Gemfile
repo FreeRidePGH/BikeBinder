@@ -4,7 +4,8 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.2.4'
 
-gem 'therubyracer', '~>0.12.1'
+# execjs compatible javascript runtime
+gem 'ducktape','~>0.5'
 
 gem 'devise', '~>3.4.1'
 gem 'cancancan', '~>1.10.1'
