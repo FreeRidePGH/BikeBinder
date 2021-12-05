@@ -157,12 +157,11 @@ GEM
     datagrid (0.7.1)
       rails (>= 3.0)
     decent_exposure (2.2.1)
-    devise (3.5.10)
+    devise (4.8.0)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
-      railties (>= 3.2.6, < 5)
+      railties (>= 4.1.0)
       responders
-      thread_safe (~> 0.1)
       warden (~> 1.2.3)
     diff-lcs (1.4.4)
     erubis (2.7.0)
@@ -410,7 +409,7 @@ DEPENDENCIES
   color_name-i18n (>= 0.2)!
   datagrid (~> 0.7.1)
   decent_exposure (~> 2.2.0)
-  devise (~> 3)
+  devise (~> 4.4)
   execjs (~> 2.7.0)
   factory_girl_rails (~> 4.5.0)
   fcgi (~> 0.9.2.1)

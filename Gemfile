@@ -8,7 +8,7 @@ gem 'rails', '~>4'
 gem 'execjs', '~>2.7.0'
 gem 'therubyracer', :platforms => :ruby
 
-gem 'devise', '~>3'
+gem 'devise', '~>4.4'
 gem 'cancancan', '~>1.10.1'
 
 gem 'awesome_nested_set', '~>3.0.0.rc.5'
