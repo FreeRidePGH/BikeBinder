@@ -6,7 +6,7 @@ gem 'rails', '~>4'
 
 # execjs compatible javascript runtime
 gem 'execjs', '~>2.7.0'
-gem 'therubyracer', :platforms => :ruby
+gem 'duktape'
 
 gem 'devise', '~>4.4'
 gem 'cancancan', '~>1.10.1'
