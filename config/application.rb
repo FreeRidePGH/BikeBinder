@@ -70,7 +70,7 @@ module BikeBinder
     end
 
     # White listing IPs
-    config.middleware.use( Rack::IpWhitelist, :ips => (ENV['WHITELISTED_IPS'] || '*.*.*'))
+    config.middleware.use( Rack::IpAllowlist, :ips => (ENV['ALLOWLISTED_IPS'] || '*.*.*'))
 
     # Avoid spoofed IPs in the Rails app
     # http://blog.gingerlime.com/2012/rails-ip-spoofing-vulnerabilities-and-protection#workarounds

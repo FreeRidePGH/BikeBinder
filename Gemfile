@@ -56,7 +56,7 @@ gem "autoprefixer-rails", '~> 3.1.0'
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
-gem 'rack-ip-whitelist','~>0.0.5', :git => 'git://github.com/zflat/rack-ip-whitelist.git'
+gem 'rack-ip-allowlist','~>0.0.5', :git => 'git://github.com/zflat/rack-ip-allowlist.git', :branch => 'main'
 
 group :production do
   # Use PostgreSQL for Heroku deployment
