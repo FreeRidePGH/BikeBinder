@@ -45,7 +45,7 @@ gem 'jquery-rails', '~>2.3.0'
 
 # QR Codes
 gem 'rqrcode-rails3',  '~>0.1.7'
-gem 'mini_magick', '~>3.8.1'
+gem 'mini_magick', '~>4.11.0'
 
 gem 'sass-rails', "~> 4.0.3"
 gem 'coffee-rails', "~> 4.0.1"
