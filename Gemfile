@@ -41,7 +41,7 @@ gem 'state_machine', '~>1.2.0', :git => 'https://github.com/seuros/state_machine
 
 gem 'jquery-ui-rails', '~>5.0.0'
 gem 'jquery-ui-themes', '~>0.0.11'
-gem 'jquery-rails', '~>2.3.0'
+gem 'jquery-rails', '~>4.4.0'
 
 # QR Codes
 gem 'rqrcode-rails3',  '~>0.1.7'
