@@ -39,7 +39,7 @@ gem "ruby-units", "~> 2.2.0"
 
 gem 'state_machine', '~>1.2.0', :git => 'https://github.com/seuros/state_machine'
 
-gem 'jquery-ui-rails', '~>5.0.0'
+gem 'jquery-ui-rails', '~>6.0.0'
 gem 'jquery-ui-themes', '~>0.0.11'
 gem 'jquery-rails', '~>2.3.0'
 
